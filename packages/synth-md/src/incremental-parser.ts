@@ -5,7 +5,7 @@
  * Expected gain: 10-100x for incremental updates
  */
 
-import type { Tree, NodeId } from '@sylphx/synth'
+import type { Tree, NodeId, BaseNode } from '@sylphx/synth'
 import { Parser, type ParseOptions } from './parser.js'
 import type { ASTIndex } from '@sylphx/synth'
 
@@ -355,7 +355,7 @@ export class IncrementalMarkdownParser {
   /**
    * Adjust node position in-place (for nodes after affected region)
    */
-  private adjustNodePositionInPlace(node: any, offsetDelta: number): void {
+  private adjustNodePositionInPlace(node: BaseNode, offsetDelta: number): void {
     if (node.span) {
       node.span.start.offset += offsetDelta
       node.span.end.offset += offsetDelta
@@ -377,8 +377,8 @@ export class IncrementalMarkdownParser {
    * Returns the root node ID of the copied subtree
    */
   private deepCopySubtree(
-    node: any,
-    sourceNodes: any[],
+    node: BaseNode,
+    sourceNodes: BaseNode[],
     targetTree: Tree,
     offset: number,
     newParent: number
@@ -425,7 +425,7 @@ export class IncrementalMarkdownParser {
       data: node.data ? { ...node.data } : undefined,
     }
 
-    targetTree.nodes.push(copied as any)
+    targetTree.nodes.push(copied as BaseNode)
 
     // Update parent references in children
     for (const childId of copiedChildIds) {

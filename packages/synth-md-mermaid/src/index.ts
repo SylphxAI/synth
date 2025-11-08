@@ -80,7 +80,7 @@ export function mermaidPlugin(_options: MermaidPluginOptions = {}) {
         // Replace in tree
         const index = tree.nodes.indexOf(node)
         if (index !== -1) {
-          tree.nodes[index] = mermaidNode as any
+          tree.nodes[index] = mermaidNode as BaseNode
         }
       }
 

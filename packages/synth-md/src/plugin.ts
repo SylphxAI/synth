@@ -12,10 +12,21 @@
 
 import type { BaseNode, Tree } from '@sylphx/synth'
 import type { MarkdownNode, MarkdownVisitorMap } from './types.js'
+import { isHeadingNode } from './types.js'
+import type { BlockToken, InlineToken } from './tokens.js'
 
 // ============================================================================
 // Plugin Types
 // ============================================================================
+
+/**
+ * Table of contents entry
+ */
+export interface TocEntry {
+  depth: 1 | 2 | 3 | 4 | 5 | 6
+  text: string
+  id?: string
+}
 
 /**
  * Plugin metadata
@@ -88,7 +99,7 @@ export interface ParserPlugin {
 export interface BlockTokenizer {
   name: string
   test: (line: string) => boolean
-  parse: (lines: string[], startIndex: number) => { token: any; consumed: number } | null
+  parse: (lines: string[], startIndex: number) => { token: BlockToken; consumed: number } | null
 }
 
 /**
@@ -97,7 +108,7 @@ export interface BlockTokenizer {
 export interface InlineTokenizer {
   name: string
   test: (text: string, offset: number) => boolean
-  parse: (text: string, offset: number) => { token: any; consumed: number } | null
+  parse: (text: string, offset: number) => { token: InlineToken; consumed: number } | null
 }
 
 /**
@@ -205,7 +216,8 @@ export class PluginManager {
     const visitNode = (node: BaseNode): BaseNode => {
       const visitor = visitors[node.type as MarkdownNode['type']]
       if (visitor) {
-        const result = visitor(node as any)
+        // @ts-expect-error - visitor expects specific node type, but we know it matches
+        const result = visitor(node)
         if (result) {
           node = result
         }
@@ -334,7 +346,7 @@ export const removeComments = createVisitorPlugin(
     htmlBlock: (node) => {
       if (node.content.trim().startsWith('<!--')) {
         // Return undefined to remove the node
-        return undefined as any
+        return undefined
       }
       return node
     },
@@ -393,13 +405,13 @@ export const tableOfContents = createVisitorPlugin(
     },
     teardown: (tree) => {
       // Collect all headings
-      const headings: any[] = []
+      const headings: TocEntry[] = []
       const collectHeadings = (node: BaseNode) => {
-        if (node.type === 'heading') {
+        if (isHeadingNode(node)) {
           headings.push({
-            depth: (node as any).depth,
-            text: (node as any).text,
-            id: node.data?.id,
+            depth: node.depth,
+            text: node.text,
+            id: node.data?.id as string | undefined,
           })
         }
         for (const childId of node.children) {

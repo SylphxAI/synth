@@ -401,9 +401,7 @@ export async function parseStream(
  * Convert Node.js readable stream to async iterable
  */
 async function* streamToAsyncIterable(stream: NodeJS.ReadableStream): AsyncIterable<string> {
-  const reader = stream as any
-
-  for await (const chunk of reader) {
+  for await (const chunk of stream as AsyncIterable<Buffer>) {
     yield chunk.toString()
   }
 }

@@ -557,7 +557,7 @@ export class Parser {
     parent: NodeId,
     start: { line: number; column: number; offset: number },
     end: { line: number; column: number; offset: number },
-    data?: Record<string, any>
+    data?: Record<string, unknown>
   ): NodeId {
     const node = this.nodePool!.acquire(type)
 

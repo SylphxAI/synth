@@ -72,17 +72,17 @@ export class NodePool<T extends BaseNode> {
  * Specialized pools for common Markdown node types
  */
 export class MarkdownNodePool {
-  private headingPool: NodePool<any>
-  private paragraphPool: NodePool<any>
-  private textPool: NodePool<any>
-  private codePool: NodePool<any>
-  private listItemPool: NodePool<any>
-  private blockquotePool: NodePool<any>
-  private emphasisPool: NodePool<any>
-  private strongPool: NodePool<any>
-  private linkPool: NodePool<any>
-  private imagePool: NodePool<any>
-  private inlineCodePool: NodePool<any>
+  private headingPool: NodePool<BaseNode>
+  private paragraphPool: NodePool<BaseNode>
+  private textPool: NodePool<BaseNode>
+  private codePool: NodePool<BaseNode>
+  private listItemPool: NodePool<BaseNode>
+  private blockquotePool: NodePool<BaseNode>
+  private emphasisPool: NodePool<BaseNode>
+  private strongPool: NodePool<BaseNode>
+  private linkPool: NodePool<BaseNode>
+  private imagePool: NodePool<BaseNode>
+  private inlineCodePool: NodePool<BaseNode>
 
   constructor(maxPoolSize = 1000) {
     // Block-level nodes
@@ -102,8 +102,9 @@ export class MarkdownNodePool {
   }
 
   // Factory methods for creating new nodes
-  private createHeading(): any {
+  private createHeading(): BaseNode {
     return {
+      id: 0, // Temporary ID, will be set when added to tree
       type: 'heading',
       parent: 0,
       children: [],
@@ -112,8 +113,9 @@ export class MarkdownNodePool {
     }
   }
 
-  private createParagraph(): any {
+  private createParagraph(): BaseNode {
     return {
+      id: 0,
       type: 'paragraph',
       parent: 0,
       children: [],
@@ -121,8 +123,9 @@ export class MarkdownNodePool {
     }
   }
 
-  private createText(): any {
+  private createText(): BaseNode {
     return {
+      id: 0,
       type: 'text',
       parent: 0,
       children: [],
@@ -131,8 +134,9 @@ export class MarkdownNodePool {
     }
   }
 
-  private createCode(): any {
+  private createCode(): BaseNode {
     return {
+      id: 0,
       type: 'code',
       parent: 0,
       children: [],
@@ -141,8 +145,9 @@ export class MarkdownNodePool {
     }
   }
 
-  private createListItem(): any {
+  private createListItem(): BaseNode {
     return {
+      id: 0,
       type: 'listItem',
       parent: 0,
       children: [],
@@ -151,8 +156,9 @@ export class MarkdownNodePool {
     }
   }
 
-  private createBlockquote(): any {
+  private createBlockquote(): BaseNode {
     return {
+      id: 0,
       type: 'blockquote',
       parent: 0,
       children: [],
@@ -160,8 +166,9 @@ export class MarkdownNodePool {
     }
   }
 
-  private createEmphasis(): any {
+  private createEmphasis(): BaseNode {
     return {
+      id: 0,
       type: 'emphasis',
       parent: 0,
       children: [],
@@ -169,8 +176,9 @@ export class MarkdownNodePool {
     }
   }
 
-  private createStrong(): any {
+  private createStrong(): BaseNode {
     return {
+      id: 0,
       type: 'strong',
       parent: 0,
       children: [],
@@ -178,8 +186,9 @@ export class MarkdownNodePool {
     }
   }
 
-  private createLink(): any {
+  private createLink(): BaseNode {
     return {
+      id: 0,
       type: 'link',
       parent: 0,
       children: [],
@@ -188,8 +197,9 @@ export class MarkdownNodePool {
     }
   }
 
-  private createImage(): any {
+  private createImage(): BaseNode {
     return {
+      id: 0,
       type: 'image',
       parent: 0,
       children: [],
@@ -198,8 +208,9 @@ export class MarkdownNodePool {
     }
   }
 
-  private createInlineCode(): any {
+  private createInlineCode(): BaseNode {
     return {
+      id: 0,
       type: 'inlineCode',
       parent: 0,
       children: [],
@@ -221,7 +232,7 @@ export class MarkdownNodePool {
   /**
    * Acquire node from appropriate pool
    */
-  acquire(type: string): any {
+  acquire(type: string): BaseNode {
     switch (type) {
       case 'heading':
         return this.headingPool.acquire()
@@ -248,6 +259,7 @@ export class MarkdownNodePool {
       default:
         // Fallback for unsupported types
         return {
+          id: 0,
           type,
           parent: 0,
           children: [],
@@ -259,7 +271,7 @@ export class MarkdownNodePool {
   /**
    * Release node back to appropriate pool
    */
-  release(node: any): void {
+  release(node: BaseNode): void {
     switch (node.type) {
       case 'heading':
         this.headingPool.release(node)

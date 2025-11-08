@@ -78,7 +78,7 @@ export function katexPlugin(options: KatexPluginOptions = {}) {
       // Process text nodes for inline/block math
       for (const node of tree.nodes) {
         if (node.type === 'text' || node.type === 'paragraph') {
-          const text = (node as any).value || (node as any).text || ''
+          const text = ('value' in node ? node.value : 'text' in node ? node.text : '') as string
 
           // Find block math $$...$$
           if (blockMath) {

@@ -8,6 +8,9 @@
 // Core types and interfaces
 export * from './types/index.js'
 
+// Error classes
+export * from './errors.js'
+
 // Tree operations
 export * from './traverse.js'
 export * from './zipper.js'
