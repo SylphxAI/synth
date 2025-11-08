@@ -28,8 +28,8 @@
         "vitest": "^2.0.0",
       },
     },
-    "packages/synth-markdown": {
-      "name": "@sylphx/synth-markdown",
+    "packages/synth-md": {
+      "name": "@sylphx/synth-md",
       "version": "0.1.0",
       "dependencies": {
         "@sylphx/synth": "workspace:*",
@@ -209,7 +209,7 @@
 
     "@sylphx/synth": ["@sylphx/synth@workspace:packages/synth"],
 
-    "@sylphx/synth-markdown": ["@sylphx/synth-markdown@workspace:packages/synth-markdown"],
+    "@sylphx/synth-md": ["@sylphx/synth-md@workspace:packages/synth-md"],
 
     "@types/debug": ["@types/debug@4.1.12", "", { "dependencies": { "@types/ms": "*" } }, "sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ=="],
 

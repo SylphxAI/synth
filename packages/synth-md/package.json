@@ -1,5 +1,5 @@
 {
-  "name": "@sylphx/synth-markdown",
+  "name": "@sylphx/synth-md",
   "version": "0.1.0",
   "description": "High-performance Markdown parser for Synth - 26-42x faster than remark",
   "type": "module",

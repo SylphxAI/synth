@@ -1,4 +1,4 @@
-# @sylphx/ast-markdown
+# @sylphx/synth-md
 
 High-performance Markdown parser - 26-42x faster than remark.
 
@@ -17,7 +17,7 @@ High-performance Markdown parser - 26-42x faster than remark.
 Benchmark Results (Complex Document - 10KB):
 ─────────────────────────────────────────────
 remark (unified)           238 Hz    4.20 ms
-@sylphx/ast-markdown     10,045 Hz    0.10 ms
+@sylphx/synth-md         10,045 Hz    0.10 ms
 
 🚀 42.2x faster than remark
 ```
@@ -25,7 +25,7 @@ remark (unified)           238 Hz    4.20 ms
 ## Installation
 
 ```bash
-npm install @sylphx/ast-markdown
+npm install @sylphx/synth @sylphx/synth-md
 ```
 
 ## Usage
