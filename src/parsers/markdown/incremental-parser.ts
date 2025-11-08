@@ -6,9 +6,17 @@
  */
 
 import type { Tree, NodeId } from '../../types/index.js'
-import type { Edit } from '../../core/incremental.js'
 import { UltraOptimizedMarkdownParser, type ParseOptions } from './ultra-optimized-parser.js'
 import type { ASTIndex } from '../../core/query-index.js'
+
+/**
+ * Simple edit description
+ */
+export interface Edit {
+  startIndex: number
+  oldEndIndex: number
+  newEndIndex: number
+}
 
 /**
  * Range in the document
@@ -68,19 +76,29 @@ export class IncrementalMarkdownParser {
       return this.parse(newText, options)
     }
 
-    // Find affected region
-    const affected = this.findAffectedRegion(edit, this.previousText, newText)
-
-    // If affected region is small, do incremental parse
-    // Otherwise, full re-parse is faster
-    const affectedSize = affected.range.end - affected.range.start
+    // For most documents, full re-parse is faster due to tree merging overhead
+    // Incremental parsing only beneficial for VERY large documents (>100KB)
+    // where affected region is small (<10%)
     const documentSize = newText.length
+    const LARGE_DOC_THRESHOLD = 100_000 // 100KB
 
-    if (affectedSize < documentSize * 0.3) {
-      // Incremental update (< 30% of document affected)
+    // Only use incremental parsing for large documents
+    if (documentSize < LARGE_DOC_THRESHOLD) {
+      // Small/medium documents: full re-parse is faster
+      return this.parse(newText, options)
+    }
+
+    // Find affected region for large documents
+    const affected = this.findAffectedRegion(edit, this.previousText, newText)
+    const affectedSize = affected.range.end - affected.range.start
+    const affectedPercent = affectedSize / documentSize
+
+    // Only use incremental if edit affects <10% of large document
+    if (affectedPercent < 0.1) {
+      // Incremental update (< 10% of large document affected)
       return this.incrementalParse(newText, affected, options)
     } else {
-      // Full re-parse (>= 30% affected)
+      // Full re-parse (>= 10% affected or small document)
       return this.parse(newText, options)
     }
   }
@@ -88,8 +106,8 @@ export class IncrementalMarkdownParser {
   /**
    * Find the region affected by an edit
    */
-  private findAffectedRegion(edit: Edit, oldText: string, newText: string): AffectedRegion {
-    const { startIndex, oldEndIndex, newEndIndex } = edit
+  private findAffectedRegion(edit: Edit, _oldText: string, newText: string): AffectedRegion {
+    const { startIndex, newEndIndex } = edit
 
     // Expand range to include complete blocks
     // Markdown blocks are separated by blank lines
@@ -223,19 +241,200 @@ export class IncrementalMarkdownParser {
     affected: AffectedRegion,
     options?: Omit<ParseOptions, 'plugins'>
   ): Tree {
+    if (!this.previousTree) {
+      // Safety check - should never happen
+      this.previousText = newText
+      this.previousTree = this.parser.parse(newText, options)
+      return this.previousTree
+    }
+
     // Extract affected text region
     const affectedText = newText.slice(affected.range.start, affected.range.end)
 
     // Parse only the affected region
     const affectedTree = this.parser.parse(affectedText, options)
 
-    // Merge with previous tree
-    // For now, do full re-parse (merging is complex)
-    // TODO: Implement proper tree merging
-    this.previousText = newText
-    this.previousTree = this.parser.parse(newText, options)
+    // Merge trees: Replace affected nodes with new nodes
+    const mergedTree = this.mergeTree(
+      this.previousTree,
+      affectedTree,
+      affected,
+      newText
+    )
 
-    return this.previousTree
+    // Update state
+    this.previousText = newText
+    this.previousTree = mergedTree
+
+    return mergedTree
+  }
+
+  /**
+   * Merge new tree with existing tree (in-place modification for performance)
+   */
+  private mergeTree(
+    oldTree: Tree,
+    newTree: Tree,
+    affected: AffectedRegion,
+    newText: string
+  ): Tree {
+    // Update metadata in-place
+    oldTree.meta.source = newText
+    oldTree.meta.modified = Date.now()
+
+    // Calculate offset delta for position adjustments
+    const oldSize = affected.range.end - affected.range.start
+    const newSize = newTree.meta.source.length
+    const offsetDelta = newSize - oldSize
+
+    // Find affected child indices
+    const rootNode = oldTree.nodes[oldTree.root]
+    if (!rootNode) {
+      throw new Error('Invalid tree: missing root node')
+    }
+
+    const childrenBeforeAffected: number[] = []
+    const childrenAfterAffected: number[] = []
+
+    for (let i = 0; i < rootNode.children.length; i++) {
+      const childId = rootNode.children[i]
+      if (childId === undefined) continue
+
+      const child = oldTree.nodes[childId]
+      if (!child || !child.span) continue
+
+      const childStart = child.span.start.offset
+      const childEnd = child.span.end.offset
+
+      // Check if child is before affected region
+      if (childEnd < affected.range.start) {
+        childrenBeforeAffected.push(childId)
+      }
+      // Check if child is after affected region
+      else if (childStart > affected.range.end) {
+        childrenAfterAffected.push(childId)
+        // Adjust position in-place for nodes after affected region
+        const nodeToAdjust = oldTree.nodes[childId]
+        if (nodeToAdjust) {
+          this.adjustNodePositionInPlace(nodeToAdjust, offsetDelta)
+        }
+      }
+      // Otherwise child is affected and will be replaced
+    }
+
+    // Add new nodes from the affected tree (deep copy entire subtrees)
+    const newNodeIds: number[] = []
+    const rootChildren = newTree.nodes[newTree.root]?.children || []
+
+    for (const childId of rootChildren) {
+      const newNode = newTree.nodes[childId]
+      if (!newNode) continue
+
+      // Deep copy subtree and add all nodes to tree
+      const newRootId = this.deepCopySubtree(
+        newNode,
+        newTree.nodes,
+        oldTree,
+        affected.range.start,
+        oldTree.root
+      )
+
+      newNodeIds.push(newRootId)
+    }
+
+    // Reconstruct root children: before + new + after
+    rootNode.children = [
+      ...childrenBeforeAffected,
+      ...newNodeIds,
+      ...childrenAfterAffected,
+    ]
+
+    return oldTree
+  }
+
+  /**
+   * Adjust node position in-place (for nodes after affected region)
+   */
+  private adjustNodePositionInPlace(node: any, offsetDelta: number): void {
+    if (node.span) {
+      node.span.start.offset += offsetDelta
+      node.span.end.offset += offsetDelta
+    }
+
+    // Recursively adjust all descendants via their IDs
+    for (const childId of node.children) {
+      if (typeof childId === 'number' && this.previousTree) {
+        const childNode = this.previousTree.nodes[childId]
+        if (childNode) {
+          this.adjustNodePositionInPlace(childNode, offsetDelta)
+        }
+      }
+    }
+  }
+
+  /**
+   * Deep copy entire subtree with position offset
+   * Returns the root node ID of the copied subtree
+   */
+  private deepCopySubtree(
+    node: any,
+    sourceNodes: any[],
+    targetTree: Tree,
+    offset: number,
+    newParent: number
+  ): number {
+    // First, recursively copy all children
+    const copiedChildIds: number[] = []
+
+    for (const childId of node.children) {
+      const childNode = sourceNodes[childId]
+      if (childNode) {
+        // Recursively copy child - we'll set proper parent after creating this node
+        const childCopyId = this.deepCopySubtree(
+          childNode,
+          sourceNodes,
+          targetTree,
+          offset,
+          -1 // Placeholder, will be updated
+        )
+        copiedChildIds.push(childCopyId)
+      }
+    }
+
+    // Create the copied node
+    const nodeId = targetTree.nodes.length
+    const copied = {
+      id: nodeId,
+      type: node.type,
+      parent: newParent,
+      children: copiedChildIds,
+      span: node.span
+        ? {
+            start: {
+              line: node.span.start.line,
+              column: node.span.start.column,
+              offset: node.span.start.offset + offset,
+            },
+            end: {
+              line: node.span.end.line,
+              column: node.span.end.column,
+              offset: node.span.end.offset + offset,
+            },
+          }
+        : undefined,
+      data: node.data ? { ...node.data } : undefined,
+    }
+
+    targetTree.nodes.push(copied as any)
+
+    // Update parent references in children
+    for (const childId of copiedChildIds) {
+      if (targetTree.nodes[childId]) {
+        targetTree.nodes[childId]!.parent = nodeId
+      }
+    }
+
+    return nodeId
   }
 
   /**

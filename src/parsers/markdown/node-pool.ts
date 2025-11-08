@@ -6,7 +6,6 @@
  */
 
 import type { BaseNode } from '../../types/node.js'
-import type { Position } from '../../types/position.js'
 
 /**
  * Generic node pool for reusing objects
@@ -209,7 +208,10 @@ export class MarkdownNodePool {
     }
   }
 
-  private createPosition(): { start: Position; end: Position } {
+  private createPosition(): {
+    start: { line: number; column: number; offset: number }
+    end: { line: number; column: number; offset: number }
+  } {
     return {
       start: { line: 0, column: 0, offset: 0 },
       end: { line: 0, column: 0, offset: 0 },

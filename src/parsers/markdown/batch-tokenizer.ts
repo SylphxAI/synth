@@ -207,6 +207,7 @@ export class BatchTokenizer {
   private createBlankLineToken(meta: LineMetadata): BlockToken {
     return {
       type: 'blankLine',
+      raw: '',
       position: {
         start: { line: meta.index, column: 0, offset: meta.offset },
         end: { line: meta.index, column: meta.length, offset: meta.offset + meta.length },
@@ -232,8 +233,9 @@ export class BatchTokenizer {
 
     return {
       type: 'heading',
-      depth,
+      depth: depth as 1 | 2 | 3 | 4 | 5 | 6,
       text,
+      raw: line,
       position: {
         start: { line: meta.index, column: 0, offset: meta.offset },
         end: { line: meta.index, column: meta.length, offset: meta.offset + meta.length },
@@ -267,6 +269,8 @@ export class BatchTokenizer {
       if (line.trimStart().startsWith('```')) {
         // Found closing fence
         const code = codeLines.join('')
+        const allLines = [firstLine, ...codeLines, line]
+        const raw = allLines.join('')
 
         return {
           token: {
@@ -274,6 +278,7 @@ export class BatchTokenizer {
             lang,
             meta: '',
             code,
+            raw,
             position: {
               start: { line: metadata[start]!.index, column: 0, offset: metadata[start]!.offset },
               end: {
@@ -293,12 +298,15 @@ export class BatchTokenizer {
 
     // No closing fence found
     const code = codeLines.join('')
+    const allLines = [firstLine, ...codeLines]
+    const raw = allLines.join('')
     return {
       token: {
         type: 'codeBlock',
         lang,
         meta: '',
         code,
+        raw,
         position: {
           start: { line: metadata[start]!.index, column: 0, offset: metadata[start]!.offset },
           end: {
@@ -322,6 +330,7 @@ export class BatchTokenizer {
     if (trimmed.match(/^([-*_])\1{2,}\s*$/)) {
       return {
         type: 'horizontalRule',
+        raw: line,
         position: {
           start: { line: meta.index, column: 0, offset: meta.offset },
           end: { line: meta.index, column: meta.length, offset: meta.offset + meta.length },
@@ -346,6 +355,8 @@ export class BatchTokenizer {
       type: 'listItem',
       text,
       checked,
+      indent: meta.indent,
+      raw: line,
       position: {
         start: { line: meta.index, column: 0, offset: meta.offset },
         end: { line: meta.index, column: meta.length, offset: meta.offset + meta.length },
@@ -364,6 +375,8 @@ export class BatchTokenizer {
       return {
         type: 'listItem',
         text: match[2]!.trim(),
+        indent: meta.indent,
+        raw: line,
         position: {
           start: { line: meta.index, column: 0, offset: meta.offset },
           end: { line: meta.index, column: meta.length, offset: meta.offset + meta.length },
@@ -375,6 +388,7 @@ export class BatchTokenizer {
     return {
       type: 'paragraph',
       text: trimmed,
+      raw: line,
       position: {
         start: { line: meta.index, column: 0, offset: meta.offset },
         end: { line: meta.index, column: meta.length, offset: meta.offset + meta.length },
@@ -392,6 +406,7 @@ export class BatchTokenizer {
     return {
       type: 'blockquote',
       text,
+      raw: line,
       position: {
         start: { line: meta.index, column: 0, offset: meta.offset },
         end: { line: meta.index, column: meta.length, offset: meta.offset + meta.length },
@@ -409,20 +424,24 @@ export class BatchTokenizer {
     end: number
   ): { token: BlockToken; consumed: number } {
     const textLines: string[] = []
+    const rawLines: string[] = []
     let i = start
 
     // Consume consecutive non-empty lines
     while (i < end && !metadata[i]!.isEmpty) {
       textLines.push(lines[i]!.trim())
+      rawLines.push(lines[i]!)
       i++
     }
 
     const text = textLines.join(' ')
+    const raw = rawLines.join('')
 
     return {
       token: {
         type: 'paragraph',
         text,
+        raw,
         position: {
           start: { line: metadata[start]!.index, column: 0, offset: metadata[start]!.offset },
           end: {

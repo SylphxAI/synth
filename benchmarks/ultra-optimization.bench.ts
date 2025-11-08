@@ -11,6 +11,7 @@ import { bench, describe } from 'vitest'
 import { remark } from 'remark'
 import { OptimizedMarkdownParser } from '../src/parsers/markdown/optimized-parser.js'
 import { UltraOptimizedMarkdownParser } from '../src/parsers/markdown/ultra-optimized-parser.js'
+import { BatchTokenizer } from '../src/parsers/markdown/batch-tokenizer.js'
 
 // Test documents
 const smallDoc = `# Hello World
@@ -160,5 +161,29 @@ describe('Ultra-Optimization: Tokenizer Comparison', () => {
     const parser = new UltraOptimizedMarkdownParser()
     // @ts-ignore - accessing private for benchmark
     parser.tokenizer.tokenize(mediumDoc)
+  })
+})
+
+describe('Phase 3: Batch Tokenizer Performance', () => {
+  bench('Standard tokenizer - Medium', () => {
+    const parser = new UltraOptimizedMarkdownParser()
+    // @ts-ignore - accessing private for benchmark
+    parser.tokenizer.tokenize(mediumDoc)
+  })
+
+  bench('Batch tokenizer - Medium', () => {
+    const tokenizer = new BatchTokenizer(16)
+    tokenizer.tokenize(mediumDoc)
+  })
+
+  bench('Standard tokenizer - Large', () => {
+    const parser = new UltraOptimizedMarkdownParser()
+    // @ts-ignore - accessing private for benchmark
+    parser.tokenizer.tokenize(largeDoc)
+  })
+
+  bench('Batch tokenizer - Large', () => {
+    const tokenizer = new BatchTokenizer(16)
+    tokenizer.tokenize(largeDoc)
   })
 })
