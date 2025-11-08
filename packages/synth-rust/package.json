@@ -1,0 +1,42 @@
+{
+  "name": "@sylphx/synth-rust",
+  "version": "0.1.0",
+  "description": "Rust parser using Synth's universal AST",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "rust",
+    "parser",
+    "ast",
+    "synth",
+    "tree-sitter"
+  ],
+  "author": "Synth",
+  "license": "MIT",
+  "dependencies": {
+    "@sylphx/synth": "workspace:*",
+    "tree-sitter": "^0.21.1",
+    "tree-sitter-rust": "^0.23.2"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.0.0"
+  }
+}
