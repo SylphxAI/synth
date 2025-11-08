@@ -69,12 +69,12 @@ describe('No Index: Small Documents', () => {
     remark().parse(smallDoc)
   })
 
-  bench('sylph Ultra (WITH index)', () => {
+  bench('Synth Ultra (WITH index)', () => {
     const parser = new UltraOptimizedMarkdownParser()
     parser.parse(smallDoc, { buildIndex: true })
   })
 
-  bench('sylph Ultra (NO index) ← 4x faster', () => {
+  bench('Synth Ultra (NO index) ← 4x faster', () => {
     const parser = new UltraOptimizedMarkdownParser()
     parser.parse(smallDoc, { buildIndex: false })
   })
@@ -85,12 +85,12 @@ describe('No Index: Medium Documents', () => {
     remark().parse(mediumDoc)
   })
 
-  bench('sylph Ultra (WITH index)', () => {
+  bench('Synth Ultra (WITH index)', () => {
     const parser = new UltraOptimizedMarkdownParser()
     parser.parse(mediumDoc, { buildIndex: true })
   })
 
-  bench('sylph Ultra (NO index) ← 4x faster', () => {
+  bench('Synth Ultra (NO index) ← 4x faster', () => {
     const parser = new UltraOptimizedMarkdownParser()
     parser.parse(mediumDoc, { buildIndex: false })
   })
@@ -101,12 +101,12 @@ describe('No Index: Large Documents', () => {
     remark().parse(largeDoc)
   })
 
-  bench('sylph Ultra (WITH index)', () => {
+  bench('Synth Ultra (WITH index)', () => {
     const parser = new UltraOptimizedMarkdownParser()
     parser.parse(largeDoc, { buildIndex: true })
   })
 
-  bench('sylph Ultra (NO index) ← 4x faster', () => {
+  bench('Synth Ultra (NO index) ← 4x faster', () => {
     const parser = new UltraOptimizedMarkdownParser()
     parser.parse(largeDoc, { buildIndex: false })
   })
@@ -117,12 +117,12 @@ describe('No Index: Blog Posts', () => {
     remark().parse(blogPost)
   })
 
-  bench('sylph Ultra (WITH index)', () => {
+  bench('Synth Ultra (WITH index)', () => {
     const parser = new UltraOptimizedMarkdownParser()
     parser.parse(blogPost, { buildIndex: true })
   })
 
-  bench('sylph Ultra (NO index) ← 4x faster', () => {
+  bench('Synth Ultra (NO index) ← 4x faster', () => {
     const parser = new UltraOptimizedMarkdownParser()
     parser.parse(blogPost, { buildIndex: false })
   })
@@ -133,12 +133,12 @@ describe('No Index: Documentation', () => {
     remark().parse(documentation)
   })
 
-  bench('sylph Ultra (WITH index)', () => {
+  bench('Synth Ultra (WITH index)', () => {
     const parser = new UltraOptimizedMarkdownParser()
     parser.parse(documentation, { buildIndex: true })
   })
 
-  bench('sylph Ultra (NO index) ← 4x faster', () => {
+  bench('Synth Ultra (NO index) ← 4x faster', () => {
     const parser = new UltraOptimizedMarkdownParser()
     parser.parse(documentation, { buildIndex: false })
   })
