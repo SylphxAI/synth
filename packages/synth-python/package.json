@@ -1,0 +1,38 @@
+{
+  "name": "@sylphx/synth-python",
+  "version": "0.1.0",
+  "description": "Python parser using Synth's universal AST - conversion layer over tree-sitter-python",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": [
+    "python",
+    "parser",
+    "ast",
+    "synth",
+    "tree-sitter",
+    "python3"
+  ],
+  "author": "SylphX",
+  "license": "MIT",
+  "dependencies": {
+    "@sylphx/synth": "workspace:*",
+    "tree-sitter": "^0.21.1",
+    "tree-sitter-python": "^0.23.6"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.0"
+  }
+}
