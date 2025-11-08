@@ -356,7 +356,7 @@ We strategically balance **full ownership** of core technology with **leveraging
   - Name mangling algorithm
   - 35 tests, 100% coverage
 
-**Total In-House:** 9/11 packages, 419 tests
+**Total In-House:** 9/12 packages, 419 tests
 
 #### ⚠️ Strategic Dependencies (Conversion Layer)
 
@@ -388,14 +388,28 @@ const synth = convertYAMLToSynth(doc)
 - ✅ Proven library with massive adoption
 - **Our value:** Universal AST format, consistent API across all languages
 
-**Philosophy:** Stand on giants' shoulders for the **hardest 20%** (JavaScript/YAML parsing), own the **valuable 80%** (universal format, tools, performance).
+**@sylphx/synth-python** - Python Parser
+```typescript
+// Third-party: tree-sitter-python (used by VS Code, Atom, GitHub)
+const tsTree = treeSitter.parse(code)
+
+// Our code: tree-sitter CST → Synth AST conversion
+const synth = convertTreeSitterToSynth(tsTree)
+```
+
+**Why tree-sitter-python?**
+- ❌ Writing Python parser: 200+ hours, complex grammar, Python 2/3 compat
+- ✅ tree-sitter: Battle-tested, incremental parsing, error recovery
+- **Our value:** Universal AST conversion, plugin system, cross-language tools
+
+**Philosophy:** Stand on giants' shoulders for the **hardest 20%** (JavaScript/YAML/Python parsing), own the **valuable 80%** (universal format, tools, performance).
 
 ### Test Coverage Breakdown
 
 ```
 In-House Code:     419 tests (HTML, Markdown, JSON, CSS, TOML, INI, Format, Minify)
-Conversion Layer:  139 tests (JS, YAML)
-Total:            558 tests, 100% pass rate
+Conversion Layer:  178 tests (JS, YAML, Python)
+Total:            597 tests, 100% pass rate
 ```
 
 ## 🚀 Roadmap: Upcoming Languages
@@ -424,13 +438,14 @@ Total:            558 tests, 100% pass rate
 - ✅ 37 tests, 100% pass rate
 - Use cases: .gitconfig, .editorconfig, Windows INI, PHP INI
 
-### Phase 6: Programming Languages (Strategic Dependencies)
+### Phase 6: Programming Languages (Strategic Dependencies) ✅ **IN PROGRESS**
 
-**@sylphx/synth-python** - Python Parser 🚧
-- Python 3.x support
-- **Strategy:** Leverage existing parser + conversion layer
-- Candidate: `@pyccel/python-parser` or Python's own AST
-- Our value: Universal AST format
+**@sylphx/synth-python** - Python Parser ✅
+- ✅ Python 3 support (all modern syntax)
+- ✅ Uses tree-sitter-python (battle-tested, VS Code/Atom)
+- ✅ Conversion layer: tree-sitter CST → Synth AST
+- ✅ 39 tests, 100% pass rate
+- Use cases: Code analysis, linting, documentation, refactoring
 
 **@sylphx/synth-go** - Go Parser 🚧
 - Go language support
