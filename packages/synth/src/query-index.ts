@@ -15,6 +15,7 @@
 
 import type { Tree, NodeId, BaseNode } from './types/index.js'
 import { getNode } from './types/tree.js'
+import { IndexNotBuiltError } from './errors.js'
 
 /**
  * Query selector types
@@ -444,10 +445,11 @@ export class ASTIndex {
 
   /**
    * Check if indexes are built
+   * @throws {IndexNotBuiltError} When index operations are attempted before building
    */
   private ensureBuilt(): void {
     if (!this.isBuilt) {
-      throw new Error('Index not built. Call build() first.')
+      throw new IndexNotBuiltError()
     }
   }
 }

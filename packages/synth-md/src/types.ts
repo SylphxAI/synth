@@ -11,6 +11,7 @@
  */
 
 import type { BaseNode, NodeId } from '@sylphx/synth'
+import { InvalidNodeTypeError } from '@sylphx/synth'
 
 // ============================================================================
 // Markdown-specific Node Types
@@ -453,13 +454,14 @@ export type MarkdownTransform<T extends MarkdownNode = MarkdownNode, R = T> = (n
  * // node is now typed as HeadingNode
  * console.log(node.depth)
  * ```
+ * @throws {InvalidNodeTypeError} When node type doesn't match expected type
  */
 export function assertNodeType<T extends MarkdownNode['type']>(
   node: BaseNode,
   type: T
 ): asserts node is NodeByType<T> {
   if (node.type !== type) {
-    throw new Error(`Expected node type '${type}', got '${node.type}'`)
+    throw new InvalidNodeTypeError(node.type, [type])
   }
 }
 

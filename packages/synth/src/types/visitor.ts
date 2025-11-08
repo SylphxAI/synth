@@ -51,18 +51,21 @@ export interface Visitor {
 }
 
 /**
- * Traversal order
+ * Traversal order values
  */
-export enum TraversalOrder {
+export const TraversalOrder = {
   /** Depth-first, pre-order */
-  PreOrder = 'pre-order',
-
+  PreOrder: 'pre-order',
   /** Depth-first, post-order */
-  PostOrder = 'post-order',
-
+  PostOrder: 'post-order',
   /** Breadth-first */
-  BreadthFirst = 'breadth-first',
-}
+  BreadthFirst: 'breadth-first',
+} as const
+
+/**
+ * Traversal order type
+ */
+export type TraversalOrder = typeof TraversalOrder[keyof typeof TraversalOrder]
 
 /**
  * Traversal options

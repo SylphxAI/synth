@@ -6,6 +6,7 @@
  */
 
 import type { Tree, NodeId, BaseNode } from '@sylphx/synth'
+import { TreeStructureError } from '@sylphx/synth'
 import { Parser, type ParseOptions } from './parser.js'
 import type { ASTIndex } from '@sylphx/synth'
 
@@ -290,7 +291,7 @@ export class IncrementalMarkdownParser {
     // Find affected child indices
     const rootNode = oldTree.nodes[oldTree.root]
     if (!rootNode) {
-      throw new Error('Invalid tree: missing root node')
+      throw new TreeStructureError('Invalid tree: missing root node')
     }
 
     const childrenBeforeAffected: number[] = []

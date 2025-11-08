@@ -14,6 +14,7 @@ import type { Tree, NodeId } from '@sylphx/synth'
 import { createTree, addNode } from '@sylphx/synth'
 import type { Edit } from '@sylphx/synth'
 import { createIndex, type ASTIndex } from '@sylphx/synth'
+import { TreeStructureError } from '@sylphx/synth'
 import { Tokenizer } from './tokenizer.js'
 import { InlineTokenizer } from './inline-tokenizer.js'
 import { BatchTokenizer } from './batch-tokenizer.js'
@@ -218,10 +219,11 @@ export class Parser {
 
   /**
    * Incremental parse (reuse existing infrastructure)
+   * @throws {TreeStructureError} When called before initial parse()
    */
   parseIncremental(text: string, _edit: Edit, options: Omit<ParseOptions, 'plugins'> = {}): Tree {
     if (!this.tree) {
-      throw new Error('Must call parse() before parseIncremental()')
+      throw new TreeStructureError('Must call parse() before parseIncremental()')
     }
 
     // For now, do full re-parse (incremental tokenization can be added)
@@ -594,7 +596,7 @@ export class Parser {
     }
 
     if (!this.index) {
-      throw new Error('No tree available. Call parse() first.')
+      throw new TreeStructureError('No tree available. Call parse() first.')
     }
 
     return this.index
