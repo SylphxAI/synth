@@ -193,6 +193,14 @@ export interface AutolinkToken extends BaseToken {
   url: string
 }
 
+/**
+ * HTML block token
+ */
+export interface HTMLBlockToken extends BaseToken {
+  type: 'htmlBlock'
+  content: string
+}
+
 // ============================================================================
 // Union Type
 // ============================================================================
@@ -222,6 +230,7 @@ export type Token =
   | TableToken
   | StrikethroughToken
   | AutolinkToken
+  | HTMLBlockToken
 
 /**
  * Block-level tokens only
@@ -236,6 +245,7 @@ export type BlockToken =
   | HorizontalRuleToken
   | BlankLineToken
   | TableToken
+  | HTMLBlockToken
 
 /**
  * Inline-level tokens only
@@ -269,6 +279,7 @@ export function isBlockToken(token: Token): token is BlockToken {
     'horizontalRule',
     'blankLine',
     'table',
+    'htmlBlock',
   ].includes(token.type)
 }
 

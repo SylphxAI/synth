@@ -144,6 +144,23 @@ export class UltraOptimizedInlineTokenizer {
           }
           break
         }
+
+        case '\n': {
+          // Soft line break (newline without backslash)
+          tokens.push(this.createLineBreak(offset, lineIndex, lineStart, false))
+          offset++
+          continue
+        }
+
+        case ' ': {
+          // Check for hard line break with two spaces
+          if (offset + 2 < length && text[offset + 1] === ' ' && text[offset + 2] === '\n') {
+            tokens.push(this.createLineBreak(offset, lineIndex, lineStart, true))
+            offset += 3  // Skip two spaces and \n
+            continue
+          }
+          break
+        }
       }
 
       // Check for email autolinks (contains @)
