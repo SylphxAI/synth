@@ -290,7 +290,7 @@ const minified = minify('function hello() { return 42; }', { mangle: true })
 // → "function a(){return 42;}"
 ```
 
-**Total: 752 tests across all packages, 100% pass rate** 🎉
+**Total: 802 tests across all packages, 100% pass rate** 🎉
 
 ## 🔧 Development Strategy
 
@@ -356,7 +356,7 @@ We strategically balance **full ownership** of core technology with **leveraging
   - Name mangling algorithm
   - 35 tests, 100% coverage
 
-**Total In-House:** 9/15 packages, 419 tests
+**Total In-House:** 9/16 packages, 419 tests
 
 #### ⚠️ Strategic Dependencies (Conversion Layer)
 
@@ -422,8 +422,8 @@ const synth = convertTreeSitterToSynth(tsTree)
 
 ```
 In-House Code:     419 tests (HTML, Markdown, JSON, CSS, TOML, INI, Format, Minify)
-Conversion Layer:  333 tests (JS, YAML, Python, Go, Rust, SQL)
-Total:            752 tests, 100% pass rate
+Conversion Layer:  383 tests (JS, YAML, Python, Go, Rust, SQL, GraphQL)
+Total:            802 tests, 100% pass rate
 ```
 
 ## 🚀 Roadmap: Upcoming Languages
@@ -515,9 +515,27 @@ const synth = convertSQLToSynth(ast)
 - ✅ 57 tests, 100% pass rate
 - Use cases: Query analysis, schema extraction, SQL linting, migrations
 
-**@sylphx/synth-graphql** - GraphQL Parser 🚧
-- GraphQL schema + query parsing
-- **Target:** Hand-written (well-defined grammar)
+**@sylphx/synth-graphql** - GraphQL Parser
+```typescript
+// Third-party: graphql-js (GraphQL reference implementation)
+const ast = gqlParse(query)
+
+// Our code: graphql-js AST → Synth AST conversion
+const synth = convertGraphQLToSynth(ast)
+```
+
+**Why graphql-js?**
+- ❌ Writing GraphQL parser: 100+ hours, complex spec, regular updates
+- ✅ graphql-js: Reference implementation, spec-compliant, battle-tested
+- **Our value:** Universal AST conversion, plugin system, cross-language tools
+
+**Features:**
+- ✅ Complete GraphQL support (queries, mutations, subscriptions)
+- ✅ Schema Definition Language (SDL)
+- ✅ Fragments, directives, aliases
+- ✅ Type system (scalars, objects, interfaces, unions, enums)
+- ✅ 50 tests, 100% pass rate
+- Use cases: Schema analysis, query optimization, documentation generation
 
 ### Phase 8: Markup & Templates
 
