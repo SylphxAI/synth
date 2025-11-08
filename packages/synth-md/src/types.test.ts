@@ -10,20 +10,40 @@ import {
   type HeadingNode,
   type ParagraphNode,
   type LinkNode,
+  type CodeBlockNode,
+  type ListNode,
+  type ListItemNode,
+  type BlockquoteNode,
+  type TableNode,
+  type ImageNode,
+  type EmphasisNode,
+  type StrongNode,
+  type InlineCodeNode,
   type MarkdownNode,
   type NodeByType,
   isHeadingNode,
   isParagraphNode,
   isCodeBlockNode,
+  isListNode,
+  isListItemNode,
+  isBlockquoteNode,
+  isTableNode,
   isLinkNode,
+  isImageNode,
+  isEmphasisNode,
+  isStrongNode,
+  isInlineCodeNode,
   isBlockNode,
   isInlineNode,
   assertNodeType,
   isNodeType,
+  asNodeType,
   filterByType,
   findByType,
+  mapNodes,
   createHeadingNode,
   createParagraphNode,
+  createCodeBlockNode,
   createLinkNode,
 } from './types.js'
 
@@ -68,6 +88,108 @@ describe('Type Safety', () => {
 
       expect(isBlockNode(link)).toBe(false)
       expect(isInlineNode(link)).toBe(true)
+    })
+
+    it('should narrow code block node type', () => {
+      const node: BaseNode = {
+        id: 1,
+        type: 'codeBlock',
+        parent: null,
+        children: [],
+      } as CodeBlockNode
+
+      expect(isCodeBlockNode(node)).toBe(true)
+      if (isCodeBlockNode(node)) {
+        expect(node.type).toBe('codeBlock')
+      }
+    })
+
+    it('should narrow list node type', () => {
+      const node: BaseNode = {
+        id: 1,
+        type: 'list',
+        parent: null,
+        children: [],
+      } as ListNode
+
+      expect(isListNode(node)).toBe(true)
+    })
+
+    it('should narrow list item node type', () => {
+      const node: BaseNode = {
+        id: 1,
+        type: 'listItem',
+        parent: null,
+        children: [],
+      } as ListItemNode
+
+      expect(isListItemNode(node)).toBe(true)
+    })
+
+    it('should narrow blockquote node type', () => {
+      const node: BaseNode = {
+        id: 1,
+        type: 'blockquote',
+        parent: null,
+        children: [],
+      } as BlockquoteNode
+
+      expect(isBlockquoteNode(node)).toBe(true)
+    })
+
+    it('should narrow table node type', () => {
+      const node: BaseNode = {
+        id: 1,
+        type: 'table',
+        parent: null,
+        children: [],
+      } as TableNode
+
+      expect(isTableNode(node)).toBe(true)
+    })
+
+    it('should narrow image node type', () => {
+      const node: BaseNode = {
+        id: 1,
+        type: 'image',
+        parent: null,
+        children: [],
+      } as ImageNode
+
+      expect(isImageNode(node)).toBe(true)
+    })
+
+    it('should narrow emphasis node type', () => {
+      const node: BaseNode = {
+        id: 1,
+        type: 'emphasis',
+        parent: null,
+        children: [],
+      } as EmphasisNode
+
+      expect(isEmphasisNode(node)).toBe(true)
+    })
+
+    it('should narrow strong node type', () => {
+      const node: BaseNode = {
+        id: 1,
+        type: 'strong',
+        parent: null,
+        children: [],
+      } as StrongNode
+
+      expect(isStrongNode(node)).toBe(true)
+    })
+
+    it('should narrow inline code node type', () => {
+      const node: BaseNode = {
+        id: 1,
+        type: 'inlineCode',
+        parent: null,
+        children: [],
+      } as InlineCodeNode
+
+      expect(isInlineCodeNode(node)).toBe(true)
     })
   })
 
@@ -164,6 +286,27 @@ describe('Type Safety', () => {
       expect(para.parent).toBe(0)
     })
 
+    it('should create code block node', () => {
+      const code = createCodeBlockNode('const x = 1', 'js', 2, 0)
+
+      expect(code.type).toBe('codeBlock')
+      expect(code.code).toBe('const x = 1')
+      expect(code.lang).toBe('js')
+      expect(code.id).toBe(2)
+      expect(code.parent).toBe(0)
+      expect(code.children).toEqual([])
+    })
+
+    it('should create code block node without language', () => {
+      const code = createCodeBlockNode('plain code', undefined, 3, null)
+
+      expect(code.type).toBe('codeBlock')
+      expect(code.code).toBe('plain code')
+      expect(code.lang).toBeUndefined()
+      expect(code.id).toBe(3)
+      expect(code.parent).toBe(null)
+    })
+
     it('should create link node', () => {
       const link = createLinkNode('Click here', 'https://example.com', 'Example', 2, 1)
 
@@ -173,6 +316,73 @@ describe('Type Safety', () => {
       expect(link.title).toBe('Example')
       expect(link.id).toBe(2)
       expect(link.parent).toBe(1)
+    })
+  })
+
+  describe('asNodeType', () => {
+    it('should cast node to specific type', () => {
+      const node: BaseNode = {
+        id: 1,
+        type: 'heading',
+        parent: null,
+        children: [],
+        depth: 1,
+        text: 'Title',
+      }
+
+      const heading = asNodeType<'heading'>(node, 'heading')
+      expect(heading.type).toBe('heading')
+      expect(heading.depth).toBe(1)
+    })
+
+    it('should allow unsafe casting', () => {
+      const node: BaseNode = {
+        id: 1,
+        type: 'paragraph',
+        parent: null,
+        children: [],
+      }
+
+      // Unsafe cast - user's responsibility
+      const heading = asNodeType<'heading'>(node, 'heading')
+      expect(heading).toBeDefined()
+    })
+  })
+
+  describe('mapNodes', () => {
+    it('should map nodes with type safety', () => {
+      const nodes: BaseNode[] = [
+        createHeadingNode(1, 'H1', 0),
+        createHeadingNode(2, 'H2', 1),
+        createParagraphNode('Text', 2),
+      ]
+
+      const mapped = mapNodes(nodes, (node: MarkdownNode) => {
+        return node.type
+      })
+
+      expect(mapped).toEqual(['heading', 'heading', 'paragraph'])
+    })
+
+    it('should transform nodes', () => {
+      const nodes: BaseNode[] = [
+        createHeadingNode(1, 'First', 0),
+        createHeadingNode(2, 'Second', 1),
+      ]
+
+      const texts = mapNodes(nodes, (node: MarkdownNode) => {
+        if ('text' in node) {
+          return node.text
+        }
+        return ''
+      })
+
+      expect(texts).toEqual(['First', 'Second'])
+    })
+
+    it('should handle empty array', () => {
+      const result = mapNodes([], (node: MarkdownNode) => node.type)
+      expect(result).toEqual([])
     })
   })
 
