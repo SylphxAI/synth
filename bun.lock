@@ -19,8 +19,8 @@
         "vitest": "^2.0.0",
       },
     },
-    "packages/core": {
-      "name": "@sylphx/ast-core",
+    "packages/synth": {
+      "name": "@sylphx/synth",
       "version": "0.1.0",
       "devDependencies": {
         "@types/node": "^22.0.0",
@@ -28,13 +28,11 @@
         "vitest": "^2.0.0",
       },
     },
-    "packages/markdown": {
-      "name": "@sylphx/ast-markdown",
+    "packages/synth-markdown": {
+      "name": "@sylphx/synth-markdown",
       "version": "0.1.0",
       "dependencies": {
-        "@sylphx/ast-core": "workspace:*",
-        "@sylphx/ast-optimizations": "workspace:*",
-        "@sylphx/ast-plugin-system": "workspace:*",
+        "@sylphx/synth": "workspace:*",
       },
       "devDependencies": {
         "@types/node": "^22.0.0",
@@ -46,30 +44,6 @@
         "remark-stringify": "^11.0.0",
         "typescript": "^5.6.0",
         "unified": "^11.0.5",
-        "vitest": "^2.0.0",
-      },
-    },
-    "packages/optimizations": {
-      "name": "@sylphx/ast-optimizations",
-      "version": "0.1.0",
-      "dependencies": {
-        "@sylphx/ast-core": "workspace:*",
-      },
-      "devDependencies": {
-        "@types/node": "^22.0.0",
-        "typescript": "^5.6.0",
-        "vitest": "^2.0.0",
-      },
-    },
-    "packages/plugin-system": {
-      "name": "@sylphx/ast-plugin-system",
-      "version": "0.1.0",
-      "dependencies": {
-        "@sylphx/ast-core": "workspace:*",
-      },
-      "devDependencies": {
-        "@types/node": "^22.0.0",
-        "typescript": "^5.6.0",
         "vitest": "^2.0.0",
       },
     },
@@ -233,13 +207,9 @@
 
     "@rollup/rollup-win32-x64-msvc": ["@rollup/rollup-win32-x64-msvc@4.53.1", "", { "os": "win32", "cpu": "x64" }, "sha512-rLarc1Ofcs3DHtgSzFO31pZsCh8g05R2azN1q3fF+H423Co87My0R+tazOEvYVKXSLh8C4LerMK41/K7wlklcg=="],
 
-    "@sylphx/ast-core": ["@sylphx/ast-core@workspace:packages/core"],
+    "@sylphx/synth": ["@sylphx/synth@workspace:packages/synth"],
 
-    "@sylphx/ast-markdown": ["@sylphx/ast-markdown@workspace:packages/markdown"],
-
-    "@sylphx/ast-optimizations": ["@sylphx/ast-optimizations@workspace:packages/optimizations"],
-
-    "@sylphx/ast-plugin-system": ["@sylphx/ast-plugin-system@workspace:packages/plugin-system"],
+    "@sylphx/synth-markdown": ["@sylphx/synth-markdown@workspace:packages/synth-markdown"],
 
     "@types/debug": ["@types/debug@4.1.12", "", { "dependencies": { "@types/ms": "*" } }, "sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ=="],
 

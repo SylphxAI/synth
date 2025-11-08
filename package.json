@@ -1,12 +1,11 @@
 {
-  "name": "@sylphx/ast",
+  "name": "@sylphx/synth",
   "version": "0.1.0",
-  "description": "The world's fastest AST processor - 50-3000x faster than unified",
+  "description": "Synth - The world's fastest AST processor with zero dependencies",
   "type": "module",
   "private": true,
   "workspaces": [
-    "packages/*",
-    "packages/plugins/*"
+    "packages/*"
   ],
   "scripts": {
     "build": "turbo run build",

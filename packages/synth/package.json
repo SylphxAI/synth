@@ -1,0 +1,50 @@
+{
+  "name": "@sylphx/synth",
+  "version": "0.1.0",
+  "description": "Synth - The world's fastest AST processor with zero dependencies",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest",
+    "test:watch": "vitest --watch"
+  },
+  "keywords": [
+    "synth",
+    "ast",
+    "parser",
+    "tree",
+    "types",
+    "query",
+    "traverse",
+    "zipper",
+    "incremental",
+    "plugin",
+    "optimization",
+    "fast",
+    "performance"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.0.0"
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}
