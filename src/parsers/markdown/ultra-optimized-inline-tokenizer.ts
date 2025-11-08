@@ -18,6 +18,7 @@ import type {
   InlineCodeToken,
   LinkToken,
   ImageToken,
+  LineBreakToken,
 } from './tokens.js'
 import { createPosition, createTokenPosition } from './tokens.js'
 import { tryTokenizeStrikethrough, tryTokenizeAutolink } from './gfm-tokenizer.js'
@@ -118,6 +119,28 @@ export class UltraOptimizedInlineTokenizer {
             tokens.push(result.token)
             offset = result.newOffset
             continue
+          }
+          break
+        }
+
+        case '\\': {
+          // Escape sequence or hard line break
+          if (offset + 1 < length) {
+            const nextChar = text[offset + 1]!
+
+            // Hard line break: \ followed by newline
+            if (nextChar === '\n') {
+              tokens.push(this.createLineBreak(offset, lineIndex, lineStart, true))
+              offset += 2  // Skip \ and \n
+              continue
+            }
+
+            // Escape sequence: \ followed by punctuation
+            if (this.isEscapableChar(nextChar)) {
+              tokens.push(this.createEscapedChar(offset, lineIndex, lineStart, nextChar))
+              offset += 2  // Skip \ and escaped char
+              continue
+            }
           }
           break
         }
@@ -383,7 +406,8 @@ export class UltraOptimizedInlineTokenizer {
         char === '!' ||
         char === '~' ||  // GFM: strikethrough
         char === 'h' ||  // GFM: http(s)://
-        char === 'w'     // GFM: www.
+        char === 'w' ||  // GFM: www.
+        char === '\\'    // Escape sequences
       ) {
         break
       }
@@ -408,6 +432,57 @@ export class UltraOptimizedInlineTokenizer {
         ),
       },
       nextOffset: i,
+    }
+  }
+
+  /**
+   * Check if character can be escaped
+   */
+  private isEscapableChar(char: string): boolean {
+    // CommonMark: any ASCII punctuation can be escaped
+    const escapable = '\\`*_{}[]()#+-.!|~<>'
+    return escapable.includes(char)
+  }
+
+  /**
+   * Create line break token
+   */
+  private createLineBreak(
+    offset: number,
+    lineIndex: number,
+    lineStart: number,
+    hard: boolean
+  ): LineBreakToken {
+    const raw = hard ? '\\\n' : '\n'
+    return {
+      type: 'lineBreak',
+      hard,
+      raw,
+      position: createTokenPosition(
+        createPosition(lineIndex, offset - lineStart, lineStart + offset),
+        createPosition(lineIndex, offset + raw.length - lineStart, lineStart + offset + raw.length)
+      ),
+    }
+  }
+
+  /**
+   * Create escaped character as text token
+   */
+  private createEscapedChar(
+    offset: number,
+    lineIndex: number,
+    lineStart: number,
+    escapedChar: string
+  ): TextToken {
+    const raw = '\\' + escapedChar
+    return {
+      type: 'text',
+      value: escapedChar,  // Just the character, without backslash
+      raw,
+      position: createTokenPosition(
+        createPosition(lineIndex, offset - lineStart, lineStart + offset),
+        createPosition(lineIndex, offset + 2 - lineStart, lineStart + offset + 2)
+      ),
     }
   }
 }
