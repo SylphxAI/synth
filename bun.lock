@@ -28,6 +28,18 @@
         "vitest": "^2.0.0",
       },
     },
+    "packages/synth-html": {
+      "name": "@sylphx/synth-html",
+      "version": "0.1.0",
+      "dependencies": {
+        "@sylphx/synth": "workspace:*",
+      },
+      "devDependencies": {
+        "@types/node": "^22.0.0",
+        "typescript": "^5.6.0",
+        "vitest": "^2.0.0",
+      },
+    },
     "packages/synth-md": {
       "name": "@sylphx/synth-md",
       "version": "0.1.0",
@@ -247,6 +259,8 @@
     "@rollup/rollup-win32-x64-msvc": ["@rollup/rollup-win32-x64-msvc@4.53.1", "", { "os": "win32", "cpu": "x64" }, "sha512-rLarc1Ofcs3DHtgSzFO31pZsCh8g05R2azN1q3fF+H423Co87My0R+tazOEvYVKXSLh8C4LerMK41/K7wlklcg=="],
 
     "@sylphx/synth": ["@sylphx/synth@workspace:packages/synth"],
+
+    "@sylphx/synth-html": ["@sylphx/synth-html@workspace:packages/synth-html"],
 
     "@sylphx/synth-md": ["@sylphx/synth-md@workspace:packages/synth-md"],
 

@@ -1,0 +1,50 @@
+{
+  "name": "@sylphx/synth-html",
+  "version": "0.1.0",
+  "description": "High-performance HTML5 parser for Synth - streaming-capable with language-agnostic AST",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "bench": "vitest bench"
+  },
+  "keywords": [
+    "html",
+    "html5",
+    "parser",
+    "ast",
+    "dom",
+    "fast",
+    "performance",
+    "streaming",
+    "synth"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@sylphx/synth": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.0.0"
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}
