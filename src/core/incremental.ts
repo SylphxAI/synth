@@ -13,7 +13,7 @@
  */
 
 import type { Tree, NodeId, BaseNode, Position } from '../types/index.js'
-import { getNode, addNode, updateNode } from '../types/tree.js'
+import { getNode } from '../types/tree.js'
 import { createIndex, type ASTIndex } from './query-index.js'
 import { globalNodePool } from './node-pool.js'
 
@@ -114,7 +114,7 @@ export class IncrementalParser {
 
     // Estimate full parse time (for comparison)
     const fullParseStart = performance.now()
-    const fullTree = parser(this.tree.meta.source)
+    parser(this.tree.meta.source)
     const fullParseTime = performance.now() - fullParseStart
 
     // Release old nodes back to pool
@@ -224,8 +224,8 @@ export class IncrementalParser {
     return {
       startByte: minStart,
       endByte: maxEnd,
-      startPosition: edits[0].startPosition,
-      endPosition: edits[edits.length - 1].newEndPosition,
+      startPosition: edits[0]!.startPosition,
+      endPosition: edits[edits.length - 1]!.newEndPosition,
     }
   }
 
@@ -267,7 +267,7 @@ export class IncrementalParser {
    */
   private findNodeAtOffset(offset: number): NodeId | null {
     for (let i = 0; i < this.tree.nodes.length; i++) {
-      const node = this.tree.nodes[i]
+      const node = this.tree.nodes[i]!
       if (!node.span) continue
 
       if (node.span.start.offset <= offset && offset <= node.span.end.offset) {
