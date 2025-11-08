@@ -16,6 +16,7 @@ import { createIndex, type ASTIndex } from '../../core/query-index.js'
 import { UltraOptimizedTokenizer } from './ultra-optimized-tokenizer.js'
 import { UltraOptimizedInlineTokenizer } from './ultra-optimized-inline-tokenizer.js'
 import type { BlockToken, InlineToken } from './tokens.js'
+import { PluginManager, type Plugin } from './plugin.js'
 
 /**
  * Parse options
@@ -26,6 +27,11 @@ export interface ParseOptions {
    * @default false - Skip for maximum performance (4x faster)
    */
   buildIndex?: boolean
+
+  /**
+   * Plugins to apply during parsing
+   */
+  plugins?: Plugin[]
 }
 
 /**
@@ -41,21 +47,23 @@ export interface ParseOptions {
 export class UltraOptimizedMarkdownParser {
   private tokenizer = new UltraOptimizedTokenizer()
   private inlineTokenizer = new UltraOptimizedInlineTokenizer()
+  private pluginManager = new PluginManager()
   private tree: Tree | null = null
   private index: ASTIndex | null = null
   private tokens: BlockToken[] = []
 
   /**
-   * Parse Markdown text into AST
+   * Parse Markdown text into AST (synchronous)
    *
    * @param text - Markdown source text
-   * @param options - Parse options
+   * @param options - Parse options (plugins not supported in sync mode)
    * @returns AST tree
    *
    * Note: Index building is DISABLED by default for 4x performance.
    * Enable with { buildIndex: true } if you need query capabilities.
+   * For plugin support, use parseAsync() instead.
    */
-  parse(text: string, options: ParseOptions = {}): Tree {
+  parse(text: string, options: Omit<ParseOptions, 'plugins'> = {}): Tree {
     const { buildIndex = false } = options
 
     // Tokenize
@@ -76,9 +84,79 @@ export class UltraOptimizedMarkdownParser {
   }
 
   /**
+   * Parse Markdown text into AST with plugin support (async)
+   *
+   * @param text - Markdown source text
+   * @param options - Parse options with optional plugins
+   * @returns Promise<AST tree>
+   */
+  async parseAsync(text: string, options: ParseOptions = {}): Promise<Tree> {
+    const { buildIndex = false, plugins = [] } = options
+
+    // Tokenize
+    this.tokens = this.tokenizer.tokenize(text)
+
+    // Build tree
+    this.tree = this.buildTree(this.tokens, text)
+
+    // Apply plugins if provided
+    if (plugins.length > 0) {
+      const tempManager = new PluginManager()
+      tempManager.useAll(plugins)
+      this.tree = await tempManager.apply(this.tree)
+    }
+
+    // Build query index (OPTIONAL - disabled by default)
+    if (buildIndex) {
+      this.index = createIndex(this.tree)
+      this.index.build()
+    } else {
+      this.index = null
+    }
+
+    return this.tree
+  }
+
+  /**
+   * Register a plugin to be applied on every parse
+   */
+  use(plugin: Plugin): this {
+    this.pluginManager.use(plugin)
+    return this
+  }
+
+  /**
+   * Parse with registered plugins applied
+   */
+  async parseWithPlugins(text: string, options: ParseOptions = {}): Promise<Tree> {
+    const { buildIndex = false } = options
+
+    // Tokenize
+    this.tokens = this.tokenizer.tokenize(text)
+
+    // Build tree
+    this.tree = this.buildTree(this.tokens, text)
+
+    // Apply registered plugins
+    if (this.pluginManager.getPlugins().length > 0) {
+      this.tree = await this.pluginManager.apply(this.tree)
+    }
+
+    // Build query index
+    if (buildIndex) {
+      this.index = createIndex(this.tree)
+      this.index.build()
+    } else {
+      this.index = null
+    }
+
+    return this.tree
+  }
+
+  /**
    * Incremental parse (reuse existing infrastructure)
    */
-  parseIncremental(text: string, _edit: Edit, options: ParseOptions = {}): Tree {
+  parseIncremental(text: string, _edit: Edit, options: Omit<ParseOptions, 'plugins'> = {}): Tree {
     if (!this.tree) {
       throw new Error('Must call parse() before parseIncremental()')
     }
