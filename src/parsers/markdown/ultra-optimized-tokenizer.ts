@@ -60,7 +60,18 @@ export class UltraOptimizedTokenizer {
 
       const firstChar = text[lineStart]!
 
-      // Code block detection
+      // Indented code block detection (4 spaces or tab)
+      if (firstChar === ' ' || firstChar === '\t') {
+        const result = this.tryIndentedCodeBlock(text, lineStart, lineEnd, lineIndex, offset, length)
+        if (result) {
+          tokens.push(result.token)
+          offset = result.nextOffset
+          lineIndex = result.nextLine
+          continue
+        }
+      }
+
+      // Fenced code block detection
       if (
         firstChar === '`' &&
         lineStart + 2 < lineEnd &&
@@ -485,6 +496,122 @@ export class UltraOptimizedTokenizer {
         createPosition(lineIndex, lineEnd - lineStart, offset + (lineEnd - lineStart))
       ),
     }
+  }
+
+  /**
+   * Try to parse indented code block (4 spaces or 1 tab)
+   */
+  private tryIndentedCodeBlock(
+    text: string,
+    lineStart: number,
+    lineEnd: number,
+    startLine: number,
+    startOffset: number,
+    textLength: number
+  ): { token: CodeBlockToken; nextOffset: number; nextLine: number } | null {
+    // Check if line has proper indentation (4 spaces or 1 tab)
+    const firstLineIndent = this.getIndentLevel(text, lineStart, lineEnd)
+    if (firstLineIndent < 4) return null
+
+    // Collect code lines
+    const codeLines: string[] = []
+    let currentOffset = lineStart
+    let currentLine = startLine
+
+    while (currentOffset < textLength) {
+      const rowStart = currentOffset
+      let rowEnd = currentOffset
+
+      // Find end of line
+      while (rowEnd < textLength && text[rowEnd] !== '\n') {
+        rowEnd++
+      }
+
+      const lineIndent = this.getIndentLevel(text, rowStart, rowEnd)
+
+      // Empty line - include it and continue
+      if (rowStart === rowEnd || this.isLineWhitespace(text, rowStart, rowEnd)) {
+        codeLines.push('')
+        currentOffset = rowEnd + 1
+        currentLine++
+        continue
+      }
+
+      // Indented line - include it
+      if (lineIndent >= 4) {
+        // Remove 4 spaces of indentation
+        let codeStart = rowStart
+        let removed = 0
+        while (removed < 4 && codeStart < rowEnd) {
+          if (text[codeStart] === '\t') {
+            removed = 4
+            codeStart++
+          } else if (text[codeStart] === ' ') {
+            removed++
+            codeStart++
+          } else {
+            break
+          }
+        }
+
+        const codeLine = text.slice(codeStart, rowEnd)
+        codeLines.push(codeLine)
+        currentOffset = rowEnd + 1
+        currentLine++
+        continue
+      }
+
+      // Non-indented line, end of code block
+      break
+    }
+
+    // Remove trailing blank lines
+    while (codeLines.length > 0 && codeLines[codeLines.length - 1] === '') {
+      codeLines.pop()
+      currentLine--
+    }
+
+    if (codeLines.length === 0) {
+      return null
+    }
+
+    const code = codeLines.join('\n')
+    const endOffset = currentOffset > 0 ? currentOffset - 1 : currentOffset
+    const raw = text.slice(lineStart, endOffset)
+
+    return {
+      token: {
+        type: 'codeBlock',
+        lang: undefined,
+        meta: undefined,
+        code,
+        raw,
+        position: createTokenPosition(
+          createPosition(startLine, 0, startOffset),
+          createPosition(currentLine - 1, 0, endOffset)
+        ),
+      },
+      nextOffset: currentOffset,
+      nextLine: currentLine,
+    }
+  }
+
+  /**
+   * Get indentation level of a line
+   */
+  private getIndentLevel(text: string, lineStart: number, lineEnd: number): number {
+    let indent = 0
+    let i = lineStart
+
+    while (i < lineEnd && (text[i] === ' ' || text[i] === '\t')) {
+      if (text[i] === '\t') {
+        return 4 // Tab counts as 4 spaces
+      }
+      indent++
+      i++
+    }
+
+    return indent
   }
 
   /**
