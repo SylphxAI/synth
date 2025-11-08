@@ -44,18 +44,32 @@ export class IncrementalTokenizer {
 
     const lines = text.split('\n')
     let offset = 0
+    let lineIndex = 0
 
-    for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+    while (lineIndex < lines.length) {
       const line = lines[lineIndex]!
       const lineStart = offset
 
-      // Tokenize this line
+      // Check for multi-line blocks first
+      if (line.trimStart().startsWith('```')) {
+        // Code block - collect all lines until closing ```
+        const codeBlockResult = this.tokenizeCodeBlock(lines, lineIndex, offset)
+        if (codeBlockResult) {
+          this.tokens.push(codeBlockResult.token)
+          lineIndex = codeBlockResult.endLine
+          offset = codeBlockResult.endOffset
+          continue
+        }
+      }
+
+      // Single-line tokens
       const token = this.tokenizeLine(line, lineIndex, lineStart)
       if (token) {
         this.tokens.push(token)
       }
 
       offset += line.length + 1 // +1 for \n
+      lineIndex++
     }
 
     return this.tokens
@@ -102,6 +116,64 @@ export class IncrementalTokenizer {
   }
 
   /**
+   * Tokenize a multi-line code block
+   */
+  private tokenizeCodeBlock(
+    lines: string[],
+    startLine: number,
+    startOffset: number
+  ): { token: CodeBlockToken; endLine: number; endOffset: number } | null {
+    const firstLine = lines[startLine]!
+    const match = firstLine.match(/^(\s*)```(\w+)?\s*(.*)$/)
+
+    if (!match) return null
+
+    const lang = match[2]
+    const meta = match[3]
+
+    // Collect code lines
+    const codeLines: string[] = []
+    let currentLine = startLine + 1
+    let endLine = startLine
+    let endOffset = startOffset + firstLine.length + 1
+
+    // Find closing ```
+    while (currentLine < lines.length) {
+      const line = lines[currentLine]!
+
+      if (line.trimStart().startsWith('```')) {
+        // Found closing fence
+        endLine = currentLine
+        endOffset += line.length + 1
+        break
+      }
+
+      codeLines.push(line)
+      endOffset += line.length + 1
+      currentLine++
+    }
+
+    const code = codeLines.join('\n')
+    const raw = lines.slice(startLine, endLine + 1).join('\n')
+
+    return {
+      token: {
+        type: 'codeBlock',
+        lang,
+        meta,
+        code,
+        raw,
+        position: createTokenPosition(
+          createPosition(startLine, 0, startOffset),
+          createPosition(endLine, lines[endLine]?.length || 0, endOffset)
+        ),
+      },
+      endLine: endLine + 1, // Next line to process
+      endOffset,
+    }
+  }
+
+  /**
    * Tokenize a single line
    */
   private tokenizeLine(
@@ -120,12 +192,6 @@ export class IncrementalTokenizer {
     const headingMatch = line.match(/^(#{1,6})\s+(.+)$/)
     if (headingMatch) {
       return this.createHeadingToken(line, lineIndex, lineStart, headingMatch)
-    }
-
-    // Code block fence (```)
-    if (line.trimStart().startsWith('```')) {
-      // Note: Code blocks are multi-line, handled separately
-      return this.createCodeBlockMarker(line, lineIndex, lineStart)
     }
 
     // Horizontal rule (---, ***, ___)
@@ -183,31 +249,6 @@ export class IncrementalTokenizer {
     return {
       type: 'paragraph',
       text: line,
-      raw: line,
-      position: createTokenPosition(
-        createPosition(lineIndex, 0, lineStart),
-        createPosition(lineIndex, line.length, lineStart + line.length)
-      ),
-    }
-  }
-
-  /**
-   * Create code block marker (for now, simplified)
-   */
-  private createCodeBlockMarker(
-    line: string,
-    lineIndex: number,
-    lineStart: number
-  ): CodeBlockToken {
-    const match = line.match(/^```(\w+)?\s*(.*)$/)
-    const lang = match?.[1]
-    const meta = match?.[2]
-
-    return {
-      type: 'codeBlock',
-      lang,
-      meta,
-      code: '', // Will be filled when we handle multi-line blocks
       raw: line,
       position: createTokenPosition(
         createPosition(lineIndex, 0, lineStart),
