@@ -3,7 +3,7 @@
  */
 
 import { describe, it, expect } from 'vitest'
-import { IncrementalMarkdownParser } from './parser.js'
+import { IncrementalMarkdownParser } from './incremental-parser.js'
 
 describe('Multi-line Code Blocks', () => {
   it('should parse multi-line code block', () => {

@@ -3,7 +3,8 @@
  */
 
 import { describe, it, expect } from 'vitest'
-import { IncrementalMarkdownParser, parseMarkdown } from './parser.js'
+import { IncrementalMarkdownParser } from './incremental-parser.js'
+import { parse } from './parser.js'
 
 describe('IncrementalMarkdownParser', () => {
   describe('Basic parsing', () => {
@@ -117,13 +118,10 @@ More text.`
       const initialNodes = tree1.nodes.length
 
       // Edit: change "Hello" to "Hello World"
-      const tree2 = parser.parseIncremental('# Hello World\n\nWorld', {
-        startByte: 2,
-        oldEndByte: 7,
-        newEndByte: 13,
-        startPosition: { line: 0, column: 2, offset: 2 },
-        oldEndPosition: { line: 0, column: 7, offset: 7 },
-        newEndPosition: { line: 0, column: 13, offset: 13 },
+      const tree2 = parser.update('# Hello World\n\nWorld', {
+        startIndex: 2,
+        oldEndIndex: 7,
+        newEndIndex: 13,
       })
 
       // Should still have similar structure
@@ -142,13 +140,10 @@ More text.`
       parser.parse('# Hello')
 
       // Add new paragraph
-      const tree = parser.parseIncremental('# Hello\n\nNew paragraph', {
-        startByte: 7,
-        oldEndByte: 7,
-        newEndByte: 22,
-        startPosition: { line: 0, column: 7, offset: 7 },
-        oldEndPosition: { line: 0, column: 7, offset: 7 },
-        newEndPosition: { line: 2, column: 13, offset: 22 },
+      const tree = parser.update('# Hello\n\nNew paragraph', {
+        startIndex: 7,
+        oldEndIndex: 7,
+        newEndIndex: 22,
       })
 
       const paragraphs = tree.nodes.filter((n) => n && n.type === 'paragraph')
@@ -162,13 +157,10 @@ More text.`
       parser.parse('# Hello\n\nWorld\n\nGoodbye')
 
       // Delete middle paragraph
-      const tree = parser.parseIncremental('# Hello\n\nGoodbye', {
-        startByte: 8,
-        oldEndByte: 15,
-        newEndByte: 8,
-        startPosition: { line: 1, column: 0, offset: 8 },
-        oldEndPosition: { line: 3, column: 0, offset: 15 },
-        newEndPosition: { line: 1, column: 0, offset: 8 },
+      const tree = parser.update('# Hello\n\nGoodbye', {
+        startIndex: 8,
+        oldEndIndex: 15,
+        newEndIndex: 8,
       })
 
       const paragraphs = tree.nodes.filter((n) => n && n.type === 'paragraph')
@@ -177,8 +169,8 @@ More text.`
   })
 
   describe('Helper functions', () => {
-    it('parseMarkdown should work as one-shot', () => {
-      const tree = parseMarkdown('# Hello\n\nWorld')
+    it('parse should work as one-shot', () => {
+      const tree = parse('# Hello\n\nWorld')
 
       expect(tree).toBeDefined()
       expect(tree.nodes.length).toBeGreaterThan(0)

@@ -98,7 +98,7 @@ describe('Type Safety', () => {
 
       expect(() => {
         assertNodeType(node, 'heading')
-      }).toThrow("Expected node type 'heading', got 'paragraph'")
+      }).toThrow("Invalid node type 'paragraph'. Expected one of: heading")
     })
   })
 
