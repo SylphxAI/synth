@@ -1,0 +1,35 @@
+{
+  "name": "@sylphx/synth-json",
+  "version": "0.1.0",
+  "description": "JSON parser using Synth's universal AST",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": [
+    "json",
+    "parser",
+    "ast",
+    "synth",
+    "tree"
+  ],
+  "author": "SylphX",
+  "license": "MIT",
+  "dependencies": {
+    "@sylphx/synth": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.0"
+  }
+}
