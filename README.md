@@ -356,7 +356,7 @@ We strategically balance **full ownership** of core technology with **leveraging
   - Name mangling algorithm
   - 35 tests, 100% coverage
 
-**Total In-House:** 9/12 packages, 419 tests
+**Total In-House:** 9/13 packages, 419 tests
 
 #### ⚠️ Strategic Dependencies (Conversion Layer)
 
@@ -402,14 +402,28 @@ const synth = convertTreeSitterToSynth(tsTree)
 - ✅ tree-sitter: Battle-tested, incremental parsing, error recovery
 - **Our value:** Universal AST conversion, plugin system, cross-language tools
 
-**Philosophy:** Stand on giants' shoulders for the **hardest 20%** (JavaScript/YAML/Python parsing), own the **valuable 80%** (universal format, tools, performance).
+**@sylphx/synth-go** - Go Parser
+```typescript
+// Third-party: tree-sitter-go (used by VS Code, Atom, GitHub)
+const tsTree = treeSitter.parse(code)
+
+// Our code: tree-sitter CST → Synth AST conversion
+const synth = convertTreeSitterToSynth(tsTree)
+```
+
+**Why tree-sitter-go?**
+- ❌ Writing Go parser: 150+ hours, complex grammar, spec updates
+- ✅ tree-sitter: Battle-tested, incremental parsing, error recovery
+- **Our value:** Universal AST conversion, plugin system, cross-language tools
+
+**Philosophy:** Stand on giants' shoulders for the **hardest 20%** (JavaScript/YAML/Python/Go parsing), own the **valuable 80%** (universal format, tools, performance).
 
 ### Test Coverage Breakdown
 
 ```
 In-House Code:     419 tests (HTML, Markdown, JSON, CSS, TOML, INI, Format, Minify)
-Conversion Layer:  178 tests (JS, YAML, Python)
-Total:            597 tests, 100% pass rate
+Conversion Layer:  223 tests (JS, YAML, Python, Go)
+Total:            642 tests, 100% pass rate
 ```
 
 ## 🚀 Roadmap: Upcoming Languages
@@ -447,10 +461,12 @@ Total:            597 tests, 100% pass rate
 - ✅ 39 tests, 100% pass rate
 - Use cases: Code analysis, linting, documentation, refactoring
 
-**@sylphx/synth-go** - Go Parser 🚧
-- Go language support
-- **Strategy:** Use `go/parser` via WASM or existing JS parser
-- Our value: Cross-language analysis
+**@sylphx/synth-go** - Go Parser ✅
+- ✅ Full Go support (all language features)
+- ✅ Uses tree-sitter-go (battle-tested, VS Code/Atom)
+- ✅ Conversion layer: tree-sitter CST → Synth AST
+- ✅ 45 tests, 100% pass rate
+- Use cases: Code analysis, linting, documentation, concurrency analysis
 
 **@sylphx/synth-rust** - Rust Parser 🚧
 - Rust language support
