@@ -79,10 +79,10 @@ const tree = stream.end()
 ### Plugins
 
 ```typescript
-import { remarkHeadingId, remarkToc } from '@sylphx/ast-markdown'
+import { addHeadingIds, tableOfContents } from '@sylphx/ast-markdown'
 
 const tree = parser.parse(text, {
-  plugins: [remarkHeadingId, remarkToc]
+  plugins: [addHeadingIds, tableOfContents]
 })
 
 // Access TOC
@@ -103,12 +103,12 @@ console.log(tree.meta.data.toc)
 - `plugins` - Array of plugins to apply
 
 ### Built-in Plugins
-- `remarkHeadingId` - Add IDs to headings
-- `remarkToc` - Generate table of contents
-- `remarkUppercaseHeadings` - Uppercase headings
-- `remarkCodeLineNumbers` - Add line numbers to code blocks
-- `remarkRemoveComments` - Remove HTML comments
-- `remarkWrapParagraphs` - Wrap paragraphs with metadata
+- `addHeadingIds` - Add slugified IDs to headings
+- `tableOfContents` - Generate table of contents
+- `uppercaseHeadings` - Uppercase all heading text
+- `addCodeLineNumbers` - Add line numbers to code blocks
+- `removeComments` - Remove HTML comments
+- `wrapParagraphs` - Wrap paragraphs with metadata
 
 ## Supported Markdown
 

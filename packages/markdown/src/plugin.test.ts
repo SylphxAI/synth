@@ -11,12 +11,12 @@ import {
   createVisitorPlugin,
   isTransformPlugin,
   isVisitorPlugin,
-  remarkRemoveComments,
-  remarkHeadingId,
-  remarkToc,
-  remarkUppercaseHeadings,
-  remarkCodeLineNumbers,
-  remarkWrapParagraphs,
+  removeComments,
+  addHeadingIds,
+  tableOfContents,
+  uppercaseHeadings,
+  addCodeLineNumbers,
+  wrapParagraphs,
 } from './plugin.js'
 import type { HeadingNode, ParagraphNode, CodeBlockNode } from './types.js'
 
@@ -267,10 +267,10 @@ describe('Plugin System', () => {
   })
 
   describe('Built-in Plugins', () => {
-    describe('remarkHeadingId', () => {
+    describe('addHeadingIds', () => {
       it('should add slugified IDs to headings', async () => {
         const manager = new PluginManager()
-        manager.use(remarkHeadingId)
+        manager.use(addHeadingIds)
 
         const result = await manager.apply(tree)
         const heading = result.nodes[1] as HeadingNode
@@ -290,7 +290,7 @@ describe('Plugin System', () => {
         tree.nodes[1] = heading
 
         const manager = new PluginManager()
-        manager.use(remarkHeadingId)
+        manager.use(addHeadingIds)
 
         const result = await manager.apply(tree)
         const resultHeading = result.nodes[1] as HeadingNode
@@ -299,10 +299,10 @@ describe('Plugin System', () => {
       })
     })
 
-    describe('remarkUppercaseHeadings', () => {
+    describe('uppercaseHeadings', () => {
       it('should convert heading text to uppercase', async () => {
         const manager = new PluginManager()
-        manager.use(remarkUppercaseHeadings)
+        manager.use(uppercaseHeadings)
 
         const result = await manager.apply(tree)
         const heading = result.nodes[1] as HeadingNode
@@ -311,10 +311,10 @@ describe('Plugin System', () => {
       })
     })
 
-    describe('remarkCodeLineNumbers', () => {
+    describe('addCodeLineNumbers', () => {
       it('should add line numbers to code blocks', async () => {
         const manager = new PluginManager()
-        manager.use(remarkCodeLineNumbers)
+        manager.use(addCodeLineNumbers)
 
         const result = await manager.apply(tree)
         const codeBlock = result.nodes[3] as CodeBlockNode
@@ -326,10 +326,10 @@ describe('Plugin System', () => {
       })
     })
 
-    describe('remarkWrapParagraphs', () => {
+    describe('wrapParagraphs', () => {
       it('should add metadata to paragraphs', async () => {
         const manager = new PluginManager()
-        manager.use(remarkWrapParagraphs)
+        manager.use(wrapParagraphs)
 
         const result = await manager.apply(tree)
         const paragraph = result.nodes[2] as ParagraphNode
@@ -339,7 +339,7 @@ describe('Plugin System', () => {
       })
     })
 
-    describe('remarkToc', () => {
+    describe('tableOfContents', () => {
       it('should collect headings for table of contents', async () => {
         // Add multiple headings
         const h2: HeadingNode = {
@@ -364,8 +364,8 @@ describe('Plugin System', () => {
 
         const manager = new PluginManager()
         // Use both plugins to add IDs and collect TOC
-        manager.use(remarkHeadingId)
-        manager.use(remarkToc)
+        manager.use(addHeadingIds)
+        manager.use(tableOfContents)
 
         const result = await manager.apply(tree)
 
@@ -384,9 +384,9 @@ describe('Plugin System', () => {
       const manager = new PluginManager()
 
       // Chain plugins: add IDs, uppercase, collect TOC
-      manager.use(remarkHeadingId)
-      manager.use(remarkUppercaseHeadings)
-      manager.use(remarkToc)
+      manager.use(addHeadingIds)
+      manager.use(uppercaseHeadings)
+      manager.use(tableOfContents)
 
       const result = await manager.apply(tree)
       const heading = result.nodes[1] as HeadingNode

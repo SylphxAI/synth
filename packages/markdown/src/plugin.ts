@@ -322,11 +322,11 @@ export function createParserPlugin(
 // ============================================================================
 
 /**
- * Plugin to remove all comments from the tree
+ * Plugin to remove all HTML comments from the tree
  */
-export const remarkRemoveComments = createVisitorPlugin(
+export const removeComments = createVisitorPlugin(
   {
-    name: 'remark-remove-comments',
+    name: 'remove-comments',
     version: '1.0.0',
     description: 'Remove HTML comment nodes from the tree',
   },
@@ -344,9 +344,9 @@ export const remarkRemoveComments = createVisitorPlugin(
 /**
  * Plugin to add heading IDs (slug generation)
  */
-export const remarkHeadingId = createVisitorPlugin(
+export const addHeadingIds = createVisitorPlugin(
   {
-    name: 'remark-heading-id',
+    name: 'add-heading-ids',
     version: '1.0.0',
     description: 'Add slugified IDs to headings',
   },
@@ -370,11 +370,11 @@ export const remarkHeadingId = createVisitorPlugin(
 )
 
 /**
- * Plugin to collect all headings for a table of contents
+ * Plugin to generate table of contents from headings
  */
-export const remarkToc = createVisitorPlugin(
+export const tableOfContents = createVisitorPlugin(
   {
-    name: 'remark-toc',
+    name: 'table-of-contents',
     version: '1.0.0',
     description: 'Collect headings for table of contents',
   },
@@ -423,9 +423,9 @@ export const remarkToc = createVisitorPlugin(
 /**
  * Plugin to uppercase all heading text
  */
-export const remarkUppercaseHeadings = createVisitorPlugin(
+export const uppercaseHeadings = createVisitorPlugin(
   {
-    name: 'remark-uppercase-headings',
+    name: 'uppercase-headings',
     version: '1.0.0',
     description: 'Convert all heading text to uppercase',
   },
@@ -440,9 +440,9 @@ export const remarkUppercaseHeadings = createVisitorPlugin(
 /**
  * Plugin to add line numbers to code blocks
  */
-export const remarkCodeLineNumbers = createVisitorPlugin(
+export const addCodeLineNumbers = createVisitorPlugin(
   {
-    name: 'remark-code-line-numbers',
+    name: 'add-code-line-numbers',
     version: '1.0.0',
     description: 'Add line numbers to code blocks',
   },
@@ -467,11 +467,11 @@ export const remarkCodeLineNumbers = createVisitorPlugin(
 )
 
 /**
- * Plugin to wrap all paragraphs in a custom container
+ * Plugin to wrap all paragraphs with metadata
  */
-export const remarkWrapParagraphs = createTransformPlugin(
+export const wrapParagraphs = createTransformPlugin(
   {
-    name: 'remark-wrap-paragraphs',
+    name: 'wrap-paragraphs',
     version: '1.0.0',
     description: 'Wrap paragraphs with metadata',
   },
