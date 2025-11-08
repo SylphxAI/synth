@@ -20,6 +20,7 @@ import type {
   ImageToken,
 } from './tokens.js'
 import { createPosition, createTokenPosition } from './tokens.js'
+import { tryTokenizeStrikethrough, tryTokenizeAutolink } from './gfm-tokenizer.js'
 
 /**
  * Ultra-Optimized Inline Tokenizer
@@ -94,6 +95,41 @@ export class UltraOptimizedInlineTokenizer {
             }
           }
           break
+        }
+
+        case '~': {
+          // GFM: Strikethrough (~~text~~)
+          if (offset + 1 < length && text[offset + 1] === '~') {
+            const result = tryTokenizeStrikethrough(text, offset, lineIndex, lineStart)
+            if (result) {
+              tokens.push(result.token)
+              offset = result.newOffset
+              continue
+            }
+          }
+          break
+        }
+
+        case 'h':
+        case 'w': {
+          // GFM: Autolinks (http://, https://, www.)
+          const result = tryTokenizeAutolink(text, offset, lineIndex, lineStart)
+          if (result) {
+            tokens.push(result.token)
+            offset = result.newOffset
+            continue
+          }
+          break
+        }
+      }
+
+      // Check for email autolinks (contains @)
+      if (char !== ' ' && char !== '\n') {
+        const result = tryTokenizeAutolink(text, offset, lineIndex, lineStart)
+        if (result) {
+          tokens.push(result.token)
+          offset = result.newOffset
+          continue
         }
       }
 
@@ -344,7 +380,10 @@ export class UltraOptimizedInlineTokenizer {
         char === '*' ||
         char === '_' ||
         char === '[' ||
-        char === '!'
+        char === '!' ||
+        char === '~' ||  // GFM: strikethrough
+        char === 'h' ||  // GFM: http(s)://
+        char === 'w'     // GFM: www.
       ) {
         break
       }
