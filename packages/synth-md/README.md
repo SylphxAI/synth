@@ -43,22 +43,31 @@ npm install @sylphx/synth-md-katex
 
 ## Usage
 
-### Basic Parsing
+### Quick Start
 
 ```typescript
-import { UltraOptimizedMarkdownParser } from '@sylphx/ast-markdown'
+import { parse } from '@sylphx/synth-md'
 
-const parser = new UltraOptimizedMarkdownParser()
+const tree = parse('# Hello **World**')
+```
+
+### With Parser Instance
+
+```typescript
+import { Parser } from '@sylphx/synth-md'
+
+const parser = new Parser()
 const tree = parser.parse('# Hello **World**')
 ```
 
-### With Optimizations
+### With Options
 
 ```typescript
-const tree = parser.parse(largeDocument, {
+const tree = parse(largeDocument, {
   useBatchTokenizer: true,  // 4-5x faster on large docs
   useNodePool: true,        // 10-13x faster for repeated parses
-  batchSize: 32            // Optimal batch size
+  batchSize: 32,            // Optimal batch size
+  buildIndex: false         // Skip index for 4x speedup (default)
 })
 ```
 

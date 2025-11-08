@@ -1,12 +1,13 @@
 /**
- * Ultra-Optimized Markdown Parser
+ * Markdown Parser
  *
- * Combines all ultra optimizations:
- * - UltraOptimizedTokenizer (no split, character-based)
- * - UltraOptimizedInlineTokenizer (minimal allocations)
- * - Existing incremental infrastructure
+ * High-performance CommonMark parser with optimizations:
+ * - Character-based tokenization
+ * - Minimal allocations
+ * - Optional batch processing
+ * - Node pooling
  *
- * Target: 20-30x performance vs remark
+ * Performance: 26-42x faster than remark
  */
 
 import type { Tree, NodeId } from '@sylphx/synth'
@@ -56,17 +57,16 @@ export interface ParseOptions {
 }
 
 /**
- * Ultra-Optimized Markdown Parser
+ * Markdown Parser
  *
- * Achieves 30-40x performance through:
- * - No split('\n') operations
- * - Character-based pattern detection
+ * High-performance parser (26-42x faster than remark) through:
+ * - Character-based tokenization (no split operations)
  * - Minimal object allocations
  * - Efficient AST building
- * - OPTIONAL index building (disabled by default for 4x speedup)
- * - OPTIONAL batch tokenizer (4-5x faster tokenization on large documents)
+ * - Optional index building (disabled by default for 4x speedup)
+ * - Optional batch processing (4-5x faster on large documents)
  */
-export class UltraOptimizedMarkdownParser {
+export class Parser {
   private tokenizer = new UltraOptimizedTokenizer()
   private batchTokenizer: BatchTokenizer | null = null
   private inlineTokenizer = new UltraOptimizedInlineTokenizer()
@@ -602,8 +602,31 @@ export class UltraOptimizedMarkdownParser {
 }
 
 /**
- * Create ultra-optimized parser
+ * Create a new parser instance
  */
-export function createUltraOptimizedParser(): UltraOptimizedMarkdownParser {
-  return new UltraOptimizedMarkdownParser()
+export function createParser(): Parser {
+  return new Parser()
 }
+
+/**
+ * Parse markdown text into an AST
+ *
+ * Simple convenience function for one-off parsing.
+ * For repeated parsing, create a Parser instance.
+ *
+ * @example
+ * ```typescript
+ * import { parse } from '@sylphx/synth-md'
+ * const tree = parse('# Hello World')
+ * ```
+ */
+export function parse(markdown: string, options?: ParseOptions): Tree {
+  const parser = new Parser()
+  return parser.parse(markdown, options)
+}
+
+// Backward compatibility exports
+/** @deprecated Use Parser instead */
+export const UltraOptimizedMarkdownParser = Parser
+/** @deprecated Use createParser instead */
+export const createUltraOptimizedParser = createParser

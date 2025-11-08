@@ -18,10 +18,8 @@ npm install @sylphx/synth @sylphx/synth-md @sylphx/synth-md-gfm
 ## Usage
 
 ```typescript
-import { UltraOptimizedMarkdownParser } from '@sylphx/synth-md'
+import { parse } from '@sylphx/synth-md'
 import { gfmPlugin } from '@sylphx/synth-md-gfm'
-
-const parser = new UltraOptimizedMarkdownParser()
 
 const markdown = `
 # GFM Examples
@@ -47,9 +45,7 @@ Visit https://github.com
 - [ ] Pending task
 `
 
-const tree = parser.parse(markdown, {
-  plugins: [gfmPlugin()]
-})
+const tree = parse(markdown, { plugins: [gfmPlugin()] })
 ```
 
 ## Options

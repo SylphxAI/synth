@@ -18,8 +18,11 @@ export * from './types.js'
 export * from './tokens.js'
 
 // Export main parser
-export { UltraOptimizedMarkdownParser } from './ultra-optimized-parser.js'
+export { Parser, createParser, parse } from './ultra-optimized-parser.js'
 export type { ParseOptions } from './ultra-optimized-parser.js'
+
+// Backward compatibility
+export { UltraOptimizedMarkdownParser, createUltraOptimizedParser } from './ultra-optimized-parser.js'
 
 // Export incremental parser
 export { IncrementalMarkdownParser, detectEdit, calculateEditDistance, shouldUseIncremental } from './incremental-parser.js'

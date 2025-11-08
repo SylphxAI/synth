@@ -44,13 +44,10 @@ export interface GFMPluginOptions {
  *
  * @example
  * ```typescript
- * import { UltraOptimizedMarkdownParser } from '@sylphx/synth-md'
+ * import { parse } from '@sylphx/synth-md'
  * import { gfmPlugin } from '@sylphx/synth-md-gfm'
  *
- * const parser = new UltraOptimizedMarkdownParser()
- * const tree = parser.parse(markdown, {
- *   plugins: [gfmPlugin()]
- * })
+ * const tree = parse(markdown, { plugins: [gfmPlugin()] })
  * ```
  */
 export function gfmPlugin(options: GFMPluginOptions = {}) {

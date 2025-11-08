@@ -47,11 +47,10 @@ export interface MermaidPluginOptions {
  *
  * @example
  * ```typescript
- * import { UltraOptimizedMarkdownParser } from '@sylphx/synth-md'
+ * import { parse } from '@sylphx/synth-md'
  * import { mermaidPlugin } from '@sylphx/synth-md-mermaid'
  *
- * const parser = new UltraOptimizedMarkdownParser()
- * const tree = parser.parse(markdown, { plugins: [mermaidPlugin()] })
+ * const tree = parse(markdown, { plugins: [mermaidPlugin()] })
  * ```
  */
 export function mermaidPlugin(_options: MermaidPluginOptions = {}) {

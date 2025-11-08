@@ -54,11 +54,10 @@ export interface KatexPluginOptions {
  *
  * @example
  * ```typescript
- * import { UltraOptimizedMarkdownParser } from '@sylphx/synth-md'
+ * import { parse } from '@sylphx/synth-md'
  * import { katexPlugin } from '@sylphx/synth-md-katex'
  *
- * const parser = new UltraOptimizedMarkdownParser()
- * const tree = parser.parse(markdown, { plugins: [katexPlugin()] })
+ * const tree = parse(markdown, { plugins: [katexPlugin()] })
  * ```
  */
 export function katexPlugin(options: KatexPluginOptions = {}) {

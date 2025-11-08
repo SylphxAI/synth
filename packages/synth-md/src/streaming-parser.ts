@@ -13,7 +13,7 @@
 
 import { EventEmitter } from 'events'
 import type { Tree, BaseNode } from '@sylphx/synth'
-import { UltraOptimizedMarkdownParser, type ParseOptions } from './ultra-optimized-parser.js'
+import { Parser, type ParseOptions } from './ultra-optimized-parser.js'
 
 /**
  * Streaming parser options
@@ -86,7 +86,7 @@ export interface StreamingParserEvents {
  */
 export class StreamingMarkdownParser extends EventEmitter {
   private buffer: string = ''
-  private parser: UltraOptimizedMarkdownParser
+  private parser: Parser
   private options: Required<StreamingOptions>
   private ended = false
   private nodeQueue: BaseNode[] = []
@@ -103,7 +103,7 @@ export class StreamingMarkdownParser extends EventEmitter {
       highWaterMark: options.highWaterMark ?? 16,
     }
 
-    this.parser = new UltraOptimizedMarkdownParser()
+    this.parser = new Parser()
   }
 
   /**

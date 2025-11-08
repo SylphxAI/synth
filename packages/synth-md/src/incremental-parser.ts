@@ -6,7 +6,7 @@
  */
 
 import type { Tree, NodeId } from '@sylphx/synth'
-import { UltraOptimizedMarkdownParser, type ParseOptions } from './ultra-optimized-parser.js'
+import { Parser, type ParseOptions } from './ultra-optimized-parser.js'
 import type { ASTIndex } from '@sylphx/synth'
 
 /**
@@ -50,12 +50,12 @@ interface AffectedRegion {
  * Incremental Parser that only re-parses modified regions
  */
 export class IncrementalMarkdownParser {
-  private parser: UltraOptimizedMarkdownParser
+  private parser: Parser
   private previousText: string = ''
   private previousTree: Tree | null = null
 
   constructor() {
-    this.parser = new UltraOptimizedMarkdownParser()
+    this.parser = new Parser()
   }
 
   /**
