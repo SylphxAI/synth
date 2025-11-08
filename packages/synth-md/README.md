@@ -1,11 +1,11 @@
 # @sylphx/synth-md
 
-High-performance Markdown parser - 26-42x faster than remark.
+High-performance CommonMark parser - 26-42x faster than remark.
 
 ## Features
 
 - **Ultra-Fast Parsing**: 26-42x faster than remark/unified
-- **GFM Support**: GitHub Flavored Markdown (tables, strikethrough, task lists)
+- **CommonMark Compliant**: Full CommonMark specification support
 - **Streaming**: Process Markdown incrementally
 - **Incremental**: Re-parse only changed regions
 - **Plugin System**: Extensible with transforms and visitors
@@ -26,6 +26,19 @@ remark (unified)           238 Hz    4.20 ms
 
 ```bash
 npm install @sylphx/synth @sylphx/synth-md
+```
+
+### Optional Extensions
+
+```bash
+# GitHub Flavored Markdown (tables, strikethrough, autolinks, task lists)
+npm install @sylphx/synth-md-gfm
+
+# Mermaid diagrams
+npm install @sylphx/synth-md-mermaid
+
+# KaTeX math rendering
+npm install @sylphx/synth-md-katex
 ```
 
 ## Usage

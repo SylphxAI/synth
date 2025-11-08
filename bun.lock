@@ -47,6 +47,19 @@
         "vitest": "^2.0.0",
       },
     },
+    "packages/synth-md-gfm": {
+      "name": "@sylphx/synth-md-gfm",
+      "version": "0.1.0",
+      "dependencies": {
+        "@sylphx/synth": "workspace:*",
+        "@sylphx/synth-md": "workspace:*",
+      },
+      "devDependencies": {
+        "@types/node": "^22.0.0",
+        "typescript": "^5.6.0",
+        "vitest": "^2.0.0",
+      },
+    },
     "packages/synth-md-katex": {
       "name": "@sylphx/synth-md-katex",
       "version": "0.1.0",
@@ -236,6 +249,8 @@
     "@sylphx/synth": ["@sylphx/synth@workspace:packages/synth"],
 
     "@sylphx/synth-md": ["@sylphx/synth-md@workspace:packages/synth-md"],
+
+    "@sylphx/synth-md-gfm": ["@sylphx/synth-md-gfm@workspace:packages/synth-md-gfm"],
 
     "@sylphx/synth-md-katex": ["@sylphx/synth-md-katex@workspace:packages/synth-md-katex"],
 
