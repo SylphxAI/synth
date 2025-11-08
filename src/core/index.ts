@@ -27,3 +27,14 @@ export {
   insertRight,
   remove,
 } from './zipper.js'
+
+export type { BatchVisitor, BatchProcessingOptions } from './batch-processor.js'
+
+export {
+  batchProcess,
+  batchTraverse,
+  batchSelect,
+  batchTransform,
+  batchMap,
+  batchFilter,
+} from './batch-processor.js'
