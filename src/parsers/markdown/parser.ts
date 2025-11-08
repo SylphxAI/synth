@@ -5,13 +5,14 @@
  * Integrates with node pool and query index for maximum performance.
  */
 
-import type { Tree, NodeId, BaseNode } from '../../types/index.js'
+import type { Tree, NodeId } from '../../types/index.js'
 import { createTree, addNode } from '../../types/tree.js'
 import type { Edit } from '../../core/incremental.js'
 import { createIndex, type ASTIndex } from '../../core/query-index.js'
 import { globalNodePool } from '../../core/node-pool.js'
 import { IncrementalTokenizer } from './tokenizer.js'
-import type { BlockToken } from './tokens.js'
+import { InlineTokenizer } from './inline-tokenizer.js'
+import type { BlockToken, InlineToken } from './tokens.js'
 
 /**
  * Incremental Markdown Parser
@@ -20,21 +21,20 @@ import type { BlockToken } from './tokens.js'
  */
 export class IncrementalMarkdownParser {
   private tokenizer: IncrementalTokenizer
+  private inlineTokenizer: InlineTokenizer
   private tree: Tree | null = null
   private tokens: BlockToken[] = []
   private index: ASTIndex | null = null
-  private source: string = ''
 
   constructor() {
     this.tokenizer = new IncrementalTokenizer()
+    this.inlineTokenizer = new InlineTokenizer()
   }
 
   /**
    * Full parse of Markdown text
    */
   parse(text: string): Tree {
-    this.source = text
-
     // 1. Tokenize
     this.tokens = this.tokenizer.tokenize(text)
 
@@ -62,8 +62,6 @@ export class IncrementalMarkdownParser {
     if (!this.tree || !this.index) {
       throw new Error('Must call parse() before parseIncremental()')
     }
-
-    this.source = text
 
     // 1. Incremental tokenize
     this.tokens = this.tokenizer.retokenize(text, edit, this.tokens)
@@ -126,21 +124,11 @@ export class IncrementalMarkdownParser {
             end: token.position.end,
           },
           data: { depth: token.depth },
-        } as BaseNode)
+        })
 
-        // Add text child
-        const textId = addNode(tree, {
-          type: 'text',
-          parent: headingId,
-          children: [],
-          span: {
-            start: token.position.start,
-            end: token.position.end,
-          },
-          data: { value: token.text },
-        } as BaseNode)
+        // Parse inline elements
+        this.buildInlineNodes(tree, token.text, headingId, token.position.start)
 
-        tree.nodes[headingId]!.children.push(textId)
         return headingId
       }
 
@@ -153,21 +141,11 @@ export class IncrementalMarkdownParser {
             start: token.position.start,
             end: token.position.end,
           },
-        } as BaseNode)
+        })
 
-        // Add text child
-        const textId = addNode(tree, {
-          type: 'text',
-          parent: paragraphId,
-          children: [],
-          span: {
-            start: token.position.start,
-            end: token.position.end,
-          },
-          data: { value: token.text },
-        } as BaseNode)
+        // Parse inline elements
+        this.buildInlineNodes(tree, token.text, paragraphId, token.position.start)
 
-        tree.nodes[paragraphId]!.children.push(textId)
         return paragraphId
       }
 
@@ -185,7 +163,7 @@ export class IncrementalMarkdownParser {
             lang: token.lang,
             meta: token.meta,
           },
-        } as BaseNode)
+        })
       }
 
       case 'listItem': {
@@ -200,21 +178,11 @@ export class IncrementalMarkdownParser {
           data: {
             checked: token.checked,
           },
-        } as BaseNode)
+        })
 
-        // Add text child
-        const textId = addNode(tree, {
-          type: 'text',
-          parent: listItemId,
-          children: [],
-          span: {
-            start: token.position.start,
-            end: token.position.end,
-          },
-          data: { value: token.text },
-        } as BaseNode)
+        // Parse inline elements
+        this.buildInlineNodes(tree, token.text, listItemId, token.position.start)
 
-        tree.nodes[listItemId]!.children.push(textId)
         return listItemId
       }
 
@@ -227,21 +195,11 @@ export class IncrementalMarkdownParser {
             start: token.position.start,
             end: token.position.end,
           },
-        } as BaseNode)
+        })
 
-        // Add text child
-        const textId = addNode(tree, {
-          type: 'text',
-          parent: blockquoteId,
-          children: [],
-          span: {
-            start: token.position.start,
-            end: token.position.end,
-          },
-          data: { value: token.text },
-        } as BaseNode)
+        // Parse inline elements
+        this.buildInlineNodes(tree, token.text, blockquoteId, token.position.start)
 
-        tree.nodes[blockquoteId]!.children.push(textId)
         return blockquoteId
       }
 
@@ -254,11 +212,185 @@ export class IncrementalMarkdownParser {
             start: token.position.start,
             end: token.position.end,
           },
-        } as BaseNode)
+        })
       }
 
       default: {
         console.warn(`Unknown token type: ${(token as any).type}`)
+        return null
+      }
+    }
+  }
+
+  /**
+   * Build inline nodes from text
+   */
+  private buildInlineNodes(
+    tree: Tree,
+    text: string,
+    parent: NodeId,
+    startPos: { line: number; column: number; offset: number }
+  ): void {
+    // Tokenize inline elements
+    const inlineTokens = this.inlineTokenizer.tokenize(text, startPos.line, startPos.offset)
+
+    // Create nodes for each inline token
+    for (const inlineToken of inlineTokens) {
+      const nodeId = this.buildInlineNode(tree, inlineToken, parent)
+      if (nodeId !== null) {
+        tree.nodes[parent]!.children.push(nodeId)
+      }
+    }
+  }
+
+  /**
+   * Build a single inline node
+   */
+  private buildInlineNode(tree: Tree, token: InlineToken, parent: NodeId): NodeId | null {
+    switch (token.type) {
+      case 'text': {
+        return addNode(tree, {
+          type: 'text',
+          parent,
+          children: [],
+          span: {
+            start: token.position.start,
+            end: token.position.end,
+          },
+          data: { value: token.value },
+        })
+      }
+
+      case 'emphasis': {
+        const emphasisId = addNode(tree, {
+          type: 'emphasis',
+          parent,
+          children: [],
+          span: {
+            start: token.position.start,
+            end: token.position.end,
+          },
+        })
+
+        // Add text child for the emphasized content
+        const textId = addNode(tree, {
+          type: 'text',
+          parent: emphasisId,
+          children: [],
+          span: {
+            start: token.position.start,
+            end: token.position.end,
+          },
+          data: { value: token.text },
+        })
+
+        tree.nodes[emphasisId]!.children.push(textId)
+        return emphasisId
+      }
+
+      case 'strong': {
+        const strongId = addNode(tree, {
+          type: 'strong',
+          parent,
+          children: [],
+          span: {
+            start: token.position.start,
+            end: token.position.end,
+          },
+        })
+
+        // Add text child for the strong content
+        const textId = addNode(tree, {
+          type: 'text',
+          parent: strongId,
+          children: [],
+          span: {
+            start: token.position.start,
+            end: token.position.end,
+          },
+          data: { value: token.text },
+        })
+
+        tree.nodes[strongId]!.children.push(textId)
+        return strongId
+      }
+
+      case 'inlineCode': {
+        return addNode(tree, {
+          type: 'inlineCode',
+          parent,
+          children: [],
+          span: {
+            start: token.position.start,
+            end: token.position.end,
+          },
+          data: { value: token.value },
+        })
+      }
+
+      case 'link': {
+        const linkId = addNode(tree, {
+          type: 'link',
+          parent,
+          children: [],
+          span: {
+            start: token.position.start,
+            end: token.position.end,
+          },
+          data: {
+            url: token.url,
+            title: token.title,
+          },
+        })
+
+        // Add text child for link text
+        const textId = addNode(tree, {
+          type: 'text',
+          parent: linkId,
+          children: [],
+          span: {
+            start: token.position.start,
+            end: token.position.end,
+          },
+          data: { value: token.text },
+        })
+
+        tree.nodes[linkId]!.children.push(textId)
+        return linkId
+      }
+
+      case 'image': {
+        return addNode(tree, {
+          type: 'image',
+          parent,
+          children: [],
+          span: {
+            start: token.position.start,
+            end: token.position.end,
+          },
+          data: {
+            url: token.url,
+            title: token.title,
+            alt: token.alt,
+          },
+        })
+      }
+
+      case 'lineBreak': {
+        return addNode(tree, {
+          type: 'break',
+          parent,
+          children: [],
+          span: {
+            start: token.position.start,
+            end: token.position.end,
+          },
+          data: { hard: token.hard },
+        })
+      }
+
+      default: {
+        console.warn(`Unknown inline token type: ${(token as any).type}`)
         return null
       }
     }
