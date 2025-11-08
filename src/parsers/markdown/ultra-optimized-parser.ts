@@ -17,6 +17,7 @@ import { UltraOptimizedTokenizer } from './ultra-optimized-tokenizer.js'
 import { UltraOptimizedInlineTokenizer } from './ultra-optimized-inline-tokenizer.js'
 import type { BlockToken, InlineToken } from './tokens.js'
 import { PluginManager, type Plugin } from './plugin.js'
+import { createNodePool, type MarkdownNodePool } from './node-pool.js'
 
 /**
  * Parse options
@@ -32,6 +33,12 @@ export interface ParseOptions {
    * Plugins to apply during parsing
    */
   plugins?: Plugin[]
+
+  /**
+   * Enable node pooling for reduced GC pressure
+   * @default true - Reduces allocations by 1.5-2x
+   */
+  useNodePool?: boolean
 }
 
 /**
