@@ -303,6 +303,17 @@
         "vitest": "^3.0.0",
       },
     },
+    "packages/synth-typecheck": {
+      "name": "@sylphx/synth-typecheck",
+      "version": "0.1.0",
+      "dependencies": {
+        "@sylphx/synth": "workspace:*",
+      },
+      "devDependencies": {
+        "@types/bun": "latest",
+        "typescript": "^5.0.0",
+      },
+    },
     "packages/synth-vue": {
       "name": "@sylphx/synth-vue",
       "version": "0.1.0",
@@ -574,6 +585,8 @@
     "@sylphx/synth-sql": ["@sylphx/synth-sql@workspace:packages/synth-sql"],
 
     "@sylphx/synth-toml": ["@sylphx/synth-toml@workspace:packages/synth-toml"],
+
+    "@sylphx/synth-typecheck": ["@sylphx/synth-typecheck@workspace:packages/synth-typecheck"],
 
     "@sylphx/synth-vue": ["@sylphx/synth-vue@workspace:packages/synth-vue"],
 

@@ -290,7 +290,7 @@ const minified = minify('function hello() { return 42; }', { mangle: true })
 // → "function a(){return 42;}"
 ```
 
-**Total: 1045 tests across all packages, 100% pass rate** 🎉
+**Total: 1064 tests across all packages, 100% pass rate** 🎉
 
 ## 🔧 Development Strategy
 
@@ -356,7 +356,7 @@ We strategically balance **full ownership** of core technology with **leveraging
   - Name mangling algorithm
   - 35 tests, 100% coverage
 
-**Total In-House:** 13/19 packages, 462 tests
+**Total In-House:** 14/19 packages, 481 tests
 
 #### ⚠️ Strategic Dependencies (Conversion Layer)
 
@@ -421,9 +421,9 @@ const synth = convertTreeSitterToSynth(tsTree)
 ### Test Coverage Breakdown
 
 ```
-In-House Code:     462 tests (HTML, Markdown, JSON, CSS, TOML, INI, Format, Minify, Lint, Metrics)
+In-House Code:     481 tests (HTML, Markdown, JSON, CSS, TOML, INI, Format, Minify, Lint, Metrics, TypeCheck)
 Conversion Layer:  583 tests (JS, YAML, Python, Go, Rust, SQL, GraphQL, XML, JSX, Vue, Protobuf, MsgPack)
-Total:            1045 tests, 100% pass rate
+Total:            1064 tests, 100% pass rate
 ```
 
 ## 🚀 Roadmap: Upcoming Languages
@@ -628,9 +628,14 @@ const synth = convertVueToSynth(descriptor)
 - Extensible rule system with context helpers
 - 17 tests, 100% pass rate
 
-**@sylphx/synth-typecheck** - Type Checker 🚧
-- Cross-language type inference
-- Flow-like analysis on universal AST
+**@sylphx/synth-typecheck** - Type Checker ✅
+- Cross-language type inference and validation
+- Automatic type inference from AST
+- Type compatibility checking
+- Literal, array, object, function types
+- Binary, unary, logical expression types
+- Type error detection
+- 19 tests, 100% pass rate
 
 **@sylphx/synth-docs** - Documentation Generator 🚧
 - Extract docs from any language
