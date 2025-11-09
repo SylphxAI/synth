@@ -1,0 +1,42 @@
+{
+  "name": "@sylphx/synth-vue",
+  "version": "0.1.0",
+  "description": "Vue Single File Component parser using Synth's universal AST",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "vue",
+    "sfc",
+    "parser",
+    "ast",
+    "synth",
+    "vue3"
+  ],
+  "author": "Synth",
+  "license": "MIT",
+  "dependencies": {
+    "@sylphx/synth": "workspace:*",
+    "@vue/compiler-sfc": "^3.5.13"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.0.0"
+  }
+}
