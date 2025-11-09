@@ -243,28 +243,59 @@ const index = parser.getIndex()  // Build when needed
 
 **NEW: Universal AST system supporting multiple languages!**
 
-### Parsers
+### Parsers (19 Total)
 
+**Web & Markup:**
 - ✅ **[@sylphx/synth-html](./packages/synth-html)** - HTML5 parser (88 tests)
+- ✅ **[@sylphx/synth-xml](./packages/synth-xml)** - XML parser (47 tests)
+- ✅ **[@sylphx/synth-jsx](./packages/synth-jsx)** - JSX/TSX parser (57 tests)
+- ✅ **[@sylphx/synth-vue](./packages/synth-vue)** - Vue SFC parser (41 tests)
+
+**Programming Languages:**
 - ✅ **[@sylphx/synth-js](./packages/synth-js)** - JavaScript/TypeScript parser (98 tests)
-  - ES5 through ES2024+ support
-  - Built on Acorn (35.6M projects)
-  - TypeScript via plugin
+  - ES5 through ES2024+ support, Built on Acorn (35.6M projects), TypeScript via plugin
+- ✅ **[@sylphx/synth-python](./packages/synth-python)** - Python parser (39 tests)
+- ✅ **[@sylphx/synth-go](./packages/synth-go)** - Go parser (45 tests)
+- ✅ **[@sylphx/synth-rust](./packages/synth-rust)** - Rust parser (53 tests)
+- ✅ **[@sylphx/synth-java](./packages/synth-java)** - Java parser (43 tests)
+- ✅ **[@sylphx/synth-php](./packages/synth-php)** - PHP parser (47 tests)
+- ✅ **[@sylphx/synth-ruby](./packages/synth-ruby)** - Ruby parser (51 tests)
+- ✅ **[@sylphx/synth-c](./packages/synth-c)** - C parser (54 tests)
+
+**Data & Config:**
 - ✅ **[@sylphx/synth-json](./packages/synth-json)** - JSON parser (51 tests)
-  - RFC 8259 compliant
-  - Hand-written recursive descent
+  - RFC 8259 compliant, Hand-written recursive descent
 - ✅ **[@sylphx/synth-yaml](./packages/synth-yaml)** - YAML parser (41 tests)
-  - YAML 1.2 compliant
-  - GitHub Actions, Docker Compose, K8s configs
+  - YAML 1.2 compliant, GitHub Actions, Docker Compose, K8s configs
+- ✅ **[@sylphx/synth-toml](./packages/synth-toml)** - TOML parser (38 tests)
+- ✅ **[@sylphx/synth-ini](./packages/synth-ini)** - INI parser (37 tests)
+- ✅ **[@sylphx/synth-css](./packages/synth-css)** - CSS3 parser (49 tests)
 
-### Tools
+**Query & Schema:**
+- ✅ **[@sylphx/synth-sql](./packages/synth-sql)** - SQL parser (57 tests)
+- ✅ **[@sylphx/synth-graphql](./packages/synth-graphql)** - GraphQL parser (50 tests)
 
+**Binary Formats:**
+- ✅ **[@sylphx/synth-protobuf](./packages/synth-protobuf)** - Protocol Buffers parser (27 tests)
+- ✅ **[@sylphx/synth-msgpack](./packages/synth-msgpack)** - MessagePack parser (28 tests)
+
+### Tools (6 Total)
+
+**Code Transformation:**
 - ✅ **[@sylphx/synth-js-format](./packages/synth-js-format)** - JavaScript formatter (33 tests)
-  - Prettier-style formatting
-  - Configurable options
+  - Prettier-style formatting, Configurable options
 - ✅ **[@sylphx/synth-js-minify](./packages/synth-js-minify)** - JavaScript minifier (35 tests)
-  - 30-70% compression
-  - Optional name mangling
+  - 30-70% compression, Optional name mangling
+
+**Analysis & Quality:**
+- ✅ **[@sylphx/synth-lint](./packages/synth-lint)** - Universal linter framework (17 tests)
+  - ESLint-like API, Language-agnostic rules, Built-in rules
+- ✅ **[@sylphx/synth-metrics](./packages/synth-metrics)** - Code metrics analyzer (26 tests)
+  - Cyclomatic & cognitive complexity, Halstead metrics, Maintainability index
+- ✅ **[@sylphx/synth-typecheck](./packages/synth-typecheck)** - Type checker (19 tests)
+  - Type inference, Type compatibility, Error detection
+- ✅ **[@sylphx/synth-docs](./packages/synth-docs)** - Documentation generator (21 tests)
+  - JSDoc parsing, Multi-format output (MD/JSON/HTML), Symbol extraction
 
 ### Quick Example
 
@@ -290,7 +321,7 @@ const minified = minify('function hello() { return 42; }', { mangle: true })
 // → "function a(){return 42;}"
 ```
 
-**Total: 1085 tests across all packages, 100% pass rate** 🎉
+**Total: 1280 tests across all packages, 100% pass rate** 🎉
 
 ## 🔧 Development Strategy
 
@@ -421,9 +452,9 @@ const synth = convertTreeSitterToSynth(tsTree)
 ### Test Coverage Breakdown
 
 ```
-In-House Code:     502 tests (HTML, Markdown, JSON, CSS, TOML, INI, Format, Minify, Lint, Metrics, TypeCheck, Docs)
-Conversion Layer:  583 tests (JS, YAML, Python, Go, Rust, SQL, GraphQL, XML, JSX, Vue, Protobuf, MsgPack)
-Total:            1085 tests, 100% pass rate
+In-House Code:     697 tests (HTML, Markdown, JSON, CSS, TOML, INI, Format, Minify, Lint, Metrics, TypeCheck, Docs)
+Conversion Layer:  583 tests (JS, YAML, Python, Go, Rust, SQL, GraphQL, XML, JSX, Vue, Protobuf, MsgPack, Java, PHP, Ruby, C)
+Total:            1280 tests, 100% pass rate ✅
 ```
 
 ## 🚀 Roadmap: Upcoming Languages
@@ -654,6 +685,40 @@ const synth = convertVueToSynth(descriptor)
 - Per-function metrics (complexity, params, LOC)
 - 26 tests, 100% pass rate
 - Works on universal AST
+
+### Phase 11: Additional Popular Languages ✅ **COMPLETED**
+
+**@sylphx/synth-java** - Java Parser ✅
+- Java 8 through Java 21+ support
+- Uses tree-sitter-java (battle-tested, VS Code/Atom)
+- Conversion layer: tree-sitter CST → Synth AST
+- 43 tests, 100% pass rate
+- Features: Classes, interfaces, enums, records, generics, annotations, lambdas
+- Use cases: Enterprise code analysis, Android development, Spring framework analysis
+
+**@sylphx/synth-php** - PHP Parser ✅
+- PHP 7 and PHP 8+ support
+- Uses tree-sitter-php (battle-tested)
+- Conversion layer: tree-sitter CST → Synth AST
+- 47 tests, 100% pass rate
+- Features: Variables, functions, classes, traits, modern PHP (arrow functions, match, enums)
+- Use cases: Web development, WordPress, Laravel, Symfony analysis
+
+**@sylphx/synth-ruby** - Ruby Parser ✅
+- Ruby 2 and Ruby 3+ support
+- Uses tree-sitter-ruby (battle-tested)
+- Conversion layer: tree-sitter CST → Synth AST
+- 51 tests, 100% pass rate
+- Features: Blocks, procs, lambdas, string interpolation, classes, modules, metaprogramming
+- Use cases: Rails analysis, gem development, Ruby on Rails code generation
+
+**@sylphx/synth-c** - C Parser ✅
+- C99, C11, C17, C23 support
+- Uses tree-sitter-c (battle-tested)
+- Conversion layer: tree-sitter CST → Synth AST
+- 54 tests, 100% pass rate
+- Features: Pointers, arrays, structs, unions, preprocessor, function pointers
+- Use cases: System programming, embedded systems, kernel development, security auditing
 
 ### Language Priority Matrix
 
