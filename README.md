@@ -290,7 +290,7 @@ const minified = minify('function hello() { return 42; }', { mangle: true })
 // → "function a(){return 42;}"
 ```
 
-**Total: 1019 tests across all packages, 100% pass rate** 🎉
+**Total: 1045 tests across all packages, 100% pass rate** 🎉
 
 ## 🔧 Development Strategy
 
@@ -356,7 +356,7 @@ We strategically balance **full ownership** of core technology with **leveraging
   - Name mangling algorithm
   - 35 tests, 100% coverage
 
-**Total In-House:** 12/19 packages, 436 tests
+**Total In-House:** 13/19 packages, 462 tests
 
 #### ⚠️ Strategic Dependencies (Conversion Layer)
 
@@ -421,9 +421,9 @@ const synth = convertTreeSitterToSynth(tsTree)
 ### Test Coverage Breakdown
 
 ```
-In-House Code:     436 tests (HTML, Markdown, JSON, CSS, TOML, INI, Format, Minify, Lint)
+In-House Code:     462 tests (HTML, Markdown, JSON, CSS, TOML, INI, Format, Minify, Lint, Metrics)
 Conversion Layer:  583 tests (JS, YAML, Python, Go, Rust, SQL, GraphQL, XML, JSX, Vue, Protobuf, MsgPack)
-Total:            1019 tests, 100% pass rate
+Total:            1045 tests, 100% pass rate
 ```
 
 ## 🚀 Roadmap: Upcoming Languages
@@ -636,9 +636,14 @@ const synth = convertVueToSynth(descriptor)
 - Extract docs from any language
 - Universal comment format
 
-**@sylphx/synth-metrics** - Code Metrics 🚧
-- Complexity analysis across languages
-- Cyclomatic complexity, maintainability index
+**@sylphx/synth-metrics** - Code Metrics ✅
+- Universal code metrics and complexity analysis
+- Basic metrics: LOC, SLOC, comments, nesting depth
+- Cyclomatic and cognitive complexity
+- Halstead complexity metrics
+- Maintainability index (Microsoft metric)
+- Per-function metrics (complexity, params, LOC)
+- 26 tests, 100% pass rate
 - Works on universal AST
 
 ### Language Priority Matrix
