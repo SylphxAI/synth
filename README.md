@@ -290,7 +290,7 @@ const minified = minify('function hello() { return 42; }', { mangle: true })
 // → "function a(){return 42;}"
 ```
 
-**Total: 1064 tests across all packages, 100% pass rate** 🎉
+**Total: 1085 tests across all packages, 100% pass rate** 🎉
 
 ## 🔧 Development Strategy
 
@@ -356,7 +356,7 @@ We strategically balance **full ownership** of core technology with **leveraging
   - Name mangling algorithm
   - 35 tests, 100% coverage
 
-**Total In-House:** 14/19 packages, 481 tests
+**Total In-House:** 15/19 packages, 502 tests
 
 #### ⚠️ Strategic Dependencies (Conversion Layer)
 
@@ -421,9 +421,9 @@ const synth = convertTreeSitterToSynth(tsTree)
 ### Test Coverage Breakdown
 
 ```
-In-House Code:     481 tests (HTML, Markdown, JSON, CSS, TOML, INI, Format, Minify, Lint, Metrics, TypeCheck)
+In-House Code:     502 tests (HTML, Markdown, JSON, CSS, TOML, INI, Format, Minify, Lint, Metrics, TypeCheck, Docs)
 Conversion Layer:  583 tests (JS, YAML, Python, Go, Rust, SQL, GraphQL, XML, JSX, Vue, Protobuf, MsgPack)
-Total:            1064 tests, 100% pass rate
+Total:            1085 tests, 100% pass rate
 ```
 
 ## 🚀 Roadmap: Upcoming Languages
@@ -637,9 +637,13 @@ const synth = convertVueToSynth(descriptor)
 - Type error detection
 - 19 tests, 100% pass rate
 
-**@sylphx/synth-docs** - Documentation Generator 🚧
-- Extract docs from any language
-- Universal comment format
+**@sylphx/synth-docs** - Documentation Generator ✅
+- Universal documentation extraction from any language
+- JSDoc-style comment parsing (@param, @returns, @example, etc.)
+- Multi-format output (Markdown, JSON, HTML)
+- Function, class, variable, constant extraction
+- Symbol filtering (private, internal)
+- 21 tests, 100% pass rate
 
 **@sylphx/synth-metrics** - Code Metrics ✅
 - Universal code metrics and complexity analysis

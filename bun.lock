@@ -39,6 +39,17 @@
         "vitest": "^3.0.0",
       },
     },
+    "packages/synth-docs": {
+      "name": "@sylphx/synth-docs",
+      "version": "0.1.0",
+      "dependencies": {
+        "@sylphx/synth": "workspace:*",
+      },
+      "devDependencies": {
+        "@types/bun": "latest",
+        "typescript": "^5.0.0",
+      },
+    },
     "packages/synth-go": {
       "name": "@sylphx/synth-go",
       "version": "0.1.0",
@@ -543,6 +554,8 @@
     "@sylphx/synth": ["@sylphx/synth@workspace:packages/synth"],
 
     "@sylphx/synth-css": ["@sylphx/synth-css@workspace:packages/synth-css"],
+
+    "@sylphx/synth-docs": ["@sylphx/synth-docs@workspace:packages/synth-docs"],
 
     "@sylphx/synth-go": ["@sylphx/synth-go@workspace:packages/synth-go"],
 
