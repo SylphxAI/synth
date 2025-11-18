@@ -32,7 +32,7 @@
   "author": "Synth",
   "license": "MIT",
   "dependencies": {
-    "@sylphx/synth": "workspace:*",
+    "@sylphx/synth": "workspace:^",
     "protobufjs": "^7.4.0"
   },
   "devDependencies": {

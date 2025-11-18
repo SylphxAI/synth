@@ -32,7 +32,7 @@
   "author": "Synth",
   "license": "MIT",
   "dependencies": {
-    "@sylphx/synth": "workspace:*"
+    "@sylphx/synth": "workspace:^"
   },
   "devDependencies": {
     "@types/bun": "latest",

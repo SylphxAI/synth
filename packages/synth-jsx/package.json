@@ -32,7 +32,7 @@
   "author": "Synth",
   "license": "MIT",
   "dependencies": {
-    "@sylphx/synth": "workspace:*",
+    "@sylphx/synth": "workspace:^",
     "acorn": "^8.14.0",
     "acorn-jsx": "^5.3.2"
   },

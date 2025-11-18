@@ -30,7 +30,7 @@
   "author": "SylphX",
   "license": "MIT",
   "dependencies": {
-    "@sylphx/synth": "workspace:*"
+    "@sylphx/synth": "workspace:^"
   },
   "devDependencies": {
     "typescript": "^5.7.3",
