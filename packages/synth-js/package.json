@@ -1,6 +1,6 @@
 {
   "name": "@sylphx/synth-js",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "High-performance JavaScript/TypeScript parser for Synth - universal AST for JS tooling",
   "type": "module",
   "main": "./dist/index.js",
