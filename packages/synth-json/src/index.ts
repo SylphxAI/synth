@@ -6,3 +6,6 @@
 
 export { JSONParser, createParser, parse, parseAsync } from './parser.js'
 export type { JSONParseOptions } from './parser.js'
+
+// Incremental tokenizer
+export { IncrementalJSONTokenizer } from './incremental-tokenizer.js'

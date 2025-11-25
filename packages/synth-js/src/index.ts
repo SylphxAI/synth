@@ -8,6 +8,9 @@
 export { JSParser, createParser, parse, parseAsync } from './parser.js'
 export type { JSParseOptions } from './parser.js'
 
+// Incremental tokenizer
+export { IncrementalJavaScriptTokenizer } from './incremental-tokenizer.js'
+
 // Types and utilities
 export {
   isProgramNode,

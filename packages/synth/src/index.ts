@@ -17,6 +17,7 @@ export * from './zipper.js'
 export * from './query-index.js'
 export * from './incremental.js'
 export * from './incremental-tokenizer.js'
+export * from './incremental-parser-manager.js'
 
 // Optimizations
 export * from './batch-processor.js'

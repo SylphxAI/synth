@@ -23,6 +23,9 @@ export type {
   CDATAToken,
 } from './tokenizer.js'
 
+// Incremental tokenizer
+export { IncrementalHTMLTokenizer } from './incremental-tokenizer.js'
+
 // Types and utilities
 export {
   VOID_ELEMENTS,

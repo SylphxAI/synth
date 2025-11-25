@@ -36,6 +36,9 @@ export * from './plugin.js'
 export { Tokenizer } from './tokenizer.js'
 export { InlineTokenizer } from './inline-tokenizer.js'
 export { BatchTokenizer } from './batch-tokenizer.js'
+export { IncrementalMarkdownTokenizer } from './incremental-tokenizer.js'
+export { TrueIncrementalParser } from './true-incremental-parser.js'
+export type { IncrementalParseStats } from './true-incremental-parser.js'
 
 // Export node pool
 export { NodePool, MarkdownNodePool, getGlobalNodePool, createNodePool } from './node-pool.js'
