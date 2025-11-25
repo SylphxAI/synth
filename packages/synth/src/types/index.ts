@@ -45,3 +45,22 @@ export type {
 export {
   TraversalOrder,
 } from './visitor.js'
+
+export type {
+  Token,
+  TokenStream,
+  TokenRange,
+  TokenPosition,
+  TokenSpan,
+} from './token.js'
+
+export {
+  TokenKind,
+  TokenFlags,
+  createToken,
+  createTokenStream,
+  isPositionInToken,
+  tokenRangesOverlap,
+  findTokenAtOffset,
+  getTokenRange,
+} from './token.js'
