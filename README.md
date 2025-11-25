@@ -143,11 +143,7 @@ onType('!') // User types '!' → "# Hello!"
 ## 📦 Installation
 
 ```bash
-npm install @sylphx/synth
-# or
-pnpm add @sylphx/synth
-# or
-yarn add @sylphx/synth
+bun add @sylphx/synth
 ```
 
 ## 🎯 Quick Start
@@ -179,19 +175,19 @@ const output = processor.process(markdown)
 
 ```bash
 # Install dependencies
-pnpm install
+bun install
 
 # Build
-pnpm build
+bun run build
 
 # Development mode
-pnpm dev
+bun run dev
 
 # Run tests
-pnpm test
+bun run test
 
 # Run benchmarks
-pnpm bench
+bun run bench
 ```
 
 ## 📊 Performance Benchmarks
