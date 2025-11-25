@@ -73,22 +73,38 @@ import { IncrementalParserManager, detectEdit } from '@sylphx/synth'
 
 const manager = new IncrementalParserManager()
 
-manager.parse('file:///doc.md', markdown, 'markdown')
+// Parse initial document
+const initialMarkdown = '# Hello\n\nWorld'
+manager.parse('file:///doc.md', initialMarkdown, 'markdown')
 
 // On document change - <1ms response!
+const oldText = initialMarkdown
+const newText = '# Hi\n\nWorld'
 const edit = detectEdit(oldText, newText)
 const { tree, tokenReuseRate } = manager.update('file:///doc.md', newText, edit)
 ```
 
-**Real-Time Editor** - VS Code/Zed-style editing
+**Real-Time Editor** - Per-keystroke incremental updates
 ```typescript
-import { RealTimeEditor } from '@sylphx/synth-md'
+import { TrueIncrementalParser, detectEdit } from '@sylphx/synth-md'
 
-const editor = new RealTimeEditor()
-editor.init(initialText)
+const parser = new TrueIncrementalParser()
+let currentText = '# Hello'
+let currentTree = parser.parse(currentText)
 
-// Per-keystroke updates - 0.012ms average!
-editor.onType('a')
+// Simulate typing a character
+function onType(char: string) {
+  const newText = currentText + char
+  const edit = detectEdit(currentText, newText)
+  const { tree, stats } = parser.update(newText, edit)
+
+  currentText = newText
+  currentTree = tree
+
+  console.log(`Parse time: ${stats.totalTimeMs.toFixed(3)}ms`) // <1ms!
+}
+
+onType('!') // User types '!' → "# Hello!"
 ```
 
 📚 [Complete Incremental Parsing Guide](./INCREMENTAL_PARSING_COMPLETE.md)
