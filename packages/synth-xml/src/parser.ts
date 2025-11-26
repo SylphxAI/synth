@@ -8,7 +8,7 @@
 import type { Tree, Plugin } from '@sylphx/synth'
 import { createTree, addNode } from '@sylphx/synth'
 import { SynthError } from '@sylphx/synth'
-import { XMLParser as FastXMLParser, XMLBuilder } from 'fast-xml-parser'
+import { XMLParser as FastXMLParser } from 'fast-xml-parser'
 import type { NodeId } from '@sylphx/synth'
 
 export interface XMLParseOptions {
