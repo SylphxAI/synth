@@ -336,7 +336,7 @@ export function createParserPlugin(
 /**
  * Plugin to remove all HTML comments from the tree
  */
-export const removeComments = createVisitorPlugin(
+export const removeComments: VisitorPlugin = createVisitorPlugin(
   {
     name: 'remove-comments',
     version: '1.0.0',
@@ -356,7 +356,7 @@ export const removeComments = createVisitorPlugin(
 /**
  * Plugin to add heading IDs (slug generation)
  */
-export const addHeadingIds = createVisitorPlugin(
+export const addHeadingIds: VisitorPlugin = createVisitorPlugin(
   {
     name: 'add-heading-ids',
     version: '1.0.0',
@@ -384,7 +384,7 @@ export const addHeadingIds = createVisitorPlugin(
 /**
  * Plugin to generate table of contents from headings
  */
-export const tableOfContents = createVisitorPlugin(
+export const tableOfContents: VisitorPlugin = createVisitorPlugin(
   {
     name: 'table-of-contents',
     version: '1.0.0',
@@ -435,7 +435,7 @@ export const tableOfContents = createVisitorPlugin(
 /**
  * Plugin to uppercase all heading text
  */
-export const uppercaseHeadings = createVisitorPlugin(
+export const uppercaseHeadings: VisitorPlugin = createVisitorPlugin(
   {
     name: 'uppercase-headings',
     version: '1.0.0',
@@ -452,7 +452,7 @@ export const uppercaseHeadings = createVisitorPlugin(
 /**
  * Plugin to add line numbers to code blocks
  */
-export const addCodeLineNumbers = createVisitorPlugin(
+export const addCodeLineNumbers: VisitorPlugin = createVisitorPlugin(
   {
     name: 'add-code-line-numbers',
     version: '1.0.0',
@@ -481,7 +481,7 @@ export const addCodeLineNumbers = createVisitorPlugin(
 /**
  * Plugin to wrap all paragraphs with metadata
  */
-export const wrapParagraphs = createTransformPlugin(
+export const wrapParagraphs: TransformPlugin = createTransformPlugin(
   {
     name: 'wrap-paragraphs',
     version: '1.0.0',

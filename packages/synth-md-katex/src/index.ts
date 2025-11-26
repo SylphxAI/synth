@@ -10,7 +10,7 @@
  * $$
  */
 
-import { createTransformPlugin } from '@sylphx/synth'
+import { createTransformPlugin, type TransformPlugin } from '@sylphx/synth'
 import type { BaseNode } from '@sylphx/synth'
 
 export interface MathNode extends BaseNode {
@@ -60,7 +60,7 @@ export interface KatexPluginOptions {
  * const tree = parse(markdown, { plugins: [katexPlugin()] })
  * ```
  */
-export function katexPlugin(options: KatexPluginOptions = {}) {
+export function katexPlugin(options: KatexPluginOptions = {}): TransformPlugin {
   const {
     inlineMath = true,
     blockMath = true,
