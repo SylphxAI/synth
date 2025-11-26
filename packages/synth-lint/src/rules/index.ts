@@ -13,4 +13,4 @@ import { maxDepth } from './max-depth.js'
 /**
  * All built-in rules
  */
-export const builtinRules = [noEmptyBlocks, noConsole, maxDepth]
+export const builtinRules = [noEmptyBlocks, noConsole, maxDepth] as const
