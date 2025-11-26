@@ -1,5 +1,18 @@
 # @sylphx/synth-js-minify
 
+## 0.1.3
+
+### Patch Changes
+
+- 864099b: Fix TypeScript support:
+
+  - **synth-js**: Enable TypeScript parsing by default (`typescript: true`)
+  - **All packages**: Fix exports order (`types` before `import`) for proper TypeScript module resolution
+
+- Updated dependencies [864099b]
+  - @sylphx/synth@0.1.3
+  - @sylphx/synth-js@0.2.0
+
 ## 0.1.2
 
 ### Patch Changes
