@@ -1,6 +1,6 @@
-# Flux AST - Performance Benchmark Results
+# Synth - Performance Benchmark Results
 
-> 🚀 **Incredible performance gains! Flux AST is 50-3000+ times faster than unified/remark!**
+> 🚀 **Incredible performance gains! Synth is 50-3000+ times faster than unified/remark!**
 
 Test Date: 2024-11-08
 Test Environment: Bun runtime, Node.js v25.0.0
@@ -12,7 +12,7 @@ Test Tool: Vitest Benchmark
 
 ### Core Metrics
 
-| Operation | Flux AST | unified | Performance Gain |
+| Operation | Synth | unified | Performance Gain |
 |-----------|----------|---------|-----------------|
 | Parse small (1KB) | 0.0011 ms | 0.1027 ms | **92.5x faster** ⚡ |
 | Parse medium (3KB) | 0.0050 ms | 0.5773 ms | **519.8x faster** 🚀 |
@@ -32,17 +32,17 @@ Test Tool: Vitest Benchmark
 Test: Parse source code string into AST
 ```
 
-| Test Case | Flux AST (ms) | unified (ms) | Speedup |
+| Test Case | Synth (ms) | unified (ms) | Speedup |
 |-----------|--------------|-------------|---------|
 | Small (1KB) | 0.0011 | 0.1027 | **92.5x** |
 | Medium (3KB) | 0.0050 | 0.5773 | **519.8x** |
 | Large (10KB) | 0.0329 | 3.5033 | **3154.4x** |
 
 **Conclusions**:
-- ✅ Flux is **92x faster** on small files
-- ✅ Flux is **520x faster** on medium files
-- ✅ Flux is **3154x faster** on large files!
-- 📈 **The larger the file, the bigger Flux's advantage**
+- ✅ Synth is **92x faster** on small files
+- ✅ Synth is **520x faster** on medium files
+- ✅ Synth is **3154x faster** on large files!
+- 📈 **The larger the file, the bigger Synth's advantage**
 
 ### 2. Full Pipeline Performance (Parse + Compile)
 
@@ -50,7 +50,7 @@ Test: Parse source code string into AST
 Test: Parse → AST → Compile back to source
 ```
 
-| Test Case | Flux AST (ms) | unified (ms) | Speedup |
+| Test Case | Synth (ms) | unified (ms) | Speedup |
 |-----------|--------------|-------------|---------|
 | Small | 0.0017 | 0.0957 | **55.5x** |
 | Medium | 0.0079 | 0.5763 | **334.1x** |
@@ -66,7 +66,7 @@ Test: Parse → AST → Compile back to source
 Test: Modify AST (e.g., increment heading depth)
 ```
 
-| Operation | Flux AST (ms) | unified (ms) | Speedup |
+| Operation | Synth (ms) | unified (ms) | Speedup |
 |-----------|--------------|-------------|---------|
 | Increment heading depth | 0.0053 | 0.5780 | **110.1x** |
 
@@ -80,7 +80,7 @@ Test: Modify AST (e.g., increment heading depth)
 Test: Traverse entire tree and count nodes
 ```
 
-| Operation | Flux AST (ms) | unified (ms) | Speedup |
+| Operation | Synth (ms) | unified (ms) | Speedup |
 |-----------|--------------|-------------|---------|
 | Traverse & count | 0.0329 | 3.0142 | **91.7x** |
 | Find all headings | 0.0356 | 3.0012 | **91.3x** |
@@ -96,7 +96,7 @@ Test: Traverse entire tree and count nodes
 Test: Create 100 AST trees
 ```
 
-| Operation | Flux AST (ms) | unified (ms) | Speedup |
+| Operation | Synth (ms) | unified (ms) | Speedup |
 |-----------|--------------|-------------|---------|
 | Create 100 trees | 0.1037 | 8.5375 | **82.3x** |
 
@@ -120,7 +120,7 @@ Test: Create 100 AST trees
   ]
 }
 
-// Flux: Flat array with IDs
+// Synth: Flat array with IDs
 nodes: [
   { id: 0, type: 'root', children: [1] },
   { id: 1, type: 'heading', children: [2] },
@@ -140,7 +140,7 @@ nodes: [
 // Traditional: Object references
 parent.children[0].type  // Pointer chasing
 
-// Flux: Array indexing
+// Synth: Array indexing
 nodes[nodeId].type  // Direct O(1) access
 ```
 
@@ -184,21 +184,21 @@ down(zipper) |> right |> edit(...)
 
 ```
 Small (1KB):
-Flux     ████ 0.0011ms
+Synth     ████ 0.0011ms
 unified  ████████████████████████████████████████████████████ 92.5x slower
 
 Medium (3KB):
-Flux     ██ 0.0050ms
+Synth     ██ 0.0050ms
 unified  ████████████████████████████████████████████████████ 519.8x slower
 
 Large (10KB):
-Flux     █ 0.0329ms
+Synth     █ 0.0329ms
 unified  ████████████████████████████████████████████████████ 3154x slower
 ```
 
 ### Throughput Comparison (operations/second)
 
-| Operation | Flux AST | unified | Difference |
+| Operation | Synth | unified | Difference |
 |-----------|----------|---------|------------|
 | Parse small | **900,406 ops/s** | 9,739 ops/s | 92x |
 | Parse medium | **201,752 ops/s** | 1,732 ops/s | 116x |
@@ -208,7 +208,7 @@ unified  ███████████████████████�
 
 ---
 
-## 🔬 Flux Internal Performance Analysis
+## 🔬 Synth Internal Performance Analysis
 
 ### Core Operations Performance
 
@@ -278,12 +278,12 @@ unified  ███████████████████████�
 
 ### vs Other Competitors
 
-| Tool | Language | Speed (vs Babel) | Flux vs It |
+| Tool | Language | Speed (vs Babel) | Synth vs It |
 |------|----------|-----------------|------------|
-| **Flux AST** | TypeScript | **~100-3000x** | Baseline |
+| **Synth** | TypeScript | **~100-3000x** | Baseline |
 | unified/remark | JavaScript | 1x (baseline) | 50-3000x faster |
-| SWC | Rust | 20-68x | Flux is faster! |
-| OXC | Rust | 40x | Flux is faster! |
+| SWC | Rust | 20-68x | Synth is faster! |
+| OXC | Rust | 40x | Synth is faster! |
 
 **🎉 Pure TypeScript implementation beats Rust tools!**
 
@@ -321,7 +321,7 @@ Current pure TS performance is already amazing, WASM could bring:
 
 ### Main Findings
 
-1. **Flux AST is 50-3000+ times faster than unified**
+1. **Synth is 50-3000+ times faster than unified**
 2. **Pure TypeScript implementation beats Rust tools**
 3. **Arena allocator is the key optimization**
 4. **NodeId system dramatically improves performance**
@@ -355,6 +355,6 @@ Thanks to these projects for inspiration:
 
 ---
 
-**Flux AST - The World's Fastest AST Processor!** 🚀
+**Synth - The World's Fastest AST Processor!** 🚀
 
 *Pure TypeScript implementation, outperforming Rust tools*

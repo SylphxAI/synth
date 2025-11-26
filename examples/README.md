@@ -1,6 +1,6 @@
-# Flux AST Examples
+# Synth Examples
 
-This directory contains examples demonstrating the various features of Flux AST.
+This directory contains examples demonstrating the various features of Synth.
 
 ## Running Examples
 
@@ -32,10 +32,10 @@ Demonstrates:
 ## Creating Your Own Examples
 
 ```typescript
-import { flux } from '../src/index.js'
+import { synth } from '../src/index.js'
 import { markdown } from '../src/adapters/index.js'
 
-const processor = flux()
+const processor = synth()
   .adapter('markdown', markdown())
 
 // Your code here

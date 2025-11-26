@@ -13,7 +13,7 @@ Prettier-style code formatter for JavaScript/TypeScript using Synth's universal 
 ## Installation
 
 ```bash
-bun install @sylphx/synth-js-format
+npm install @sylphx/synth-js-format
 ```
 
 ## Usage

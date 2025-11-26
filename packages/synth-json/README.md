@@ -15,7 +15,7 @@ Hand-written JSON parser using Synth's universal AST.
 ## Installation
 
 ```bash
-bun install @sylphx/synth-json
+npm install @sylphx/synth-json
 ```
 
 ## Usage

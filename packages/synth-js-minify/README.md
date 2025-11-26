@@ -14,7 +14,7 @@ JavaScript minifier using Synth's universal AST - compress code while preserving
 ## Installation
 
 ```bash
-bun install @sylphx/synth-js-minify
+npm install @sylphx/synth-js-minify
 ```
 
 ## Usage

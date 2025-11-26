@@ -1,4 +1,4 @@
-# Flux AST - Project Summary
+# Synth - Project Summary
 
 **The World's Fastest AST Processor - 50-3000x faster than unified!**
 
@@ -90,7 +90,7 @@ examples/        # Usage examples
 ### Memory Management
 ```
 Traditional: Object graph + GC
-Flux:        Arena allocator + NodeId
+Synth:        Arena allocator + NodeId
 
 Result: 80%+ less GC pressure
         10-100x better cache locality
@@ -99,7 +99,7 @@ Result: 80%+ less GC pressure
 ### Algorithms
 ```
 Traditional: Recursive + pointer chasing
-Flux:        Iterative + array indexing
+Synth:        Iterative + array indexing
 
 Result: 91x faster traversal
 ```
@@ -107,7 +107,7 @@ Result: 91x faster traversal
 ### API Design
 ```
 Traditional: Plugin chains
-Flux:        Function composition
+Synth:        Function composition
 
 Result: More flexible, reusable, type-safe
 ```
@@ -151,7 +151,7 @@ Result: More flexible, reusable, type-safe
 
 ## 🏆 Comparison with Competitors
 
-| Tool | Language | Speed | Flux Advantage |
+| Tool | Language | Speed | Synth Advantage |
 |------|----------|-------|----------------|
 | unified | JavaScript | 1x | 50-3000x faster |
 | SWC | Rust | 20-68x | Still faster |
@@ -179,4 +179,4 @@ Result: More flexible, reusable, type-safe
 
 ---
 
-**Flux AST - Redefining AST Processing Performance** 🚀
+**Synth - Redefining AST Processing Performance** 🚀

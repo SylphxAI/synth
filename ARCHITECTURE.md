@@ -1,9 +1,9 @@
-# Flux AST - Technical Architecture
+# Synth - Technical Architecture
 
 ## Directory Structure
 
 ```
-flux-ast/
+synth-ast/
 ├── src/
 │   ├── types/              # 核心类型定义
 │   │   ├── node.ts         # AST 节点类型
@@ -401,7 +401,7 @@ src/adapters/markdown.test.ts
 ```typescript
 // 完整 pipeline
 test('markdown to html pipeline', () => {
-  const result = flux()
+  const result = synth()
     .parse(markdown, 'markdown')
     .transform(addTOC)
     .compile('html')
@@ -414,11 +414,11 @@ test('markdown to html pipeline', () => {
 ```typescript
 // vs unified
 bench('parse 1KB markdown', () => {
-  flux().parse(source, 'markdown')
+  synth().parse(source, 'markdown')
 })
 
 bench('complex transform', () => {
-  flux().transform(pipeline)
+  synth().transform(pipeline)
 })
 ```
 
@@ -456,7 +456,7 @@ export const myTransform: TransformFn = async (tree) => {
 }
 
 // 使用
-flux().transform(myTransform)
+synth().transform(myTransform)
 ```
 
 ### 3. 添加新 Composition
@@ -517,7 +517,7 @@ npm run bench      # vitest bench
 ### NPM Package
 ```json
 {
-  "name": "flux-ast",
+  "name": "synth-ast",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {

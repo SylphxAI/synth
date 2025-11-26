@@ -8,7 +8,7 @@
 
 **Pure TypeScript implementation, outperforming all competitors!**
 
-| Operation | Flux AST | unified | Speedup |
+| Operation | Synth | unified | Speedup |
 |-----------|----------|---------|---------|
 | Parse small (1KB) | 0.0011 ms | 0.1027 ms | **92.5x faster** ⚡ |
 | Parse medium (3KB) | 0.0050 ms | 0.5773 ms | **519.8x faster** 🚀 |
@@ -196,19 +196,19 @@ bun run bench
 
 ```
 Parse Performance (throughput ops/s):
-  flux:    900,406 ops/s  ⚡⚡⚡
+  synth:   900,406 ops/s  ⚡⚡⚡
   unified:   9,739 ops/s
 
 Full Pipeline (Parse + Compile):
-  flux:    579,823 ops/s  🚀🚀🚀
+  synth:   579,823 ops/s  🚀🚀🚀
   unified:  10,454 ops/s
 
 Transform Operations:
-  flux:    190,380 ops/s  🔥🔥🔥
+  synth:   190,380 ops/s  🔥🔥🔥
   unified:   1,730 ops/s
 ```
 
-**🏆 Flux AST is 50-3000x faster than unified!**
+**🏆 Synth is 50-3000x faster than unified!**
 
 ### Performance Advantages
 

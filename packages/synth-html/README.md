@@ -14,7 +14,7 @@ High-performance HTML5 parser for Synth. Converts HTML into a language-agnostic 
 ## Installation
 
 ```bash
-bpm install @sylphx/synth-html
+npm install @sylphx/synth-html
 ```
 
 ## Usage

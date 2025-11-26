@@ -15,7 +15,7 @@ YAML parser using Synth's universal AST - converts YAML configuration files to q
 ## Installation
 
 ```bash
-bun install @sylphx/synth-yaml
+npm install @sylphx/synth-yaml
 ```
 
 ## Usage

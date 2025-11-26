@@ -1,6 +1,6 @@
-# Flux AST Benchmarks
+# Synth Benchmarks
 
-性能基准测试，对比 Flux AST 与竞品性能。
+性能基准测试，对比 Synth 与竞品性能。
 
 ## 运行基准测试
 
@@ -16,7 +16,7 @@ npx vitest bench benchmarks/comparison.bench.ts
 ## 测试文件
 
 ### `unified.bench.ts`
-对比 Flux AST 与 unified/remark 的性能：
+对比 Synth 与 unified/remark 的性能：
 - 解析性能
 - 编译性能
 - 转换性能
@@ -24,7 +24,7 @@ npx vitest bench benchmarks/comparison.bench.ts
 - 内存效率
 
 ### `comparison.bench.ts`
-Flux AST 内部各种操作的性能测试：
+Synth 内部各种操作的性能测试：
 - 核心操作
 - 树操作
 - 转换操作
@@ -63,9 +63,9 @@ Flux AST 内部各种操作的性能测试：
 ```
 ✓ benchmarks/unified.bench.ts (20 tests) 5000ms
   ✓ Parse Performance (6 tests)
-    · flux: parse small (1KB)          1.23 ms/iter
+    · synth: parse small (1KB)          1.23 ms/iter
     · unified: parse small (1KB)       4.56 ms/iter  ← 3.7x slower
-    · flux: parse medium (3KB)         3.45 ms/iter
+    · synth: parse medium (3KB)         3.45 ms/iter
     · unified: parse medium (3KB)      15.2 ms/iter  ← 4.4x slower
 ```
 
