@@ -21,7 +21,7 @@ export interface JSParseOptions {
   /** Source type ('script' or 'module', default: 'module') */
   sourceType?: 'script' | 'module'
 
-  /** Enable TypeScript parsing (default: false) */
+  /** Enable TypeScript parsing (default: true) */
   typescript?: boolean
 
   /** Build query index for AST */
@@ -59,7 +59,7 @@ export class JSParser {
     const {
       ecmaVersion = 'latest',
       sourceType = 'module',
-      typescript = false,
+      typescript = true,
       allowReturnOutsideFunction = false,
       allowAwaitOutsideFunction = false,
       allowHashBang = true,
@@ -125,7 +125,7 @@ export class JSParser {
     const {
       ecmaVersion = 'latest',
       sourceType = 'module',
-      typescript = false,
+      typescript = true,
       allowReturnOutsideFunction = false,
       allowAwaitOutsideFunction = false,
       allowHashBang = true,
