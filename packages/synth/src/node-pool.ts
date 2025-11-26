@@ -289,7 +289,7 @@ export class NodePoolManager {
 /**
  * Global singleton instance
  */
-export const globalNodePool = new NodePoolManager({
+export const globalNodePool: NodePoolManager = new NodePoolManager({
   initialSize: 100,
   maxSize: 10000,
   growthFactor: 1.5,
