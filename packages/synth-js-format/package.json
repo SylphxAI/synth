@@ -1,6 +1,6 @@
 {
   "name": "@sylphx/synth-js-format",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Prettier-style code formatter for JavaScript/TypeScript using Synth AST",
   "type": "module",
   "main": "./dist/index.js",
