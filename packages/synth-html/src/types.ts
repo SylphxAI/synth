@@ -17,7 +17,7 @@ export type HTMLNodeType =
   | 'cdata'
 
 // HTML void elements (self-closing, cannot have children)
-export const VOID_ELEMENTS = new Set([
+export const VOID_ELEMENTS: Set<string> = new Set([
   'area',
   'base',
   'br',
