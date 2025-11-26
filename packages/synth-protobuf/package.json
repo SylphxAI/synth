@@ -17,7 +17,6 @@
     "README.md"
   ],
   "scripts": {
-    "build": "bun build src/index.ts --outdir dist --target node --format esm",
     "test": "bun test",
     "typecheck": "tsc --noEmit"
   },
