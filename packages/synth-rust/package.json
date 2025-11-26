@@ -1,6 +1,6 @@
 {
   "name": "@sylphx/synth-rust",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Rust parser using Synth's universal AST",
   "type": "module",
   "main": "./dist/index.js",

@@ -1,5 +1,14 @@
 # @sylphx/synth
 
+## 0.1.3
+
+### Patch Changes
+
+- 864099b: Fix TypeScript support:
+
+  - **synth-js**: Enable TypeScript parsing by default (`typescript: true`)
+  - **All packages**: Fix exports order (`types` before `import`) for proper TypeScript module resolution
+
 ## 0.1.2
 
 ### Patch Changes
