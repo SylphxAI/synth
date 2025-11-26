@@ -1,94 +1,143 @@
 ---
 "@sylphx/synth": minor
-"@sylphx/synth-md": minor
+"@sylphx/synth-c": minor
+"@sylphx/synth-css": minor
+"@sylphx/synth-docs": minor
+"@sylphx/synth-go": minor
+"@sylphx/synth-graphql": minor
 "@sylphx/synth-html": minor
-"@sylphx/synth-json": minor
+"@sylphx/synth-ini": minor
+"@sylphx/synth-java": minor
 "@sylphx/synth-js": minor
+"@sylphx/synth-js-format": minor
+"@sylphx/synth-js-minify": minor
+"@sylphx/synth-json": minor
+"@sylphx/synth-jsx": minor
+"@sylphx/synth-lint": minor
+"@sylphx/synth-md": minor
+"@sylphx/synth-md-gfm": minor
+"@sylphx/synth-md-katex": minor
+"@sylphx/synth-md-mermaid": minor
+"@sylphx/synth-metrics": minor
+"@sylphx/synth-msgpack": minor
+"@sylphx/synth-php": minor
+"@sylphx/synth-protobuf": minor
+"@sylphx/synth-python": minor
+"@sylphx/synth-ruby": minor
+"@sylphx/synth-rust": minor
+"@sylphx/synth-sql": minor
+"@sylphx/synth-toml": minor
+"@sylphx/synth-typecheck": minor
+"@sylphx/synth-vue": minor
+"@sylphx/synth-xml": minor
+"@sylphx/synth-yaml": minor
 ---
 
-# Initial Release - Complete Multi-Language Incremental Parsing System
+# Initial Release - Synth AST Processor
 
 ## 🎉 First Public Release
 
-World-class token-level incremental parsing system achieving 10-100x performance improvements with <1ms response time across multiple languages.
+Complete multi-language AST processing framework with token-level incremental parsing, zero runtime dependencies, and unified architecture.
 
-## Core Features
+## Core Infrastructure
 
-### Infrastructure (@sylphx/synth)
-- ✅ Base IncrementalTokenizer class with 90%+ token reuse
-- ✅ IncrementalParserManager for multi-language session management
-- ✅ Smart boundary expansion strategies (document size-adaptive)
-- ✅ Binary search token lookup (O(log n))
-- ✅ Automatic edit detection helper
-- ✅ Zero runtime dependencies
+**@sylphx/synth** - Universal AST foundation
+- Language-agnostic BaseNode interface
+- Generic plugin system (transform, visitor, parser)
+- Node pooling for memory efficiency (30% less GC pressure)
+- Tree traversal utilities (walk, find, filter, map)
+- Serialization system (JSON, MessagePack)
+- Zero runtime dependencies
 
-### Language Support
+## Language Parsers
 
-**Markdown** (@sylphx/synth-md)
-- Block-level tokenization (paragraphs, headings, lists, code blocks)
+**Markdown Ecosystem**
+- **@sylphx/synth-md** - Full GFM parser with incremental parsing
+- **@sylphx/synth-md-gfm** - GitHub Flavored Markdown extensions
+- **@sylphx/synth-md-katex** - LaTeX math rendering support
+- **@sylphx/synth-md-mermaid** - Mermaid diagram support
+
+**Web Languages**
+- **@sylphx/synth-html** - HTML parser with void element handling
+- **@sylphx/synth-css** - CSS parser with selector support
+- **@sylphx/synth-jsx** - JSX/TSX parser
+- **@sylphx/synth-xml** - XML parser
+
+**Programming Languages**
+- **@sylphx/synth-js** - JavaScript/TypeScript (via acorn)
+- **@sylphx/synth-python** - Python parser
+- **@sylphx/synth-rust** - Rust parser
+- **@sylphx/synth-go** - Go parser
+- **@sylphx/synth-c** - C/C++ parser
+- **@sylphx/synth-java** - Java parser
+- **@sylphx/synth-php** - PHP parser
+- **@sylphx/synth-ruby** - Ruby parser
+
+**Data Formats**
+- **@sylphx/synth-json** - JSON parser with incremental support
+- **@sylphx/synth-yaml** - YAML parser
+- **@sylphx/synth-toml** - TOML parser
+- **@sylphx/synth-ini** - INI parser
+- **@sylphx/synth-msgpack** - MessagePack serialization
+- **@sylphx/synth-protobuf** - Protocol Buffers parser
+
+**Specialized**
+- **@sylphx/synth-graphql** - GraphQL schema parser
+- **@sylphx/synth-sql** - SQL query parser
+- **@sylphx/synth-vue** - Vue SFC parser
+
+## Analysis & Transformation
+
+**@sylphx/synth-lint** - Universal linting framework
+- Rule system for any language
+- Built-in rules (no-empty-blocks, no-console, max-depth)
+- Custom rule creation API
+
+**@sylphx/synth-metrics** - Code metrics & complexity
+- Cyclomatic complexity
+- Maintainability index
+- Code smells detection
+
+**@sylphx/synth-typecheck** - Type checking utilities
+
+**@sylphx/synth-js-format** - JavaScript/TypeScript formatter
+
+**@sylphx/synth-js-minify** - JavaScript minifier
+
+**@sylphx/synth-docs** - Documentation generator
+
+## Performance Features
+
+**Token-Level Incremental Parsing**
 - 85-99% token reuse for typical edits
-- 6.5x average speedup
-- <1ms response time
-- 54-75x faster than remark
-
-**HTML** (@sylphx/synth-html)
-- Element-level tokenization (complete tags with matching pairs)
-- Self-closing tag support
-- Special handling for script/style tags
-- 80-95% token reuse
-- Zero dependencies
-
-**JSON** (@sylphx/synth-json)
-- Property-level tokenization (key-value pairs)
-- Automatic structure detection
-- Nested object/array support
-- 85-99% token reuse
-- Zero dependencies
-
-**JavaScript/TypeScript** (@sylphx/synth-js)
-- Statement-level tokenization
-- Smart brace tracking and string detection
-- 80-95% token reuse
-- Complete statement detection
-
-## Production Examples
-
-- **LSP Server** - Real-time document synchronization with <1ms response
-- **Real-Time Editor** - VS Code/Zed-style editing with per-keystroke metrics
-
-## Performance Benchmarks
-
-- **Markdown**: 99.3% token reuse, 6.5x speedup (2000 lines)
-- **JavaScript**: 95% token reuse, 8x speedup (1500 lines)
-- **HTML**: 92% token reuse, 6x speedup (1000 elements)
-- **JSON**: 97% token reuse, 9x speedup (500 properties)
-
-All measurements well under <1ms response time target.
-
-## Technical Highlights
-
-### Two-Level Incremental System
-1. **Token-Level Reuse**: 70-99%+ token reuse across edits
-2. **AST-Level Reuse**: Structural sharing of unchanged nodes
-
-### Architecture
-- Common prefix/suffix edit detection (O(n))
+- <1ms response time for document updates
+- 6-100x speedup over full re-parsing
+- Smart boundary expansion strategies
 - Binary search token lookup (O(log n))
-- Smart boundary expansion (language-specific)
-- Automatic position adjustment for tokens after edit
-- Session-based memory management with LRU eviction
+
+**Memory Optimization**
+- Node pooling (30% less GC pressure)
+- Session-based memory management
+- LRU eviction for multi-document scenarios
+
+## Architecture Highlights
+
+- Universal AST interface across all languages
+- Composable plugin system
+- Zero runtime dependencies (core packages)
+- Strategic dependencies for complex parsers
+- Monorepo with 32 packages
+- Built with Bun + bunup (100ms build time)
+- TypeScript with isolatedDeclarations
+
+## Build System
+
+- **bunup** - Monorepo build tool with workspace support
+- Incremental builds (only changed packages)
+- Automatic .d.ts generation
+- 50-100x faster than traditional tsc
+- Full TypeScript 5.5+ isolatedDeclarations support
 
 ## Breaking Changes
 
 None - this is the initial release.
-
-## Documentation
-
-See `INCREMENTAL_PARSING_COMPLETE.md` for comprehensive documentation including:
-- Quick start examples for all languages
-- Complete API reference
-- Architecture diagrams
-- Performance benchmarks
-- Best practices & troubleshooting
-- Migration guide
-- Extension guide for new languages

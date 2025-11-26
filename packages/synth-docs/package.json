@@ -1,6 +1,6 @@
 {
   "name": "@sylphx/synth-docs",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "Documentation generator for Synth AST - extract docs from any language",
   "type": "module",
   "main": "./dist/index.js",

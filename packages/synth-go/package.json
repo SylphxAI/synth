@@ -1,6 +1,6 @@
 {
   "name": "@sylphx/synth-go",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "Go parser using Synth's universal AST - conversion layer over tree-sitter-go",
   "type": "module",
   "main": "./dist/index.js",

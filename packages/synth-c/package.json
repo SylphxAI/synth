@@ -1,6 +1,6 @@
 {
   "name": "@sylphx/synth-c",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "C parser using Synth's universal AST - conversion layer over tree-sitter-c",
   "type": "module",
   "main": "./dist/index.js",
