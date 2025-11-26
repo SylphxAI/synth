@@ -1,6 +1,6 @@
 {
   "name": "@sylphx/synth-js-minify",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "JavaScript minifier using Synth's universal AST",
   "type": "module",
   "main": "./dist/index.js",
