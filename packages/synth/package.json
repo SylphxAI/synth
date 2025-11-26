@@ -1,6 +1,6 @@
 {
   "name": "@sylphx/synth",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Synth - The world's fastest AST processor with zero dependencies",
   "type": "module",
   "main": "./dist/index.js",

@@ -1,6 +1,6 @@
 {
   "name": "@sylphx/synth-html",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "High-performance HTML5 parser for Synth - streaming-capable with language-agnostic AST",
   "type": "module",
   "main": "./dist/index.js",
