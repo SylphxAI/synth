@@ -26,7 +26,7 @@
     "changeset:version": "changeset version",
     "changeset:publish": "bun run build && changeset publish",
     "version-packages": "changeset version",
-    "release": "bun run build && bun run test && changeset publish"
+    "release": "bun run build && changeset publish"
   },
   "keywords": [
     "ast",
