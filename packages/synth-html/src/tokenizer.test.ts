@@ -2,7 +2,7 @@
  * HTML Tokenizer Tests
  */
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'bun:test'
 import { HTMLTokenizer } from './tokenizer.js'
 
 describe('HTMLTokenizer', () => {

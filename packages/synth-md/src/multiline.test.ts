@@ -2,7 +2,7 @@
  * Multi-line Block Tests
  */
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'bun:test'
 import { IncrementalMarkdownParser } from './incremental-parser.js'
 
 describe('Multi-line Code Blocks', () => {

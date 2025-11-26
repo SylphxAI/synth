@@ -2,7 +2,7 @@
  * TOML Parser Tests
  */
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'bun:test'
 import { parse, parseAsync, createParser, TOMLParser } from './parser.js'
 
 describe('TOMLParser', () => {

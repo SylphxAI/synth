@@ -2,7 +2,7 @@
  * Parser Coverage Tests - Cover remaining uncovered lines
  */
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'bun:test'
 import { Parser, createParser, parse, parseAsync } from './parser.js'
 import { createTransformPlugin } from '@sylphx/synth'
 import { SynthError, TreeStructureError } from '@sylphx/synth'

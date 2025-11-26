@@ -2,7 +2,7 @@
  * Go Parser Tests
  */
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'bun:test'
 import { parse, parseAsync, createParser, GoParser } from './parser.js'
 
 describe('GoParser', () => {

@@ -4,7 +4,7 @@
  * Demonstrates the type-safe API for Markdown nodes
  */
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'bun:test'
 import type { BaseNode } from '@sylphx/synth'
 import {
   type HeadingNode,

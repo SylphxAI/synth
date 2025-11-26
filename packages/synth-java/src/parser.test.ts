@@ -2,7 +2,7 @@
  * Java Parser Tests
  */
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'bun:test'
 import { parse, parseAsync, createParser, JavaParser } from './parser.js'
 
 describe('JavaParser', () => {

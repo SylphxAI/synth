@@ -2,7 +2,7 @@
  * HTML Parser Tests
  */
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'bun:test'
 import { HTMLParser, createParser, parse, parseAsync } from './parser.js'
 import { createTransformPlugin } from '@sylphx/synth'
 import {

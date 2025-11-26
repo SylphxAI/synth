@@ -2,7 +2,7 @@
  * Batch Tokenizer Tests
  */
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'bun:test'
 import { BatchTokenizer, createBatchTokenizer } from './batch-tokenizer.js'
 
 describe('BatchTokenizer', () => {

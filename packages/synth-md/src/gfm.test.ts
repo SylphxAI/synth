@@ -7,7 +7,7 @@
  * - Autolinks
  */
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'bun:test'
 import { tryTokenizeTable, tryTokenizeStrikethrough, tryTokenizeAutolink } from './gfm-tokenizer.js'
 
 describe('GFM: Tables', () => {

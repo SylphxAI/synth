@@ -2,7 +2,7 @@
  * Ruby Parser Tests
  */
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'bun:test'
 import { parse, parseAsync, createParser, RubyParser } from './parser.js'
 
 describe('RubyParser', () => {

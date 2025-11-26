@@ -7,7 +7,7 @@
  * 3. Correctness (same AST as full parse)
  */
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'bun:test'
 import { TrueIncrementalParser, detectEdit, formatIncrementalStats } from './true-incremental-parser.js'
 
 describe('TrueIncrementalParser', () => {

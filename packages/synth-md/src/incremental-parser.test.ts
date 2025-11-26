@@ -2,7 +2,7 @@
  * Incremental Parser Tests - Comprehensive Coverage
  */
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'bun:test'
 import {
   IncrementalMarkdownParser,
   detectEdit,

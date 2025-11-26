@@ -2,7 +2,7 @@
  * Incremental Markdown Parser Tests
  */
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'bun:test'
 import { IncrementalMarkdownParser } from './incremental-parser.js'
 import { parse } from './parser.js'
 

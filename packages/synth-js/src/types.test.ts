@@ -2,7 +2,7 @@
  * JavaScript Types Tests
  */
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'bun:test'
 import { parse } from './parser.js'
 import {
   isProgramNode,

@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'bun:test'
 import { createTree, addNode } from './types/index.js'
 import { traverse, select, selectByType } from './traverse.js'
 import { TraversalOrder } from './types/index.js'

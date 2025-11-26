@@ -2,7 +2,7 @@
  * Incremental Parsing Tests
  */
 
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach } from 'bun:test'
 import type { Tree } from './types/index.js'
 import { createTree } from './types/tree.js'
 import {

@@ -2,7 +2,7 @@
  * Plugin System Tests
  */
 
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach } from 'bun:test'
 import { createTree } from '@sylphx/synth'
 import type { Tree, BaseNode } from '@sylphx/synth'
 import {

@@ -4,7 +4,7 @@
  * Demonstrates how the parser handles different ECMAScript versions
  */
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'bun:test'
 import { parse } from './parser.js'
 
 describe('ECMAScript Version Compatibility', () => {

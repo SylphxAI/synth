@@ -2,7 +2,7 @@
  * HTML Types Tests
  */
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'bun:test'
 import type { BaseNode } from '@sylphx/synth'
 import {
   VOID_ELEMENTS,

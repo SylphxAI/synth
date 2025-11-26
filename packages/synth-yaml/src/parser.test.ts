@@ -2,7 +2,7 @@
  * YAML Parser Tests
  */
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'bun:test'
 import { YAMLParser, parse, parseAsync } from './parser.js'
 
 describe('YAMLParser', () => {

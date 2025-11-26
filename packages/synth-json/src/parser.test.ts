@@ -2,7 +2,7 @@
  * JSON Parser Tests
  */
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'bun:test'
 import { JSONParser, parse, parseAsync } from './parser.js'
 
 describe('JSONParser', () => {

@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach } from 'bun:test'
 import { createTree, addNode } from './types/tree.js'
 import { createIndex, ASTIndex } from './query-index.js'
 
