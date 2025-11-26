@@ -1,6 +1,6 @@
 {
   "name": "@sylphx/synth-yaml",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "YAML parser using Synth's universal AST",
   "type": "module",
   "main": "./dist/index.js",
