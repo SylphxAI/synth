@@ -2,7 +2,7 @@
  * Universal linter implementation
  */
 
-import type { Tree, Node, NodeId } from '@sylphx/synth'
+import type { Tree, BaseNode, NodeId } from '@sylphx/synth'
 import type {
   Rule,
   RuleContext,
@@ -11,7 +11,6 @@ import type {
   DiagnosticSeverity,
   LinterConfig,
   LintResult,
-  Range,
 } from './types.js'
 
 /**

@@ -257,8 +257,6 @@ export class IncrementalJSONTokenizer extends IncrementalTokenizer {
       return range
     }
 
-    const tokens = this.tokenStream.tokens
-
     // For JSON, property-level tokens are already optimal boundaries
     // No expansion needed
     return range

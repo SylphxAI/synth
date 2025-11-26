@@ -12,8 +12,8 @@
     }
   },
   "scripts": {
-    "build": "tsc",
-    "dev": "tsc --watch",
+    "build": "bun build src/index.ts --outdir dist --target node --format esm && tsc --emitDeclarationOnly",
+    "dev": "bun build src/index.ts --outdir dist --target node --format esm --watch",
     "test": "bun test"
   },
   "keywords": [
