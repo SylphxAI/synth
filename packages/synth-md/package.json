@@ -16,7 +16,7 @@
     "dev": "tsc --watch",
     "test": "bun test",
     "test:watch": "bun test --watch",
-    "bench": "vitest bench"
+    "bench": "bun bench"
   },
   "keywords": [
     "markdown",
