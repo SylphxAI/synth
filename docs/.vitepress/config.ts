@@ -4,6 +4,9 @@ export default defineConfig({
   title: 'Synth',
   description: 'The world\'s fastest AST processor - 50-3000x faster than unified',
 
+  // Ignore dead links for now (pages to be added)
+  ignoreDeadLinks: true,
+
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
   ],
