@@ -1,5 +1,22 @@
 # @sylphx/synth-md-katex
 
+## 0.1.1
+
+### Patch Changes
+
+- 2b393c9: fix: resolve workspace:^ dependencies to actual version numbers
+
+  v0.1.0 was published with broken dependencies containing literal "workspace:^"
+  instead of actual version numbers. This patch release fixes the dependency
+  declarations so packages can be installed correctly.
+
+  The root cause was that changesets uses npm publish internally, which doesn't
+  understand the workspace:^ protocol used by bun/pnpm workspaces.
+
+- Updated dependencies [2b393c9]
+  - @sylphx/synth@0.1.1
+  - @sylphx/synth-md@0.1.1
+
 ## 0.1.0
 
 ### Minor Changes

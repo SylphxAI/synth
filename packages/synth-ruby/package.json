@@ -1,6 +1,6 @@
 {
   "name": "@sylphx/synth-ruby",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Ruby parser using Synth's universal AST - conversion layer over tree-sitter-ruby",
   "type": "module",
   "main": "./dist/index.js",
