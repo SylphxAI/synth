@@ -1,6 +1,6 @@
 {
   "name": "@sylphx/synth-python",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Python parser using Synth's universal AST - conversion layer over tree-sitter-python",
   "type": "module",
   "main": "./dist/index.js",

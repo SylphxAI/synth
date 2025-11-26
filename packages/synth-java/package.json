@@ -1,6 +1,6 @@
 {
   "name": "@sylphx/synth-java",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Java parser using Synth's universal AST - conversion layer over tree-sitter-java",
   "type": "module",
   "main": "./dist/index.js",
