@@ -10,7 +10,7 @@
  * - Task lists ([x] and [ ])
  */
 
-import { createTransformPlugin } from '@sylphx/synth'
+import { createTransformPlugin, type TransformPlugin } from '@sylphx/synth'
 
 // Re-export GFM tokenizer utilities
 export * from './gfm-tokenizer.js'
@@ -50,7 +50,7 @@ export interface GFMPluginOptions {
  * const tree = parse(markdown, { plugins: [gfmPlugin()] })
  * ```
  */
-export function gfmPlugin(options: GFMPluginOptions = {}) {
+export function gfmPlugin(options: GFMPluginOptions = {}): TransformPlugin {
   const {
     tables = true,
     strikethrough = true,
