@@ -14,8 +14,8 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "test": "vitest",
-    "test:watch": "vitest --watch",
+    "test": "bun test",
+    "test:watch": "bun test --watch",
     "bench": "vitest bench"
   },
   "keywords": [
