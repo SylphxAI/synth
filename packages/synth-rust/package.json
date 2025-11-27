@@ -30,7 +30,7 @@
 	"author": "Synth",
 	"license": "MIT",
 	"dependencies": {
-		"@sylphx/synth": "^0.1.4",
+		"@sylphx/synth": "workspace:*",
 		"tree-sitter": "^0.21.1",
 		"tree-sitter-rust": "^0.23.2"
 	},

@@ -26,8 +26,8 @@
 	"author": "SylphX",
 	"license": "MIT",
 	"dependencies": {
-		"@sylphx/synth": "^0.1.4",
-		"@sylphx/synth-js": "^0.2.1"
+		"@sylphx/synth": "workspace:*",
+		"@sylphx/synth-js": "workspace:*"
 	},
 	"devDependencies": {
 		"typescript": "^5.6.0"

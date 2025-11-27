@@ -28,8 +28,8 @@
 	"author": "",
 	"license": "MIT",
 	"dependencies": {
-		"@sylphx/synth": "^0.1.4",
-		"@sylphx/synth-js": "^0.2.1"
+		"@sylphx/synth": "workspace:*",
+		"@sylphx/synth-js": "workspace:*"
 	},
 	"devDependencies": {
 		"@types/node": "^22.0.0",

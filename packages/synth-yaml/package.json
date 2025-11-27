@@ -25,7 +25,7 @@
 	"author": "SylphX",
 	"license": "MIT",
 	"dependencies": {
-		"@sylphx/synth": "^0.1.4",
+		"@sylphx/synth": "workspace:*",
 		"yaml": "^2.3.4"
 	},
 	"devDependencies": {

@@ -29,8 +29,8 @@
 	"author": "",
 	"license": "MIT",
 	"dependencies": {
-		"@sylphx/synth": "^0.1.4",
-		"@sylphx/synth-md": "^0.1.4"
+		"@sylphx/synth": "workspace:*",
+		"@sylphx/synth-md": "workspace:*"
 	},
 	"devDependencies": {
 		"@types/node": "^22.0.0",
