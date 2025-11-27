@@ -2,7 +2,7 @@
  * Code metrics analyzer
  */
 
-import type { Node, NodeId, Tree } from '@sylphx/synth'
+import type { BaseNode, NodeId, Tree } from '@sylphx/synth'
 import type {
   BasicMetrics,
   CodeMetrics,
@@ -211,7 +211,7 @@ export class MetricsAnalyzer {
   /**
    * Analyze a single function node
    */
-  private analyzeFunctionNode(tree: Tree, node: Node): FunctionMetrics | null {
+  private analyzeFunctionNode(tree: Tree, node: BaseNode): FunctionMetrics | null {
     const name = this.getFunctionName(node)
     if (!name) return null
 
@@ -236,7 +236,7 @@ export class MetricsAnalyzer {
   /**
    * Check if node is a function
    */
-  private isFunctionNode(node: Node): boolean {
+  private isFunctionNode(node: BaseNode): boolean {
     const functionTypes = [
       'FunctionDeclaration',
       'FunctionExpression',
@@ -255,16 +255,18 @@ export class MetricsAnalyzer {
   /**
    * Get function name
    */
-  private getFunctionName(node: Node): string {
-    if (node.data?.name) return String(node.data.name)
-    if (node.data?.id?.name) return String(node.data.id.name)
+  private getFunctionName(node: BaseNode): string {
+    const data = node.data as Record<string, unknown> | undefined
+    if (data?.name) return String(data.name)
+    const id = data?.id as Record<string, unknown> | undefined
+    if (id?.name) return String(id.name)
     return '<anonymous>'
   }
 
   /**
    * Get function parameters count
    */
-  private getFunctionParams(node: Node): number {
+  private getFunctionParams(node: BaseNode): number {
     if (node.data?.params && Array.isArray(node.data.params)) {
       return node.data.params.length
     }
@@ -277,7 +279,7 @@ export class MetricsAnalyzer {
   /**
    * Get function lines of code
    */
-  private getFunctionLOC(tree: Tree, node: Node): number {
+  private getFunctionLOC(tree: Tree, node: BaseNode): number {
     if (!node.span || !tree.meta.source) return 0
     const source = tree.meta.source.slice(node.span.start.offset, node.span.end.offset)
     return source.split('\n').length
@@ -355,7 +357,7 @@ export class MetricsAnalyzer {
   /**
    * Check if node is a decision point
    */
-  private isDecisionNode(node: Node): boolean {
+  private isDecisionNode(node: BaseNode): boolean {
     const decisionTypes = ['if', 'switch', 'case', 'catch', '&&', '||', '?', 'for', 'while']
     return decisionTypes.some((type) => node.type.toLowerCase().includes(type.toLowerCase()))
   }
@@ -363,7 +365,7 @@ export class MetricsAnalyzer {
   /**
    * Check if node increases nesting
    */
-  private isNestingNode(node: Node): boolean {
+  private isNestingNode(node: BaseNode): boolean {
     const nestingTypes = ['if', 'for', 'while', 'do', 'switch', 'function', 'method', 'class']
     return nestingTypes.some((type) => node.type.toLowerCase().includes(type.toLowerCase()))
   }
@@ -452,7 +454,7 @@ export class MetricsAnalyzer {
   /**
    * Check if node is an operator
    */
-  private isOperatorNode(node: Node): boolean {
+  private isOperatorNode(node: BaseNode): boolean {
     const operatorTypes = [
       'BinaryExpression',
       'UnaryExpression',
@@ -469,7 +471,7 @@ export class MetricsAnalyzer {
   /**
    * Check if node is an operand
    */
-  private isOperandNode(node: Node): boolean {
+  private isOperandNode(node: BaseNode): boolean {
     const operandTypes = [
       'Identifier',
       'Literal',
@@ -484,7 +486,7 @@ export class MetricsAnalyzer {
   /**
    * Get node value for operands
    */
-  private getNodeValue(node: Node): string {
+  private getNodeValue(node: BaseNode): string {
     if (node.data?.value !== undefined) {
       return String(node.data.value)
     }
@@ -497,7 +499,7 @@ export class MetricsAnalyzer {
   /**
    * Generic tree traversal
    */
-  private traverse(tree: Tree, nodeId: NodeId, callback: (node: Node) => void): void {
+  private traverse(tree: Tree, nodeId: NodeId, callback: (node: BaseNode) => void): void {
     const node = tree.nodes[nodeId]
     if (!node) return
 

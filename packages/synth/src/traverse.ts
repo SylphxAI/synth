@@ -227,6 +227,7 @@ export function select<T extends NodeId>(
       if (predicate(context)) {
         results.push(context.nodeId as T)
       }
+      return undefined
     },
   })
 
@@ -263,6 +264,7 @@ export function selectByType(tree: Tree, type: string): NodeId[] {
       if (ctx.node.type === type) {
         results.push(ctx.nodeId)
       }
+      return undefined
     },
   })
 

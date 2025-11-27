@@ -147,7 +147,8 @@ export class HTMLParser {
           const lastElement = stack[stack.length - 1]
           if (lastElement && lastElement.tagName === token.tagName) {
             stack.pop()
-            currentParent = stack.length > 0 ? stack[stack.length - 1]?.id : tree.root
+            currentParent =
+              stack.length > 0 ? (stack[stack.length - 1]?.id ?? tree.root) : tree.root
           }
           break
         }

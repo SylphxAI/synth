@@ -733,6 +733,9 @@ export class Parser {
     data?: Record<string, unknown>
   ): NodeId {
     const node = this.nodePool?.acquire(type)
+    if (!node) {
+      throw new SynthError('Failed to acquire node from pool', 'NODE_POOL_ERROR')
+    }
 
     // Set properties
     node.type = type

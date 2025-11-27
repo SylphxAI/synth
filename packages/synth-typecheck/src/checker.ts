@@ -2,7 +2,7 @@
  * Type checker implementation
  */
 
-import type { Node, NodeId, Tree } from '@sylphx/synth'
+import type { BaseNode, NodeId, Tree } from '@sylphx/synth'
 import type { Type, TypeCheckResult, TypeEnvironment, TypeError } from './types.js'
 
 /**
@@ -177,7 +177,7 @@ export class TypeChecker {
   /**
    * Infer type for identifier
    */
-  private inferIdentifier(node: Node): Type {
+  private inferIdentifier(node: BaseNode): Type {
     const name = node.data?.name
     if (!name) {
       return { kind: 'unknown' }
@@ -200,8 +200,9 @@ export class TypeChecker {
   /**
    * Infer type for variable declarator
    */
-  private inferVariableDeclarator(tree: Tree, node: Node): Type {
-    const name = node.data?.id?.name
+  private inferVariableDeclarator(tree: Tree, node: BaseNode): Type {
+    const id = node.data?.id as { name?: string } | undefined
+    const name = id?.name
     const initId = node.children.find((childId) => {
       const child = tree.nodes[childId]
       return child && child.type !== 'Identifier'
@@ -225,11 +226,12 @@ export class TypeChecker {
   /**
    * Infer type for function
    */
-  private inferFunction(_tree: Tree, node: Node): Type {
-    const name = node.data?.name || node.data?.id?.name
-    const params = node.data?.params || []
+  private inferFunction(_tree: Tree, node: BaseNode): Type {
+    const id = node.data?.id as { name?: string } | undefined
+    const name = node.data?.name || id?.name
+    const params = (node.data?.params || []) as unknown[]
 
-    const parameterTypes: Type[] = params.map(() => ({ kind: 'any' }))
+    const parameterTypes: Type[] = params.map(() => ({ kind: 'any' as const }))
     const returnType: Type = { kind: 'any' } // Would need return statement analysis
 
     const fnType: Type = {
@@ -248,7 +250,7 @@ export class TypeChecker {
   /**
    * Infer type for binary expression
    */
-  private inferBinaryExpression(tree: Tree, node: Node): Type {
+  private inferBinaryExpression(tree: Tree, node: BaseNode): Type {
     const operator = node.data?.operator
 
     // Get operand types
@@ -276,7 +278,7 @@ export class TypeChecker {
   /**
    * Infer type for unary expression
    */
-  private inferUnaryExpression(_tree: Tree, node: Node): Type {
+  private inferUnaryExpression(_tree: Tree, node: BaseNode): Type {
     const operator = node.data?.operator
 
     if (operator === '!') {
@@ -297,7 +299,7 @@ export class TypeChecker {
   /**
    * Infer type for logical expression
    */
-  private inferLogicalExpression(_tree: Tree, node: Node): Type {
+  private inferLogicalExpression(_tree: Tree, node: BaseNode): Type {
     const operator = node.data?.operator
 
     if (operator === '&&' || operator === '||') {
@@ -310,7 +312,7 @@ export class TypeChecker {
   /**
    * Infer type for call expression
    */
-  private inferCallExpression(tree: Tree, node: Node): Type {
+  private inferCallExpression(tree: Tree, node: BaseNode): Type {
     // Get callee
     const calleeId = node.children[0]
     if (!calleeId) {
@@ -329,7 +331,7 @@ export class TypeChecker {
   /**
    * Infer type for array expression
    */
-  private inferArrayExpression(tree: Tree, node: Node): Type {
+  private inferArrayExpression(tree: Tree, node: BaseNode): Type {
     if (node.children.length === 0) {
       return {
         kind: 'array',
@@ -349,7 +351,7 @@ export class TypeChecker {
   /**
    * Infer type for object expression
    */
-  private inferObjectExpression(tree: Tree, node: Node): Type {
+  private inferObjectExpression(tree: Tree, node: BaseNode): Type {
     const properties = new Map<string, Type>()
 
     for (const childId of node.children) {
@@ -357,10 +359,11 @@ export class TypeChecker {
       if (!child) continue
 
       if (child.type === 'Property' || child.type === 'ObjectProperty') {
-        const key = child.data?.key?.name || child.data?.key
+        const keyData = child.data?.key as { name?: string } | string | undefined
+        const key = typeof keyData === 'object' ? keyData?.name : keyData
         if (key) {
           const valueId = child.children[0]
-          const valueType = valueId ? this.inferTypes(tree, valueId) : { kind: 'unknown' }
+          const valueType: Type = valueId ? this.inferTypes(tree, valueId) : { kind: 'unknown' }
           properties.set(String(key), valueType)
         }
       }
@@ -375,7 +378,7 @@ export class TypeChecker {
   /**
    * Infer type for member expression
    */
-  private inferMemberExpression(tree: Tree, node: Node): Type {
+  private inferMemberExpression(tree: Tree, node: BaseNode): Type {
     const [objectId, _propertyId] = node.children
     if (!objectId) {
       return { kind: 'unknown' }
@@ -384,7 +387,8 @@ export class TypeChecker {
     const objectType = this.inferTypes(tree, objectId)
 
     if (objectType.kind === 'object' && objectType.properties) {
-      const property = node.data?.property?.name || node.data?.property
+      const propData = node.data?.property as { name?: string } | string | undefined
+      const property = typeof propData === 'object' ? propData?.name : propData
       if (property) {
         const propType = objectType.properties.get(String(property))
         if (propType) {
@@ -393,7 +397,8 @@ export class TypeChecker {
       }
     }
 
-    if (objectType.kind === 'array' && node.data?.property?.name === 'length') {
+    const propName = (node.data?.property as { name?: string } | undefined)?.name
+    if (objectType.kind === 'array' && propName === 'length') {
       return { kind: 'number' }
     }
 
@@ -403,7 +408,7 @@ export class TypeChecker {
   /**
    * Infer type for assignment expression
    */
-  private inferAssignmentExpression(tree: Tree, node: Node): Type {
+  private inferAssignmentExpression(tree: Tree, node: BaseNode): Type {
     const [, rightId] = node.children
     if (!rightId) {
       return { kind: 'unknown' }

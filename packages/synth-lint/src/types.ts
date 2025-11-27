@@ -2,7 +2,7 @@
  * Linter types and interfaces
  */
 
-import type { Node, NodeId, Tree } from '@sylphx/synth'
+import type { BaseNode, NodeId, Tree } from '@sylphx/synth'
 
 /**
  * Diagnostic severity levels
@@ -64,16 +64,16 @@ export interface RuleContext {
   report(diagnostic: Omit<Diagnostic, 'rule'>): void
 
   /** Get a node by ID */
-  getNode(id: NodeId): Node | undefined
+  getNode(id: NodeId): BaseNode | undefined
 
   /** Get parent of a node */
-  getParent(id: NodeId): Node | undefined
+  getParent(id: NodeId): BaseNode | undefined
 
   /** Get children of a node */
-  getChildren(id: NodeId): Node[]
+  getChildren(id: NodeId): BaseNode[]
 
   /** Get source text for a node */
-  getSource(node: Node): string
+  getSource(node: BaseNode): string
 
   /** Get source text for a range */
   getSourceRange(range: Range): string
@@ -84,13 +84,13 @@ export interface RuleContext {
  */
 export type RuleVisitor = {
   /** Called when entering a node */
-  enter?: (node: Node, context: RuleContext) => void
+  enter?: (node: BaseNode, context: RuleContext) => void
 
   /** Called when leaving a node */
-  leave?: (node: Node, context: RuleContext) => void
+  leave?: (node: BaseNode, context: RuleContext) => void
 
   /** Called for specific node types */
-  [key: string]: ((node: Node, context: RuleContext) => void) | undefined
+  [key: string]: ((node: BaseNode, context: RuleContext) => void) | undefined
 }
 
 /**

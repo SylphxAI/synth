@@ -37,7 +37,7 @@ interface LineMetadata {
  */
 export class BatchTokenizer {
   private fallbackTokenizer: Tokenizer
-  private batchSize: number
+  readonly batchSize: number
 
   constructor(batchSize: number = DEFAULT_BATCH_SIZE) {
     this.fallbackTokenizer = new Tokenizer()
@@ -285,11 +285,15 @@ export class BatchTokenizer {
             code,
             raw,
             position: {
-              start: { line: metadata[start]?.index, column: 0, offset: metadata[start]?.offset },
+              start: {
+                line: metadata[start]?.index ?? 0,
+                column: 0,
+                offset: metadata[start]?.offset ?? 0,
+              },
               end: {
-                line: metadata[i]?.index,
-                column: metadata[i]?.length,
-                offset: metadata[i]?.offset + metadata[i]?.length,
+                line: metadata[i]?.index ?? 0,
+                column: metadata[i]?.length ?? 0,
+                offset: (metadata[i]?.offset ?? 0) + (metadata[i]?.length ?? 0),
               },
             },
           },
@@ -313,11 +317,15 @@ export class BatchTokenizer {
         code,
         raw,
         position: {
-          start: { line: metadata[start]?.index, column: 0, offset: metadata[start]?.offset },
+          start: {
+            line: metadata[start]?.index ?? 0,
+            column: 0,
+            offset: metadata[start]?.offset ?? 0,
+          },
           end: {
-            line: metadata[end - 1]?.index,
-            column: metadata[end - 1]?.length,
-            offset: metadata[end - 1]?.offset + metadata[end - 1]?.length,
+            line: metadata[end - 1]?.index ?? 0,
+            column: metadata[end - 1]?.length ?? 0,
+            offset: (metadata[end - 1]?.offset ?? 0) + (metadata[end - 1]?.length ?? 0),
           },
         },
       },
@@ -379,7 +387,7 @@ export class BatchTokenizer {
     if (match) {
       return {
         type: 'listItem',
-        text: match[2]?.trim(),
+        text: match[2]?.trim() ?? '',
         indent: meta.indent,
         raw: line,
         position: {
@@ -434,7 +442,7 @@ export class BatchTokenizer {
 
     // Consume consecutive non-empty lines
     while (i < end && !metadata[i]?.isEmpty) {
-      textLines.push(lines[i]?.trim())
+      textLines.push(lines[i]?.trim() ?? '')
       rawLines.push(lines[i]!)
       i++
     }
@@ -448,11 +456,15 @@ export class BatchTokenizer {
         text,
         raw,
         position: {
-          start: { line: metadata[start]?.index, column: 0, offset: metadata[start]?.offset },
+          start: {
+            line: metadata[start]?.index ?? 0,
+            column: 0,
+            offset: metadata[start]?.offset ?? 0,
+          },
           end: {
-            line: metadata[i - 1]?.index,
-            column: metadata[i - 1]?.length,
-            offset: metadata[i - 1]?.offset + metadata[i - 1]?.length,
+            line: metadata[i - 1]?.index ?? 0,
+            column: metadata[i - 1]?.length ?? 0,
+            offset: (metadata[i - 1]?.offset ?? 0) + (metadata[i - 1]?.length ?? 0),
           },
         },
       },

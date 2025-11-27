@@ -2,7 +2,7 @@
  * Universal linter implementation
  */
 
-import type { NodeId, Tree } from '@sylphx/synth'
+import type { BaseNode, NodeId, Tree } from '@sylphx/synth'
 import type {
   Diagnostic,
   DiagnosticSeverity,
@@ -134,16 +134,16 @@ export class Linter {
           severity,
         })
       },
-      getNode: (id) => tree.nodes[id],
-      getParent: (id) => {
+      getNode: (id): BaseNode | undefined => tree.nodes[id],
+      getParent: (id): BaseNode | undefined => {
         const node = tree.nodes[id]
         if (!node || node.parent === null) return undefined
         return tree.nodes[node.parent]
       },
-      getChildren: (id) => {
+      getChildren: (id): BaseNode[] => {
         const node = tree.nodes[id]
         if (!node) return []
-        return node.children.map((childId) => tree.nodes[childId]!).filter(Boolean)
+        return node.children.map((childId) => tree.nodes[childId]!).filter(Boolean) as BaseNode[]
       },
       getSource: (node) => {
         if (!node.span || !tree.meta.source) return ''

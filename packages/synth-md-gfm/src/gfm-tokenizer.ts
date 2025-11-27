@@ -136,7 +136,7 @@ export function tryTokenizeTable(
   // Count characters to get end offset
   let endOffset = offset
   for (let i = startLine; i < currentLine; i++) {
-    endOffset += lines[i]?.length + 1 // +1 for \n
+    endOffset += (lines[i]?.length ?? 0) + 1 // +1 for \n
   }
 
   return {
@@ -148,7 +148,7 @@ export function tryTokenizeTable(
       raw,
       position: createTokenPosition(
         createPosition(startLine, 0, offset),
-        createPosition(endLine, lines[endLine]?.length, endOffset - 1)
+        createPosition(endLine, lines[endLine]?.length ?? 0, endOffset - 1)
       ),
     },
     nextLine: currentLine,

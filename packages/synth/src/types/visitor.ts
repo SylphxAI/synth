@@ -44,7 +44,7 @@ export interface Visitor {
   enter?: VisitorFn<undefined | boolean>
 
   /** Called when leaving a node (post-order) */
-  leave?: VisitorFn<void>
+  leave?: VisitorFn<undefined | boolean>
 
   /** Type-specific visitors */
   [key: string]: VisitorFn<undefined | boolean> | undefined

@@ -212,7 +212,7 @@ export class PluginManager {
   /**
    * Apply visitor functions to all nodes in the tree
    */
-  private applyVisitors(tree: Tree, visitors: MarkdownVisitorMap): Tree {
+  applyVisitors(tree: Tree, visitors: MarkdownVisitorMap): Tree {
     const visitNode = (node: BaseNode): BaseNode => {
       const visitor = visitors[node.type as MarkdownNode['type']]
       if (visitor) {

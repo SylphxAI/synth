@@ -339,8 +339,8 @@ export class IncrementalJavaScriptTokenizer extends IncrementalTokenizer {
       startIndex,
       endIndex,
       byteRange: {
-        start: tokens[startIndex]?.span.start.offset,
-        end: tokens[endIndex]?.span.end.offset,
+        start: tokens[startIndex]?.span.start.offset ?? 0,
+        end: tokens[endIndex]?.span.end.offset ?? 0,
       },
     }
   }

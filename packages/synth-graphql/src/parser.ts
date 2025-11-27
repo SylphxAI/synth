@@ -49,11 +49,7 @@ export class GraphQLParser {
 
     try {
       // Parse with graphql-js
-      const gqlAST = gqlParse(source, {
-        allowLegacySDLImplementsInterfaces: options.allowLegacySDLImplementsInterfaces,
-        allowLegacySDLEmptyFields: options.allowLegacySDLEmptyFields,
-        experimentalFragmentVariables: options.experimentalFragmentVariables,
-      })
+      const gqlAST = gqlParse(source)
 
       // Convert GraphQL AST to Synth AST
       this.convertNode(tree, gqlAST, tree.root, source)
@@ -97,11 +93,7 @@ export class GraphQLParser {
     this.tree = tree
 
     try {
-      const gqlAST = gqlParse(source, {
-        allowLegacySDLImplementsInterfaces: options.allowLegacySDLImplementsInterfaces,
-        allowLegacySDLEmptyFields: options.allowLegacySDLEmptyFields,
-        experimentalFragmentVariables: options.experimentalFragmentVariables,
-      })
+      const gqlAST = gqlParse(source)
 
       this.convertNode(tree, gqlAST, tree.root, source)
     } catch (error) {

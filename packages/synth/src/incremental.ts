@@ -218,8 +218,12 @@ export class IncrementalParser {
     return {
       startByte: minStart,
       endByte: maxEnd,
-      startPosition: edits[0]?.startPosition,
-      endPosition: edits[edits.length - 1]?.newEndPosition,
+      startPosition: edits[0]?.startPosition ?? { line: 0, column: 0, offset: minStart },
+      endPosition: edits[edits.length - 1]?.newEndPosition ?? {
+        line: 0,
+        column: 0,
+        offset: maxEnd,
+      },
     }
   }
 

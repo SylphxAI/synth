@@ -191,13 +191,13 @@ export class IncrementalMarkdownTokenizer extends IncrementalTokenizer {
     if (blockType === MarkdownBlockType.HEADING) {
       const match = content.match(/^(#{1,6})/)
       if (match) {
-        metadata.headingLevel = match[1]?.length
+        metadata.headingLevel = match[1]?.length ?? 0
       }
     } else if (blockType === MarkdownBlockType.LIST_ITEM) {
       const match = content.match(/^(\s*)([-*+]|\d+\.)\s/)
-      if (match) {
+      if (match?.[2]) {
         metadata.listMarker = match[2]
-        metadata.ordered = /^\d+\./.test(match[2]!)
+        metadata.ordered = /^\d+\./.test(match[2])
       }
     }
 
@@ -277,8 +277,8 @@ export class IncrementalMarkdownTokenizer extends IncrementalTokenizer {
           startIndex,
           endIndex,
           byteRange: {
-            start: tokens[startIndex]?.span.start.offset,
-            end: tokens[endIndex]?.span.end.offset,
+            start: tokens[startIndex]?.span.start.offset ?? 0,
+            end: tokens[endIndex]?.span.end.offset ?? 0,
           },
         }
       }
@@ -327,8 +327,8 @@ export class IncrementalMarkdownTokenizer extends IncrementalTokenizer {
       startIndex,
       endIndex,
       byteRange: {
-        start: tokens[startIndex]?.span.start.offset,
-        end: tokens[endIndex]?.span.end.offset,
+        start: tokens[startIndex]?.span.start.offset ?? 0,
+        end: tokens[endIndex]?.span.end.offset ?? 0,
       },
     }
   }

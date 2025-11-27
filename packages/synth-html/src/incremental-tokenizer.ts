@@ -137,7 +137,7 @@ export class IncrementalHTMLTokenizer extends IncrementalTokenizer {
         // Extract tag name
         const tagNameMatch = region.slice(i + 1).match(/^(\/?[\w-]+)/)
         if (tagNameMatch) {
-          tagName = tagNameMatch[1]?.replace('/', '')
+          tagName = (tagNameMatch[1] ?? '').replace('/', '')
         }
       }
 
@@ -358,8 +358,8 @@ export class IncrementalHTMLTokenizer extends IncrementalTokenizer {
       startIndex,
       endIndex,
       byteRange: {
-        start: tokens[startIndex]?.span.start.offset,
-        end: tokens[endIndex]?.span.end.offset,
+        start: tokens[startIndex]?.span.start.offset ?? 0,
+        end: tokens[endIndex]?.span.end.offset ?? 0,
       },
     }
   }

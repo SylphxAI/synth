@@ -2,7 +2,7 @@
  * Documentation generator implementation
  */
 
-import type { Node, NodeId, Tree } from '@sylphx/synth'
+import type { BaseNode, NodeId, Tree } from '@sylphx/synth'
 import type { DocOptions, DocResult, ModuleDoc, ParamDoc, ReturnDoc, SymbolDoc } from './types.js'
 
 /**
@@ -49,7 +49,7 @@ export class DocGenerator {
   /**
    * Extract symbol documentation from node
    */
-  private extractSymbol(tree: Tree, node: Node, options: DocOptions): SymbolDoc | null {
+  private extractSymbol(tree: Tree, node: BaseNode, options: DocOptions): SymbolDoc | null {
     // Extract based on node type
     if (this.isFunctionNode(node)) {
       return this.extractFunction(tree, node, options)
@@ -69,7 +69,7 @@ export class DocGenerator {
   /**
    * Extract function documentation
    */
-  private extractFunction(tree: Tree, node: Node, options: DocOptions): SymbolDoc | null {
+  private extractFunction(tree: Tree, node: BaseNode, options: DocOptions): SymbolDoc | null {
     const name = this.getNodeName(node)
     if (!name) return null
 
@@ -103,7 +103,7 @@ export class DocGenerator {
   /**
    * Extract class documentation
    */
-  private extractClass(tree: Tree, node: Node, options: DocOptions): SymbolDoc | null {
+  private extractClass(tree: Tree, node: BaseNode, options: DocOptions): SymbolDoc | null {
     const name = this.getNodeName(node)
     if (!name) return null
 
@@ -126,7 +126,7 @@ export class DocGenerator {
   /**
    * Extract variable documentation
    */
-  private extractVariable(tree: Tree, node: Node, options: DocOptions): SymbolDoc | null {
+  private extractVariable(tree: Tree, node: BaseNode, options: DocOptions): SymbolDoc | null {
     const name = this.getNodeName(node)
     if (!name) return null
 
@@ -151,7 +151,7 @@ export class DocGenerator {
   /**
    * Find comment for a node
    */
-  private findComment(_tree: Tree, node: Node): string {
+  private findComment(_tree: Tree, node: BaseNode): string {
     // Look for comment in node data
     if (node.data?.comment) {
       return String(node.data.comment)
@@ -194,7 +194,7 @@ export class DocGenerator {
   /**
    * Parse parameters from comment
    */
-  private parseParams(comment: string, node: Node): ParamDoc[] {
+  private parseParams(comment: string, node: BaseNode): ParamDoc[] {
     const params: ParamDoc[] = []
 
     // Extract @param tags
@@ -203,7 +203,7 @@ export class DocGenerator {
 
     while ((match = paramRegex.exec(comment)) !== null) {
       params.push({
-        name: match[2],
+        name: match[2] ?? '',
         type: match[1],
         description: match[3]?.trim(),
         optional: match[1]?.includes('?') || false,
@@ -250,7 +250,7 @@ export class DocGenerator {
     let match
 
     while ((match = exampleRegex.exec(comment)) !== null) {
-      examples.push(match[1].trim())
+      if (match[1]) examples.push(match[1].trim())
     }
 
     return examples
@@ -267,6 +267,7 @@ export class DocGenerator {
 
     while ((match = tagRegex.exec(comment)) !== null) {
       const tag = match[1]
+      if (!tag) continue
       const value = match[2]?.trim() || ''
 
       // Skip param, returns, example (handled separately)
@@ -285,7 +286,10 @@ export class DocGenerator {
    */
   private extractModuleDescription(tree: Tree): string {
     // Look for file-level comment in root children
-    for (const childId of tree.nodes[tree.root]?.children) {
+    const rootNode = tree.nodes[tree.root]
+    if (!rootNode?.children) return ''
+
+    for (const childId of rootNode.children) {
       const child = tree.nodes[childId]
       if (child?.data?.leadingComments) {
         const comments = child.data.leadingComments as any[]
@@ -465,7 +469,7 @@ export class DocGenerator {
   /**
    * Check if node is a function
    */
-  private isFunctionNode(node: Node): boolean {
+  private isFunctionNode(node: BaseNode): boolean {
     return [
       'FunctionDeclaration',
       'FunctionExpression',
@@ -477,51 +481,52 @@ export class DocGenerator {
   /**
    * Check if node is a class
    */
-  private isClassNode(node: Node): boolean {
+  private isClassNode(node: BaseNode): boolean {
     return node.type === 'ClassDeclaration'
   }
 
   /**
    * Check if node is a variable
    */
-  private isVariableNode(node: Node): boolean {
+  private isVariableNode(node: BaseNode): boolean {
     return ['VariableDeclaration', 'VariableDeclarator'].includes(node.type)
   }
 
   /**
    * Get node name
    */
-  private getNodeName(node: Node): string {
+  private getNodeName(node: BaseNode): string {
     if (node.data?.name) return String(node.data.name)
-    if (node.data?.id?.name) return String(node.data.id.name)
+    const id = node.data?.id as { name?: string } | undefined
+    if (id?.name) return String(id.name)
     return ''
   }
 
   /**
    * Check if node is exported
    */
-  private isExported(node: Node): boolean {
+  private isExported(node: BaseNode): boolean {
     return node.data?.exported === true
   }
 
   /**
    * Check if function is async
    */
-  private isAsync(node: Node): boolean {
+  private isAsync(node: BaseNode): boolean {
     return node.data?.async === true
   }
 
   /**
    * Check if variable is constant
    */
-  private isConstant(node: Node): boolean {
+  private isConstant(node: BaseNode): boolean {
     return node.data?.kind === 'const'
   }
 
   /**
    * Get location info
    */
-  private getLocation(node: Node, file?: string) {
+  private getLocation(node: BaseNode, file?: string) {
     if (!node.span) return undefined
 
     return {
@@ -534,7 +539,7 @@ export class DocGenerator {
   /**
    * Traverse tree
    */
-  private traverse(tree: Tree, nodeId: NodeId, callback: (node: Node) => void): void {
+  private traverse(tree: Tree, nodeId: NodeId, callback: (node: BaseNode) => void): void {
     const node = tree.nodes[nodeId]
     if (!node) return
 
