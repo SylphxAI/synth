@@ -1,7 +1,7 @@
 {
   "name": "@sylphx/synth-wasm-md",
   "version": "0.1.0",
-  "description": "High-performance Markdown parser compiled to WebAssembly",
+  "description": "High-performance Markdown parser compiled to WebAssembly (10-18x faster)",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -16,7 +16,7 @@
     "build": "bun run build:wasm && bun run build:js",
     "build:js": "bunup",
     "test": "bun test",
-    "bench": "bun bench/wasm-vs-js.bench.ts",
+    "bench": "bun bench/unified.bench.ts",
     "prepack": "bun run build"
   },
   "keywords": [
@@ -37,17 +37,11 @@
     "README.md"
   ],
   "dependencies": {
-    "@sylphx/synth": "workspace:*",
-    "@vscode/tree-sitter-wasm": "^0.3.0",
-    "tree-sitter-wasm-prebuilt": "^0.0.3",
-    "tree-sitter-wasms": "^0.1.13",
-    "web-tree-sitter": "^0.25.10"
+    "@sylphx/synth": "workspace:*"
   },
   "devDependencies": {
     "@sylphx/synth-md": "workspace:*",
-    "@tree-sitter-grammars/tree-sitter-markdown": "^0.3.2",
     "mitata": "^1.0.0",
-    "tree-sitter-cli": "^0.25.10",
     "typescript": "^5.6.0"
   },
   "publishConfig": {

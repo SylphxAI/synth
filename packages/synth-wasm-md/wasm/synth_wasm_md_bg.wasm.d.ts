@@ -1,0 +1,34 @@
+/* tslint:disable */
+/* eslint-disable */
+export const memory: WebAssembly.Memory;
+export const parse: (a: number, b: number) => [number, number, number];
+export const parseBinary: (a: number, b: number) => [number, number];
+export const parseCount: (a: number, b: number) => number;
+export const parseToJson: (a: number, b: number) => [number, number, number, number];
+export const version: () => [number, number];
+export const coreVersion: () => [number, number];
+export const init: () => void;
+export const __wbg_tree_free: (a: number, b: number) => void;
+export const tree_fromJSON: (a: any) => [number, number, number];
+export const tree_language: (a: number) => [number, number];
+export const tree_new: (a: number, b: number, c: number, d: number) => number;
+export const tree_node_count: (a: number) => number;
+export const tree_root_id: (a: number) => number;
+export const tree_source: (a: number) => [number, number];
+export const tree_toJSON: (a: number) => [number, number, number];
+export const __wbg_get_position_column: (a: number) => number;
+export const __wbg_get_position_line: (a: number) => number;
+export const __wbg_get_position_offset: (a: number) => number;
+export const __wbg_position_free: (a: number, b: number) => void;
+export const __wbg_set_position_column: (a: number, b: number) => void;
+export const __wbg_set_position_line: (a: number, b: number) => void;
+export const __wbg_set_position_offset: (a: number, b: number) => void;
+export const position_new: (a: number, b: number, c: number) => number;
+export const __wbindgen_malloc: (a: number, b: number) => number;
+export const __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
+export const __wbindgen_exn_store: (a: number) => void;
+export const __externref_table_alloc: () => number;
+export const __wbindgen_externrefs: WebAssembly.Table;
+export const __externref_table_dealloc: (a: number) => void;
+export const __wbindgen_free: (a: number, b: number, c: number) => void;
+export const __wbindgen_start: () => void;

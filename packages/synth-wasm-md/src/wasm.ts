@@ -8,9 +8,11 @@ import type { WasmTree } from './types.js'
 // Re-export Tree and Position classes
 export { Position, Tree } from '../wasm/synth_wasm_md.js'
 
-// Import the raw parse function
+// Import the raw functions
 import {
   parse as wasmParse,
+  parseBinary as wasmParseBinary,
+  parseCount as wasmParseCount,
   parseToJson as wasmParseToJson,
   version as wasmVersion,
 } from '../wasm/synth_wasm_md.js'
@@ -26,12 +28,11 @@ import {
  * import { parse } from '@sylphx/synth-wasm-md'
  *
  * const tree = await parse('# Hello World')
- * console.log(tree.toJSON())
+ * console.log(tree)
  * ```
  */
 export async function parse(markdown: string): Promise<WasmTree> {
   await initWasm()
-  // Use parseToJson for better performance (avoids JS↔WASM round-trip)
   const json = wasmParseToJson(markdown)
   return JSON.parse(json) as WasmTree
 }
@@ -50,15 +51,63 @@ export async function parse(markdown: string): Promise<WasmTree> {
  * ```
  */
 export function parseSync(markdown: string): WasmTree {
-  // Use parseToJson for better performance
   const json = wasmParseToJson(markdown)
   return JSON.parse(json) as WasmTree
 }
 
 /**
- * Parse using the original Tree object (slower, but allows direct access)
+ * Parse Markdown to compact binary format (maximum performance)
  *
- * @deprecated Use parse() or parseSync() for better performance
+ * Returns a Uint8Array containing the binary tree structure.
+ * This is the fastest parsing option - no JSON, no string copies.
+ *
+ * Binary format:
+ * - Header: [node_count: u32, source_len: u32]
+ * - Nodes: 24 bytes each
+ *
+ * @example
+ * ```typescript
+ * import { initWasm, parseBinary } from '@sylphx/synth-wasm-md'
+ *
+ * await initWasm()
+ * const buffer = parseBinary('# Hello World')
+ * const view = new DataView(buffer.buffer)
+ * const nodeCount = view.getUint32(0, true)
+ * ```
+ */
+export async function parseBinary(markdown: string): Promise<Uint8Array> {
+  await initWasm()
+  return wasmParseBinary(markdown)
+}
+
+/**
+ * Parse Markdown to binary synchronously (requires WASM to be pre-initialized)
+ */
+export function parseBinarySync(markdown: string): Uint8Array {
+  return wasmParseBinary(markdown)
+}
+
+/**
+ * Count nodes in parsed markdown (for benchmarking)
+ *
+ * This measures pure parsing performance without any serialization overhead.
+ */
+export async function parseCount(markdown: string): Promise<number> {
+  await initWasm()
+  return wasmParseCount(markdown)
+}
+
+/**
+ * Count nodes synchronously (requires WASM to be pre-initialized)
+ */
+export function parseCountSync(markdown: string): number {
+  return wasmParseCount(markdown)
+}
+
+/**
+ * Parse using the original Tree object (allows direct WASM object access)
+ *
+ * Note: For most use cases, parse() is preferred as it returns a plain JS object.
  */
 export async function parseToTree(markdown: string) {
   await initWasm()
