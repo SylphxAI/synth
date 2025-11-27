@@ -1,42 +1,42 @@
 {
-  "name": "@sylphx/synth-typecheck",
-  "version": "0.2.0",
-  "description": "Type checker for Synth AST - cross-language type inference and validation",
-  "type": "module",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    }
-  },
-  "files": [
-    "dist",
-    "src",
-    "README.md"
-  ],
-  "scripts": {
-    "test": "bun test",
-    "typecheck": "tsc --noEmit",
-    "build": "bunup",
-    "prepack": "bun run build"
-  },
-  "keywords": [
-    "typecheck",
-    "type-checker",
-    "type-inference",
-    "ast",
-    "synth",
-    "types"
-  ],
-  "author": "Synth",
-  "license": "MIT",
-  "dependencies": {
-    "@sylphx/synth": "workspace:*"
-  },
-  "devDependencies": {
-    "@types/bun": "latest",
-    "typescript": "^5.6.0"
-  }
+	"name": "@sylphx/synth-typecheck",
+	"version": "0.2.1",
+	"description": "Type checker for Synth AST - cross-language type inference and validation",
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js"
+		}
+	},
+	"files": [
+		"dist",
+		"src",
+		"README.md"
+	],
+	"scripts": {
+		"test": "bun test",
+		"typecheck": "tsc --noEmit",
+		"build": "bunup",
+		"prepack": "bun run build"
+	},
+	"keywords": [
+		"typecheck",
+		"type-checker",
+		"type-inference",
+		"ast",
+		"synth",
+		"types"
+	],
+	"author": "Synth",
+	"license": "MIT",
+	"dependencies": {
+		"@sylphx/synth": "workspace:*"
+	},
+	"devDependencies": {
+		"@types/bun": "latest",
+		"typescript": "^5.6.0"
+	}
 }

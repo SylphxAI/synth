@@ -1,37 +1,37 @@
 {
-  "name": "@sylphx/synth-js-minify",
-  "version": "0.2.0",
-  "description": "JavaScript minifier using Synth's universal AST",
-  "type": "module",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    }
-  },
-  "scripts": {
-    "test": "bun test",
-    "test:watch": "bun test --watch",
-    "build": "bunup",
-    "prepack": "bun run build"
-  },
-  "keywords": [
-    "minifier",
-    "javascript",
-    "ast",
-    "synth",
-    "compress",
-    "uglify"
-  ],
-  "author": "SylphX",
-  "license": "MIT",
-  "dependencies": {
-    "@sylphx/synth": "workspace:*",
-    "@sylphx/synth-js": "workspace:*"
-  },
-  "devDependencies": {
-    "typescript": "^5.6.0"
-  }
+	"name": "@sylphx/synth-js-minify",
+	"version": "0.2.1",
+	"description": "JavaScript minifier using Synth's universal AST",
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js"
+		}
+	},
+	"scripts": {
+		"test": "bun test",
+		"test:watch": "bun test --watch",
+		"build": "bunup",
+		"prepack": "bun run build"
+	},
+	"keywords": [
+		"minifier",
+		"javascript",
+		"ast",
+		"synth",
+		"compress",
+		"uglify"
+	],
+	"author": "SylphX",
+	"license": "MIT",
+	"dependencies": {
+		"@sylphx/synth": "workspace:*",
+		"@sylphx/synth-js": "workspace:*"
+	},
+	"devDependencies": {
+		"typescript": "^5.6.0"
+	}
 }

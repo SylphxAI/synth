@@ -1,38 +1,38 @@
 {
-  "name": "@sylphx/synth-go",
-  "version": "0.2.0",
-  "description": "Go parser using Synth's universal AST - conversion layer over tree-sitter-go",
-  "type": "module",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    }
-  },
-  "scripts": {
-    "test": "bun test",
-    "test:watch": "bun test --watch",
-    "build": "bunup",
-    "prepack": "bun run build"
-  },
-  "keywords": [
-    "go",
-    "golang",
-    "parser",
-    "ast",
-    "synth",
-    "tree-sitter"
-  ],
-  "author": "SylphX",
-  "license": "MIT",
-  "dependencies": {
-    "@sylphx/synth": "workspace:*",
-    "tree-sitter": "^0.21.1",
-    "tree-sitter-go": "^0.23.3"
-  },
-  "devDependencies": {
-    "typescript": "^5.6.0"
-  }
+	"name": "@sylphx/synth-go",
+	"version": "0.2.1",
+	"description": "Go parser using Synth's universal AST - conversion layer over tree-sitter-go",
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js"
+		}
+	},
+	"scripts": {
+		"test": "bun test",
+		"test:watch": "bun test --watch",
+		"build": "bunup",
+		"prepack": "bun run build"
+	},
+	"keywords": [
+		"go",
+		"golang",
+		"parser",
+		"ast",
+		"synth",
+		"tree-sitter"
+	],
+	"author": "SylphX",
+	"license": "MIT",
+	"dependencies": {
+		"@sylphx/synth": "workspace:*",
+		"tree-sitter": "^0.21.1",
+		"tree-sitter-go": "^0.23.3"
+	},
+	"devDependencies": {
+		"typescript": "^5.6.0"
+	}
 }

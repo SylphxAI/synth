@@ -1,5 +1,11 @@
 # @sylphx/synth
 
+## 0.3.0 (2025-11-27)
+
+### ✨ Features
+
+- update dependencies ([0217426](https://github.com/SylphxAI/synth/commit/021742623adcbb300f77bb371f4ac7d29db769c4))
+
 ## 0.2.0 (2025-11-27)
 
 ### ✨ Features

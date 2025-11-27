@@ -1,48 +1,48 @@
 {
-  "name": "@sylphx/synth-js-format",
-  "version": "0.2.0",
-  "description": "Prettier-style code formatter for JavaScript/TypeScript using Synth AST",
-  "type": "module",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    }
-  },
-  "scripts": {
-    "dev": "bun build src/index.ts --outdir dist --target node --format esm --watch",
-    "test": "bun test",
-    "test:watch": "bun test --watch",
-    "build": "bunup",
-    "prepack": "bun run build"
-  },
-  "keywords": [
-    "javascript",
-    "typescript",
-    "formatter",
-    "prettier",
-    "code-format",
-    "synth",
-    "ast"
-  ],
-  "author": "",
-  "license": "MIT",
-  "dependencies": {
-    "@sylphx/synth": "workspace:*",
-    "@sylphx/synth-js": "workspace:*"
-  },
-  "devDependencies": {
-    "@types/node": "^22.0.0",
-    "typescript": "^5.6.0"
-  },
-  "files": [
-    "dist",
-    "src",
-    "README.md"
-  ],
-  "publishConfig": {
-    "access": "public"
-  }
+	"name": "@sylphx/synth-js-format",
+	"version": "0.2.1",
+	"description": "Prettier-style code formatter for JavaScript/TypeScript using Synth AST",
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js"
+		}
+	},
+	"scripts": {
+		"dev": "bun build src/index.ts --outdir dist --target node --format esm --watch",
+		"test": "bun test",
+		"test:watch": "bun test --watch",
+		"build": "bunup",
+		"prepack": "bun run build"
+	},
+	"keywords": [
+		"javascript",
+		"typescript",
+		"formatter",
+		"prettier",
+		"code-format",
+		"synth",
+		"ast"
+	],
+	"author": "",
+	"license": "MIT",
+	"dependencies": {
+		"@sylphx/synth": "workspace:*",
+		"@sylphx/synth-js": "workspace:*"
+	},
+	"devDependencies": {
+		"@types/node": "^22.0.0",
+		"typescript": "^5.6.0"
+	},
+	"files": [
+		"dist",
+		"src",
+		"README.md"
+	],
+	"publishConfig": {
+		"access": "public"
+	}
 }
