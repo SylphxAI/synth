@@ -4,26 +4,15 @@
  * High-performance Markdown parser compiled to WebAssembly.
  *
  * Performance vs JavaScript:
- * - parseBinary(): 10-18x faster (returns Uint8Array)
  * - parse(): 2-4x faster (returns JSON object)
+ * - parseBinary(): 10-18x faster (returns Uint8Array)
  */
 
-// Export initialization helper
+// Initialization
 export { initWasm, isWasmInitialized } from './init.js'
 
-// Re-export types
+// Types
 export type { ParseOptions, WasmNode, WasmTree } from './types.js'
 
-// Re-export WASM bindings
-export {
-  parse,
-  parseBinary,
-  parseBinarySync,
-  parseCount,
-  parseCountSync,
-  parseSync,
-  parseToTree,
-  Position,
-  Tree,
-  version,
-} from './wasm.js'
+// Parse functions
+export { parse, parseBinary, Position, Tree, version } from './wasm.js'
