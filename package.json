@@ -48,7 +48,7 @@
     "@biomejs/biome": "^1.9.0",
     "@sylphx/biome-config": "^0.1.0",
     "@sylphx/bump": "^0.10.0",
-    "@sylphx/doctor": "^1.21.3",
+    "@sylphx/doctor": "^1.21.4",
     "@sylphx/tsconfig": "^0.1.0",
     "@types/node": "^22.0.0",
     "bunup": "^0.16.10",
