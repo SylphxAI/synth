@@ -1,6 +1,10 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
+ * Get the version of the Markdown parser
+ */
+export function version(): string;
+/**
  * Parse Markdown text directly to JSON string
  *
  * This is faster than `parse().toJSON()` because it avoids
@@ -26,9 +30,17 @@ export function fastParseCount(markdown: string): number;
  */
 export function parseAndCount(markdown: string): number;
 /**
- * Get the version of the Markdown parser
+ * TURBO parse - maximum performance, 16-byte nodes
+ *
+ * Returns a Uint8Array with compact binary format:
+ * - Header: [node_count: u32]
+ * - Nodes: 16 bytes each (node_type, depth, parent, text_start, text_len, span)
  */
-export function version(): string;
+export function turboParseBinary(markdown: string): Uint8Array;
+/**
+ * TURBO parse count (for benchmarking)
+ */
+export function turboParseCount(markdown: string): number;
 /**
  * Fast tokenize-only (zero-copy, for benchmarking)
  *
@@ -142,6 +154,8 @@ export interface InitOutput {
   readonly parse: (a: number, b: number) => [number, number, number];
   readonly parseAndCount: (a: number, b: number) => [number, number, number];
   readonly parseToJson: (a: number, b: number) => [number, number, number, number];
+  readonly turboParseBinary: (a: number, b: number) => [number, number];
+  readonly turboParseCount: (a: number, b: number) => number;
   readonly version: () => [number, number];
   readonly coreVersion: () => [number, number];
   readonly init: () => void;
@@ -166,8 +180,8 @@ export interface InitOutput {
   readonly __wbindgen_exn_store: (a: number) => void;
   readonly __externref_table_alloc: () => number;
   readonly __wbindgen_externrefs: WebAssembly.Table;
-  readonly __externref_table_dealloc: (a: number) => void;
   readonly __wbindgen_free: (a: number, b: number, c: number) => void;
+  readonly __externref_table_dealloc: (a: number) => void;
   readonly __wbindgen_start: () => void;
 }
 

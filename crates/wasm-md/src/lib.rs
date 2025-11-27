@@ -7,11 +7,13 @@ mod fast_parser;
 mod fast_tokenizer;
 mod parser;
 mod tokenizer;
+mod turbo_parser;
 
 pub use parser::*;
 
 use fast_parser::FastParser;
 use fast_tokenizer::FastTokenizer;
+use turbo_parser::TurboParser;
 use wasm_bindgen::prelude::*;
 use synth_wasm_core::Tree;
 
@@ -89,6 +91,24 @@ pub fn fast_parse_binary(markdown: &str) -> Vec<u8> {
 #[wasm_bindgen(js_name = fastParseCount)]
 pub fn fast_parse_count(markdown: &str) -> usize {
     let mut parser = FastParser::new(markdown);
+    parser.parse_count()
+}
+
+/// TURBO parse - maximum performance, 16-byte nodes
+///
+/// Returns a Uint8Array with compact binary format:
+/// - Header: [node_count: u32]
+/// - Nodes: 16 bytes each (node_type, depth, parent, text_start, text_len, span)
+#[wasm_bindgen(js_name = turboParseBinary)]
+pub fn turbo_parse_binary(markdown: &str) -> Vec<u8> {
+    let mut parser = TurboParser::new(markdown);
+    parser.parse_to_binary()
+}
+
+/// TURBO parse count (for benchmarking)
+#[wasm_bindgen(js_name = turboParseCount)]
+pub fn turbo_parse_count(markdown: &str) -> usize {
+    let mut parser = TurboParser::new(markdown);
     parser.parse_count()
 }
 

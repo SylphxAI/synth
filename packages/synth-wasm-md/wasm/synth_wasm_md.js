@@ -181,6 +181,22 @@ function getArrayU8FromWasm0(ptr, len) {
     ptr = ptr >>> 0;
     return getUint8ArrayMemory0().subarray(ptr / 1, ptr / 1 + len);
 }
+/**
+ * Get the version of the Markdown parser
+ * @returns {string}
+ */
+export function version() {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const ret = wasm.version();
+        deferred1_0 = ret[0];
+        deferred1_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+    }
+}
 
 function takeFromExternrefTable0(idx) {
     const value = wasm.__wbindgen_externrefs.get(idx);
@@ -254,20 +270,33 @@ export function parseAndCount(markdown) {
 }
 
 /**
- * Get the version of the Markdown parser
- * @returns {string}
+ * TURBO parse - maximum performance, 16-byte nodes
+ *
+ * Returns a Uint8Array with compact binary format:
+ * - Header: [node_count: u32]
+ * - Nodes: 16 bytes each (node_type, depth, parent, text_start, text_len, span)
+ * @param {string} markdown
+ * @returns {Uint8Array}
  */
-export function version() {
-    let deferred1_0;
-    let deferred1_1;
-    try {
-        const ret = wasm.version();
-        deferred1_0 = ret[0];
-        deferred1_1 = ret[1];
-        return getStringFromWasm0(ret[0], ret[1]);
-    } finally {
-        wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
-    }
+export function turboParseBinary(markdown) {
+    const ptr0 = passStringToWasm0(markdown, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+    const len0 = WASM_VECTOR_LEN;
+    const ret = wasm.turboParseBinary(ptr0, len0);
+    var v2 = getArrayU8FromWasm0(ret[0], ret[1]).slice();
+    wasm.__wbindgen_free(ret[0], ret[1] * 1, 1);
+    return v2;
+}
+
+/**
+ * TURBO parse count (for benchmarking)
+ * @param {string} markdown
+ * @returns {number}
+ */
+export function turboParseCount(markdown) {
+    const ptr0 = passStringToWasm0(markdown, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+    const len0 = WASM_VECTOR_LEN;
+    const ret = wasm.turboParseCount(ptr0, len0);
+    return ret >>> 0;
 }
 
 /**

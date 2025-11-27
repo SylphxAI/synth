@@ -7,6 +7,8 @@ export const fastTokenize: (a: number, b: number) => number;
 export const parse: (a: number, b: number) => [number, number, number];
 export const parseAndCount: (a: number, b: number) => [number, number, number];
 export const parseToJson: (a: number, b: number) => [number, number, number, number];
+export const turboParseBinary: (a: number, b: number) => [number, number];
+export const turboParseCount: (a: number, b: number) => number;
 export const version: () => [number, number];
 export const coreVersion: () => [number, number];
 export const init: () => void;
@@ -31,6 +33,6 @@ export const __wbindgen_realloc: (a: number, b: number, c: number, d: number) =>
 export const __wbindgen_exn_store: (a: number) => void;
 export const __externref_table_alloc: () => number;
 export const __wbindgen_externrefs: WebAssembly.Table;
-export const __externref_table_dealloc: (a: number) => void;
 export const __wbindgen_free: (a: number, b: number, c: number) => void;
+export const __externref_table_dealloc: (a: number) => void;
 export const __wbindgen_start: () => void;
