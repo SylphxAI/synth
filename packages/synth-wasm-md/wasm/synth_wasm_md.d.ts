@@ -1,6 +1,41 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
+ * Parse Markdown text directly to JSON string
+ *
+ * This is faster than `parse().toJSON()` because it avoids
+ * the intermediate JsValue conversion.
+ *
+ * # Example (JavaScript)
+ * ```javascript
+ * import { parseToJson } from '@sylphx/synth-wasm-md';
+ *
+ * const json = parseToJson('# Hello World');
+ * const tree = JSON.parse(json);
+ * ```
+ */
+export function parseToJson(markdown: string): string;
+/**
+ * Fast parse and count nodes (for benchmarking)
+ */
+export function fastParseCount(markdown: string): number;
+/**
+ * Count nodes in the parsed markdown (for benchmarking without serialization)
+ *
+ * This measures pure parsing performance without JSON overhead.
+ */
+export function parseAndCount(markdown: string): number;
+/**
+ * Get the version of the Markdown parser
+ */
+export function version(): string;
+/**
+ * Fast tokenize-only (zero-copy, for benchmarking)
+ *
+ * Returns the number of tokens found. Uses SIMD-accelerated parsing.
+ */
+export function fastTokenize(markdown: string): number;
+/**
  * Parse Markdown text into an AST
  *
  * # Example (JavaScript)
@@ -13,9 +48,18 @@
  */
 export function parse(markdown: string): Tree;
 /**
- * Get the version of the Markdown parser
+ * Ultra-fast parse to binary format
+ *
+ * Returns a Uint8Array containing the binary tree structure.
+ * This is the fastest parsing option - no JSON, no string copies.
+ *
+ * Binary format (28 bytes per node):
+ * - node_type: u8, depth: u8, flags: u8, _pad: u8
+ * - parent: u32, first_child: u32, next_sibling: u32
+ * - start_offset: u32, end_offset: u32
+ * - text_start: u32, text_len: u32
  */
-export function version(): string;
+export function fastParseBinary(markdown: string): Uint8Array;
 /**
  * Get the version of the WASM core
  */
@@ -92,7 +136,12 @@ export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembl
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
+  readonly fastParseBinary: (a: number, b: number) => [number, number];
+  readonly fastParseCount: (a: number, b: number) => number;
+  readonly fastTokenize: (a: number, b: number) => number;
   readonly parse: (a: number, b: number) => [number, number, number];
+  readonly parseAndCount: (a: number, b: number) => [number, number, number];
+  readonly parseToJson: (a: number, b: number) => [number, number, number, number];
   readonly version: () => [number, number];
   readonly coreVersion: () => [number, number];
   readonly init: () => void;

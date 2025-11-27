@@ -37,11 +37,17 @@
     "README.md"
   ],
   "dependencies": {
-    "@sylphx/synth": "workspace:*"
+    "@sylphx/synth": "workspace:*",
+    "@vscode/tree-sitter-wasm": "^0.3.0",
+    "tree-sitter-wasm-prebuilt": "^0.0.3",
+    "tree-sitter-wasms": "^0.1.13",
+    "web-tree-sitter": "^0.25.10"
   },
   "devDependencies": {
     "@sylphx/synth-md": "workspace:*",
+    "@tree-sitter-grammars/tree-sitter-markdown": "^0.3.2",
     "mitata": "^1.0.0",
+    "tree-sitter-cli": "^0.25.10",
     "typescript": "^5.6.0"
   },
   "publishConfig": {

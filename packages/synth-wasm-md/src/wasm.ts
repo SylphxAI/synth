@@ -9,7 +9,11 @@ import type { WasmTree } from './types.js'
 export { Position, Tree } from '../wasm/synth_wasm_md.js'
 
 // Import the raw parse function
-import { parse as wasmParse, version as wasmVersion } from '../wasm/synth_wasm_md.js'
+import {
+  parse as wasmParse,
+  parseToJson as wasmParseToJson,
+  version as wasmVersion,
+} from '../wasm/synth_wasm_md.js'
 
 /**
  * Parse Markdown text into an AST
@@ -27,8 +31,9 @@ import { parse as wasmParse, version as wasmVersion } from '../wasm/synth_wasm_m
  */
 export async function parse(markdown: string): Promise<WasmTree> {
   await initWasm()
-  const tree = wasmParse(markdown)
-  return tree.toJSON() as WasmTree
+  // Use parseToJson for better performance (avoids JS↔WASM round-trip)
+  const json = wasmParseToJson(markdown)
+  return JSON.parse(json) as WasmTree
 }
 
 /**
@@ -45,8 +50,19 @@ export async function parse(markdown: string): Promise<WasmTree> {
  * ```
  */
 export function parseSync(markdown: string): WasmTree {
-  const tree = wasmParse(markdown)
-  return tree.toJSON() as WasmTree
+  // Use parseToJson for better performance
+  const json = wasmParseToJson(markdown)
+  return JSON.parse(json) as WasmTree
+}
+
+/**
+ * Parse using the original Tree object (slower, but allows direct access)
+ *
+ * @deprecated Use parse() or parseSync() for better performance
+ */
+export async function parseToTree(markdown: string) {
+  await initWasm()
+  return wasmParse(markdown)
 }
 
 /**

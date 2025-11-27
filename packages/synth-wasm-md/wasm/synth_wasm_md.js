@@ -188,6 +188,103 @@ function takeFromExternrefTable0(idx) {
     return value;
 }
 /**
+ * Parse Markdown text directly to JSON string
+ *
+ * This is faster than `parse().toJSON()` because it avoids
+ * the intermediate JsValue conversion.
+ *
+ * # Example (JavaScript)
+ * ```javascript
+ * import { parseToJson } from '@sylphx/synth-wasm-md';
+ *
+ * const json = parseToJson('# Hello World');
+ * const tree = JSON.parse(json);
+ * ```
+ * @param {string} markdown
+ * @returns {string}
+ */
+export function parseToJson(markdown) {
+    let deferred3_0;
+    let deferred3_1;
+    try {
+        const ptr0 = passStringToWasm0(markdown, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len0 = WASM_VECTOR_LEN;
+        const ret = wasm.parseToJson(ptr0, len0);
+        var ptr2 = ret[0];
+        var len2 = ret[1];
+        if (ret[3]) {
+            ptr2 = 0; len2 = 0;
+            throw takeFromExternrefTable0(ret[2]);
+        }
+        deferred3_0 = ptr2;
+        deferred3_1 = len2;
+        return getStringFromWasm0(ptr2, len2);
+    } finally {
+        wasm.__wbindgen_free(deferred3_0, deferred3_1, 1);
+    }
+}
+
+/**
+ * Fast parse and count nodes (for benchmarking)
+ * @param {string} markdown
+ * @returns {number}
+ */
+export function fastParseCount(markdown) {
+    const ptr0 = passStringToWasm0(markdown, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+    const len0 = WASM_VECTOR_LEN;
+    const ret = wasm.fastParseCount(ptr0, len0);
+    return ret >>> 0;
+}
+
+/**
+ * Count nodes in the parsed markdown (for benchmarking without serialization)
+ *
+ * This measures pure parsing performance without JSON overhead.
+ * @param {string} markdown
+ * @returns {number}
+ */
+export function parseAndCount(markdown) {
+    const ptr0 = passStringToWasm0(markdown, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+    const len0 = WASM_VECTOR_LEN;
+    const ret = wasm.parseAndCount(ptr0, len0);
+    if (ret[2]) {
+        throw takeFromExternrefTable0(ret[1]);
+    }
+    return ret[0] >>> 0;
+}
+
+/**
+ * Get the version of the Markdown parser
+ * @returns {string}
+ */
+export function version() {
+    let deferred1_0;
+    let deferred1_1;
+    try {
+        const ret = wasm.version();
+        deferred1_0 = ret[0];
+        deferred1_1 = ret[1];
+        return getStringFromWasm0(ret[0], ret[1]);
+    } finally {
+        wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+    }
+}
+
+/**
+ * Fast tokenize-only (zero-copy, for benchmarking)
+ *
+ * Returns the number of tokens found. Uses SIMD-accelerated parsing.
+ * @param {string} markdown
+ * @returns {number}
+ */
+export function fastTokenize(markdown) {
+    const ptr0 = passStringToWasm0(markdown, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+    const len0 = WASM_VECTOR_LEN;
+    const ret = wasm.fastTokenize(ptr0, len0);
+    return ret >>> 0;
+}
+
+/**
  * Parse Markdown text into an AST
  *
  * # Example (JavaScript)
@@ -211,20 +308,26 @@ export function parse(markdown) {
 }
 
 /**
- * Get the version of the Markdown parser
- * @returns {string}
+ * Ultra-fast parse to binary format
+ *
+ * Returns a Uint8Array containing the binary tree structure.
+ * This is the fastest parsing option - no JSON, no string copies.
+ *
+ * Binary format (28 bytes per node):
+ * - node_type: u8, depth: u8, flags: u8, _pad: u8
+ * - parent: u32, first_child: u32, next_sibling: u32
+ * - start_offset: u32, end_offset: u32
+ * - text_start: u32, text_len: u32
+ * @param {string} markdown
+ * @returns {Uint8Array}
  */
-export function version() {
-    let deferred1_0;
-    let deferred1_1;
-    try {
-        const ret = wasm.version();
-        deferred1_0 = ret[0];
-        deferred1_1 = ret[1];
-        return getStringFromWasm0(ret[0], ret[1]);
-    } finally {
-        wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
-    }
+export function fastParseBinary(markdown) {
+    const ptr0 = passStringToWasm0(markdown, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+    const len0 = WASM_VECTOR_LEN;
+    const ret = wasm.fastParseBinary(ptr0, len0);
+    var v2 = getArrayU8FromWasm0(ret[0], ret[1]).slice();
+    wasm.__wbindgen_free(ret[0], ret[1] * 1, 1);
+    return v2;
 }
 
 /**

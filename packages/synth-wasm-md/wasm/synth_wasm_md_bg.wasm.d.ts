@@ -1,7 +1,12 @@
 /* tslint:disable */
 /* eslint-disable */
 export const memory: WebAssembly.Memory;
+export const fastParseBinary: (a: number, b: number) => [number, number];
+export const fastParseCount: (a: number, b: number) => number;
+export const fastTokenize: (a: number, b: number) => number;
 export const parse: (a: number, b: number) => [number, number, number];
+export const parseAndCount: (a: number, b: number) => [number, number, number];
+export const parseToJson: (a: number, b: number) => [number, number, number, number];
 export const version: () => [number, number];
 export const coreVersion: () => [number, number];
 export const init: () => void;
