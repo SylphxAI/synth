@@ -15,4 +15,4 @@ export { initWasm, isWasmInitialized } from './init.js'
 export type { ParseOptions, WasmNode, WasmTree } from './types.js'
 
 // Parse functions
-export { parse, parseBinary, Position, Tree, version } from './wasm.js'
+export { Position, parse, parseBinary, Tree, version } from './wasm.js'

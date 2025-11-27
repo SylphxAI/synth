@@ -39,6 +39,7 @@ const treeSitterParser = new Parser()
 
 // Load markdown language
 import { resolve } from 'node:path'
+
 const wasmPath = resolve(
   import.meta.dirname,
   '../../../node_modules/tree-sitter-wasm-prebuilt/lib/tree-sitter-markdown.wasm'
