@@ -5,7 +5,7 @@
 import { describe, expect, it } from 'vitest'
 import type { BaseNode } from '../../types/node.js'
 import type { Tree } from '../../types/tree.js'
-import { StreamingMarkdownParser, parseWithProgress } from './streaming-parser.js'
+import { parseWithProgress, StreamingMarkdownParser } from './streaming-parser.js'
 
 describe('Streaming Markdown Parser', () => {
   describe('Basic Streaming', () => {

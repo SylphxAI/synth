@@ -5,5 +5,5 @@
  * Conversion layer over fast-xml-parser
  */
 
-export { XMLParser, createParser, parse, parseAsync } from './parser.js'
 export type { XMLParseOptions } from './parser.js'
+export { createParser, parse, parseAsync, XMLParser } from './parser.js'

@@ -5,10 +5,8 @@
  * Uses Acorn with acorn-jsx plugin for parsing, then converts to Synth format
  */
 
-import type { Plugin, Tree } from '@sylphx/synth'
-import { addNode, createTree } from '@sylphx/synth'
-import { SynthError } from '@sylphx/synth'
-import type { NodeId } from '@sylphx/synth'
+import type { NodeId, Plugin, Tree } from '@sylphx/synth'
+import { addNode, createTree, SynthError } from '@sylphx/synth'
 import * as acorn from 'acorn'
 import jsx from 'acorn-jsx'
 

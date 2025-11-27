@@ -6,8 +6,7 @@
  */
 
 import type { Plugin, Tree } from '@sylphx/synth'
-import { addNode, createTree } from '@sylphx/synth'
-import { SynthError } from '@sylphx/synth'
+import { addNode, createTree, SynthError } from '@sylphx/synth'
 
 export interface INIParseOptions {
   /** Build query index for AST */

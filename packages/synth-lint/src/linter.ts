@@ -6,8 +6,8 @@ import type { BaseNode, NodeId, Tree } from '@sylphx/synth'
 import type {
   Diagnostic,
   DiagnosticSeverity,
-  LintResult,
   LinterConfig,
+  LintResult,
   Rule,
   RuleContext,
   RuleVisitor,

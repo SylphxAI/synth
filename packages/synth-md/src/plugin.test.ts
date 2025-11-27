@@ -3,16 +3,16 @@
  */
 
 import { beforeEach, describe, expect, it } from 'bun:test'
-import { createTree } from '@sylphx/synth'
 import type { Tree } from '@sylphx/synth'
+import { createTree } from '@sylphx/synth'
 import {
-  PluginManager,
   addCodeLineNumbers,
   addHeadingIds,
   createTransformPlugin,
   createVisitorPlugin,
   isTransformPlugin,
   isVisitorPlugin,
+  PluginManager,
   tableOfContents,
   uppercaseHeadings,
   wrapParagraphs,

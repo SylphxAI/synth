@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test'
 import { addNode, createTree } from '@sylphx/synth'
-import { TypeChecker, check, createChecker } from './checker.js'
+import { check, createChecker, TypeChecker } from './checker.js'
 
 describe('TypeChecker', () => {
   it('should create a type checker', () => {

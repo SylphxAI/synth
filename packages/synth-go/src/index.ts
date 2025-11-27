@@ -5,5 +5,5 @@
  * Conversion layer over tree-sitter-go
  */
 
-export { GoParser, createParser, parse, parseAsync } from './parser.js'
 export type { GoParseOptions } from './parser.js'
+export { createParser, GoParser, parse, parseAsync } from './parser.js'

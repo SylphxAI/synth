@@ -184,15 +184,9 @@ describe('JavaScript Types', () => {
     it('should get variable kind', () => {
       const tree = parse('const a = 1; let b = 2; var c = 3;')
 
-      const constDecl = tree.nodes.find(
-        (n) => isVariableDeclaration(n) && getVariableKind(n) === 'const'
-      )
-      const letDecl = tree.nodes.find(
-        (n) => isVariableDeclaration(n) && getVariableKind(n) === 'let'
-      )
-      const varDecl = tree.nodes.find(
-        (n) => isVariableDeclaration(n) && getVariableKind(n) === 'var'
-      )
+      const constDecl = tree.nodes.find((n) => isVariableDeclaration(n) && getVariableKind(n) === 'const')
+      const letDecl = tree.nodes.find((n) => isVariableDeclaration(n) && getVariableKind(n) === 'let')
+      const varDecl = tree.nodes.find((n) => isVariableDeclaration(n) && getVariableKind(n) === 'var')
 
       expect(constDecl).toBeDefined()
       expect(letDecl).toBeDefined()

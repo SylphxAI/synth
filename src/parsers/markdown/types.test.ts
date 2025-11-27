@@ -7,21 +7,21 @@
 import { describe, expect, it } from 'vitest'
 import type { BaseNode } from '../../types/node.js'
 import {
-  type HeadingNode,
-  type LinkNode,
-  type NodeByType,
-  type ParagraphNode,
   assertNodeType,
   createHeadingNode,
   createLinkNode,
   createParagraphNode,
   filterByType,
   findByType,
+  type HeadingNode,
   isBlockNode,
   isHeadingNode,
   isInlineNode,
   isNodeType,
   isParagraphNode,
+  type LinkNode,
+  type NodeByType,
+  type ParagraphNode,
 } from './types.js'
 
 describe('Type Safety', () => {

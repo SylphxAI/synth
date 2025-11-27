@@ -3,7 +3,7 @@
  */
 
 import { describe, expect, it } from 'bun:test'
-import { GoParser, createParser, parse, parseAsync } from './parser.js'
+import { createParser, GoParser, parse, parseAsync } from './parser.js'
 
 describe('GoParser', () => {
   describe('Basic Parsing', () => {
@@ -53,9 +53,7 @@ type Person struct {
 
       expect(tree.meta.language).toBe('go')
 
-      const structNode = tree.nodes.find(
-        (n) => n.type?.includes('Struct') || n.type?.includes('Type')
-      )
+      const structNode = tree.nodes.find((n) => n.type?.includes('Struct') || n.type?.includes('Type'))
       expect(structNode).toBeDefined()
     })
   })
@@ -67,9 +65,7 @@ type Person struct {
 
       expect(tree.meta.language).toBe('go')
 
-      const stringNode = tree.nodes.find(
-        (n) => n.type?.includes('String') || n.data?.text?.includes('"')
-      )
+      const stringNode = tree.nodes.find((n) => n.type?.includes('String') || n.data?.text?.includes('"'))
       expect(stringNode).toBeDefined()
     })
 
@@ -296,9 +292,7 @@ func (r Rectangle) Area() float64 {
 
       expect(tree.meta.language).toBe('go')
 
-      const methodNode = tree.nodes.find(
-        (n) => n.type?.includes('Method') || n.type === 'FunctionDeclaration'
-      )
+      const methodNode = tree.nodes.find((n) => n.type?.includes('Method') || n.type === 'FunctionDeclaration')
       expect(methodNode).toBeDefined()
     })
 
@@ -318,9 +312,7 @@ func (c *Counter) Increment() {
 
       expect(tree.meta.language).toBe('go')
 
-      const methodNode = tree.nodes.find(
-        (n) => n.type === 'FunctionDeclaration' || n.type?.includes('Method')
-      )
+      const methodNode = tree.nodes.find((n) => n.type === 'FunctionDeclaration' || n.type?.includes('Method'))
       expect(methodNode).toBeDefined()
     })
 
@@ -732,9 +724,7 @@ func main() {
 
       expect(tree.meta.language).toBe('go')
 
-      const deferNode = tree.nodes.find(
-        (n) => n.type?.includes('Defer') || n.data?.text?.includes('defer')
-      )
+      const deferNode = tree.nodes.find((n) => n.type?.includes('Defer') || n.data?.text?.includes('defer'))
       expect(deferNode).toBeDefined()
     })
 

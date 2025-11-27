@@ -3,7 +3,7 @@
  */
 
 import { describe, expect, it } from 'bun:test'
-import { PhpParser, createParser, parse, parseAsync } from './parser.js'
+import { createParser, PhpParser, parse, parseAsync } from './parser.js'
 
 describe('PhpParser', () => {
   describe('Basic Parsing', () => {
@@ -34,9 +34,7 @@ echo "Hello, World!";
       expect(tree.meta.language).toBe('php')
 
       // Find assignment or variable
-      const varNode = tree.nodes.find(
-        (n) => n.type.includes('Variable') || n.type.includes('Assignment')
-      )
+      const varNode = tree.nodes.find((n) => n.type.includes('Variable') || n.type.includes('Assignment'))
       expect(varNode).toBeDefined()
     })
 
@@ -83,9 +81,7 @@ class Person {
       expect(tree.meta.language).toBe('php')
 
       // Find variable name
-      const varNode = tree.nodes.find(
-        (n) => n.type === 'VariableName' || n.data?.text?.includes('$')
-      )
+      const varNode = tree.nodes.find((n) => n.type === 'VariableName' || n.data?.text?.includes('$'))
       expect(varNode).toBeDefined()
     })
 
@@ -167,11 +163,7 @@ $flag2 = false;
 
       // Find boolean nodes
       const boolNodes = tree.nodes.filter(
-        (n) =>
-          n.type === 'True' ||
-          n.type === 'False' ||
-          n.data?.text === 'true' ||
-          n.data?.text === 'false'
+        (n) => n.type === 'True' || n.type === 'False' || n.data?.text === 'true' || n.data?.text === 'false'
       )
       expect(boolNodes.length).toBeGreaterThanOrEqual(2)
     })
@@ -404,9 +396,7 @@ $square = function($x) {
       expect(tree.meta.language).toBe('php')
 
       // Find anonymous function
-      const funcNode = tree.nodes.find(
-        (n) => n.type.includes('Anonymous') || n.type.includes('Function')
-      )
+      const funcNode = tree.nodes.find((n) => n.type.includes('Anonymous') || n.type.includes('Function'))
       expect(funcNode).toBeDefined()
     })
 
@@ -417,9 +407,7 @@ $square = function($x) {
       expect(tree.meta.language).toBe('php')
 
       // Find arrow function
-      const arrowNode = tree.nodes.find(
-        (n) => n.type.includes('Arrow') || n.data?.text?.includes('=>')
-      )
+      const arrowNode = tree.nodes.find((n) => n.type.includes('Arrow') || n.data?.text?.includes('=>'))
       expect(arrowNode).toBeDefined()
     })
   })
@@ -559,9 +547,7 @@ $x = 42;
       expect(tree.meta.language).toBe('php')
 
       // Find comment node
-      const commentNode = tree.nodes.find(
-        (n) => n.type.includes('Comment') || n.data?.text?.includes('//')
-      )
+      const commentNode = tree.nodes.find((n) => n.type.includes('Comment') || n.data?.text?.includes('//'))
       expect(commentNode).toBeDefined()
     })
 

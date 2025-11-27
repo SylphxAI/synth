@@ -4,7 +4,7 @@
 
 import { describe, expect, it } from 'bun:test'
 import type { BaseNode, Tree } from '@sylphx/synth'
-import { StreamingMarkdownParser, parseStream, parseWithProgress } from './streaming-parser.js'
+import { parseStream, parseWithProgress, StreamingMarkdownParser } from './streaming-parser.js'
 
 describe('Streaming Markdown Parser', () => {
   describe('Basic Streaming', () => {

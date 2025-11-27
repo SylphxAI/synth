@@ -3,43 +3,43 @@
  */
 
 export type {
-  Position,
-  Span,
-  NodeId,
   BaseNode,
   Node,
-  TextNode,
+  NodeId,
   ParentNode,
+  Position,
   RootNode,
+  Span,
+  TextNode,
 } from './node.js'
 
 export {
-  isTextNode,
   isParentNode,
+  isTextNode,
 } from './node.js'
 
 export type {
-  TreeMetadata,
   Tree,
+  TreeMetadata,
 } from './tree.js'
 
 export {
-  createTree,
-  getNode,
-  getRoot,
   addNode,
-  updateNode,
-  removeNode,
+  createTree,
   getChildren,
+  getNode,
   getParent,
+  getRoot,
   internString,
+  removeNode,
+  updateNode,
 } from './tree.js'
 
 export type {
+  TraversalOptions,
+  Visitor,
   VisitorContext,
   VisitorFn,
-  Visitor,
-  TraversalOptions,
 } from './visitor.js'
 
 export { TraversalOrder } from './visitor.js'

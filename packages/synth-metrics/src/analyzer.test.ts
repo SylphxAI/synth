@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test'
 import { addNode, createTree } from '@sylphx/synth'
-import { MetricsAnalyzer, analyze, createAnalyzer, report } from './analyzer.js'
+import { analyze, createAnalyzer, MetricsAnalyzer, report } from './analyzer.js'
 
 describe('MetricsAnalyzer', () => {
   it('should create an analyzer instance', () => {

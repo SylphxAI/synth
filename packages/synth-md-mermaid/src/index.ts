@@ -10,8 +10,8 @@
  * ```
  */
 
-import { type TransformPlugin, createTransformPlugin } from '@sylphx/synth'
 import type { BaseNode } from '@sylphx/synth'
+import { createTransformPlugin, type TransformPlugin } from '@sylphx/synth'
 import type { CodeBlockNode } from '@sylphx/synth-md'
 
 export interface MermaidNode extends BaseNode {

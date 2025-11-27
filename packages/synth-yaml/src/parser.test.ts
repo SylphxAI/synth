@@ -3,7 +3,7 @@
  */
 
 import { describe, expect, it } from 'bun:test'
-import { YAMLParser, parse, parseAsync } from './parser.js'
+import { parse, parseAsync, YAMLParser } from './parser.js'
 
 describe('YAMLParser', () => {
   describe('Basic Values', () => {

@@ -4,10 +4,10 @@
 
 import { describe, expect, it } from 'bun:test'
 import {
-  type Edit,
-  IncrementalMarkdownParser,
   calculateEditDistance,
   detectEdit,
+  type Edit,
+  IncrementalMarkdownParser,
   shouldUseIncremental,
 } from './incremental-parser.js'
 

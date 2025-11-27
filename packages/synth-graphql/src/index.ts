@@ -5,5 +5,5 @@
  * Conversion layer over graphql-js
  */
 
-export { GraphQLParser, createParser, parse, parseAsync } from './parser.js'
 export type { GraphQLParseOptions } from './parser.js'
+export { createParser, GraphQLParser, parse, parseAsync } from './parser.js'

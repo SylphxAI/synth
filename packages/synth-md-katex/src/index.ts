@@ -10,8 +10,8 @@
  * $$
  */
 
-import { type TransformPlugin, createTransformPlugin } from '@sylphx/synth'
 import type { BaseNode } from '@sylphx/synth'
+import { createTransformPlugin, type TransformPlugin } from '@sylphx/synth'
 
 export interface MathNode extends BaseNode {
   type: 'math'
@@ -98,7 +98,7 @@ export function katexPlugin(options: KatexPluginOptions = {}): TransformPlugin {
 
           // Find inline math $...$
           if (inlineMath) {
-            const inlineRegex = /\$([^\$\n]+?)\$/g
+            const inlineRegex = /\$([^$\n]+?)\$/g
             let match: RegExpExecArray | null
             while ((match = inlineRegex.exec(text)) !== null) {
               if (match[1]) {

@@ -3,62 +3,56 @@
  */
 
 export type {
-  Position,
-  Span,
-  NodeId,
   BaseNode,
   Node,
-  TextNode,
+  NodeId,
   ParentNode,
+  Position,
   RootNode,
+  Span,
+  TextNode,
 } from './node.js'
 
 export {
-  isTextNode,
   isParentNode,
+  isTextNode,
 } from './node.js'
-
-export type {
-  TreeMetadata,
-  Tree,
-} from './tree.js'
-
-export {
-  createTree,
-  getNode,
-  getRoot,
-  addNode,
-  updateNode,
-  removeNode,
-  getChildren,
-  getParent,
-  internString,
-} from './tree.js'
-
-export type {
-  VisitorContext,
-  VisitorFn,
-  Visitor,
-  TraversalOptions,
-} from './visitor.js'
-
-export { TraversalOrder } from './visitor.js'
-
 export type {
   Token,
-  TokenStream,
-  TokenRange,
   TokenPosition,
+  TokenRange,
   TokenSpan,
+  TokenStream,
 } from './token.js'
-
 export {
-  TokenKind,
-  TokenFlags,
   createToken,
   createTokenStream,
-  isPositionInToken,
-  tokenRangesOverlap,
   findTokenAtOffset,
   getTokenRange,
+  isPositionInToken,
+  TokenFlags,
+  TokenKind,
+  tokenRangesOverlap,
 } from './token.js'
+export type {
+  Tree,
+  TreeMetadata,
+} from './tree.js'
+export {
+  addNode,
+  createTree,
+  getChildren,
+  getNode,
+  getParent,
+  getRoot,
+  internString,
+  removeNode,
+  updateNode,
+} from './tree.js'
+export type {
+  TraversalOptions,
+  Visitor,
+  VisitorContext,
+  VisitorFn,
+} from './visitor.js'
+export { TraversalOrder } from './visitor.js'

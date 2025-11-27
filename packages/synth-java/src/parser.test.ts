@@ -3,7 +3,7 @@
  */
 
 import { describe, expect, it } from 'bun:test'
-import { JavaParser, createParser, parse, parseAsync } from './parser.js'
+import { createParser, JavaParser, parse, parseAsync } from './parser.js'
 
 describe('JavaParser', () => {
   describe('Basic Parsing', () => {
@@ -38,9 +38,7 @@ public class HelloWorld {
       expect(tree.meta.language).toBe('java')
 
       // Find variable declaration
-      const varNode = tree.nodes.find(
-        (n) => n.type.includes('VariableDecl') || n.type.includes('Local')
-      )
+      const varNode = tree.nodes.find((n) => n.type.includes('VariableDecl') || n.type.includes('Local'))
       expect(varNode).toBeDefined()
     })
 
@@ -105,11 +103,7 @@ boolean flag2 = false;
 
       // Find boolean literals
       const boolNodes = tree.nodes.filter(
-        (n) =>
-          n.type === 'True' ||
-          n.type === 'False' ||
-          n.data?.text === 'true' ||
-          n.data?.text === 'false'
+        (n) => n.type === 'True' || n.type === 'False' || n.data?.text === 'true' || n.data?.text === 'false'
       )
       expect(boolNodes.length).toBeGreaterThanOrEqual(2)
     })
@@ -527,9 +521,7 @@ int x = 42;
       expect(tree.meta.language).toBe('java')
 
       // Find comment node
-      const commentNode = tree.nodes.find(
-        (n) => n.type.includes('Comment') || n.data?.text?.includes('//')
-      )
+      const commentNode = tree.nodes.find((n) => n.type.includes('Comment') || n.data?.text?.includes('//'))
       expect(commentNode).toBeDefined()
     })
 

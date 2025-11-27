@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test'
 import { encode } from '@msgpack/msgpack'
 import type { Plugin, Tree } from '@sylphx/synth'
-import { MsgPackParser, createParser, parse, parseAsync } from './parser.js'
+import { createParser, MsgPackParser, parse, parseAsync } from './parser.js'
 
 describe('MsgPackParser', () => {
   it('should create a parser instance', () => {
@@ -166,13 +166,7 @@ describe('MsgPackParser', () => {
     expect(arrayNode?.children.length).toBe(5)
 
     const types = arrayNode?.children.map((childId) => tree.nodes[childId!]?.type)
-    expect(types).toEqual([
-      'MsgPackNumber',
-      'MsgPackString',
-      'MsgPackBoolean',
-      'MsgPackNull',
-      'MsgPackArray',
-    ])
+    expect(types).toEqual(['MsgPackNumber', 'MsgPackString', 'MsgPackBoolean', 'MsgPackNull', 'MsgPackArray'])
   })
 
   it('should parse real-world user data', () => {

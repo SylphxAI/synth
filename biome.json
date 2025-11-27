@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "extends": ["@sylphx/biome-config"],
   "vcs": {
     "enabled": true,
@@ -8,7 +8,7 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "ignore": ["node_modules", "dist", ".turbo", "coverage"]
+    "includes": ["**", "!**/node_modules", "!**/dist", "!**/.turbo", "!**/coverage"]
   },
   "formatter": {
     "enabled": true,
@@ -24,7 +24,9 @@
         "noExplicitAny": "off",
         "noImplicitAnyLet": "off",
         "noAssignInExpressions": "off",
-        "noShadowRestrictedNames": "off"
+        "noShadowRestrictedNames": "off",
+        "noNonNullAssertedOptionalChain": "off",
+        "noTemplateCurlyInString": "off"
       },
       "style": {
         "noUnusedTemplateLiteral": "off",
@@ -48,7 +50,5 @@
       "semicolons": "asNeeded"
     }
   },
-  "organizeImports": {
-    "enabled": true
-  }
+  "assist": { "actions": { "source": { "organizeImports": "on" } } }
 }

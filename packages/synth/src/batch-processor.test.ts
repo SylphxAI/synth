@@ -1,12 +1,5 @@
 import { describe, expect, it } from 'bun:test'
-import {
-  batchFilter,
-  batchMap,
-  batchProcess,
-  batchSelect,
-  batchTransform,
-  batchTraverse,
-} from './batch-processor.js'
+import { batchFilter, batchMap, batchProcess, batchSelect, batchTransform, batchTraverse } from './batch-processor.js'
 import { addNode, createTree } from './types/index.js'
 
 describe('Batch Processor', () => {

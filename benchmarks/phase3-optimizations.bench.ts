@@ -10,8 +10,8 @@
 import { bench, describe } from 'vitest'
 import { BatchTokenizer } from '../src/parsers/markdown/batch-tokenizer.js'
 import {
-  IncrementalMarkdownParser,
   detectEdit,
+  IncrementalMarkdownParser,
 } from '../src/parsers/markdown/incremental-parser.js'
 import { UltraOptimizedMarkdownParser } from '../src/parsers/markdown/ultra-optimized-parser.js'
 

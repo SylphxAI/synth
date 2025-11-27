@@ -6,10 +6,8 @@
  */
 
 import { decode } from '@msgpack/msgpack'
-import type { Plugin, Tree } from '@sylphx/synth'
-import { addNode, createTree } from '@sylphx/synth'
-import { SynthError } from '@sylphx/synth'
-import type { NodeId } from '@sylphx/synth'
+import type { NodeId, Plugin, Tree } from '@sylphx/synth'
+import { addNode, createTree, SynthError } from '@sylphx/synth'
 
 export interface MsgPackParseOptions {
   /** Plugins to apply during parsing */

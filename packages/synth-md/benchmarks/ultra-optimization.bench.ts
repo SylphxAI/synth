@@ -153,13 +153,13 @@ describe('Ultra-Optimization: Documentation (5000 lines)', () => {
 describe('Ultra-Optimization: Tokenizer Comparison', () => {
   bench('Optimized Tokenizer', () => {
     const parser = new OptimizedMarkdownParser()
-    // @ts-ignore - accessing private for benchmark
+    // @ts-expect-error - accessing private for benchmark
     parser.tokenizer.tokenize(mediumDoc)
   })
 
   bench('Ultra-Optimized Tokenizer', () => {
     const parser = new UltraOptimizedMarkdownParser()
-    // @ts-ignore - accessing private for benchmark
+    // @ts-expect-error - accessing private for benchmark
     parser.tokenizer.tokenize(mediumDoc)
   })
 })
@@ -167,7 +167,7 @@ describe('Ultra-Optimization: Tokenizer Comparison', () => {
 describe('Phase 3: Batch Tokenizer Performance', () => {
   bench('Standard tokenizer - Medium', () => {
     const parser = new UltraOptimizedMarkdownParser()
-    // @ts-ignore - accessing private for benchmark
+    // @ts-expect-error - accessing private for benchmark
     parser.tokenizer.tokenize(mediumDoc)
   })
 
@@ -178,7 +178,7 @@ describe('Phase 3: Batch Tokenizer Performance', () => {
 
   bench('Standard tokenizer - Large', () => {
     const parser = new UltraOptimizedMarkdownParser()
-    // @ts-ignore - accessing private for benchmark
+    // @ts-expect-error - accessing private for benchmark
     parser.tokenizer.tokenize(largeDoc)
   })
 

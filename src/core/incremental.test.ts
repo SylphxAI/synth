@@ -6,11 +6,11 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import type { Tree } from '../types/index.js'
 import { createTree } from '../types/tree.js'
 import {
+  applyEdit,
+  createIncrementalParser,
   type Edit,
   type IncrementalParser,
   type SimpleEdit,
-  applyEdit,
-  createIncrementalParser,
 } from './incremental.js'
 
 // Mock parser for testing

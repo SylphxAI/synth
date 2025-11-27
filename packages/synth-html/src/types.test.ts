@@ -5,7 +5,6 @@
 import { describe, expect, it } from 'bun:test'
 import type { BaseNode } from '@sylphx/synth'
 import {
-  VOID_ELEMENTS,
   getAttribute,
   getAttributes,
   getCDATAValue,
@@ -23,6 +22,7 @@ import {
   isSelfClosing,
   isTextNode,
   isVoidElement,
+  VOID_ELEMENTS,
 } from './types.js'
 
 describe('HTML Types', () => {

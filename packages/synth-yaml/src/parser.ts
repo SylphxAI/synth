@@ -6,8 +6,7 @@
  */
 
 import type { NodeId, Plugin, Tree } from '@sylphx/synth'
-import { addNode, createTree } from '@sylphx/synth'
-import { SynthError } from '@sylphx/synth'
+import { addNode, createTree, SynthError } from '@sylphx/synth'
 import * as YAML from 'yaml'
 
 export interface YAMLParseOptions {

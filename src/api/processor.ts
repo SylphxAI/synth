@@ -5,8 +5,7 @@
  */
 
 import type { Zipper } from '../core/index.js'
-import { traverse } from '../core/index.js'
-import { createZipper } from '../core/index.js'
+import { createZipper, traverse } from '../core/index.js'
 import type { Tree, Visitor } from '../types/index.js'
 import { createTree } from '../types/index.js'
 

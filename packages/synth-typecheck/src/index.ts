@@ -4,5 +4,5 @@
  * Type checker for Synth AST
  */
 
-export { TypeChecker, createChecker, check } from './checker.js'
+export { check, createChecker, TypeChecker } from './checker.js'
 export * from './types.js'

@@ -12,10 +12,8 @@
  * Performance target: <0.1ms for typical edits on 1000-line documents
  */
 
-import { IncrementalTokenizer } from '@sylphx/synth'
-import type { Token, TokenRange } from '@sylphx/synth'
-import { TokenFlags, TokenKind, createToken } from '@sylphx/synth'
-import type { Edit } from '@sylphx/synth'
+import type { Edit, Token, TokenRange } from '@sylphx/synth'
+import { createToken, IncrementalTokenizer, TokenFlags, TokenKind } from '@sylphx/synth'
 
 /**
  * Markdown block type detection

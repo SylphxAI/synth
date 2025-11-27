@@ -4,47 +4,44 @@
  * High-performance HTML5 parser for Synth
  */
 
-// Core parser
-export { HTMLParser, createParser, parse, parseAsync } from './parser.js'
-export type { HTMLParseOptions } from './parser.js'
-
-// Tokenizer
-export { HTMLTokenizer } from './tokenizer.js'
-export type {
-  Token,
-  TokenType,
-  HTMLToken,
-  DoctypeToken,
-  StartTagToken,
-  EndTagToken,
-  SelfClosingTagToken,
-  TextToken,
-  CommentToken,
-  CDATAToken,
-} from './tokenizer.js'
-
 // Incremental tokenizer
 export { IncrementalHTMLTokenizer } from './incremental-tokenizer.js'
-
+export type { HTMLParseOptions } from './parser.js'
+// Core parser
+export { createParser, HTMLParser, parse, parseAsync } from './parser.js'
+export type {
+  CDATAToken,
+  CommentToken,
+  DoctypeToken,
+  EndTagToken,
+  HTMLToken,
+  SelfClosingTagToken,
+  StartTagToken,
+  TextToken,
+  Token,
+  TokenType,
+} from './tokenizer.js'
+// Tokenizer
+export { HTMLTokenizer } from './tokenizer.js'
+export type { HTMLNodeType } from './types.js'
 // Types and utilities
 export {
-  VOID_ELEMENTS,
-  isDocumentNode,
-  isDoctypeNode,
-  isElementNode,
-  isTextNode,
-  isCommentNode,
-  isCDATANode,
-  getTagName,
-  getAttributes,
   getAttribute,
-  isVoidElement,
-  isSelfClosing,
-  getTextValue,
-  getCommentValue,
+  getAttributes,
   getCDATAValue,
+  getCommentValue,
   getDoctypeName,
   getDoctypePublicId,
   getDoctypeSystemId,
+  getTagName,
+  getTextValue,
+  isCDATANode,
+  isCommentNode,
+  isDoctypeNode,
+  isDocumentNode,
+  isElementNode,
+  isSelfClosing,
+  isTextNode,
+  isVoidElement,
+  VOID_ELEMENTS,
 } from './types.js'
-export type { HTMLNodeType } from './types.js'

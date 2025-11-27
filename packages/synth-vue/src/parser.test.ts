@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test'
 import type { Tree } from '@sylphx/synth'
-import { VueParser, createParser, parse, parseAsync } from './parser.js'
+import { createParser, parse, parseAsync, VueParser } from './parser.js'
 
 describe('VueParser', () => {
   describe('Basic SFC', () => {

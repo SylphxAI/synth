@@ -4,12 +4,11 @@
  * Protocol Buffers parser using Synth's universal AST
  */
 
+export type { Node, Plugin, Tree } from '@sylphx/synth'
 export {
-  ProtobufParser,
   createParser,
+  type ProtobufParseOptions,
+  ProtobufParser,
   parse,
   parseAsync,
-  type ProtobufParseOptions,
 } from './parser.js'
-
-export type { Tree, Plugin, Node } from '@sylphx/synth'

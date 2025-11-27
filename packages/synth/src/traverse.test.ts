@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'bun:test'
 import { selectByType, traverse } from './traverse.js'
-import { addNode, createTree } from './types/index.js'
-import { TraversalOrder } from './types/index.js'
+import { addNode, createTree, TraversalOrder } from './types/index.js'
 
 describe('traverse', () => {
   it('should traverse tree in pre-order', () => {

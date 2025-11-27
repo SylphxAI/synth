@@ -18,8 +18,8 @@
  * ```
  */
 
-import { IncrementalParserManager, type Language, detectEdit } from '@sylphx/synth'
 import type { Tree } from '@sylphx/synth'
+import { detectEdit, IncrementalParserManager, type Language } from '@sylphx/synth'
 
 /**
  * Document change event

@@ -5,9 +5,8 @@
  * Expected gain: 10-100x for incremental updates
  */
 
-import type { BaseNode, NodeId, Tree } from '@sylphx/synth'
+import type { ASTIndex, BaseNode, NodeId, Tree } from '@sylphx/synth'
 import { TreeStructureError } from '@sylphx/synth'
-import type { ASTIndex } from '@sylphx/synth'
 import { type ParseOptions, Parser } from './parser.js'
 
 /**

@@ -3,14 +3,14 @@
  */
 
 import { beforeEach, describe, expect, it } from 'vitest'
-import { createTree } from '../../types/tree.js'
 import type { Tree } from '../../types/tree.js'
+import { createTree } from '../../types/tree.js'
 import {
-  PluginManager,
   createTransformPlugin,
   createVisitorPlugin,
   isTransformPlugin,
   isVisitorPlugin,
+  PluginManager,
   remarkCodeLineNumbers,
   remarkHeadingId,
   remarkToc,

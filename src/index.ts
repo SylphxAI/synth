@@ -15,14 +15,11 @@
  * ```
  */
 
-// Core types
-export type * from './types/index.js'
-
-// Core engine
-export * from './core/index.js'
-
 // Public API
 export * from './api/index.js'
-
 // Re-export main entry point
 export { flux as synth, flux } from './api/index.js'
+// Core engine
+export * from './core/index.js'
+// Core types
+export type * from './types/index.js'

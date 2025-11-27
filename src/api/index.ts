@@ -2,28 +2,27 @@
  * Public API exports
  */
 
-export { flux, Processor, ProcessorChain } from './processor.js'
-export type { TransformFn, Plugin, LanguageAdapter } from './processor.js'
-
 export {
   compose,
-  pipe,
-  when,
   map,
-  parallel,
-  sequential,
-  retry,
   memoize,
+  parallel,
+  pipe,
+  retry,
+  sequential,
   tap,
   timed,
+  when,
 } from './composition.js'
+export type { LanguageAdapter, Plugin, TransformFn } from './processor.js'
+export { flux, Processor, ProcessorChain } from './processor.js'
 
 export {
-  transformNodes,
-  transformByType,
-  removeNodes,
+  cloneTree,
   filter,
   mapNodes,
-  cloneTree,
   mergeTrees,
+  removeNodes,
+  transformByType,
+  transformNodes,
 } from './transforms.js'

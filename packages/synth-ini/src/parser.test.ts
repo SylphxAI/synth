@@ -3,7 +3,7 @@
  */
 
 import { describe, expect, it } from 'bun:test'
-import { INIParser, createParser, parse, parseAsync } from './parser.js'
+import { createParser, INIParser, parse, parseAsync } from './parser.js'
 
 describe('INIParser', () => {
   describe('Basic Parsing', () => {

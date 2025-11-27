@@ -3,7 +3,7 @@
  */
 
 import { describe, expect, it } from 'bun:test'
-import { TOMLParser, createParser, parse, parseAsync } from './parser.js'
+import { createParser, parse, parseAsync, TOMLParser } from './parser.js'
 
 describe('TOMLParser', () => {
   describe('Basic Parsing', () => {

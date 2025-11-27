@@ -10,9 +10,8 @@
  * - 95%+ token reuse for typical edits
  */
 
-import { IncrementalTokenizer } from '@sylphx/synth'
 import type { Edit, Token, TokenRange } from '@sylphx/synth'
-import { TokenFlags, TokenKind, createToken } from '@sylphx/synth'
+import { createToken, IncrementalTokenizer, TokenFlags, TokenKind } from '@sylphx/synth'
 
 /**
  * JSON value types

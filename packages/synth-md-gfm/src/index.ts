@@ -10,7 +10,7 @@
  * - Task lists ([x] and [ ])
  */
 
-import { type TransformPlugin, createTransformPlugin } from '@sylphx/synth'
+import { createTransformPlugin, type TransformPlugin } from '@sylphx/synth'
 
 // Re-export GFM tokenizer utilities
 export * from './gfm-tokenizer.js'

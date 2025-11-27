@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { addNode, createTree } from '../types/index.js'
-import { TraversalOrder } from '../types/index.js'
+import { addNode, createTree, TraversalOrder } from '../types/index.js'
 import { selectByType, traverse } from './traverse.js'
 
 describe('traverse', () => {

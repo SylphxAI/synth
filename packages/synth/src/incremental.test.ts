@@ -4,11 +4,11 @@
 
 import { beforeEach, describe, expect, it } from 'bun:test'
 import {
+  applyEdit,
+  createIncrementalParser,
   type Edit,
   type IncrementalParser,
   type SimpleEdit,
-  applyEdit,
-  createIncrementalParser,
 } from './incremental.js'
 import type { Tree } from './types/index.js'
 import { createTree } from './types/tree.js'

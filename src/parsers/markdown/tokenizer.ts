@@ -8,8 +8,8 @@
 import type { Edit } from '../../core/incremental.js'
 import type {
   BlankLineToken,
-  BlockToken,
   BlockquoteToken,
+  BlockToken,
   CodeBlockToken,
   HeadingToken,
   HorizontalRuleToken,

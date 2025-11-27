@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test'
 import { addNode, createTree } from '@sylphx/synth'
-import { DocGenerator, createGenerator, generate } from './generator.js'
+import { createGenerator, DocGenerator, generate } from './generator.js'
 
 describe('DocGenerator', () => {
   it('should create a documentation generator', () => {

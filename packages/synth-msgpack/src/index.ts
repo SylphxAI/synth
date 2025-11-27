@@ -4,12 +4,11 @@
  * MessagePack parser using Synth's universal AST
  */
 
+export type { Node, Plugin, Tree } from '@sylphx/synth'
 export {
-  MsgPackParser,
   createParser,
+  type MsgPackParseOptions,
+  MsgPackParser,
   parse,
   parseAsync,
-  type MsgPackParseOptions,
 } from './parser.js'
-
-export type { Tree, Plugin, Node } from '@sylphx/synth'

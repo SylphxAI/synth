@@ -6,8 +6,7 @@
  */
 
 import type { NodeId, Plugin, Tree } from '@sylphx/synth'
-import { addNode, createTree } from '@sylphx/synth'
-import { SynthError } from '@sylphx/synth'
+import { addNode, createTree, SynthError } from '@sylphx/synth'
 import * as acorn from 'acorn'
 import tsPlugin from 'acorn-typescript'
 
@@ -190,7 +189,7 @@ export class JSParser {
 
   private convertNode(tree: Tree, node: any, parentId: NodeId): NodeId {
     // Extract common properties
-    const { type, loc, range, start, end, ...data } = node
+    const { type, loc, range, start: _start, end: _end, ...data } = node
 
     // Create node with our format
     const id = addNode(tree, {

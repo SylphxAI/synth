@@ -7,7 +7,5 @@
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "**/*.test.ts", "**/*.bench.ts"],
-  "references": [
-    { "path": "../synth" }
-  ]
+  "references": [{ "path": "../synth" }]
 }

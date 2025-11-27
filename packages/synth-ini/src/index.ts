@@ -5,5 +5,5 @@
  * Hand-written, zero dependencies
  */
 
-export { INIParser, createParser, parse, parseAsync } from './parser.js'
 export type { INIParseOptions } from './parser.js'
+export { createParser, INIParser, parse, parseAsync } from './parser.js'

@@ -4,7 +4,7 @@
 
 import { describe, expect, it } from 'bun:test'
 import { createTransformPlugin } from '@sylphx/synth'
-import { JSParser, createParser, parse, parseAsync } from './parser.js'
+import { createParser, JSParser, parse, parseAsync } from './parser.js'
 import {
   findExports,
   findFunctions,
@@ -164,9 +164,7 @@ describe('JSParser', () => {
       const parser = new JSParser()
       const tree = parser.parse('const { x, y } = point; const [a, b] = arr;')
 
-      const patterns = tree.nodes.filter(
-        (n) => n.type === 'ObjectPattern' || n.type === 'ArrayPattern'
-      )
+      const patterns = tree.nodes.filter((n) => n.type === 'ObjectPattern' || n.type === 'ArrayPattern')
       expect(patterns.length).toBe(2)
     })
 
@@ -310,13 +308,10 @@ describe('JSParser', () => {
       let registered = false
       let oneOff = false
 
-      const registeredPlugin = createTransformPlugin(
-        { name: 'registered', version: '1.0.0' },
-        (tree) => {
-          registered = true
-          return tree
-        }
-      )
+      const registeredPlugin = createTransformPlugin({ name: 'registered', version: '1.0.0' }, (tree) => {
+        registered = true
+        return tree
+      })
 
       const oneOffPlugin = createTransformPlugin({ name: 'one-off', version: '1.0.0' }, (tree) => {
         oneOff = true
@@ -344,14 +339,11 @@ describe('JSParser', () => {
       const parser = new JSParser()
 
       let pluginCalled = false
-      const asyncPlugin = createTransformPlugin(
-        { name: 'async-test', version: '1.0.0' },
-        async (tree) => {
-          await new Promise((resolve) => setTimeout(resolve, 1))
-          pluginCalled = true
-          return tree
-        }
-      )
+      const asyncPlugin = createTransformPlugin({ name: 'async-test', version: '1.0.0' }, async (tree) => {
+        await new Promise((resolve) => setTimeout(resolve, 1))
+        pluginCalled = true
+        return tree
+      })
 
       await parser.parseAsync('const x = 42;', { plugins: [asyncPlugin] })
       expect(pluginCalled).toBe(true)
@@ -360,13 +352,10 @@ describe('JSParser', () => {
     it('should detect async plugins in sync parse', () => {
       const parser = new JSParser()
 
-      const asyncPlugin = createTransformPlugin(
-        { name: 'async', version: '1.0.0' },
-        async (tree) => {
-          await new Promise((resolve) => setTimeout(resolve, 1))
-          return tree
-        }
-      )
+      const asyncPlugin = createTransformPlugin({ name: 'async', version: '1.0.0' }, async (tree) => {
+        await new Promise((resolve) => setTimeout(resolve, 1))
+        return tree
+      })
 
       expect(() => {
         parser.parse('const x = 42;', { plugins: [asyncPlugin] })

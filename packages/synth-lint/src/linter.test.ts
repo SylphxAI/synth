@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test'
 import { addNode, createTree } from '@sylphx/synth'
-import { Linter, createLinter } from './linter.js'
+import { createLinter, Linter } from './linter.js'
 import { maxDepth, noConsole, noEmptyBlocks } from './rules/index.js'
 import type { Rule, RuleVisitor } from './types.js'
 

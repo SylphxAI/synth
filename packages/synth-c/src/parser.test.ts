@@ -70,9 +70,7 @@ unsigned int w = 42U;
       expect(tree.meta.language).toBe('c')
 
       // Find type specifiers
-      const typeNodes = tree.nodes.filter(
-        (n) => n.type.includes('Type') || n.type.includes('PrimitiveType')
-      )
+      const typeNodes = tree.nodes.filter((n) => n.type.includes('Type') || n.type.includes('PrimitiveType'))
       expect(typeNodes.length).toBeGreaterThanOrEqual(1)
     })
 
@@ -86,9 +84,7 @@ double y = 3.14159;
       expect(tree.meta.language).toBe('c')
 
       // Find float/double types
-      const floatNodes = tree.nodes.filter(
-        (n) => n.data?.text?.includes('.') || n.type.includes('Float')
-      )
+      const floatNodes = tree.nodes.filter((n) => n.data?.text?.includes('.') || n.type.includes('Float'))
       expect(floatNodes.length).toBeGreaterThanOrEqual(1)
     })
 
@@ -483,9 +479,7 @@ int add(int a, int b) {
       expect(tree.meta.language).toBe('c')
 
       // Find preproc include
-      const includeNode = tree.nodes.find(
-        (n) => n.type.includes('Preproc') && n.type.includes('Include')
-      )
+      const includeNode = tree.nodes.find((n) => n.type.includes('Preproc') && n.type.includes('Include'))
       expect(includeNode).toBeDefined()
     })
 
@@ -496,9 +490,7 @@ int add(int a, int b) {
       expect(tree.meta.language).toBe('c')
 
       // Find preproc def
-      const defineNode = tree.nodes.find(
-        (n) => n.type.includes('Preproc') && n.type.includes('Def')
-      )
+      const defineNode = tree.nodes.find((n) => n.type.includes('Preproc') && n.type.includes('Def'))
       expect(defineNode).toBeDefined()
     })
 
@@ -513,9 +505,7 @@ int add(int a, int b) {
       expect(tree.meta.language).toBe('c')
 
       // Find preproc ifdef
-      const ifdefNode = tree.nodes.find(
-        (n) => n.type.includes('Preproc') && n.type.includes('Ifdef')
-      )
+      const ifdefNode = tree.nodes.find((n) => n.type.includes('Preproc') && n.type.includes('Ifdef'))
       expect(ifdefNode).toBeDefined()
     })
 
@@ -592,9 +582,7 @@ y--;
       expect(tree.meta.language).toBe('c')
 
       // Find logical expressions
-      const logicNodes = tree.nodes.filter(
-        (n) => n.type.includes('Binary') || n.type.includes('Unary')
-      )
+      const logicNodes = tree.nodes.filter((n) => n.type.includes('Binary') || n.type.includes('Unary'))
       expect(logicNodes.length).toBeGreaterThanOrEqual(1)
     })
 
@@ -632,9 +620,7 @@ int x = 42;
       expect(tree.meta.language).toBe('c')
 
       // Find comment node
-      const commentNode = tree.nodes.find(
-        (n) => n.type.includes('Comment') || n.data?.text?.includes('//')
-      )
+      const commentNode = tree.nodes.find((n) => n.type.includes('Comment') || n.data?.text?.includes('//'))
       expect(commentNode).toBeDefined()
     })
 

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test'
 import type { Tree } from '@sylphx/synth'
-import { GraphQLParser, createParser, parse, parseAsync } from './parser.js'
+import { createParser, GraphQLParser, parse, parseAsync } from './parser.js'
 
 describe('GraphQLParser', () => {
   describe('Basic Queries', () => {

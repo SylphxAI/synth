@@ -2,67 +2,57 @@
  * Core engine exports
  */
 
+export type { BatchProcessingOptions, BatchVisitor } from './batch-processor.js'
 export {
-  traverse,
-  select,
-  find,
-  selectByType,
-} from './traverse.js'
-
-export type { Zipper } from './zipper.js'
-
-export {
-  createZipper,
-  createZipperAt,
-  getFocus,
-  down,
-  up,
-  left,
-  right,
-  root,
-  edit,
-  replace,
-  appendChild,
-  insertLeft,
-  insertRight,
-  remove,
-} from './zipper.js'
-
-export type { BatchVisitor, BatchProcessingOptions } from './batch-processor.js'
-
-export {
+  batchFilter,
+  batchMap,
   batchProcess,
-  batchTraverse,
   batchSelect,
   batchTransform,
-  batchMap,
-  batchFilter,
+  batchTraverse,
 } from './batch-processor.js'
-
-export type { PoolConfig, PoolStats } from './node-pool.js'
-
+export type {
+  AffectedRange,
+  Edit,
+  IncrementalStats,
+  SimpleEdit,
+} from './incremental.js'
 export {
-  NodePoolManager,
-  globalNodePool,
+  applyEdit,
+  createIncrementalParser,
+  IncrementalParser,
+} from './incremental.js'
+export type { PoolConfig, PoolStats } from './node-pool.js'
+export {
   createNodePool,
+  globalNodePool,
+  NodePoolManager,
 } from './node-pool.js'
-
-export type { QuerySelector, QueryPredicate, QueryObject, IndexStats } from './query-index.js'
-
+export type { IndexStats, QueryObject, QueryPredicate, QuerySelector } from './query-index.js'
 export {
   ASTIndex,
   createIndex,
 } from './query-index.js'
-
-export type {
-  Edit,
-  SimpleEdit,
-  AffectedRange,
-  IncrementalStats,
-} from './incremental.js'
-
 export {
-  IncrementalParser,
-  createIncrementalParser,
-  applyEdit,
-} from './incremental.js'
+  find,
+  select,
+  selectByType,
+  traverse,
+} from './traverse.js'
+export type { Zipper } from './zipper.js'
+export {
+  appendChild,
+  createZipper,
+  createZipperAt,
+  down,
+  edit,
+  getFocus,
+  insertLeft,
+  insertRight,
+  left,
+  remove,
+  replace,
+  right,
+  root,
+  up,
+} from './zipper.js'

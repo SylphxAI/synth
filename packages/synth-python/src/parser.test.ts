@@ -3,7 +3,7 @@
  */
 
 import { describe, expect, it } from 'bun:test'
-import { PythonParser, createParser, parse, parseAsync } from './parser.js'
+import { createParser, PythonParser, parse, parseAsync } from './parser.js'
 
 describe('PythonParser', () => {
   describe('Basic Parsing', () => {
@@ -239,9 +239,7 @@ def utility_function():
 
       expect(tree.meta.language).toBe('python')
 
-      const decoratorNode = tree.nodes.find(
-        (n) => n.type === 'Decorator' || n.type === 'DecoratedDefinition'
-      )
+      const decoratorNode = tree.nodes.find((n) => n.type === 'Decorator' || n.type === 'DecoratedDefinition')
       expect(decoratorNode).toBeDefined()
     })
   })

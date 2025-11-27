@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test'
 import type { Plugin, Tree } from '@sylphx/synth'
-import { ProtobufParser, createParser, parse, parseAsync } from './parser.js'
+import { createParser, ProtobufParser, parse, parseAsync } from './parser.js'
 
 describe('ProtobufParser', () => {
   it('should create a parser instance', () => {

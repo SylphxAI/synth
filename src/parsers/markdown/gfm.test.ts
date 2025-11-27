@@ -24,11 +24,7 @@ describe('GFM: Tables', () => {
   })
 
   it('should parse table alignment', () => {
-    const lines = [
-      '| Left | Center | Right |',
-      '|:-----|:------:|------:|',
-      '| L    | C      | R     |',
-    ]
+    const lines = ['| Left | Center | Right |', '|:-----|:------:|------:|', '| L    | C      | R     |']
 
     const result = tryTokenizeTable(lines, 0, 0)
 

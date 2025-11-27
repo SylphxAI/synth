@@ -5,5 +5,5 @@
  * Conversion layer over @vue/compiler-sfc
  */
 
-export { VueParser, createParser, parse, parseAsync } from './parser.js'
 export type { VueParseOptions } from './parser.js'
+export { createParser, parse, parseAsync, VueParser } from './parser.js'

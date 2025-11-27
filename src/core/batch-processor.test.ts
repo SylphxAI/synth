@@ -1,13 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { addNode, createTree } from '../types/tree.js'
-import {
-  batchFilter,
-  batchMap,
-  batchProcess,
-  batchSelect,
-  batchTransform,
-  batchTraverse,
-} from './batch-processor.js'
+import { batchFilter, batchMap, batchProcess, batchSelect, batchTransform, batchTraverse } from './batch-processor.js'
 
 describe('Batch Processor', () => {
   describe('batchTraverse', () => {

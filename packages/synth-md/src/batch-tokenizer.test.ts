@@ -389,15 +389,7 @@ describe('BatchTokenizer', () => {
   describe('Metadata Extraction', () => {
     it('should detect first character patterns', () => {
       const tokenizer = new BatchTokenizer(2)
-      const text = [
-        '# Heading',
-        '- List',
-        '* Star list',
-        '+ Plus list',
-        '1. Ordered',
-        '```code',
-        '> Quote',
-      ].join('\n')
+      const text = ['# Heading', '- List', '* Star list', '+ Plus list', '1. Ordered', '```code', '> Quote'].join('\n')
 
       const tokens = tokenizer.tokenize(text)
 
@@ -447,19 +439,7 @@ describe('BatchTokenizer', () => {
 
     it('should handle mixed content in one batch', () => {
       const tokenizer = new BatchTokenizer(10)
-      const text = [
-        '# Heading',
-        '',
-        'Paragraph',
-        '',
-        '- List',
-        '',
-        '> Quote',
-        '',
-        '```',
-        'code',
-        '```',
-      ].join('\n')
+      const text = ['# Heading', '', 'Paragraph', '', '- List', '', '> Quote', '', '```', 'code', '```'].join('\n')
 
       const tokens = tokenizer.tokenize(text)
 

@@ -12,12 +12,12 @@
 
 import type {
   BlankLineToken,
-  BlockToken,
   BlockquoteToken,
+  BlockToken,
   CodeBlockToken,
-  HTMLBlockToken,
   HeadingToken,
   HorizontalRuleToken,
+  HTMLBlockToken,
   LinkReferenceToken,
   ListItemToken,
   ParagraphToken,
@@ -308,7 +308,7 @@ export class UltraOptimizedTokenizer {
     const itemText = i < lineEnd ? text.slice(i, lineEnd) : ''
 
     // Check for task list
-    let checked: boolean | undefined = undefined
+    let checked: boolean | undefined
     if (itemText.startsWith('[') && itemText[2] === ']') {
       const checkChar = itemText[1]
       if (checkChar === 'x' || checkChar === ' ') {
@@ -1335,7 +1335,7 @@ export class UltraOptimizedTokenizer {
     }
 
     // Parse optional title
-    let title: string | undefined = undefined
+    let title: string | undefined
     if (i < lineEnd) {
       const quoteChar = text[i]
       if (quoteChar === '"' || quoteChar === "'" || quoteChar === '(') {

@@ -45,10 +45,10 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@biomejs/biome": "^1.9.0",
-    "@sylphx/biome-config": "0.1.0",
+    "@biomejs/biome": "^2.3.8",
+    "@sylphx/biome-config": "^0.4.0",
     "@sylphx/bump": "^0.10.1",
-    "@sylphx/doctor": "^1.21.4",
+    "@sylphx/doctor": "^1.22.0",
     "@sylphx/tsconfig": "^0.3.0",
     "@types/node": "^22.0.0",
     "bunup": "^0.16.10",

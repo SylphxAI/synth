@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'bun:test'
-import { type NodePoolManager, createNodePool } from './node-pool.js'
+import { createNodePool, type NodePoolManager } from './node-pool.js'
 
 describe('Node Pool', () => {
   describe('NodePoolManager', () => {
@@ -137,11 +137,7 @@ describe('Node Pool', () => {
     })
 
     it('should release multiple nodes at once', () => {
-      const nodes = [
-        pool.acquire('item', 1, null),
-        pool.acquire('item', 2, null),
-        pool.acquire('item', 3, null),
-      ]
+      const nodes = [pool.acquire('item', 1, null), pool.acquire('item', 2, null), pool.acquire('item', 3, null)]
 
       pool.releaseMany(nodes)
 

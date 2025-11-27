@@ -5,5 +5,5 @@
  * Conversion layer over tree-sitter-rust
  */
 
-export { RustParser, createParser, parse, parseAsync } from './parser.js'
 export type { RustParseOptions } from './parser.js'
+export { createParser, parse, parseAsync, RustParser } from './parser.js'

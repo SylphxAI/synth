@@ -3,8 +3,7 @@
  */
 
 import type { NodeId, TraversalOptions, Tree, Visitor, VisitorContext } from '../types/index.js'
-import { getNode } from '../types/index.js'
-import { TraversalOrder } from '../types/index.js'
+import { getNode, TraversalOrder } from '../types/index.js'
 
 /**
  * Traverse the tree with a visitor

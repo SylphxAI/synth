@@ -5,5 +5,5 @@
  * Conversion layer over Acorn + acorn-jsx
  */
 
-export { JSXParser, createParser, parse, parseAsync } from './parser.js'
 export type { JSXParseOptions } from './parser.js'
+export { createParser, JSXParser, parse, parseAsync } from './parser.js'

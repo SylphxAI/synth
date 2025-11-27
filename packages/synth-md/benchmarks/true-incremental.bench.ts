@@ -9,7 +9,7 @@
 
 import { bench, describe } from 'vitest'
 import { Parser } from '../src/parser.js'
-import { TrueIncrementalParser, detectEdit } from '../src/true-incremental-parser.js'
+import { detectEdit, TrueIncrementalParser } from '../src/true-incremental-parser.js'
 
 // Generate realistic Markdown documents
 function generateMarkdownDocument(paragraphs: number): string {

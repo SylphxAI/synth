@@ -12,7 +12,7 @@
  */
 
 import type { Tree } from '@sylphx/synth'
-import { TrueIncrementalParser, detectEdit } from '@sylphx/synth-md'
+import { detectEdit, TrueIncrementalParser } from '@sylphx/synth-md'
 
 /**
  * Editor state

@@ -3,7 +3,7 @@
  */
 
 import { describe, expect, it } from 'bun:test'
-import { RubyParser, createParser, parse, parseAsync } from './parser.js'
+import { createParser, parse, parseAsync, RubyParser } from './parser.js'
 
 describe('RubyParser', () => {
   describe('Basic Parsing', () => {
@@ -39,7 +39,7 @@ describe('RubyParser', () => {
     it('should parse method definition', () => {
       const ruby = `
 def greet(name)
-  "Hello, \#{name}!"
+  "Hello, #{name}!"
 end
       `
       const tree = parse(ruby)
@@ -110,9 +110,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find symbol
-      const symbolNode = tree.nodes.find(
-        (n) => n.type === 'Symbol' || n.data?.text?.startsWith(':')
-      )
+      const symbolNode = tree.nodes.find((n) => n.type === 'Symbol' || n.data?.text?.startsWith(':'))
       expect(symbolNode).toBeDefined()
     })
 
@@ -149,11 +147,7 @@ flag2 = false
 
       // Find boolean nodes
       const boolNodes = tree.nodes.filter(
-        (n) =>
-          n.type === 'True' ||
-          n.type === 'False' ||
-          n.data?.text === 'true' ||
-          n.data?.text === 'false'
+        (n) => n.type === 'True' || n.type === 'False' || n.data?.text === 'true' || n.data?.text === 'false'
       )
       expect(boolNodes.length).toBeGreaterThanOrEqual(2)
     })
@@ -308,7 +302,7 @@ end
 begin
   risky_operation
 rescue StandardError => e
-  puts "Error: \#{e.message}"
+  puts "Error: #{e.message}"
 ensure
   cleanup
 end
@@ -342,7 +336,7 @@ end
     it('should parse method with default parameters', () => {
       const ruby = `
 def greet(name = "World")
-  "Hello, \#{name}!"
+  "Hello, #{name}!"
 end
       `
       const tree = parse(ruby)
@@ -372,7 +366,7 @@ end
     it('should parse method with keyword arguments', () => {
       const ruby = `
 def greet(name:, greeting: "Hello")
-  "\#{greeting}, \#{name}!"
+  "#{greeting}, #{name}!"
 end
       `
       const tree = parse(ruby)
@@ -430,7 +424,7 @@ end
     it('should parse block parameters', () => {
       const ruby = `
 hash.each do |key, value|
-  puts "\#{key}: \#{value}"
+  puts "#{key}: #{value}"
 end
       `
       const tree = parse(ruby)
@@ -526,9 +520,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find instance variable
-      const ivarNode = tree.nodes.find(
-        (n) => n.type.includes('Instance') || n.data?.text?.startsWith('@')
-      )
+      const ivarNode = tree.nodes.find((n) => n.type.includes('Instance') || n.data?.text?.startsWith('@'))
       expect(ivarNode).toBeDefined()
     })
 
@@ -622,9 +614,7 @@ x = 42
       expect(tree.meta.language).toBe('ruby')
 
       // Find comment node
-      const commentNode = tree.nodes.find(
-        (n) => n.type.includes('Comment') || n.data?.text?.includes('#')
-      )
+      const commentNode = tree.nodes.find((n) => n.type.includes('Comment') || n.data?.text?.includes('#'))
       expect(commentNode).toBeDefined()
     })
 

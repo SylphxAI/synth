@@ -8,11 +8,7 @@
  */
 
 import { describe, expect, it } from 'bun:test'
-import {
-  TrueIncrementalParser,
-  detectEdit,
-  formatIncrementalStats,
-} from './true-incremental-parser.js'
+import { detectEdit, formatIncrementalStats, TrueIncrementalParser } from './true-incremental-parser.js'
 
 describe('TrueIncrementalParser', () => {
   describe('Token-Level Reuse', () => {

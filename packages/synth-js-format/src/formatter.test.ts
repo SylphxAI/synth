@@ -3,7 +3,7 @@
  */
 
 import { describe, expect, it } from 'bun:test'
-import { Formatter, check, format } from './formatter.js'
+import { check, Formatter, format } from './formatter.js'
 
 describe('Formatter', () => {
   describe('Basic Formatting', () => {

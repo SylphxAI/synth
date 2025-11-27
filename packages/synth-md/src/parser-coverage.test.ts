@@ -3,9 +3,8 @@
  */
 
 import { describe, expect, it } from 'bun:test'
-import { createTransformPlugin } from '@sylphx/synth'
-import { SynthError, TreeStructureError } from '@sylphx/synth'
-import { Parser, createParser, parse, parseAsync } from './parser.js'
+import { createTransformPlugin, SynthError, TreeStructureError } from '@sylphx/synth'
+import { createParser, Parser, parse, parseAsync } from './parser.js'
 
 describe('Parser Coverage', () => {
   describe('createParser factory function', () => {
@@ -248,13 +247,10 @@ describe('Parser Coverage', () => {
       let registeredCalled = false
       let oneOffCalled = false
 
-      const registeredPlugin = createTransformPlugin(
-        { name: 'registered', version: '1.0.0' },
-        (tree) => {
-          registeredCalled = true
-          return tree
-        }
-      )
+      const registeredPlugin = createTransformPlugin({ name: 'registered', version: '1.0.0' }, (tree) => {
+        registeredCalled = true
+        return tree
+      })
 
       const oneOffPlugin = createTransformPlugin({ name: 'one-off', version: '1.0.0' }, (tree) => {
         oneOffCalled = true

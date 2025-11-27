@@ -5,8 +5,7 @@
  */
 
 import type { NodeId, Plugin, Tree } from '@sylphx/synth'
-import { addNode, createTree } from '@sylphx/synth'
-import { SynthError } from '@sylphx/synth'
+import { addNode, createTree, SynthError } from '@sylphx/synth'
 import { type HTMLToken, HTMLTokenizer } from './tokenizer.js'
 import { VOID_ELEMENTS } from './types.js'
 

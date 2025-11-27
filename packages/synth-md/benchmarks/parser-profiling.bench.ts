@@ -45,15 +45,15 @@ describe('Profiling: Component Breakdown', () => {
 
   bench('Tokenizer only', () => {
     const parser = new IncrementalMarkdownParser()
-    // @ts-ignore - accessing private for profiling
+    // @ts-expect-error - accessing private for profiling
     parser.tokenizer.tokenize(mediumDoc)
   })
 
   bench('Parser only (pre-tokenized)', () => {
     const parser = new IncrementalMarkdownParser()
-    // @ts-ignore
+    // @ts-expect-error
     const tokens = parser.tokenizer.tokenize(mediumDoc)
-    // @ts-ignore
+    // @ts-expect-error
     parser.buildTree(tokens, mediumDoc)
   })
 })
@@ -118,7 +118,7 @@ describe('Profiling: Inline Tokenizer', () => {
   const sampleText = 'This is **bold** and *italic* with `code` and [link](url)'
 
   bench('Inline tokenize', () => {
-    // @ts-ignore
+    // @ts-expect-error
     parser.inlineTokenizer.tokenize(sampleText, 0, 0)
   })
 

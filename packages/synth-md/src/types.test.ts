@@ -7,28 +7,20 @@
 import { describe, expect, it } from 'bun:test'
 import type { BaseNode } from '@sylphx/synth'
 import {
-  type BlockquoteNode,
-  type CodeBlockNode,
-  type EmphasisNode,
-  type HeadingNode,
-  type ImageNode,
-  type InlineCodeNode,
-  type LinkNode,
-  type ListItemNode,
-  type ListNode,
-  type MarkdownNode,
-  type NodeByType,
-  type ParagraphNode,
-  type StrongNode,
-  type TableNode,
   asNodeType,
   assertNodeType,
+  type BlockquoteNode,
+  type CodeBlockNode,
   createCodeBlockNode,
   createHeadingNode,
   createLinkNode,
   createParagraphNode,
+  type EmphasisNode,
   filterByType,
   findByType,
+  type HeadingNode,
+  type ImageNode,
+  type InlineCodeNode,
   isBlockNode,
   isBlockquoteNode,
   isCodeBlockNode,
@@ -43,7 +35,15 @@ import {
   isParagraphNode,
   isStrongNode,
   isTableNode,
+  type LinkNode,
+  type ListItemNode,
+  type ListNode,
+  type MarkdownNode,
   mapNodes,
+  type NodeByType,
+  type ParagraphNode,
+  type StrongNode,
+  type TableNode,
 } from './types.js'
 
 describe('Type Safety', () => {
@@ -379,10 +379,7 @@ describe('Type Safety', () => {
     })
 
     it('should transform nodes', () => {
-      const nodes: BaseNode[] = [
-        createHeadingNode(1, 'First', 0),
-        createHeadingNode(2, 'Second', 1),
-      ]
+      const nodes: BaseNode[] = [createHeadingNode(1, 'First', 0), createHeadingNode(2, 'Second', 1)]
 
       const texts = mapNodes(nodes, (node: MarkdownNode) => {
         if ('text' in node) {

@@ -10,8 +10,8 @@
 
 import type {
   BlankLineToken,
-  BlockToken,
   BlockquoteToken,
+  BlockToken,
   CodeBlockToken,
   HeadingToken,
   HorizontalRuleToken,

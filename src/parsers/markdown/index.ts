@@ -11,11 +11,10 @@
  * - GFM extensions support (planned)
  */
 
-export * from './tokens.js'
-export * from './tokenizer.js'
 export * from './inline-tokenizer.js'
+export { createInlineTokenizer, InlineTokenizer } from './inline-tokenizer.js'
 export * from './parser.js'
-
-export { IncrementalMarkdownParser, createMarkdownParser, parseMarkdown } from './parser.js'
-export { IncrementalTokenizer, createTokenizer } from './tokenizer.js'
-export { InlineTokenizer, createInlineTokenizer } from './inline-tokenizer.js'
+export { createMarkdownParser, IncrementalMarkdownParser, parseMarkdown } from './parser.js'
+export * from './tokenizer.js'
+export { createTokenizer, IncrementalTokenizer } from './tokenizer.js'
+export * from './tokens.js'

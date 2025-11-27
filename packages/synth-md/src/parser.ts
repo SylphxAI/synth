@@ -10,14 +10,18 @@
  * Performance: 26-42x faster than remark
  */
 
-import type { NodeId, Tree } from '@sylphx/synth'
-import { addNode, createTree } from '@sylphx/synth'
-import type { Edit } from '@sylphx/synth'
-import { type ASTIndex, createIndex } from '@sylphx/synth'
-import { SynthError, TreeStructureError } from '@sylphx/synth'
+import type { Edit, NodeId, Tree } from '@sylphx/synth'
+import {
+  type ASTIndex,
+  addNode,
+  createIndex,
+  createTree,
+  SynthError,
+  TreeStructureError,
+} from '@sylphx/synth'
 import { BatchTokenizer } from './batch-tokenizer.js'
 import { InlineTokenizer } from './inline-tokenizer.js'
-import { type MarkdownNodePool, createNodePool } from './node-pool.js'
+import { createNodePool, type MarkdownNodePool } from './node-pool.js'
 import { type Plugin, PluginManager } from './plugin.js'
 import { Tokenizer } from './tokenizer.js'
 import type { BlockToken, InlineToken } from './tokens.js'

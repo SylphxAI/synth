@@ -4,7 +4,7 @@
 
 import { describe, expect, it } from 'bun:test'
 import { createTransformPlugin } from '@sylphx/synth'
-import { HTMLParser, createParser, parse, parseAsync } from './parser.js'
+import { createParser, HTMLParser, parse, parseAsync } from './parser.js'
 import {
   getAttribute,
   getDoctypeName,
@@ -217,13 +217,10 @@ describe('HTMLParser', () => {
       let registered = false
       let oneOff = false
 
-      const registeredPlugin = createTransformPlugin(
-        { name: 'registered', version: '1.0.0' },
-        (tree) => {
-          registered = true
-          return tree
-        }
-      )
+      const registeredPlugin = createTransformPlugin({ name: 'registered', version: '1.0.0' }, (tree) => {
+        registered = true
+        return tree
+      })
 
       const oneOffPlugin = createTransformPlugin({ name: 'one-off', version: '1.0.0' }, (tree) => {
         oneOff = true
@@ -251,14 +248,11 @@ describe('HTMLParser', () => {
       const parser = new HTMLParser()
 
       let pluginCalled = false
-      const asyncPlugin = createTransformPlugin(
-        { name: 'async-test', version: '1.0.0' },
-        async (tree) => {
-          await new Promise((resolve) => setTimeout(resolve, 1))
-          pluginCalled = true
-          return tree
-        }
-      )
+      const asyncPlugin = createTransformPlugin({ name: 'async-test', version: '1.0.0' }, async (tree) => {
+        await new Promise((resolve) => setTimeout(resolve, 1))
+        pluginCalled = true
+        return tree
+      })
 
       await parser.parseAsync('<div>Test</div>', { plugins: [asyncPlugin] })
       expect(pluginCalled).toBe(true)
@@ -267,13 +261,10 @@ describe('HTMLParser', () => {
     it('should detect async plugins in sync parse', () => {
       const parser = new HTMLParser()
 
-      const asyncPlugin = createTransformPlugin(
-        { name: 'async', version: '1.0.0' },
-        async (tree) => {
-          await new Promise((resolve) => setTimeout(resolve, 1))
-          return tree
-        }
-      )
+      const asyncPlugin = createTransformPlugin({ name: 'async', version: '1.0.0' }, async (tree) => {
+        await new Promise((resolve) => setTimeout(resolve, 1))
+        return tree
+      })
 
       expect(() => {
         parser.parse('<div>Test</div>', { plugins: [asyncPlugin] })

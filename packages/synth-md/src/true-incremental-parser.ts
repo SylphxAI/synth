@@ -12,8 +12,7 @@
  * Expected: <1ms for typical edits on 1000-line documents
  */
 
-import type { Edit as SynthEdit, Tree } from '@sylphx/synth'
-import type { TokenStream } from '@sylphx/synth'
+import type { Edit as SynthEdit, TokenStream, Tree } from '@sylphx/synth'
 import { IncrementalMarkdownTokenizer } from './incremental-tokenizer.js'
 import { type ParseOptions, Parser } from './parser.js'
 

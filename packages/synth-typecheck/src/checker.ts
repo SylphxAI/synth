@@ -445,18 +445,6 @@ export class TypeChecker {
 
     return false
   }
-
-  /**
-   * Report a type error
-   */
-  private reportError(message: string, nodeId?: NodeId, expected?: Type, actual?: Type): void {
-    this.errors.push({
-      message,
-      nodeId,
-      expected,
-      actual,
-    })
-  }
 }
 
 /**

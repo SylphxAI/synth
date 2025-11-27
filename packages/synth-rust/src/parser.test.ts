@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'bun:test'
 import type { Tree } from '@sylphx/synth'
-import { RustParser, createParser, parse, parseAsync } from './parser.js'
+import { createParser, parse, parseAsync, RustParser } from './parser.js'
 
 describe('RustParser', () => {
   describe('Basic Parsing', () => {

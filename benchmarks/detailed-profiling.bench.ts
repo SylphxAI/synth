@@ -193,7 +193,7 @@ const realWorldDoc = Array(10).fill(mixedDoc).join('\n\n')
 describe('Profiling: Parser Phases', () => {
   bench('Tokenization only', () => {
     const parser = new UltraOptimizedMarkdownParser()
-    // @ts-ignore - accessing private for benchmark
+    // @ts-expect-error - accessing private for benchmark
     parser.tokenizer.tokenize(mixedDoc)
   })
 
@@ -306,11 +306,11 @@ describe('Profiling: Query Index', () => {
     const parser = new UltraOptimizedMarkdownParser()
     const _tree = parser.parse(realWorldDoc, { buildIndex: true })
     const index = parser.getIndex()
-    // @ts-ignore - accessing for benchmark
+    // @ts-expect-error - accessing for benchmark
     index.query('heading')
-    // @ts-ignore
+    // @ts-expect-error
     index.query('codeBlock')
-    // @ts-ignore
+    // @ts-expect-error
     index.query('table')
   })
 
@@ -318,7 +318,7 @@ describe('Profiling: Query Index', () => {
     const parser = new UltraOptimizedMarkdownParser()
     parser.parse(realWorldDoc)
     const index = parser.getIndex() // Build on demand
-    // @ts-ignore
+    // @ts-expect-error
     index.query('heading')
   })
 })

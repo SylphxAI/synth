@@ -13,37 +13,32 @@
  * - Plugin system
  */
 
-// Export types
-export * from './types.js'
-export * from './tokens.js'
-
-// Export main parser
-export { Parser, createParser, parse, parseAsync, DEFAULT_PARSE_OPTIONS } from './parser.js'
-export type { ParseOptions } from './parser.js'
-
+export { BatchTokenizer } from './batch-tokenizer.js'
+export type { Edit } from './incremental-parser.js'
 // Export incremental parser
 export {
-  IncrementalMarkdownParser,
-  detectEdit,
   calculateEditDistance,
+  detectEdit,
+  IncrementalMarkdownParser,
   shouldUseIncremental,
 } from './incremental-parser.js'
-export type { Edit } from './incremental-parser.js'
-
-// Export streaming parser
-export { StreamingMarkdownParser, parseStream, parseWithProgress } from './streaming-parser.js'
-export type { StreamingOptions } from './streaming-parser.js'
+export { IncrementalMarkdownTokenizer } from './incremental-tokenizer.js'
+export { InlineTokenizer } from './inline-tokenizer.js'
+// Export node pool
+export { createNodePool, getGlobalNodePool, MarkdownNodePool, NodePool } from './node-pool.js'
+export type { ParseOptions } from './parser.js'
+// Export main parser
+export { createParser, DEFAULT_PARSE_OPTIONS, Parser, parse, parseAsync } from './parser.js'
 
 // Export plugin system
 export * from './plugin.js'
-
+export type { StreamingOptions } from './streaming-parser.js'
+// Export streaming parser
+export { parseStream, parseWithProgress, StreamingMarkdownParser } from './streaming-parser.js'
 // Export tokenizers (for advanced use)
 export { Tokenizer } from './tokenizer.js'
-export { InlineTokenizer } from './inline-tokenizer.js'
-export { BatchTokenizer } from './batch-tokenizer.js'
-export { IncrementalMarkdownTokenizer } from './incremental-tokenizer.js'
-export { TrueIncrementalParser } from './true-incremental-parser.js'
+export * from './tokens.js'
 export type { IncrementalParseStats } from './true-incremental-parser.js'
-
-// Export node pool
-export { NodePool, MarkdownNodePool, getGlobalNodePool, createNodePool } from './node-pool.js'
+export { TrueIncrementalParser } from './true-incremental-parser.js'
+// Export types
+export * from './types.js'
