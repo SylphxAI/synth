@@ -1,6 +1,6 @@
 {
   "name": "@sylphx/synth-md-katex",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "KaTeX math rendering support for Synth Markdown parser",
   "type": "module",
   "main": "./dist/index.js",

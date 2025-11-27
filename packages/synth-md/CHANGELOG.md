@@ -1,5 +1,24 @@
 # @sylphx/synth-md
 
+## 0.2.0 (2025-11-27)
+
+### ✨ Features
+
+- upgrade to biome v2 ([33b04fd](https://github.com/SylphxAI/synth/commit/33b04fdb725a6ff103e74cfa9a0011ed7ea0bba1))
+- add build and prepack scripts to all packages ([b8e1b54](https://github.com/SylphxAI/synth/commit/b8e1b548753a499acfd96bb0083d8b1339498f7e))
+
+### 🐛 Bug Fixes
+
+- resolve all TypeScript type errors for doctor 1.21+ compliance ([1e9b03f](https://github.com/SylphxAI/synth/commit/1e9b03fd2901db35f89a553a8a650ab3c57e5d3e))
+
+### 🔧 Chores
+
+- use workspace:* for internal dependencies ([289b280](https://github.com/SylphxAI/synth/commit/289b28017951aea84891537e758df86f7bbb6780))
+- add changeset for project improvements ([616016b](https://github.com/SylphxAI/synth/commit/616016bea15d088c932bc000133ad3bc039edd36))
+- achieve 100% doctor score (v1.18.0) ([454faf8](https://github.com/SylphxAI/synth/commit/454faf882e00f6caccd99e363e765a16a1be196a))
+- improve project health score to 100% ([4a46114](https://github.com/SylphxAI/synth/commit/4a461142c8fa8e28c501d46a7579220dd08dbc75))
+- version packages - v0.2.0 synth-js, v0.1.3 synth ([c546c55](https://github.com/SylphxAI/synth/commit/c546c5582b77a06e6899a2f12dfc7b76264560a2))
+
 ## 0.1.4 (2025-11-27)
 
 ### 🐛 Bug Fixes
