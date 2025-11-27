@@ -1,6 +1,6 @@
 {
   "name": "@sylphx/synth-lint",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "Universal linter framework for Synth AST - works across all languages",
   "type": "module",
   "main": "./dist/index.js",

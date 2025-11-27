@@ -1,6 +1,6 @@
 {
   "name": "@sylphx/synth-json",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "JSON parser using Synth's universal AST",
   "type": "module",
   "main": "./dist/index.js",

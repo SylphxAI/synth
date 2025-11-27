@@ -1,6 +1,6 @@
 {
   "name": "@sylphx/synth-metrics",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "Code metrics and complexity analysis for Synth AST - works across all languages",
   "type": "module",
   "main": "./dist/index.js",

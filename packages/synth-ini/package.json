@@ -1,6 +1,6 @@
 {
   "name": "@sylphx/synth-ini",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "INI parser using Synth's universal AST - hand-written, zero dependencies",
   "type": "module",
   "main": "./dist/index.js",
