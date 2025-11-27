@@ -156,10 +156,15 @@ impl Tree {
     }
 
     /// Serialize tree to JSON
+    ///
+    /// Note: Uses serde_json::to_string instead of serde_wasm_bindgen::to_value
+    /// because the latter doesn't correctly serialize HashMap<String, serde_json::Value>
     #[wasm_bindgen(js_name = toJSON)]
     pub fn to_json(&self) -> Result<JsValue, JsValue> {
-        serde_wasm_bindgen::to_value(self)
-            .map_err(|e| JsValue::from_str(&e.to_string()))
+        let json_string = serde_json::to_string(self)
+            .map_err(|e| JsValue::from_str(&e.to_string()))?;
+        js_sys::JSON::parse(&json_string)
+            .map_err(|e| JsValue::from_str(&format!("JSON parse error: {:?}", e)))
     }
 
     /// Deserialize tree from JSON
