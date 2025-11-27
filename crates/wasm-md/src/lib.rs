@@ -2,22 +2,21 @@
 //!
 //! High-performance Markdown parser compiled to WebAssembly.
 //! Compatible with @sylphx/synth-md TypeScript package.
+//!
+//! ## API
+//!
+//! - `parse(markdown)` → Returns Tree object (compatible with JS API)
+//! - `parseBinary(markdown)` → Returns Uint8Array (maximum performance)
+//! - `parseToJson(markdown)` → Returns JSON string
+//! - `parseCount(markdown)` → Returns node count (for benchmarking)
 
-mod fast_parser;
-mod fast_tokenizer;
-mod parser;
-mod tokenizer;
-mod turbo_parser;
+mod parser_v2;
 
-pub use parser::*;
-
-use fast_parser::FastParser;
-use fast_tokenizer::FastTokenizer;
-use turbo_parser::TurboParser;
-use wasm_bindgen::prelude::*;
+use parser_v2::MarkdownParserV2;
 use synth_wasm_core::Tree;
+use wasm_bindgen::prelude::*;
 
-/// Parse Markdown text into an AST
+/// Parse Markdown text into an AST Tree
 ///
 /// # Example (JavaScript)
 /// ```javascript
@@ -28,8 +27,10 @@ use synth_wasm_core::Tree;
 /// ```
 #[wasm_bindgen]
 pub fn parse(markdown: &str) -> Result<Tree, JsValue> {
-    let parser = MarkdownParser::new();
-    parser.parse(markdown).map_err(|e| JsValue::from_str(&e.to_string()))
+    let mut parser = MarkdownParserV2::new(markdown);
+    parser
+        .parse()
+        .map_err(|e| JsValue::from_str(&e.to_string()))
 }
 
 /// Parse Markdown text directly to JSON string
@@ -46,69 +47,50 @@ pub fn parse(markdown: &str) -> Result<Tree, JsValue> {
 /// ```
 #[wasm_bindgen(js_name = parseToJson)]
 pub fn parse_to_json(markdown: &str) -> Result<String, JsValue> {
-    let parser = MarkdownParser::new();
-    let tree = parser.parse(markdown).map_err(|e| JsValue::from_str(&e.to_string()))?;
+    let mut parser = MarkdownParserV2::new(markdown);
+    let tree = parser
+        .parse()
+        .map_err(|e| JsValue::from_str(&e.to_string()))?;
     serde_json::to_string(&tree).map_err(|e| JsValue::from_str(&e.to_string()))
 }
 
-/// Count nodes in the parsed markdown (for benchmarking without serialization)
-///
-/// This measures pure parsing performance without JSON overhead.
-#[wasm_bindgen(js_name = parseAndCount)]
-pub fn parse_and_count(markdown: &str) -> Result<usize, JsValue> {
-    let parser = MarkdownParser::new();
-    let tree = parser.parse(markdown).map_err(|e| JsValue::from_str(&e.to_string()))?;
-    Ok(tree.node_count())
-}
-
-/// Fast tokenize-only (zero-copy, for benchmarking)
-///
-/// Returns the number of tokens found. Uses SIMD-accelerated parsing.
-#[wasm_bindgen(js_name = fastTokenize)]
-pub fn fast_tokenize(markdown: &str) -> usize {
-    let mut tokenizer = FastTokenizer::new(markdown);
-    let tokens = tokenizer.tokenize();
-    tokens.len()
-}
-
-/// Ultra-fast parse to binary format
+/// Parse Markdown to compact binary format (maximum performance)
 ///
 /// Returns a Uint8Array containing the binary tree structure.
 /// This is the fastest parsing option - no JSON, no string copies.
 ///
-/// Binary format (28 bytes per node):
-/// - node_type: u8, depth: u8, flags: u8, _pad: u8
-/// - parent: u32, first_child: u32, next_sibling: u32
-/// - start_offset: u32, end_offset: u32
-/// - text_start: u32, text_len: u32
-#[wasm_bindgen(js_name = fastParseBinary)]
-pub fn fast_parse_binary(markdown: &str) -> Vec<u8> {
-    let mut parser = FastParser::new(markdown);
-    parser.parse_to_binary()
-}
-
-/// Fast parse and count nodes (for benchmarking)
-#[wasm_bindgen(js_name = fastParseCount)]
-pub fn fast_parse_count(markdown: &str) -> usize {
-    let mut parser = FastParser::new(markdown);
-    parser.parse_count()
-}
-
-/// TURBO parse - maximum performance, 16-byte nodes
+/// Binary format:
+/// - Header: [node_count: u32, source_len: u32]
+/// - Nodes: 24 bytes each
+///   - node_type: u8 (1=heading, 2=para, 3=code, 4=hr, 5=quote, 6=list)
+///   - flags: u8 (depth for heading, ordered/checked for list)
+///   - _pad: [u8; 2]
+///   - parent: u32
+///   - text_start: u32
+///   - text_len: u32
+///   - span_start: u32
+///   - span_end: u32
 ///
-/// Returns a Uint8Array with compact binary format:
-/// - Header: [node_count: u32]
-/// - Nodes: 16 bytes each (node_type, depth, parent, text_start, text_len, span)
-#[wasm_bindgen(js_name = turboParseBinary)]
-pub fn turbo_parse_binary(markdown: &str) -> Vec<u8> {
-    let mut parser = TurboParser::new(markdown);
-    parser.parse_to_binary()
+/// # Example (JavaScript)
+/// ```javascript
+/// import { parseBinary } from '@sylphx/synth-wasm-md';
+///
+/// const buffer = parseBinary('# Hello World');
+/// const view = new DataView(buffer.buffer);
+/// const nodeCount = view.getUint32(0, true);
+/// ```
+#[wasm_bindgen(js_name = parseBinary)]
+pub fn parse_binary(markdown: &str) -> Vec<u8> {
+    let mut parser = MarkdownParserV2::new(markdown);
+    parser.parse_binary()
 }
 
-/// TURBO parse count (for benchmarking)
-#[wasm_bindgen(js_name = turboParseCount)]
-pub fn turbo_parse_count(markdown: &str) -> usize {
-    let mut parser = TurboParser::new(markdown);
+/// Count nodes in parsed markdown (for benchmarking)
+///
+/// This measures pure parsing performance without any serialization overhead.
+#[wasm_bindgen(js_name = parseCount)]
+pub fn parse_count(markdown: &str) -> usize {
+    let mut parser = MarkdownParserV2::new(markdown);
     parser.parse_count()
 }
 
