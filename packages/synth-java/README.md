@@ -421,3 +421,9 @@ MIT
 ---
 
 **Part of the Synth universal AST ecosystem** - Works seamlessly with all other Synth parsers and tools.
+
+---
+
+<div align="center">
+  <sub>Powered by Sylphx</sub>
+</div>

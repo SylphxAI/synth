@@ -313,3 +313,9 @@ This minifier is educational/foundational:
 ## License
 
 MIT
+
+---
+
+<div align="center">
+  <sub>Powered by Sylphx</sub>
+</div>

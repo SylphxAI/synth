@@ -437,3 +437,9 @@ This is a spec-compliant RFC 8259 JSON parser with optional extensions:
 ## License
 
 MIT
+
+---
+
+<div align="center">
+  <sub>Powered by Sylphx</sub>
+</div>

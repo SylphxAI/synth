@@ -145,3 +145,9 @@ Built with performance as the #1 priority:
 ## License
 
 MIT
+
+---
+
+<div align="center">
+  <sub>Powered by Sylphx</sub>
+</div>

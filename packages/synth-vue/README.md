@@ -574,3 +574,9 @@ MIT
 ---
 
 **Note:** This package uses @vue/compiler-sfc for parsing. See [@vue/compiler-sfc](https://github.com/vuejs/core/tree/main/packages/compiler-sfc) for parser details.
+
+---
+
+<div align="center">
+  <sub>Powered by Sylphx</sub>
+</div>

@@ -399,3 +399,9 @@ MIT
 ---
 
 **Note:** This package uses node-sql-parser for parsing. See [node-sql-parser](https://github.com/taozhi8833998/node-sql-parser) for parser details.
+
+---
+
+<div align="center">
+  <sub>Powered by Sylphx</sub>
+</div>

@@ -334,3 +334,9 @@ Unlike many INI parsers that return plain JavaScript objects, `@sylphx/synth-ini
 ## License
 
 MIT
+
+---
+
+<div align="center">
+  <sub>Powered by Sylphx</sub>
+</div>

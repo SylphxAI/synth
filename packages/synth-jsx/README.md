@@ -445,3 +445,9 @@ MIT
 ---
 
 **Note:** This package uses Acorn + acorn-jsx for parsing. See [Acorn](https://github.com/acornjs/acorn) and [acorn-jsx](https://github.com/acornjs/acorn-jsx) for parser details.
+
+---
+
+<div align="center">
+  <sub>Powered by Sylphx</sub>
+</div>

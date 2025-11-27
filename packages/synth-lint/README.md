@@ -534,3 +534,9 @@ MIT
 ---
 
 **Note:** This is a universal linter framework. Rules work across all languages supported by Synth parsers.
+
+---
+
+<div align="center">
+  <sub>Powered by Sylphx</sub>
+</div>

@@ -455,3 +455,9 @@ MIT
 ---
 
 **Note:** This package uses @msgpack/msgpack for decoding. See [@msgpack/msgpack](https://github.com/msgpack/msgpack-javascript) for implementation details.
+
+---
+
+<div align="center">
+  <sub>Powered by Sylphx</sub>
+</div>

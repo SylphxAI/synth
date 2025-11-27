@@ -504,3 +504,9 @@ MIT
 ---
 
 **Note:** This package uses protobufjs for parsing. See [protobufjs](https://github.com/protobufjs/protobuf.js) for parser details.
+
+---
+
+<div align="center">
+  <sub>Powered by Sylphx</sub>
+</div>

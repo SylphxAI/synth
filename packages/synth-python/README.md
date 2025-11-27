@@ -369,3 +369,9 @@ MIT
 ---
 
 **Note:** This package uses tree-sitter-python for parsing. See [tree-sitter-python](https://github.com/tree-sitter/tree-sitter-python) for parser details.
+
+---
+
+<div align="center">
+  <sub>Powered by Sylphx</sub>
+</div>

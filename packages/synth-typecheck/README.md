@@ -416,3 +416,9 @@ MIT
 ---
 
 **Note:** This is a universal type checker for basic type inference across languages. For advanced TypeScript checking, use the official TypeScript compiler.
+
+---
+
+<div align="center">
+  <sub>Powered by Sylphx</sub>
+</div>

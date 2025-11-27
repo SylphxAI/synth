@@ -73,3 +73,9 @@ $$
 \int_0^1 f(x) dx = \frac{1}{3}
 $$
 ```
+
+---
+
+<div align="center">
+  <sub>Powered by Sylphx</sub>
+</div>

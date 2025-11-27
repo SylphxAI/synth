@@ -293,3 +293,9 @@ This formatter is inspired by Prettier but works on Synth's universal AST:
 ## License
 
 MIT
+
+---
+
+<div align="center">
+  <sub>Powered by Sylphx</sub>
+</div>

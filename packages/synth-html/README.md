@@ -285,3 +285,9 @@ const tree = parse('<h1>Title</h1><h2>Subtitle</h2>', {
 ## License
 
 MIT
+
+---
+
+<div align="center">
+  <sub>Powered by Sylphx</sub>
+</div>

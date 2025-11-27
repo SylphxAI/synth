@@ -477,3 +477,9 @@ MIT
 ---
 
 **Note:** This package uses graphql-js for parsing. See [graphql-js](https://github.com/graphql/graphql-js) for parser details.
+
+---
+
+<div align="center">
+  <sub>Powered by Sylphx</sub>
+</div>

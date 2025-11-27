@@ -296,3 +296,9 @@ interface ParseOptions {
 ## License
 
 MIT
+
+---
+
+<div align="center">
+  <sub>Powered by Sylphx</sub>
+</div>

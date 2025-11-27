@@ -385,3 +385,9 @@ const tree = parse('function hello() {}', {
 ## License
 
 MIT
+
+---
+
+<div align="center">
+  <sub>Powered by Sylphx</sub>
+</div>

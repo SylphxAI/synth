@@ -416,3 +416,9 @@ MIT
 ---
 
 **Note:** This package uses tree-sitter-rust for parsing. See [tree-sitter-rust](https://github.com/tree-sitter/tree-sitter-rust) for parser details.
+
+---
+
+<div align="center">
+  <sub>Powered by Sylphx</sub>
+</div>

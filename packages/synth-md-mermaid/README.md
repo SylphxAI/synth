@@ -58,3 +58,9 @@ interface MermaidPluginOptions {
 - Gantt charts
 - Pie charts
 - Git graphs
+
+---
+
+<div align="center">
+  <sub>Powered by Sylphx</sub>
+</div>

@@ -415,3 +415,9 @@ MIT
 ---
 
 **Note:** This package uses fast-xml-parser for parsing. See [fast-xml-parser](https://github.com/NaturalIntelligence/fast-xml-parser) for parser details.
+
+---
+
+<div align="center">
+  <sub>Powered by Sylphx</sub>
+</div>

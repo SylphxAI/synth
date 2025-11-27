@@ -545,3 +545,9 @@ MIT
 ---
 
 **Note:** This is a universal documentation generator. Works across all languages supported by Synth parsers.
+
+---
+
+<div align="center">
+  <sub>Powered by Sylphx</sub>
+</div>

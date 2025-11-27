@@ -98,3 +98,9 @@ Automatically converts URLs and emails to links.
 ```
 
 Checkbox syntax for task items.
+
+---
+
+<div align="center">
+  <sub>Powered by Sylphx</sub>
+</div>

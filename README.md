@@ -123,3 +123,9 @@ bun run docs:dev
 ## License
 
 MIT
+
+---
+
+<div align="center">
+  <sub>Powered by Sylphx · Built with <a href="https://www.npmjs.com/package/@sylphx/biome-config">biome-config</a> · <a href="https://www.npmjs.com/package/@sylphx/tsconfig">tsconfig</a> · <a href="https://www.npmjs.com/package/@sylphx/doctor">doctor</a> · <a href="https://www.npmjs.com/package/@sylphx/bump">bump</a></sub>
+</div>

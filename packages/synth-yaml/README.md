@@ -499,3 +499,9 @@ Same AST structure, same tools, different languages.
 ## License
 
 MIT
+
+---
+
+<div align="center">
+  <sub>Powered by Sylphx</sub>
+</div>

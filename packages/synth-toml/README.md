@@ -325,3 +325,9 @@ TOML is a configuration format with a simple, well-defined spec (TOML 1.0), maki
 ## License
 
 MIT
+
+---
+
+<div align="center">
+  <sub>Powered by Sylphx</sub>
+</div>

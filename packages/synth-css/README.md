@@ -265,3 +265,9 @@ See the main README for the full development strategy.
 ## License
 
 MIT
+
+---
+
+<div align="center">
+  <sub>Powered by Sylphx</sub>
+</div>

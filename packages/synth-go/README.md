@@ -466,3 +466,9 @@ MIT
 ---
 
 **Note:** This package uses tree-sitter-go for parsing. See [tree-sitter-go](https://github.com/tree-sitter/tree-sitter-go) for parser details.
+
+---
+
+<div align="center">
+  <sub>Powered by Sylphx</sub>
+</div>
