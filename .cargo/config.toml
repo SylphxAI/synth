@@ -1,0 +1,14 @@
+# Cargo configuration for Synth WASM builds
+
+[build]
+# Use WASM target for wasm-pack builds
+# target = "wasm32-unknown-unknown"
+
+[target.wasm32-unknown-unknown]
+# Enable optimizations for WASM
+rustflags = ["-C", "opt-level=s"]
+
+[alias]
+# Convenience aliases
+wasm-build = "build --target wasm32-unknown-unknown --release"
+wasm-test = "test --target wasm32-unknown-unknown"

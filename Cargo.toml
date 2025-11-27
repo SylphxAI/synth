@@ -1,0 +1,30 @@
+[workspace]
+members = ["crates/*"]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+repository = "https://github.com/SylphxAI/synth"
+authors = ["SylphxAI"]
+
+[workspace.dependencies]
+# WASM bindings
+wasm-bindgen = "0.2"
+js-sys = "0.3"
+web-sys = "0.3"
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+serde-wasm-bindgen = "0.6"
+
+# Tree-sitter
+tree-sitter = "0.24"
+
+# Error handling
+thiserror = "2.0"
+
+# Dev dependencies
+wasm-bindgen-test = "0.3"
