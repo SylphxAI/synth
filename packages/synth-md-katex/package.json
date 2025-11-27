@@ -1,44 +1,44 @@
 {
-  "name": "@sylphx/synth-md-katex",
-  "version": "0.1.2",
-  "description": "KaTeX math rendering support for Synth Markdown parser",
-  "type": "module",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    }
-  },
-  "scripts": {
-    "dev": "bun build src/index.ts --outdir dist --target node --format esm --watch",
-    "test": "bun test"
-  },
-  "keywords": [
-    "markdown",
-    "katex",
-    "math",
-    "latex",
-    "plugin",
-    "synth"
-  ],
-  "author": "",
-  "license": "MIT",
-  "dependencies": {
-    "@sylphx/synth": "workspace:^",
-    "@sylphx/synth-md": "workspace:^"
-  },
-  "devDependencies": {
-    "@types/node": "^22.0.0",
-    "typescript": "^5.6.0"
-  },
-  "files": [
-    "dist",
-    "src",
-    "README.md"
-  ],
-  "publishConfig": {
-    "access": "public"
-  }
+	"name": "@sylphx/synth-md-katex",
+	"version": "0.1.3",
+	"description": "KaTeX math rendering support for Synth Markdown parser",
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js"
+		}
+	},
+	"scripts": {
+		"dev": "bun build src/index.ts --outdir dist --target node --format esm --watch",
+		"test": "bun test"
+	},
+	"keywords": [
+		"markdown",
+		"katex",
+		"math",
+		"latex",
+		"plugin",
+		"synth"
+	],
+	"author": "",
+	"license": "MIT",
+	"dependencies": {
+		"@sylphx/synth": "^0.1.4",
+		"@sylphx/synth-md": "^0.1.4"
+	},
+	"devDependencies": {
+		"@types/node": "^22.0.0",
+		"typescript": "^5.6.0"
+	},
+	"files": [
+		"dist",
+		"src",
+		"README.md"
+	],
+	"publishConfig": {
+		"access": "public"
+	}
 }

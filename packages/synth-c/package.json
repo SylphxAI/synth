@@ -1,38 +1,38 @@
 {
-  "name": "@sylphx/synth-c",
-  "version": "0.1.2",
-  "description": "C parser using Synth's universal AST - conversion layer over tree-sitter-c",
-  "type": "module",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    }
-  },
-  "scripts": {
-    "test": "bun test",
-    "test:watch": "bun test --watch"
-  },
-  "keywords": [
-    "c",
-    "parser",
-    "ast",
-    "synth",
-    "tree-sitter",
-    "c99",
-    "c11",
-    "c17"
-  ],
-  "author": "SylphX",
-  "license": "MIT",
-  "dependencies": {
-    "@sylphx/synth": "workspace:^",
-    "tree-sitter": "^0.21.1",
-    "tree-sitter-c": "^0.23.1"
-  },
-  "devDependencies": {
-    "typescript": "^5.6.0"
-  }
+	"name": "@sylphx/synth-c",
+	"version": "0.1.3",
+	"description": "C parser using Synth's universal AST - conversion layer over tree-sitter-c",
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js"
+		}
+	},
+	"scripts": {
+		"test": "bun test",
+		"test:watch": "bun test --watch"
+	},
+	"keywords": [
+		"c",
+		"parser",
+		"ast",
+		"synth",
+		"tree-sitter",
+		"c99",
+		"c11",
+		"c17"
+	],
+	"author": "SylphX",
+	"license": "MIT",
+	"dependencies": {
+		"@sylphx/synth": "^0.1.4",
+		"tree-sitter": "^0.21.1",
+		"tree-sitter-c": "^0.23.1"
+	},
+	"devDependencies": {
+		"typescript": "^5.6.0"
+	}
 }

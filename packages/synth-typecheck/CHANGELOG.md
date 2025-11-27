@@ -1,5 +1,17 @@
 # @sylphx/synth-typecheck
 
+## 0.1.3 (2025-11-27)
+
+### 🐛 Bug Fixes
+
+- TypeScript support improvements ([864099b](https://github.com/SylphxAI/synth/commit/864099bbd7c6daf879b76736c6387d0a1386f3b5))
+
+### 🔧 Chores
+
+- achieve 100% doctor score (v1.18.0) ([454faf8](https://github.com/SylphxAI/synth/commit/454faf882e00f6caccd99e363e765a16a1be196a))
+- improve project health score to 100% ([4a46114](https://github.com/SylphxAI/synth/commit/4a461142c8fa8e28c501d46a7579220dd08dbc75))
+- version packages - v0.2.0 synth-js, v0.1.3 synth ([c546c55](https://github.com/SylphxAI/synth/commit/c546c5582b77a06e6899a2f12dfc7b76264560a2))
+
 ## 0.1.2
 
 ### Patch Changes
