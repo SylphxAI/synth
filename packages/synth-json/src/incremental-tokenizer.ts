@@ -11,8 +11,8 @@
  */
 
 import { IncrementalTokenizer } from '@sylphx/synth'
-import type { Token, TokenRange, Edit } from '@sylphx/synth'
-import { TokenKind, TokenFlags, createToken } from '@sylphx/synth'
+import type { Edit, Token, TokenRange } from '@sylphx/synth'
+import { TokenFlags, TokenKind, createToken } from '@sylphx/synth'
 
 /**
  * JSON value types
@@ -24,7 +24,7 @@ enum JSONValueType {
   NUMBER = 'number',
   BOOLEAN = 'boolean',
   NULL = 'null',
-  PROPERTY = 'property',  // Key-value pair
+  PROPERTY = 'property', // Key-value pair
   WHITESPACE = 'whitespace',
 }
 
@@ -37,11 +37,7 @@ export class IncrementalJSONTokenizer extends IncrementalTokenizer {
   /**
    * Tokenize JSON with property-level granularity
    */
-  protected tokenizeImpl(
-    source: string,
-    startOffset: number,
-    endOffset: number
-  ): Token[] {
+  protected tokenizeImpl(source: string, startOffset: number, endOffset: number): Token[] {
     const tokens: Token[] = []
     const region = source.slice(startOffset, endOffset)
 
@@ -88,13 +84,13 @@ export class IncrementalJSONTokenizer extends IncrementalTokenizer {
 
       if (match && match.index !== undefined) {
         const propertyStart = baseOffset + match.index
-        const valueStart = propertyStart + match[0]!.length
+        const valueStart = propertyStart + match[0]?.length
 
         // Determine value end
-        const valueEnd = this.findValueEnd(json.slice(match.index + match[0]!.length))
+        const valueEnd = this.findValueEnd(json.slice(match.index + match[0]?.length))
 
         // Create property token
-        const propertyContent = json.slice(match.index, match.index + match[0]!.length + valueEnd)
+        const propertyContent = json.slice(match.index, match.index + match[0]?.length + valueEnd)
         const token = this.createJSONToken(
           JSONValueType.PROPERTY,
           propertyContent,
@@ -107,7 +103,10 @@ export class IncrementalJSONTokenizer extends IncrementalTokenizer {
 
         // Recursively tokenize nested values
         if (typeof value === 'object' && value !== null) {
-          const valueJSON = json.slice(match.index + match[0]!.length, match.index + match[0]!.length + valueEnd)
+          const valueJSON = json.slice(
+            match.index + match[0]?.length,
+            match.index + match[0]?.length + valueEnd
+          )
           this.tokenizeValue(value, valueJSON, valueStart, tokens)
         }
       }
@@ -212,14 +211,10 @@ export class IncrementalJSONTokenizer extends IncrementalTokenizer {
     const startPos = this.offsetToPosition(startOffset, this.source)
     const endPos = this.offsetToPosition(endOffset, this.source)
 
-    return createToken(
-      kind,
-      content,
-      { start: startPos, end: endPos },
-      index,
-      flags,
-      { valueType, ...metadata }
-    )
+    return createToken(kind, content, { start: startPos, end: endPos }, index, flags, {
+      valueType,
+      ...metadata,
+    })
   }
 
   /**
@@ -241,7 +236,6 @@ export class IncrementalJSONTokenizer extends IncrementalTokenizer {
         return TokenKind.NULL
       case JSONValueType.PROPERTY:
         return TokenKind.TEXT
-      case JSONValueType.WHITESPACE:
       default:
         return TokenKind.WHITESPACE
     }

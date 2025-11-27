@@ -10,7 +10,15 @@ export interface SymbolDoc {
   name: string
 
   /** Symbol kind */
-  kind: 'function' | 'class' | 'interface' | 'variable' | 'constant' | 'type' | 'method' | 'property'
+  kind:
+    | 'function'
+    | 'class'
+    | 'interface'
+    | 'variable'
+    | 'constant'
+    | 'type'
+    | 'method'
+    | 'property'
 
   /** Description */
   description?: string

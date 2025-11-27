@@ -7,12 +7,12 @@
  * - Efficient AST building
  */
 
-import type { Tree, NodeId } from '../../types/index.js'
-import { createTree, addNode } from '../../types/tree.js'
 import type { Edit } from '../../core/incremental.js'
-import { createIndex, type ASTIndex } from '../../core/query-index.js'
-import { OptimizedTokenizer } from './optimized-tokenizer.js'
+import { type ASTIndex, createIndex } from '../../core/query-index.js'
+import type { NodeId, Tree } from '../../types/index.js'
+import { addNode, createTree } from '../../types/tree.js'
 import { OptimizedInlineTokenizer } from './optimized-inline-tokenizer.js'
+import { OptimizedTokenizer } from './optimized-tokenizer.js'
 import type { BlockToken, InlineToken } from './tokens.js'
 
 /**
@@ -73,7 +73,7 @@ export class OptimizedMarkdownParser {
     for (const token of tokens) {
       const nodeId = this.buildNode(tree, token, tree.root)
       if (nodeId !== null) {
-        tree.nodes[tree.root]!.children.push(nodeId)
+        tree.nodes[tree.root]?.children.push(nodeId)
       }
     }
 
@@ -210,7 +210,7 @@ export class OptimizedMarkdownParser {
     for (const inlineToken of inlineTokens) {
       const nodeId = this.buildInlineNode(tree, inlineToken, parent)
       if (nodeId !== null) {
-        tree.nodes[parent]!.children.push(nodeId)
+        tree.nodes[parent]?.children.push(nodeId)
       }
     }
   }
@@ -255,7 +255,7 @@ export class OptimizedMarkdownParser {
           data: { value: token.text },
         })
 
-        tree.nodes[emphasisId]!.children.push(textId)
+        tree.nodes[emphasisId]?.children.push(textId)
         return emphasisId
       }
 
@@ -281,7 +281,7 @@ export class OptimizedMarkdownParser {
           data: { value: token.text },
         })
 
-        tree.nodes[strongId]!.children.push(textId)
+        tree.nodes[strongId]?.children.push(textId)
         return strongId
       }
 
@@ -324,7 +324,7 @@ export class OptimizedMarkdownParser {
           data: { value: token.text },
         })
 
-        tree.nodes[linkId]!.children.push(textId)
+        tree.nodes[linkId]?.children.push(textId)
         return linkId
       }
 

@@ -42,36 +42,36 @@ export enum TokenKind {
   COMMENT = 'comment',
 
   // Markdown-specific
-  HEADING_START = 'heading_start',      // #, ##, etc.
-  EMPHASIS_MARKER = 'emphasis_marker',  // *, _
-  STRONG_MARKER = 'strong_marker',      // **, __
-  CODE_FENCE = 'code_fence',            // ```
-  CODE_MARKER = 'code_marker',          // `
-  LINK_START = 'link_start',            // [
-  LINK_END = 'link_end',                // ]
-  URL_START = 'url_start',              // (
-  URL_END = 'url_end',                  // )
-  LIST_MARKER = 'list_marker',          // -, *, 1.
+  HEADING_START = 'heading_start', // #, ##, etc.
+  EMPHASIS_MARKER = 'emphasis_marker', // *, _
+  STRONG_MARKER = 'strong_marker', // **, __
+  CODE_FENCE = 'code_fence', // ```
+  CODE_MARKER = 'code_marker', // `
+  LINK_START = 'link_start', // [
+  LINK_END = 'link_end', // ]
+  URL_START = 'url_start', // (
+  URL_END = 'url_end', // )
+  LIST_MARKER = 'list_marker', // -, *, 1.
   BLOCKQUOTE_MARKER = 'blockquote_marker', // >
-  HORIZONTAL_RULE = 'horizontal_rule',  // ---, ***, ___
+  HORIZONTAL_RULE = 'horizontal_rule', // ---, ***, ___
 
   // HTML-specific
-  TAG_OPEN = 'tag_open',                // <
-  TAG_CLOSE = 'tag_close',              // >
-  TAG_SELF_CLOSE = 'tag_self_close',    // />
+  TAG_OPEN = 'tag_open', // <
+  TAG_CLOSE = 'tag_close', // >
+  TAG_SELF_CLOSE = 'tag_self_close', // />
   ATTRIBUTE = 'attribute',
 
   // JavaScript-specific
-  BRACE_OPEN = 'brace_open',            // {
-  BRACE_CLOSE = 'brace_close',          // }
-  PAREN_OPEN = 'paren_open',            // (
-  PAREN_CLOSE = 'paren_close',          // )
-  BRACKET_OPEN = 'bracket_open',        // [
-  BRACKET_CLOSE = 'bracket_close',      // ]
-  SEMICOLON = 'semicolon',              // ;
-  COMMA = 'comma',                      // ,
-  DOT = 'dot',                          // .
-  ARROW = 'arrow',                      // =>
+  BRACE_OPEN = 'brace_open', // {
+  BRACE_CLOSE = 'brace_close', // }
+  PAREN_OPEN = 'paren_open', // (
+  PAREN_CLOSE = 'paren_close', // )
+  BRACKET_OPEN = 'bracket_open', // [
+  BRACKET_CLOSE = 'bracket_close', // ]
+  SEMICOLON = 'semicolon', // ;
+  COMMA = 'comma', // ,
+  DOT = 'dot', // .
+  ARROW = 'arrow', // =>
 
   // Error
   ERROR = 'error',
@@ -83,12 +83,12 @@ export enum TokenKind {
  */
 export enum TokenFlags {
   NONE = 0,
-  LEADING_WHITESPACE = 1 << 0,   // Has leading whitespace
-  TRAILING_WHITESPACE = 1 << 1,  // Has trailing whitespace
-  MULTILINE = 1 << 2,            // Spans multiple lines
-  ESCAPED = 1 << 3,              // Contains escaped characters
-  INCOMPLETE = 1 << 4,           // Incomplete/error token
-  SYNTHETIC = 1 << 5,            // Synthetic token (not from source)
+  LEADING_WHITESPACE = 1 << 0, // Has leading whitespace
+  TRAILING_WHITESPACE = 1 << 1, // Has trailing whitespace
+  MULTILINE = 1 << 2, // Spans multiple lines
+  ESCAPED = 1 << 3, // Contains escaped characters
+  INCOMPLETE = 1 << 4, // Incomplete/error token
+  SYNTHETIC = 1 << 5, // Synthetic token (not from source)
 }
 
 /**
@@ -231,11 +231,7 @@ export function createToken(
 /**
  * Create a token stream
  */
-export function createTokenStream(
-  tokens: Token[],
-  source: string,
-  language: string
-): TokenStream {
+export function createTokenStream(tokens: Token[], source: string, language: string): TokenStream {
   const now = Date.now()
   return {
     tokens,

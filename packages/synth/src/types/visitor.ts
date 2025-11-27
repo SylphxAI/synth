@@ -41,13 +41,13 @@ export type VisitorFn<T = void> = (context: VisitorContext) => T
  */
 export interface Visitor {
   /** Called when entering a node (pre-order) */
-  enter?: VisitorFn<void | boolean>
+  enter?: VisitorFn<undefined | boolean>
 
   /** Called when leaving a node (post-order) */
   leave?: VisitorFn<void>
 
   /** Type-specific visitors */
-  [key: string]: VisitorFn<void | boolean> | undefined
+  [key: string]: VisitorFn<undefined | boolean> | undefined
 }
 
 /**
@@ -65,7 +65,7 @@ export const TraversalOrder = {
 /**
  * Traversal order type
  */
-export type TraversalOrder = typeof TraversalOrder[keyof typeof TraversalOrder]
+export type TraversalOrder = (typeof TraversalOrder)[keyof typeof TraversalOrder]
 
 /**
  * Traversal options

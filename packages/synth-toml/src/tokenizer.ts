@@ -529,7 +529,7 @@ export class TOMLTokenizer {
     return this.source[this.pos + 1]
   }
 
-  private advance(count: number = 1): void {
+  private advance(count = 1): void {
     for (let i = 0; i < count; i++) {
       this.pos++
       this.column++

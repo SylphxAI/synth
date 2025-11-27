@@ -10,18 +10,18 @@
  * Target: 2x improvement over OptimizedInlineTokenizer
  */
 
+import { tryTokenizeAutolink, tryTokenizeStrikethrough } from './gfm-tokenizer.js'
 import type {
-  InlineToken,
-  TextToken,
   EmphasisToken,
-  StrongToken,
-  InlineCodeToken,
-  LinkToken,
   ImageToken,
+  InlineCodeToken,
+  InlineToken,
   LineBreakToken,
+  LinkToken,
+  StrongToken,
+  TextToken,
 } from './tokens.js'
 import { createPosition, createTokenPosition } from './tokens.js'
-import { tryTokenizeStrikethrough, tryTokenizeAutolink } from './gfm-tokenizer.js'
 
 /**
  * Ultra-Optimized Inline Tokenizer
@@ -131,14 +131,14 @@ export class InlineTokenizer {
             // Hard line break: \ followed by newline
             if (nextChar === '\n') {
               tokens.push(this.createLineBreak(offset, lineIndex, lineStart, true))
-              offset += 2  // Skip \ and \n
+              offset += 2 // Skip \ and \n
               continue
             }
 
             // Escape sequence: \ followed by punctuation
             if (this.isEscapableChar(nextChar)) {
               tokens.push(this.createEscapedChar(offset, lineIndex, lineStart, nextChar))
-              offset += 2  // Skip \ and escaped char
+              offset += 2 // Skip \ and escaped char
               continue
             }
           }
@@ -156,7 +156,7 @@ export class InlineTokenizer {
           // Check for hard line break with two spaces
           if (offset + 2 < length && text[offset + 1] === ' ' && text[offset + 2] === '\n') {
             tokens.push(this.createLineBreak(offset, lineIndex, lineStart, true))
-            offset += 3  // Skip two spaces and \n
+            offset += 3 // Skip two spaces and \n
             continue
           }
           break
@@ -421,10 +421,10 @@ export class InlineTokenizer {
         char === '_' ||
         char === '[' ||
         char === '!' ||
-        char === '~' ||  // GFM: strikethrough
-        char === 'h' ||  // GFM: http(s)://
-        char === 'w' ||  // GFM: www.
-        char === '\\'    // Escape sequences
+        char === '~' || // GFM: strikethrough
+        char === 'h' || // GFM: http(s)://
+        char === 'w' || // GFM: www.
+        char === '\\' // Escape sequences
       ) {
         break
       }
@@ -491,10 +491,10 @@ export class InlineTokenizer {
     lineStart: number,
     escapedChar: string
   ): TextToken {
-    const raw = '\\' + escapedChar
+    const raw = `\\${escapedChar}`
     return {
       type: 'text',
-      value: escapedChar,  // Just the character, without backslash
+      value: escapedChar, // Just the character, without backslash
       raw,
       position: createTokenPosition(
         createPosition(lineIndex, offset - lineStart, lineStart + offset),

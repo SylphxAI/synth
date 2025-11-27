@@ -11,9 +11,9 @@
  *   npm run bench:memory       # Memory usage analysis (future)
  */
 
-import { execSync } from 'child_process'
-import { existsSync, writeFileSync } from 'fs'
-import { join } from 'path'
+import { execSync } from 'node:child_process'
+import { existsSync } from 'node:fs'
+import { join } from 'node:path'
 
 interface BenchmarkSuite {
   name: string
@@ -91,7 +91,7 @@ function printSummary(): void {
       if (!acc[suite.category]) {
         acc[suite.category] = []
       }
-      acc[suite.category]!.push(suite)
+      acc[suite.category]?.push(suite)
       return acc
     },
     {} as Record<string, BenchmarkSuite[]>
@@ -156,10 +156,6 @@ switch (command) {
       runBenchmark(suite)
     }
     break
-
-  case 'summary':
-  case 'list':
-  case 'help':
   default:
     printSummary()
     break

@@ -397,10 +397,7 @@ export class CSSTokenizer {
 
   private isIdentifier(char: string | undefined): boolean {
     if (!char) return false
-    return (
-      this.isIdentifierStart(char) ||
-      this.isDigit(char)
-    )
+    return this.isIdentifierStart(char) || this.isDigit(char)
   }
 
   private peek(): string {

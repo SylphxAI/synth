@@ -7,24 +7,20 @@
  * - Autolinks
  */
 
-import { describe, it, expect } from 'bun:test'
-import { tryTokenizeTable, tryTokenizeStrikethrough, tryTokenizeAutolink } from './gfm-tokenizer.js'
+import { describe, expect, it } from 'bun:test'
+import { tryTokenizeAutolink, tryTokenizeStrikethrough, tryTokenizeTable } from './gfm-tokenizer.js'
 
 describe('GFM: Tables', () => {
   it('should tokenize basic table', () => {
-    const lines = [
-      '| Header 1 | Header 2 |',
-      '|----------|----------|',
-      '| Cell 1   | Cell 2   |',
-    ]
+    const lines = ['| Header 1 | Header 2 |', '|----------|----------|', '| Cell 1   | Cell 2   |']
 
     const result = tryTokenizeTable(lines, 0, 0)
 
     expect(result).toBeTruthy()
-    expect(result!.token.type).toBe('table')
-    expect(result!.token.header).toEqual(['Header 1', 'Header 2'])
-    expect(result!.token.rows).toEqual([['Cell 1', 'Cell 2']])
-    expect(result!.nextLine).toBe(3)
+    expect(result?.token.type).toBe('table')
+    expect(result?.token.header).toEqual(['Header 1', 'Header 2'])
+    expect(result?.token.rows).toEqual([['Cell 1', 'Cell 2']])
+    expect(result?.nextLine).toBe(3)
   })
 
   it('should parse table alignment', () => {
@@ -37,55 +33,39 @@ describe('GFM: Tables', () => {
     const result = tryTokenizeTable(lines, 0, 0)
 
     expect(result).toBeTruthy()
-    expect(result!.token.align).toEqual(['left', 'center', 'right'])
+    expect(result?.token.align).toEqual(['left', 'center', 'right'])
   })
 
   it('should handle multiple rows', () => {
-    const lines = [
-      '| A | B |',
-      '|---|---|',
-      '| 1 | 2 |',
-      '| 3 | 4 |',
-      '| 5 | 6 |',
-    ]
+    const lines = ['| A | B |', '|---|---|', '| 1 | 2 |', '| 3 | 4 |', '| 5 | 6 |']
 
     const result = tryTokenizeTable(lines, 0, 0)
 
     expect(result).toBeTruthy()
-    expect(result!.token.rows.length).toBe(3)
-    expect(result!.token.rows[0]).toEqual(['1', '2'])
-    expect(result!.token.rows[1]).toEqual(['3', '4'])
-    expect(result!.token.rows[2]).toEqual(['5', '6'])
+    expect(result?.token.rows.length).toBe(3)
+    expect(result?.token.rows[0]).toEqual(['1', '2'])
+    expect(result?.token.rows[1]).toEqual(['3', '4'])
+    expect(result?.token.rows[2]).toEqual(['5', '6'])
   })
 
   it('should handle table without rows', () => {
-    const lines = [
-      '| Header 1 | Header 2 |',
-      '|----------|----------|',
-    ]
+    const lines = ['| Header 1 | Header 2 |', '|----------|----------|']
 
     const result = tryTokenizeTable(lines, 0, 0)
 
     expect(result).toBeTruthy()
-    expect(result!.token.rows.length).toBe(0)
+    expect(result?.token.rows.length).toBe(0)
   })
 
   it('should reject invalid tables', () => {
     // Missing separator
-    const lines1 = [
-      '| Header 1 | Header 2 |',
-      '| Cell 1   | Cell 2   |',
-    ]
+    const lines1 = ['| Header 1 | Header 2 |', '| Cell 1   | Cell 2   |']
 
     const result1 = tryTokenizeTable(lines1, 0, 0)
     expect(result1).toBeNull()
 
     // Mismatched columns
-    const lines2 = [
-      '| Header 1 | Header 2 |',
-      '|----------|',
-      '| Cell 1   | Cell 2   |',
-    ]
+    const lines2 = ['| Header 1 | Header 2 |', '|----------|', '| Cell 1   | Cell 2   |']
 
     const result2 = tryTokenizeTable(lines2, 0, 0)
     expect(result2).toBeNull()
@@ -98,9 +78,9 @@ describe('GFM: Strikethrough', () => {
     const result = tryTokenizeStrikethrough(text, 0, 0, 0)
 
     expect(result).toBeTruthy()
-    expect(result!.token.type).toBe('strikethrough')
-    expect(result!.token.text).toBe('deleted text')
-    expect(result!.token.raw).toBe('~~deleted text~~')
+    expect(result?.token.type).toBe('strikethrough')
+    expect(result?.token.text).toBe('deleted text')
+    expect(result?.token.raw).toBe('~~deleted text~~')
   })
 
   it('should handle strikethrough in middle of text', () => {
@@ -108,8 +88,8 @@ describe('GFM: Strikethrough', () => {
     const result = tryTokenizeStrikethrough(text, 8, 0, 0)
 
     expect(result).toBeTruthy()
-    expect(result!.token.text).toBe('deleted')
-    expect(result!.newOffset).toBe(19) // After ~~
+    expect(result?.token.text).toBe('deleted')
+    expect(result?.newOffset).toBe(19) // After ~~
   })
 
   it('should reject invalid strikethrough', () => {
@@ -128,9 +108,9 @@ describe('GFM: Autolinks', () => {
       const result = tryTokenizeAutolink(text, 0, 0, 0)
 
       expect(result).toBeTruthy()
-      expect(result!.token.type).toBe('autolink')
-      expect(result!.token.url).toBe('https://example.com')
-      expect(result!.token.raw).toBe('https://example.com')
+      expect(result?.token.type).toBe('autolink')
+      expect(result?.token.url).toBe('https://example.com')
+      expect(result?.token.raw).toBe('https://example.com')
     })
 
     it('should tokenize http URLs', () => {
@@ -138,7 +118,7 @@ describe('GFM: Autolinks', () => {
       const result = tryTokenizeAutolink(text, 0, 0, 0)
 
       expect(result).toBeTruthy()
-      expect(result!.token.url).toBe('http://example.com/path?query=1')
+      expect(result?.token.url).toBe('http://example.com/path?query=1')
     })
   })
 
@@ -148,9 +128,9 @@ describe('GFM: Autolinks', () => {
       const result = tryTokenizeAutolink(text, 0, 0, 0)
 
       expect(result).toBeTruthy()
-      expect(result!.token.type).toBe('autolink')
-      expect(result!.token.url).toBe('https://www.example.com')
-      expect(result!.token.raw).toBe('www.example.com')
+      expect(result?.token.type).toBe('autolink')
+      expect(result?.token.url).toBe('https://www.example.com')
+      expect(result?.token.raw).toBe('www.example.com')
     })
 
     it('should handle www. with path', () => {
@@ -158,7 +138,7 @@ describe('GFM: Autolinks', () => {
       const result = tryTokenizeAutolink(text, 0, 0, 0)
 
       expect(result).toBeTruthy()
-      expect(result!.token.url).toBe('https://www.example.com/path')
+      expect(result?.token.url).toBe('https://www.example.com/path')
     })
   })
 
@@ -168,9 +148,9 @@ describe('GFM: Autolinks', () => {
       const result = tryTokenizeAutolink(text, 0, 0, 0)
 
       expect(result).toBeTruthy()
-      expect(result!.token.type).toBe('autolink')
-      expect(result!.token.url).toBe('mailto:user@example.com')
-      expect(result!.token.raw).toBe('user@example.com')
+      expect(result?.token.type).toBe('autolink')
+      expect(result?.token.url).toBe('mailto:user@example.com')
+      expect(result?.token.raw).toBe('user@example.com')
     })
 
     it('should handle complex email addresses', () => {
@@ -178,7 +158,7 @@ describe('GFM: Autolinks', () => {
       const result = tryTokenizeAutolink(text, 0, 0, 0)
 
       expect(result).toBeTruthy()
-      expect(result!.token.url).toBe('mailto:first.last+tag@subdomain.example.co.uk')
+      expect(result?.token.url).toBe('mailto:first.last+tag@subdomain.example.co.uk')
     })
   })
 
@@ -188,7 +168,7 @@ describe('GFM: Autolinks', () => {
       const result = tryTokenizeAutolink(text, 10, 0, 0)
 
       expect(result).toBeTruthy()
-      expect(result!.token.url).toBe('https://github.com')
+      expect(result?.token.url).toBe('https://github.com')
     })
 
     it('should not match invalid URLs', () => {
@@ -210,12 +190,12 @@ describe('GFM: Integration', () => {
     const result = tryTokenizeTable(lines, 0, 0)
 
     expect(result).toBeTruthy()
-    expect(result!.token.rows.length).toBe(2)
+    expect(result?.token.rows.length).toBe(2)
 
     // First row has strikethrough (would need inline parsing)
-    expect(result!.token.rows[0]).toEqual(['~~Old~~', 'Done'])
+    expect(result?.token.rows[0]).toEqual(['~~Old~~', 'Done'])
 
     // Second row has URL (would need inline parsing)
-    expect(result!.token.rows[1]).toEqual(['New', 'https://example.com'])
+    expect(result?.token.rows[1]).toEqual(['New', 'https://example.com'])
   })
 })

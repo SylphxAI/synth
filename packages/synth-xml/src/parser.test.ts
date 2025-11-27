@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'bun:test'
-import { parse, parseAsync, createParser, XMLParser } from './parser.js'
+import { describe, expect, it } from 'bun:test'
 import type { Tree } from '@sylphx/synth'
+import { XMLParser, createParser, parse, parseAsync } from './parser.js'
 
 describe('XMLParser', () => {
   describe('Basic Elements', () => {
@@ -144,7 +144,8 @@ description
 
   describe('Namespaces', () => {
     it('should parse elements with namespaces', () => {
-      const xml = '<root xmlns:custom="http://example.com/ns"><custom:element>Text</custom:element></root>'
+      const xml =
+        '<root xmlns:custom="http://example.com/ns"><custom:element>Text</custom:element></root>'
 
       const tree = parse(xml)
       expect(tree).toBeDefined()
@@ -184,7 +185,7 @@ description
     })
 
     it('should parse apostrophe', () => {
-      const xml = "<text>It&apos;s working</text>"
+      const xml = '<text>It&apos;s working</text>'
 
       const tree = parse(xml)
       expect(tree).toBeDefined()

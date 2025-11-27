@@ -9,16 +9,16 @@
  * Target: 20-30x performance vs remark
  */
 
-import type { Tree, NodeId } from '../../types/index.js'
-import { createTree, addNode } from '../../types/tree.js'
 import type { Edit } from '../../core/incremental.js'
-import { createIndex, type ASTIndex } from '../../core/query-index.js'
-import { UltraOptimizedTokenizer } from './ultra-optimized-tokenizer.js'
-import { UltraOptimizedInlineTokenizer } from './ultra-optimized-inline-tokenizer.js'
+import { type ASTIndex, createIndex } from '../../core/query-index.js'
+import type { NodeId, Tree } from '../../types/index.js'
+import { addNode, createTree } from '../../types/tree.js'
 import { BatchTokenizer } from './batch-tokenizer.js'
+import { type MarkdownNodePool, createNodePool } from './node-pool.js'
+import { type Plugin, PluginManager } from './plugin.js'
 import type { BlockToken, InlineToken } from './tokens.js'
-import { PluginManager, type Plugin } from './plugin.js'
-import { createNodePool, type MarkdownNodePool } from './node-pool.js'
+import { UltraOptimizedInlineTokenizer } from './ultra-optimized-inline-tokenizer.js'
+import { UltraOptimizedTokenizer } from './ultra-optimized-tokenizer.js'
 
 /**
  * Parse options
@@ -88,7 +88,12 @@ export class UltraOptimizedMarkdownParser {
    * For plugin support, use parseAsync() instead.
    */
   parse(text: string, options: Omit<ParseOptions, 'plugins'> = {}): Tree {
-    const { buildIndex = false, useBatchTokenizer = false, batchSize = 16, useNodePool = false } = options
+    const {
+      buildIndex = false,
+      useBatchTokenizer = false,
+      batchSize = 16,
+      useNodePool = false,
+    } = options
 
     // Initialize node pool if requested
     if (useNodePool && !this.nodePool) {
@@ -98,7 +103,7 @@ export class UltraOptimizedMarkdownParser {
     // Tokenize (choose tokenizer based on option)
     if (useBatchTokenizer) {
       // Lazy init batch tokenizer with specified batch size
-      if (!this.batchTokenizer || this.batchTokenizer['batchSize'] !== batchSize) {
+      if (!this.batchTokenizer || this.batchTokenizer.batchSize !== batchSize) {
         this.batchTokenizer = new BatchTokenizer(batchSize)
       }
       this.tokens = this.batchTokenizer.tokenize(text)
@@ -128,7 +133,13 @@ export class UltraOptimizedMarkdownParser {
    * @returns Promise<AST tree>
    */
   async parseAsync(text: string, options: ParseOptions = {}): Promise<Tree> {
-    const { buildIndex = false, plugins = [], useBatchTokenizer = false, batchSize = 16, useNodePool = false } = options
+    const {
+      buildIndex = false,
+      plugins = [],
+      useBatchTokenizer = false,
+      batchSize = 16,
+      useNodePool = false,
+    } = options
 
     // Initialize node pool if requested
     if (useNodePool && !this.nodePool) {
@@ -138,7 +149,7 @@ export class UltraOptimizedMarkdownParser {
     // Tokenize (choose tokenizer based on option)
     if (useBatchTokenizer) {
       // Lazy init batch tokenizer with specified batch size
-      if (!this.batchTokenizer || this.batchTokenizer['batchSize'] !== batchSize) {
+      if (!this.batchTokenizer || this.batchTokenizer.batchSize !== batchSize) {
         this.batchTokenizer = new BatchTokenizer(batchSize)
       }
       this.tokens = this.batchTokenizer.tokenize(text)
@@ -179,7 +190,12 @@ export class UltraOptimizedMarkdownParser {
    * Parse with registered plugins applied
    */
   async parseWithPlugins(text: string, options: ParseOptions = {}): Promise<Tree> {
-    const { buildIndex = false, useBatchTokenizer = false, batchSize = 16, useNodePool = false } = options
+    const {
+      buildIndex = false,
+      useBatchTokenizer = false,
+      batchSize = 16,
+      useNodePool = false,
+    } = options
 
     // Initialize node pool if requested
     if (useNodePool && !this.nodePool) {
@@ -189,7 +205,7 @@ export class UltraOptimizedMarkdownParser {
     // Tokenize (choose tokenizer based on option)
     if (useBatchTokenizer) {
       // Lazy init batch tokenizer with specified batch size
-      if (!this.batchTokenizer || this.batchTokenizer['batchSize'] !== batchSize) {
+      if (!this.batchTokenizer || this.batchTokenizer.batchSize !== batchSize) {
         this.batchTokenizer = new BatchTokenizer(batchSize)
       }
       this.tokens = this.batchTokenizer.tokenize(text)
@@ -237,7 +253,7 @@ export class UltraOptimizedMarkdownParser {
     for (const token of tokens) {
       const nodeId = this.buildNode(tree, token, tree.root, useNodePool)
       if (nodeId !== null) {
-        tree.nodes[tree.root]!.children.push(nodeId)
+        tree.nodes[tree.root]?.children.push(nodeId)
       }
     }
 
@@ -247,116 +263,186 @@ export class UltraOptimizedMarkdownParser {
   /**
    * Build AST node from block token
    */
-  private buildNode(tree: Tree, token: BlockToken, parent: NodeId, useNodePool: boolean): NodeId | null {
+  private buildNode(
+    tree: Tree,
+    token: BlockToken,
+    parent: NodeId,
+    useNodePool: boolean
+  ): NodeId | null {
     if (token.type === 'blankLine') return null
 
     switch (token.type) {
       case 'heading': {
-        const headingId = useNodePool && this.nodePool
-          ? this.addPooledNode(tree, 'heading', parent, token.position.start, token.position.end, { depth: token.depth })
-          : addNode(tree, {
-              type: 'heading',
-              parent,
-              children: [],
-              span: {
-                start: token.position.start,
-                end: token.position.end,
-              },
-              data: { depth: token.depth },
-            })
+        const headingId =
+          useNodePool && this.nodePool
+            ? this.addPooledNode(
+                tree,
+                'heading',
+                parent,
+                token.position.start,
+                token.position.end,
+                { depth: token.depth }
+              )
+            : addNode(tree, {
+                type: 'heading',
+                parent,
+                children: [],
+                span: {
+                  start: token.position.start,
+                  end: token.position.end,
+                },
+                data: { depth: token.depth },
+              })
 
         // Parse inline content
-        this.buildInlineNodes(tree, token.text, headingId, token.position.start.line, token.position.start.offset, useNodePool)
+        this.buildInlineNodes(
+          tree,
+          token.text,
+          headingId,
+          token.position.start.line,
+          token.position.start.offset,
+          useNodePool
+        )
 
         return headingId
       }
 
       case 'paragraph': {
-        const paragraphId = useNodePool && this.nodePool
-          ? this.addPooledNode(tree, 'paragraph', parent, token.position.start, token.position.end)
-          : addNode(tree, {
-              type: 'paragraph',
-              parent,
-              children: [],
-              span: {
-                start: token.position.start,
-                end: token.position.end,
-              },
-            })
+        const paragraphId =
+          useNodePool && this.nodePool
+            ? this.addPooledNode(
+                tree,
+                'paragraph',
+                parent,
+                token.position.start,
+                token.position.end
+              )
+            : addNode(tree, {
+                type: 'paragraph',
+                parent,
+                children: [],
+                span: {
+                  start: token.position.start,
+                  end: token.position.end,
+                },
+              })
 
         // Parse inline content
-        this.buildInlineNodes(tree, token.text, paragraphId, token.position.start.line, token.position.start.offset, useNodePool)
+        this.buildInlineNodes(
+          tree,
+          token.text,
+          paragraphId,
+          token.position.start.line,
+          token.position.start.offset,
+          useNodePool
+        )
 
         return paragraphId
       }
 
       case 'codeBlock': {
-        const codeId = useNodePool && this.nodePool
-          ? this.addPooledNode(tree, 'code', parent, token.position.start, token.position.end, {
-              lang: token.lang,
-              meta: token.meta,
-              value: token.code,
-            })
-          : addNode(tree, {
-              type: 'code',
-              parent,
-              children: [],
-              span: {
-                start: token.position.start,
-                end: token.position.end,
-              },
-              data: {
+        const codeId =
+          useNodePool && this.nodePool
+            ? this.addPooledNode(tree, 'code', parent, token.position.start, token.position.end, {
                 lang: token.lang,
                 meta: token.meta,
                 value: token.code,
-              },
-            })
+              })
+            : addNode(tree, {
+                type: 'code',
+                parent,
+                children: [],
+                span: {
+                  start: token.position.start,
+                  end: token.position.end,
+                },
+                data: {
+                  lang: token.lang,
+                  meta: token.meta,
+                  value: token.code,
+                },
+              })
 
         return codeId
       }
 
       case 'listItem': {
-        const listItemId = useNodePool && this.nodePool
-          ? this.addPooledNode(tree, 'listItem', parent, token.position.start, token.position.end, { checked: token.checked })
-          : addNode(tree, {
-              type: 'listItem',
-              parent,
-              children: [],
-              span: {
-                start: token.position.start,
-                end: token.position.end,
-              },
-              data: { checked: token.checked },
-            })
+        const listItemId =
+          useNodePool && this.nodePool
+            ? this.addPooledNode(
+                tree,
+                'listItem',
+                parent,
+                token.position.start,
+                token.position.end,
+                { checked: token.checked }
+              )
+            : addNode(tree, {
+                type: 'listItem',
+                parent,
+                children: [],
+                span: {
+                  start: token.position.start,
+                  end: token.position.end,
+                },
+                data: { checked: token.checked },
+              })
 
         // Parse inline content
-        this.buildInlineNodes(tree, token.text, listItemId, token.position.start.line, token.position.start.offset, useNodePool)
+        this.buildInlineNodes(
+          tree,
+          token.text,
+          listItemId,
+          token.position.start.line,
+          token.position.start.offset,
+          useNodePool
+        )
 
         return listItemId
       }
 
       case 'blockquote': {
-        const blockquoteId = useNodePool && this.nodePool
-          ? this.addPooledNode(tree, 'blockquote', parent, token.position.start, token.position.end)
-          : addNode(tree, {
-              type: 'blockquote',
-              parent,
-              children: [],
-              span: {
-                start: token.position.start,
-                end: token.position.end,
-              },
-            })
+        const blockquoteId =
+          useNodePool && this.nodePool
+            ? this.addPooledNode(
+                tree,
+                'blockquote',
+                parent,
+                token.position.start,
+                token.position.end
+              )
+            : addNode(tree, {
+                type: 'blockquote',
+                parent,
+                children: [],
+                span: {
+                  start: token.position.start,
+                  end: token.position.end,
+                },
+              })
 
         // Parse inline content
-        this.buildInlineNodes(tree, token.text, blockquoteId, token.position.start.line, token.position.start.offset, useNodePool)
+        this.buildInlineNodes(
+          tree,
+          token.text,
+          blockquoteId,
+          token.position.start.line,
+          token.position.start.offset,
+          useNodePool
+        )
 
         return blockquoteId
       }
 
       case 'horizontalRule': {
         return useNodePool && this.nodePool
-          ? this.addPooledNode(tree, 'thematicBreak', parent, token.position.start, token.position.end)
+          ? this.addPooledNode(
+              tree,
+              'thematicBreak',
+              parent,
+              token.position.start,
+              token.position.end
+            )
           : addNode(tree, {
               type: 'thematicBreak',
               parent,
@@ -389,18 +475,25 @@ export class UltraOptimizedMarkdownParser {
 
     for (const token of inlineTokens) {
       const nodeId = this.buildInlineNode(tree, token, parent, useNodePool)
-      tree.nodes[parent]!.children.push(nodeId)
+      tree.nodes[parent]?.children.push(nodeId)
     }
   }
 
   /**
    * Build inline AST node from inline token
    */
-  private buildInlineNode(tree: Tree, token: InlineToken, parent: NodeId, useNodePool: boolean): NodeId {
+  private buildInlineNode(
+    tree: Tree,
+    token: InlineToken,
+    parent: NodeId,
+    useNodePool: boolean
+  ): NodeId {
     switch (token.type) {
       case 'text': {
         return useNodePool && this.nodePool
-          ? this.addPooledNode(tree, 'text', parent, token.position.start, token.position.end, { value: token.value })
+          ? this.addPooledNode(tree, 'text', parent, token.position.start, token.position.end, {
+              value: token.value,
+            })
           : addNode(tree, {
               type: 'text',
               parent,
@@ -414,17 +507,18 @@ export class UltraOptimizedMarkdownParser {
       }
 
       case 'emphasis': {
-        const emphasisId = useNodePool && this.nodePool
-          ? this.addPooledNode(tree, 'emphasis', parent, token.position.start, token.position.end)
-          : addNode(tree, {
-              type: 'emphasis',
-              parent,
-              children: [],
-              span: {
-                start: token.position.start,
-                end: token.position.end,
-              },
-            })
+        const emphasisId =
+          useNodePool && this.nodePool
+            ? this.addPooledNode(tree, 'emphasis', parent, token.position.start, token.position.end)
+            : addNode(tree, {
+                type: 'emphasis',
+                parent,
+                children: [],
+                span: {
+                  start: token.position.start,
+                  end: token.position.end,
+                },
+              })
 
         // Parse nested inline content
         const nestedTokens = this.inlineTokenizer.tokenize(
@@ -434,24 +528,25 @@ export class UltraOptimizedMarkdownParser {
         )
         for (const nested of nestedTokens) {
           const childId = this.buildInlineNode(tree, nested, emphasisId, useNodePool)
-          tree.nodes[emphasisId]!.children.push(childId)
+          tree.nodes[emphasisId]?.children.push(childId)
         }
 
         return emphasisId
       }
 
       case 'strong': {
-        const strongId = useNodePool && this.nodePool
-          ? this.addPooledNode(tree, 'strong', parent, token.position.start, token.position.end)
-          : addNode(tree, {
-              type: 'strong',
-              parent,
-              children: [],
-              span: {
-                start: token.position.start,
-                end: token.position.end,
-              },
-            })
+        const strongId =
+          useNodePool && this.nodePool
+            ? this.addPooledNode(tree, 'strong', parent, token.position.start, token.position.end)
+            : addNode(tree, {
+                type: 'strong',
+                parent,
+                children: [],
+                span: {
+                  start: token.position.start,
+                  end: token.position.end,
+                },
+              })
 
         // Parse nested inline content
         const nestedTokens = this.inlineTokenizer.tokenize(
@@ -461,7 +556,7 @@ export class UltraOptimizedMarkdownParser {
         )
         for (const nested of nestedTokens) {
           const childId = this.buildInlineNode(tree, nested, strongId, useNodePool)
-          tree.nodes[strongId]!.children.push(childId)
+          tree.nodes[strongId]?.children.push(childId)
         }
 
         return strongId
@@ -469,7 +564,14 @@ export class UltraOptimizedMarkdownParser {
 
       case 'inlineCode': {
         return useNodePool && this.nodePool
-          ? this.addPooledNode(tree, 'inlineCode', parent, token.position.start, token.position.end, { value: token.value })
+          ? this.addPooledNode(
+              tree,
+              'inlineCode',
+              parent,
+              token.position.start,
+              token.position.end,
+              { value: token.value }
+            )
           : addNode(tree, {
               type: 'inlineCode',
               parent,
@@ -483,18 +585,21 @@ export class UltraOptimizedMarkdownParser {
       }
 
       case 'link': {
-        const linkId = useNodePool && this.nodePool
-          ? this.addPooledNode(tree, 'link', parent, token.position.start, token.position.end, { url: token.url })
-          : addNode(tree, {
-              type: 'link',
-              parent,
-              children: [],
-              span: {
-                start: token.position.start,
-                end: token.position.end,
-              },
-              data: { url: token.url },
-            })
+        const linkId =
+          useNodePool && this.nodePool
+            ? this.addPooledNode(tree, 'link', parent, token.position.start, token.position.end, {
+                url: token.url,
+              })
+            : addNode(tree, {
+                type: 'link',
+                parent,
+                children: [],
+                span: {
+                  start: token.position.start,
+                  end: token.position.end,
+                },
+                data: { url: token.url },
+              })
 
         // Parse link text
         const nestedTokens = this.inlineTokenizer.tokenize(
@@ -504,7 +609,7 @@ export class UltraOptimizedMarkdownParser {
         )
         for (const nested of nestedTokens) {
           const childId = this.buildInlineNode(tree, nested, linkId, useNodePool)
-          tree.nodes[linkId]!.children.push(childId)
+          tree.nodes[linkId]?.children.push(childId)
         }
 
         return linkId
@@ -533,7 +638,9 @@ export class UltraOptimizedMarkdownParser {
 
       default: {
         return useNodePool && this.nodePool
-          ? this.addPooledNode(tree, 'text', parent, token.position.start, token.position.end, { value: token.raw })
+          ? this.addPooledNode(tree, 'text', parent, token.position.start, token.position.end, {
+              value: token.raw,
+            })
           : addNode(tree, {
               type: 'text',
               parent,
@@ -559,7 +666,7 @@ export class UltraOptimizedMarkdownParser {
     end: { line: number; column: number; offset: number },
     data?: Record<string, any>
   ): NodeId {
-    const node = this.nodePool!.acquire(type)
+    const node = this.nodePool?.acquire(type)
 
     // Set properties
     node.type = type

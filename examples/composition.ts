@@ -2,16 +2,16 @@
  * Functional composition examples
  */
 
-import { flux } from '../src/index.js'
 import { markdown } from '../src/adapters/index.js'
 import { compose, pipe, tap, timed } from '../src/api/index.js'
+import { flux } from '../src/index.js'
 import type { Tree } from '../src/types/index.js'
 
 // Example transforms
 const incrementHeadings = async (tree: Tree) => {
   for (const node of tree.nodes) {
     if (node.type === 'heading') {
-      const depth = (node.data?.['depth'] as number) ?? 1
+      const depth = (node.data?.depth as number) ?? 1
       if (depth < 6) {
         node.data = { ...node.data, depth: (depth + 1) as 1 | 2 | 3 | 4 | 5 | 6 }
       }
@@ -45,7 +45,7 @@ Content here`
 
   // Compose multiple transforms
   const pipeline = compose(
-    tap((tree) => console.log('Starting transform...')),
+    tap((_tree) => console.log('Starting transform...')),
     timed(incrementHeadings, 'increment headings'),
     addMetadata,
     logTree
@@ -73,7 +73,7 @@ async function pipeExample() {
   const transform = pipe(
     incrementHeadings,
     incrementHeadings, // Apply twice
-    tap((tree) => console.log('Headings incremented twice'))
+    tap((_tree) => console.log('Headings incremented twice'))
   )
 
   const chain = await processor.parse(source, 'markdown')
@@ -82,7 +82,6 @@ async function pipeExample() {
   const output = await chain.compile()
   console.log('Output:', output)
 }
-
 // Run examples
 ;(async () => {
   try {

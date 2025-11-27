@@ -5,11 +5,11 @@
  * Uses protobufjs for parsing, then converts to Synth format
  */
 
-import type { Tree, Plugin } from '@sylphx/synth'
-import { createTree, addNode } from '@sylphx/synth'
+import type { Plugin, Tree } from '@sylphx/synth'
+import { addNode, createTree } from '@sylphx/synth'
 import { SynthError } from '@sylphx/synth'
-import { parse as parseProto } from 'protobufjs'
 import type { NodeId } from '@sylphx/synth'
+import { parse as parseProto } from 'protobufjs'
 
 export interface ProtobufParseOptions {
   /** Build query index for AST */
@@ -134,7 +134,7 @@ export class ProtobufParser {
       },
     })
 
-    tree.nodes[parentId]!.children.push(protoId)
+    tree.nodes[parentId]?.children.push(protoId)
 
     // Convert nested types
     if (root.nested) {
@@ -184,7 +184,7 @@ export class ProtobufParser {
       },
     })
 
-    tree.nodes[parentId]!.children.push(messageId)
+    tree.nodes[parentId]?.children.push(messageId)
 
     // Convert fields
     if (message.fields) {
@@ -233,7 +233,7 @@ export class ProtobufParser {
       },
     })
 
-    tree.nodes[parentId]!.children.push(fieldId)
+    tree.nodes[parentId]?.children.push(fieldId)
   }
 
   private convertEnum(
@@ -257,7 +257,7 @@ export class ProtobufParser {
       },
     })
 
-    tree.nodes[parentId]!.children.push(enumId)
+    tree.nodes[parentId]?.children.push(enumId)
 
     // Convert enum values
     if (enumType.values) {
@@ -288,7 +288,7 @@ export class ProtobufParser {
       },
     })
 
-    tree.nodes[parentId]!.children.push(valueId)
+    tree.nodes[parentId]?.children.push(valueId)
   }
 
   private convertService(
@@ -312,7 +312,7 @@ export class ProtobufParser {
       },
     })
 
-    tree.nodes[parentId]!.children.push(serviceId)
+    tree.nodes[parentId]?.children.push(serviceId)
 
     // Convert methods
     if (service.methods) {
@@ -347,7 +347,7 @@ export class ProtobufParser {
       },
     })
 
-    tree.nodes[parentId]!.children.push(methodId)
+    tree.nodes[parentId]?.children.push(methodId)
   }
 
   private convertOneof(
@@ -371,7 +371,7 @@ export class ProtobufParser {
       },
     })
 
-    tree.nodes[parentId]!.children.push(oneofId)
+    tree.nodes[parentId]?.children.push(oneofId)
   }
 
   private convertNamespace(
@@ -394,7 +394,7 @@ export class ProtobufParser {
       },
     })
 
-    tree.nodes[parentId]!.children.push(namespaceId)
+    tree.nodes[parentId]?.children.push(namespaceId)
 
     // Convert nested types
     if (namespace.nested) {
@@ -413,10 +413,7 @@ export function parse(source: string, options?: ProtobufParseOptions): Tree {
   return parser.parse(source, options)
 }
 
-export async function parseAsync(
-  source: string,
-  options?: ProtobufParseOptions
-): Promise<Tree> {
+export async function parseAsync(source: string, options?: ProtobufParseOptions): Promise<Tree> {
   const parser = new ProtobufParser()
   return parser.parseAsync(source, options)
 }

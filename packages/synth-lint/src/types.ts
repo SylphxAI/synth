@@ -2,7 +2,7 @@
  * Linter types and interfaces
  */
 
-import type { Tree, Node, NodeId } from '@sylphx/synth'
+import type { Node, NodeId, Tree } from '@sylphx/synth'
 
 /**
  * Diagnostic severity levels

@@ -10,7 +10,7 @@
  * ```
  */
 
-import { createTransformPlugin, type TransformPlugin } from '@sylphx/synth'
+import { type TransformPlugin, createTransformPlugin } from '@sylphx/synth'
 import type { BaseNode } from '@sylphx/synth'
 import type { CodeBlockNode } from '@sylphx/synth-md'
 
@@ -58,12 +58,12 @@ export function mermaidPlugin(_options: MermaidPluginOptions = {}): TransformPlu
     {
       name: 'mermaid',
       version: '0.1.0',
-      description: 'Process Mermaid diagram code blocks'
+      description: 'Process Mermaid diagram code blocks',
     },
     (tree) => {
       // Find all code blocks with language 'mermaid'
       const nodes = tree.nodes.filter(
-        node => node.type === 'codeBlock' && (node as CodeBlockNode).lang === 'mermaid'
+        (node) => node.type === 'codeBlock' && (node as CodeBlockNode).lang === 'mermaid'
       )
 
       for (const node of nodes) {
@@ -74,7 +74,7 @@ export function mermaidPlugin(_options: MermaidPluginOptions = {}): TransformPlu
           value: codeNode.code,
           data: {
             diagram: codeNode.code,
-          }
+          },
         }
 
         // Replace in tree

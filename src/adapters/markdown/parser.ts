@@ -6,7 +6,7 @@
  */
 
 import type { Tree } from '../../types/index.js'
-import { createTree, addNode } from '../../types/index.js'
+import { addNode, createTree } from '../../types/index.js'
 
 /**
  * Parse markdown to AST
@@ -32,7 +32,7 @@ function parseLine(tree: Tree, line: string, _lineNumber: number): void {
   // Heading
   const headingMatch = line.match(/^(#{1,6})\s+(.+)$/)
   if (headingMatch) {
-    const depth = headingMatch[1]!.length as 1 | 2 | 3 | 4 | 5 | 6
+    const depth = headingMatch[1]?.length as 1 | 2 | 3 | 4 | 5 | 6
     const text = headingMatch[2]!
 
     const headingId = addNode(tree, {
@@ -49,8 +49,8 @@ function parseLine(tree: Tree, line: string, _lineNumber: number): void {
       data: { value: text },
     })
 
-    tree.nodes[headingId]!.children.push(textId)
-    tree.nodes[0]!.children.push(headingId)
+    tree.nodes[headingId]?.children.push(textId)
+    tree.nodes[0]?.children.push(headingId)
     return
   }
 
@@ -78,8 +78,8 @@ function parseLine(tree: Tree, line: string, _lineNumber: number): void {
       data: { value: text },
     })
 
-    tree.nodes[listItemId]!.children.push(textId)
-    tree.nodes[0]!.children.push(listItemId)
+    tree.nodes[listItemId]?.children.push(textId)
+    tree.nodes[0]?.children.push(listItemId)
     return
   }
 
@@ -98,7 +98,7 @@ function parseLine(tree: Tree, line: string, _lineNumber: number): void {
       data: { value: line },
     })
 
-    tree.nodes[paragraphId]!.children.push(textId)
-    tree.nodes[0]!.children.push(paragraphId)
+    tree.nodes[paragraphId]?.children.push(textId)
+    tree.nodes[0]?.children.push(paragraphId)
   }
 }

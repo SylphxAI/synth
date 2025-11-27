@@ -404,7 +404,7 @@ export type NodeProps<T extends MarkdownNode> = Omit<T, keyof BaseNode>
 /**
  * Visitor function type for Markdown nodes
  */
-export type MarkdownVisitor<T extends MarkdownNode = MarkdownNode> = (node: T) => T | void
+export type MarkdownVisitor<T extends MarkdownNode = MarkdownNode> = (node: T) => T | undefined
 
 /**
  * Visitor map for specific node types

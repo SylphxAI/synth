@@ -8,13 +8,7 @@
 import type { BaseNode } from '@sylphx/synth'
 
 // HTML node types
-export type HTMLNodeType =
-  | 'root'
-  | 'doctype'
-  | 'element'
-  | 'text'
-  | 'comment'
-  | 'cdata'
+export type HTMLNodeType = 'root' | 'doctype' | 'element' | 'text' | 'comment' | 'cdata'
 
 // HTML void elements (self-closing, cannot have children)
 export const VOID_ELEMENTS: Set<string> = new Set([

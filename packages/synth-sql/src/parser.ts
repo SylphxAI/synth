@@ -5,11 +5,11 @@
  * Uses node-sql-parser for parsing, then converts to Synth format
  */
 
-import type { Tree, Plugin } from '@sylphx/synth'
-import { createTree, addNode } from '@sylphx/synth'
+import type { Plugin, Tree } from '@sylphx/synth'
+import { addNode, createTree } from '@sylphx/synth'
 import { SynthError } from '@sylphx/synth'
-import { Parser as NodeSQLParser } from 'node-sql-parser'
 import type { NodeId } from '@sylphx/synth'
+import { Parser as NodeSQLParser } from 'node-sql-parser'
 
 export interface SQLParseOptions {
   /** SQL dialect (mysql, postgresql, sqlite, etc.) */
@@ -125,12 +125,7 @@ export class SQLParser {
     return this.tree
   }
 
-  private convertNode(
-    tree: Tree,
-    sqlNode: any,
-    parentId: NodeId,
-    source: string
-  ): NodeId {
+  private convertNode(tree: Tree, sqlNode: any, parentId: NodeId, source: string): NodeId {
     // Handle array of nodes (multiple statements)
     if (Array.isArray(sqlNode)) {
       let lastId = parentId
@@ -164,7 +159,7 @@ export class SQLParser {
     })
 
     // Add to parent's children
-    tree.nodes[parentId]!.children.push(nodeId)
+    tree.nodes[parentId]?.children.push(nodeId)
 
     // Recursively convert children
     if (typeof sqlNode === 'object' && sqlNode !== null) {
@@ -256,10 +251,7 @@ export function parse(source: string, options?: SQLParseOptions): Tree {
   return parser.parse(source, options)
 }
 
-export async function parseAsync(
-  source: string,
-  options?: SQLParseOptions
-): Promise<Tree> {
+export async function parseAsync(source: string, options?: SQLParseOptions): Promise<Tree> {
   const parser = new SQLParser()
   return parser.parseAsync(source, options)
 }

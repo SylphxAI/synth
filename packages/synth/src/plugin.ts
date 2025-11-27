@@ -4,7 +4,7 @@
  * Language-agnostic plugin architecture for AST manipulation
  */
 
-import type { Tree, BaseNode } from './types/index.js'
+import type { BaseNode, Tree } from './types/index.js'
 
 /**
  * Plugin metadata
@@ -37,12 +37,14 @@ export interface TransformPlugin<T extends Tree = Tree> {
 /**
  * Node visitor function type (simpler than VisitorFn from types)
  */
-export type NodeVisitorFn = (node: BaseNode) => BaseNode | void
+export type NodeVisitorFn = (node: BaseNode) => BaseNode | undefined
 
 /**
  * Visitor plugin - processes individual nodes
  */
-export interface VisitorPlugin<V extends Record<string, NodeVisitorFn> = Record<string, NodeVisitorFn>> {
+export interface VisitorPlugin<
+  V extends Record<string, NodeVisitorFn> = Record<string, NodeVisitorFn>,
+> {
   /** Plugin metadata */
   meta: PluginMetadata
 
@@ -88,7 +90,9 @@ export function createTransformPlugin<T extends Tree = Tree>(
 /**
  * Create a visitor plugin
  */
-export function createVisitorPlugin<V extends Record<string, NodeVisitorFn> = Record<string, NodeVisitorFn>>(
+export function createVisitorPlugin<
+  V extends Record<string, NodeVisitorFn> = Record<string, NodeVisitorFn>,
+>(
   meta: PluginMetadata,
   visitors: V,
   hooks?: {

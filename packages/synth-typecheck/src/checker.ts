@@ -2,8 +2,8 @@
  * Type checker implementation
  */
 
-import type { Tree, Node, NodeId } from '@sylphx/synth'
-import type { Type, TypeError, TypeCheckResult, TypeEnvironment } from './types.js'
+import type { Node, NodeId, Tree } from '@sylphx/synth'
+import type { Type, TypeCheckResult, TypeEnvironment, TypeError } from './types.js'
 
 /**
  * Type checker
@@ -225,7 +225,7 @@ export class TypeChecker {
   /**
    * Infer type for function
    */
-  private inferFunction(tree: Tree, node: Node): Type {
+  private inferFunction(_tree: Tree, node: Node): Type {
     const name = node.data?.name || node.data?.id?.name
     const params = node.data?.params || []
 
@@ -276,7 +276,7 @@ export class TypeChecker {
   /**
    * Infer type for unary expression
    */
-  private inferUnaryExpression(tree: Tree, node: Node): Type {
+  private inferUnaryExpression(_tree: Tree, node: Node): Type {
     const operator = node.data?.operator
 
     if (operator === '!') {
@@ -297,7 +297,7 @@ export class TypeChecker {
   /**
    * Infer type for logical expression
    */
-  private inferLogicalExpression(tree: Tree, node: Node): Type {
+  private inferLogicalExpression(_tree: Tree, node: Node): Type {
     const operator = node.data?.operator
 
     if (operator === '&&' || operator === '||') {
@@ -376,7 +376,7 @@ export class TypeChecker {
    * Infer type for member expression
    */
   private inferMemberExpression(tree: Tree, node: Node): Type {
-    const [objectId, propertyId] = node.children
+    const [objectId, _propertyId] = node.children
     if (!objectId) {
       return { kind: 'unknown' }
     }

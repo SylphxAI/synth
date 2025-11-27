@@ -49,7 +49,7 @@ export interface Tree {
 /**
  * Create an empty tree
  */
-export function createTree(language: string, source: string = ''): Tree {
+export function createTree(language: string, source = ''): Tree {
   const now = Date.now()
 
   const root: RootNode = {
@@ -117,7 +117,7 @@ export function removeNode(tree: Tree, id: NodeId): void {
   if (node && node.parent !== null) {
     const parent = tree.nodes[node.parent]
     if (parent) {
-      parent.children = parent.children.filter(childId => childId !== id)
+      parent.children = parent.children.filter((childId) => childId !== id)
       tree.meta.modified = Date.now()
     }
   }
@@ -129,7 +129,7 @@ export function removeNode(tree: Tree, id: NodeId): void {
 export function getChildren(tree: Tree, id: NodeId): BaseNode[] {
   const node = tree.nodes[id]
   if (!node) return []
-  return node.children.map(childId => tree.nodes[childId]!).filter(Boolean)
+  return node.children.map((childId) => tree.nodes[childId]!).filter(Boolean)
 }
 
 /**

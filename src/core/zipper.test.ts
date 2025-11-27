@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'vitest'
-import { createTree, addNode } from '../types/index.js'
-import { createZipper, down, up, right, left, getFocus, edit } from './zipper.js'
+import { describe, expect, it } from 'vitest'
+import { addNode, createTree } from '../types/index.js'
+import { createZipper, down, edit, getFocus, right, up } from './zipper.js'
 
 describe('zipper', () => {
   it('should navigate down to first child', () => {
@@ -52,10 +52,10 @@ describe('zipper', () => {
     const zipper = createZipper(tree)
     const downZipper = down(zipper)!
 
-    edit(downZipper, (node) => ({
+    edit(downZipper, (_node) => ({
       data: { modified: true },
     }))
 
-    expect(tree.nodes[childId]!.data?.['modified']).toBe(true)
+    expect(tree.nodes[childId]?.data?.modified).toBe(true)
   })
 })

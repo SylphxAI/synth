@@ -5,11 +5,11 @@
  * Uses fast-xml-parser for parsing, then converts to Synth format
  */
 
-import type { Tree, Plugin } from '@sylphx/synth'
-import { createTree, addNode } from '@sylphx/synth'
+import type { Plugin, Tree } from '@sylphx/synth'
+import { addNode, createTree } from '@sylphx/synth'
 import { SynthError } from '@sylphx/synth'
-import { XMLParser as FastXMLParser } from 'fast-xml-parser'
 import type { NodeId } from '@sylphx/synth'
+import { XMLParser as FastXMLParser } from 'fast-xml-parser'
 
 export interface XMLParseOptions {
   /** Ignore attributes */
@@ -186,13 +186,13 @@ export class XMLParser {
           text: String(xmlNode),
         },
       })
-      tree.nodes[parentId]!.children.push(nodeId)
+      tree.nodes[parentId]?.children.push(nodeId)
       return nodeId
     }
 
     // Get element tag name (first key that's not an attribute or special field)
     let tagName = 'Element'
-    let attributes: any = {}
+    const attributes: any = {}
     let children: any[] = []
     let textContent = ''
 
@@ -216,7 +216,7 @@ export class XMLParser {
             text: xmlNode[key],
           },
         })
-        tree.nodes[parentId]!.children.push(commentId)
+        tree.nodes[parentId]?.children.push(commentId)
         return commentId
       } else if (key === '#cdata') {
         // CDATA node
@@ -232,7 +232,7 @@ export class XMLParser {
             text: xmlNode[key],
           },
         })
-        tree.nodes[parentId]!.children.push(cdataId)
+        tree.nodes[parentId]?.children.push(cdataId)
         return cdataId
       } else {
         // Element tag name
@@ -257,7 +257,7 @@ export class XMLParser {
       },
     })
 
-    tree.nodes[parentId]!.children.push(nodeId)
+    tree.nodes[parentId]?.children.push(nodeId)
 
     // Add text content if present
     if (textContent) {
@@ -273,7 +273,7 @@ export class XMLParser {
           text: textContent,
         },
       })
-      tree.nodes[nodeId]!.children.push(textId)
+      tree.nodes[nodeId]?.children.push(textId)
     }
 
     // Recursively convert children
@@ -295,10 +295,7 @@ export function parse(source: string, options?: XMLParseOptions): Tree {
   return parser.parse(source, options)
 }
 
-export async function parseAsync(
-  source: string,
-  options?: XMLParseOptions
-): Promise<Tree> {
+export async function parseAsync(source: string, options?: XMLParseOptions): Promise<Tree> {
   const parser = new XMLParser()
   return parser.parseAsync(source, options)
 }

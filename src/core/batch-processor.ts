@@ -13,7 +13,7 @@
  * Expected performance gain: 3-5x faster traversal
  */
 
-import type { Tree, NodeId, BaseNode } from '../types/index.js'
+import type { BaseNode, NodeId, Tree } from '../types/index.js'
 import { getNode } from '../types/tree.js'
 
 /**
@@ -43,8 +43,8 @@ export interface BatchVisitor {
  */
 export interface BatchProcessingOptions {
   batchSize?: number
-  groupByType?: boolean  // Group nodes by type for better cache locality
-  parallel?: boolean     // Future: Enable parallel processing
+  groupByType?: boolean // Group nodes by type for better cache locality
+  parallel?: boolean // Future: Enable parallel processing
 }
 
 /**
@@ -79,10 +79,7 @@ export function batchProcess(
   visitor: BatchVisitor,
   options: BatchProcessingOptions = {}
 ): void {
-  const {
-    batchSize = DEFAULT_BATCH_SIZE,
-    groupByType = true,
-  } = options
+  const { batchSize = DEFAULT_BATCH_SIZE, groupByType = true } = options
 
   // Collect all nodes first (single pass)
   const nodes: BaseNode[] = []
@@ -159,15 +156,19 @@ export function batchSelect(
 ): BaseNode[] {
   const results: BaseNode[] = []
 
-  batchTraverse(tree, {
-    batch: (nodes) => {
-      for (const node of nodes) {
-        if (predicate(node)) {
-          results.push(node)
+  batchTraverse(
+    tree,
+    {
+      batch: (nodes) => {
+        for (const node of nodes) {
+          if (predicate(node)) {
+            results.push(node)
+          }
         }
-      }
+      },
     },
-  }, options)
+    options
+  )
 
   return results
 }
@@ -182,18 +183,22 @@ export function batchTransform(
   transform: (node: BaseNode) => BaseNode,
   options: BatchProcessingOptions = {}
 ): void {
-  batchTraverse(tree, {
-    batch: (nodes) => {
-      for (const node of nodes) {
-        if (predicate(node)) {
-          // Apply transformation
-          const transformed = transform(node)
-          // Update in place
-          tree.nodes[node.id] = transformed
+  batchTraverse(
+    tree,
+    {
+      batch: (nodes) => {
+        for (const node of nodes) {
+          if (predicate(node)) {
+            // Apply transformation
+            const transformed = transform(node)
+            // Update in place
+            tree.nodes[node.id] = transformed
+          }
         }
-      }
+      },
     },
-  }, options)
+    options
+  )
 }
 
 /**
@@ -205,14 +210,18 @@ export function batchMap(
   mapFn: (node: BaseNode) => BaseNode,
   options: BatchProcessingOptions = {}
 ): void {
-  batchTraverse(tree, {
-    batch: (nodes) => {
-      for (const node of nodes) {
-        const mapped = mapFn(node)
-        tree.nodes[node.id] = mapped
-      }
+  batchTraverse(
+    tree,
+    {
+      batch: (nodes) => {
+        for (const node of nodes) {
+          const mapped = mapFn(node)
+          tree.nodes[node.id] = mapped
+        }
+      },
     },
-  }, options)
+    options
+  )
 }
 
 /**

@@ -2,14 +2,14 @@
  * Code metrics analyzer
  */
 
-import type { Tree, Node, NodeId } from '@sylphx/synth'
+import type { Node, NodeId, Tree } from '@sylphx/synth'
 import type {
-  CodeMetrics,
   BasicMetrics,
+  CodeMetrics,
   ComplexityMetrics,
+  FunctionMetrics,
   HalsteadMetrics,
   MaintainabilityMetrics,
-  FunctionMetrics,
   MetricsReport,
 } from './types.js'
 
@@ -132,7 +132,7 @@ export class MetricsAnalyzer {
     const difficulty = (n1 / 2) * (N2 / (n2 || 1))
     const effort = difficulty * volume
     const time = effort / 18 // seconds
-    const bugs = Math.pow(effort, 2 / 3) / 3000
+    const bugs = effort ** (2 / 3) / 3000
 
     return {
       n1,
@@ -249,9 +249,7 @@ export class MetricsAnalyzer {
       'FuncDecl',
     ]
 
-    return functionTypes.some((type) =>
-      node.type.toLowerCase().includes(type.toLowerCase())
-    )
+    return functionTypes.some((type) => node.type.toLowerCase().includes(type.toLowerCase()))
   }
 
   /**

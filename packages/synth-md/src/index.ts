@@ -22,7 +22,12 @@ export { Parser, createParser, parse, parseAsync, DEFAULT_PARSE_OPTIONS } from '
 export type { ParseOptions } from './parser.js'
 
 // Export incremental parser
-export { IncrementalMarkdownParser, detectEdit, calculateEditDistance, shouldUseIncremental } from './incremental-parser.js'
+export {
+  IncrementalMarkdownParser,
+  detectEdit,
+  calculateEditDistance,
+  shouldUseIncremental,
+} from './incremental-parser.js'
 export type { Edit } from './incremental-parser.js'
 
 // Export streaming parser

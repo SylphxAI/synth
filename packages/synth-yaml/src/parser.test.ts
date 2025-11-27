@@ -2,14 +2,14 @@
  * YAML Parser Tests
  */
 
-import { describe, it, expect } from 'bun:test'
+import { describe, expect, it } from 'bun:test'
 import { YAMLParser, parse, parseAsync } from './parser.js'
 
 describe('YAMLParser', () => {
   describe('Basic Values', () => {
     it('should parse null', () => {
       const tree = parse('null')
-      const nodes = tree.nodes.filter(n => n.type === 'Null')
+      const nodes = tree.nodes.filter((n) => n.type === 'Null')
 
       expect(nodes).toHaveLength(1)
       expect(nodes[0]?.data?.value).toBe(null)
@@ -17,7 +17,7 @@ describe('YAMLParser', () => {
 
     it('should parse tilde as null', () => {
       const tree = parse('~')
-      const nodes = tree.nodes.filter(n => n.type === 'Null')
+      const nodes = tree.nodes.filter((n) => n.type === 'Null')
 
       expect(nodes).toHaveLength(1)
       expect(nodes[0]?.data?.value).toBe(null)
@@ -25,7 +25,7 @@ describe('YAMLParser', () => {
 
     it('should parse true', () => {
       const tree = parse('true')
-      const nodes = tree.nodes.filter(n => n.type === 'Boolean')
+      const nodes = tree.nodes.filter((n) => n.type === 'Boolean')
 
       expect(nodes).toHaveLength(1)
       expect(nodes[0]?.data?.value).toBe(true)
@@ -33,7 +33,7 @@ describe('YAMLParser', () => {
 
     it('should parse false', () => {
       const tree = parse('false')
-      const nodes = tree.nodes.filter(n => n.type === 'Boolean')
+      const nodes = tree.nodes.filter((n) => n.type === 'Boolean')
 
       expect(nodes).toHaveLength(1)
       expect(nodes[0]?.data?.value).toBe(false)
@@ -43,7 +43,7 @@ describe('YAMLParser', () => {
   describe('Numbers', () => {
     it('should parse integer', () => {
       const tree = parse('42')
-      const nodes = tree.nodes.filter(n => n.type === 'Number')
+      const nodes = tree.nodes.filter((n) => n.type === 'Number')
 
       expect(nodes).toHaveLength(1)
       expect(nodes[0]?.data?.value).toBe(42)
@@ -51,7 +51,7 @@ describe('YAMLParser', () => {
 
     it('should parse negative integer', () => {
       const tree = parse('-42')
-      const nodes = tree.nodes.filter(n => n.type === 'Number')
+      const nodes = tree.nodes.filter((n) => n.type === 'Number')
 
       expect(nodes).toHaveLength(1)
       expect(nodes[0]?.data?.value).toBe(-42)
@@ -59,7 +59,7 @@ describe('YAMLParser', () => {
 
     it('should parse float', () => {
       const tree = parse('3.14')
-      const nodes = tree.nodes.filter(n => n.type === 'Number')
+      const nodes = tree.nodes.filter((n) => n.type === 'Number')
 
       expect(nodes).toHaveLength(1)
       expect(nodes[0]?.data?.value).toBe(3.14)
@@ -67,7 +67,7 @@ describe('YAMLParser', () => {
 
     it('should parse scientific notation', () => {
       const tree = parse('1.5e10')
-      const nodes = tree.nodes.filter(n => n.type === 'Number')
+      const nodes = tree.nodes.filter((n) => n.type === 'Number')
 
       expect(nodes).toHaveLength(1)
       expect(nodes[0]?.data?.value).toBe(1.5e10)
@@ -77,7 +77,7 @@ describe('YAMLParser', () => {
   describe('Strings', () => {
     it('should parse plain string', () => {
       const tree = parse('hello')
-      const nodes = tree.nodes.filter(n => n.type === 'String')
+      const nodes = tree.nodes.filter((n) => n.type === 'String')
 
       expect(nodes).toHaveLength(1)
       expect(nodes[0]?.data?.value).toBe('hello')
@@ -85,7 +85,7 @@ describe('YAMLParser', () => {
 
     it('should parse quoted string', () => {
       const tree = parse('"hello world"')
-      const nodes = tree.nodes.filter(n => n.type === 'String')
+      const nodes = tree.nodes.filter((n) => n.type === 'String')
 
       expect(nodes).toHaveLength(1)
       expect(nodes[0]?.data?.value).toBe('hello world')
@@ -93,7 +93,7 @@ describe('YAMLParser', () => {
 
     it('should parse single-quoted string', () => {
       const tree = parse("'hello world'")
-      const nodes = tree.nodes.filter(n => n.type === 'String')
+      const nodes = tree.nodes.filter((n) => n.type === 'String')
 
       expect(nodes).toHaveLength(1)
       expect(nodes[0]?.data?.value).toBe('hello world')
@@ -106,7 +106,7 @@ describe('YAMLParser', () => {
         line 3`
 
       const tree = parse(yaml)
-      const nodes = tree.nodes.filter(n => n.type === 'String')
+      const nodes = tree.nodes.filter((n) => n.type === 'String')
 
       expect(nodes).toHaveLength(1)
       expect(nodes[0]?.data?.value).toContain('line 1')
@@ -120,7 +120,7 @@ describe('YAMLParser', () => {
         should be folded`
 
       const tree = parse(yaml)
-      const nodes = tree.nodes.filter(n => n.type === 'String')
+      const nodes = tree.nodes.filter((n) => n.type === 'String')
 
       expect(nodes).toHaveLength(1)
       expect(nodes[0]?.data?.value).toBeDefined()
@@ -130,7 +130,7 @@ describe('YAMLParser', () => {
   describe('Sequences (Arrays)', () => {
     it('should parse flow sequence', () => {
       const tree = parse('[1, 2, 3]')
-      const seqNode = tree.nodes.find(n => n.type === 'Sequence')
+      const seqNode = tree.nodes.find((n) => n.type === 'Sequence')
 
       expect(seqNode).toBeDefined()
       expect(seqNode?.children).toHaveLength(3)
@@ -143,7 +143,7 @@ describe('YAMLParser', () => {
 - item3`
 
       const tree = parse(yaml)
-      const seqNode = tree.nodes.find(n => n.type === 'Sequence')
+      const seqNode = tree.nodes.find((n) => n.type === 'Sequence')
 
       expect(seqNode).toBeDefined()
       expect(seqNode?.children).toHaveLength(3)
@@ -155,7 +155,7 @@ describe('YAMLParser', () => {
 - [3, 4]`
 
       const tree = parse(yaml)
-      const sequences = tree.nodes.filter(n => n.type === 'Sequence')
+      const sequences = tree.nodes.filter((n) => n.type === 'Sequence')
 
       expect(sequences.length).toBeGreaterThan(1)
     })
@@ -168,11 +168,11 @@ describe('YAMLParser', () => {
 - null`
 
       const tree = parse(yaml)
-      const seqNode = tree.nodes.find(n => n.type === 'Sequence')
+      const seqNode = tree.nodes.find((n) => n.type === 'Sequence')
 
       expect(seqNode?.children).toHaveLength(4)
 
-      const types = seqNode!.children.map(id => tree.nodes[id]!.type)
+      const types = seqNode?.children.map((id) => tree.nodes[id]?.type)
       expect(types).toContain('Number')
       expect(types).toContain('String')
       expect(types).toContain('Boolean')
@@ -183,7 +183,7 @@ describe('YAMLParser', () => {
   describe('Maps (Objects)', () => {
     it('should parse flow map', () => {
       const tree = parse('{name: Alice, age: 30}')
-      const mapNode = tree.nodes.find(n => n.type === 'Map')
+      const mapNode = tree.nodes.find((n) => n.type === 'Map')
 
       expect(mapNode).toBeDefined()
       expect(mapNode?.children).toHaveLength(2)
@@ -196,12 +196,12 @@ age: 30
 active: true`
 
       const tree = parse(yaml)
-      const mapNode = tree.nodes.find(n => n.type === 'Map')
+      const mapNode = tree.nodes.find((n) => n.type === 'Map')
 
       expect(mapNode).toBeDefined()
       expect(mapNode?.children).toHaveLength(3)
 
-      const pairs = mapNode!.children.map(id => tree.nodes[id]!)
+      const pairs = mapNode?.children.map((id) => tree.nodes[id]!)
       expect(pairs[0]?.type).toBe('Pair')
       expect(pairs[0]?.data?.key).toBe('name')
     })
@@ -213,7 +213,7 @@ person:
   age: 30`
 
       const tree = parse(yaml)
-      const maps = tree.nodes.filter(n => n.type === 'Map')
+      const maps = tree.nodes.filter((n) => n.type === 'Map')
 
       expect(maps.length).toBeGreaterThan(1)
     })
@@ -229,7 +229,7 @@ users:
     age: 25`
 
       const tree = parse(yaml)
-      const rootMap = tree.nodes.find(n => n.type === 'Map')
+      const rootMap = tree.nodes.find((n) => n.type === 'Map')
 
       expect(rootMap).toBeDefined()
     })
@@ -249,8 +249,8 @@ features:
   - metrics`
 
       const tree = parse(yaml)
-      const maps = tree.nodes.filter(n => n.type === 'Map')
-      const seqs = tree.nodes.filter(n => n.type === 'Sequence')
+      const maps = tree.nodes.filter((n) => n.type === 'Map')
+      const seqs = tree.nodes.filter((n) => n.type === 'Sequence')
 
       expect(maps.length).toBeGreaterThan(2)
       expect(seqs).toHaveLength(1)
@@ -265,7 +265,7 @@ a:
         e: value`
 
       const tree = parse(yaml)
-      const maps = tree.nodes.filter(n => n.type === 'Map')
+      const maps = tree.nodes.filter((n) => n.type === 'Map')
 
       expect(maps.length).toBeGreaterThan(4)
     })
@@ -302,7 +302,7 @@ name: Alice  # inline comment
 age: 30`
 
       const tree = parse(yaml)
-      const mapNode = tree.nodes.find(n => n.type === 'Map')
+      const mapNode = tree.nodes.find((n) => n.type === 'Map')
 
       expect(mapNode?.children).toHaveLength(2)
     })
@@ -321,14 +321,14 @@ age: 30`
 
     it('should handle empty map', () => {
       const tree = parse('{}')
-      const mapNode = tree.nodes.find(n => n.type === 'Map')
+      const mapNode = tree.nodes.find((n) => n.type === 'Map')
 
       expect(mapNode?.children).toHaveLength(0)
     })
 
     it('should handle empty sequence', () => {
       const tree = parse('[]')
-      const seqNode = tree.nodes.find(n => n.type === 'Sequence')
+      const seqNode = tree.nodes.find((n) => n.type === 'Sequence')
 
       expect(seqNode?.children).toHaveLength(0)
     })
@@ -339,7 +339,7 @@ age: 30`
 "key with spaces": value`
 
       const tree = parse(yaml)
-      const mapNode = tree.nodes.find(n => n.type === 'Map')
+      const mapNode = tree.nodes.find((n) => n.type === 'Map')
 
       expect(mapNode?.children).toHaveLength(2)
     })
@@ -367,14 +367,14 @@ map:
   describe('Standalone Functions', () => {
     it('should parse with standalone parse()', () => {
       const tree = parse('value: 42')
-      const mapNode = tree.nodes.find(n => n.type === 'Map')
+      const mapNode = tree.nodes.find((n) => n.type === 'Map')
 
       expect(mapNode).toBeDefined()
     })
 
     it('should parse with parseAsync()', async () => {
       const tree = await parseAsync('value: 42')
-      const mapNode = tree.nodes.find(n => n.type === 'Map')
+      const mapNode = tree.nodes.find((n) => n.type === 'Map')
 
       expect(mapNode).toBeDefined()
     })
@@ -422,7 +422,7 @@ jobs:
         run: npm test`
 
       const tree = parse(yaml)
-      const rootMap = tree.nodes.find(n => n.type === 'Map')
+      const rootMap = tree.nodes.find((n) => n.type === 'Map')
 
       expect(rootMap).toBeDefined()
     })
@@ -445,7 +445,7 @@ services:
       POSTGRES_PASSWORD: secret`
 
       const tree = parse(yaml)
-      const maps = tree.nodes.filter(n => n.type === 'Map')
+      const maps = tree.nodes.filter((n) => n.type === 'Map')
 
       expect(maps.length).toBeGreaterThan(3)
     })
@@ -466,7 +466,7 @@ spec:
     - containerPort: 80`
 
       const tree = parse(yaml)
-      const rootMap = tree.nodes.find(n => n.type === 'Map')
+      const rootMap = tree.nodes.find((n) => n.type === 'Map')
 
       expect(rootMap).toBeDefined()
     })

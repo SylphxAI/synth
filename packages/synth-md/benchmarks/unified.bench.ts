@@ -2,21 +2,19 @@
  * Benchmark: Flux AST vs unified/remark
  */
 
-import { describe, bench } from 'vitest'
-import { unified } from 'unified'
 import remarkParse from 'remark-parse'
 import remarkStringify from 'remark-stringify'
+import { unified } from 'unified'
+import { bench, describe } from 'vitest'
 
-import { flux } from '../src/index.js'
 import { markdown } from '../src/adapters/index.js'
-import { smallMarkdown, mediumMarkdown, largeMarkdown } from './test-data.js'
+import { flux } from '../src/index.js'
+import { largeMarkdown, mediumMarkdown, smallMarkdown } from './test-data.js'
 
 // Setup
 const fluxProcessor = flux().adapter('markdown', markdown())
 
-const unifiedProcessor = unified()
-  .use(remarkParse)
-  .use(remarkStringify)
+const unifiedProcessor = unified().use(remarkParse).use(remarkStringify)
 
 describe('Parse Performance', () => {
   bench('flux: parse small (1KB)', async () => {
@@ -76,10 +74,10 @@ describe('Parse + Compile Performance', () => {
 describe('Transform Performance', () => {
   bench('flux: transform (increment headings)', async () => {
     const chain = await fluxProcessor.parse(mediumMarkdown, 'markdown')
-    await chain.transform(tree => {
+    await chain.transform((tree) => {
       for (const node of tree.nodes) {
         if (node.type === 'heading') {
-          const depth = (node.data?.['depth'] as number) ?? 1
+          const depth = (node.data?.depth as number) ?? 1
           if (depth < 6) {
             node.data = { ...node.data, depth: (depth + 1) as 1 | 2 | 3 | 4 | 5 | 6 }
           }
@@ -113,19 +111,19 @@ describe('Tree Traversal Performance', () => {
   bench('flux: traverse and count nodes', async () => {
     const chain = await fluxProcessor.parse(largeMarkdown, 'markdown')
     const tree = chain.getTree()
-    let count = 0
+    let _count = 0
 
-    for (const node of tree.nodes) {
-      count++
+    for (const _node of tree.nodes) {
+      _count++
     }
   })
 
   bench('unified: traverse and count nodes', async () => {
     const result = await unifiedProcessor.parse(largeMarkdown)
-    let count = 0
+    let _count = 0
 
     function visit(node: any) {
-      count++
+      _count++
       if (node.children) {
         node.children.forEach(visit)
       }
@@ -136,7 +134,7 @@ describe('Tree Traversal Performance', () => {
   bench('flux: find all headings', async () => {
     const chain = await fluxProcessor.parse(largeMarkdown, 'markdown')
     const tree = chain.getTree()
-    const headings = tree.nodes.filter(node => node.type === 'heading')
+    const _headings = tree.nodes.filter((node) => node.type === 'heading')
   })
 
   bench('unified: find all headings', async () => {

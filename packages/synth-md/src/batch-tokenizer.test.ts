@@ -2,7 +2,7 @@
  * Batch Tokenizer Tests
  */
 
-import { describe, it, expect } from 'bun:test'
+import { describe, expect, it } from 'bun:test'
 import { BatchTokenizer, createBatchTokenizer } from './batch-tokenizer.js'
 
 describe('BatchTokenizer', () => {
@@ -44,7 +44,7 @@ describe('BatchTokenizer', () => {
       const tokens = tokenizer.tokenize(lines)
 
       expect(tokens.length).toBe(20)
-      expect(tokens.every(t => t.type === 'listItem')).toBe(true)
+      expect(tokens.every((t) => t.type === 'listItem')).toBe(true)
     })
   })
 
@@ -53,7 +53,7 @@ describe('BatchTokenizer', () => {
       const tokenizer = new BatchTokenizer(2)
       const tokens = tokenizer.tokenize('# Heading 1\n\nText')
 
-      const heading = tokens.find(t => t.type === 'heading')
+      const heading = tokens.find((t) => t.type === 'heading')
       expect(heading).toBeDefined()
       expect(heading?.depth).toBe(1)
       expect(heading?.text).toBe('Heading 1')
@@ -64,16 +64,16 @@ describe('BatchTokenizer', () => {
       const text = '## H2\n### H3\n#### H4\n##### H5\n###### H6'
       const tokens = tokenizer.tokenize(text)
 
-      const headings = tokens.filter(t => t.type === 'heading')
+      const headings = tokens.filter((t) => t.type === 'heading')
       expect(headings).toHaveLength(5)
-      expect(headings.map(h => h.depth)).toEqual([2, 3, 4, 5, 6])
+      expect(headings.map((h) => h.depth)).toEqual([2, 3, 4, 5, 6])
     })
 
     it('should reject invalid headings (>6 hashes)', () => {
       const tokenizer = new BatchTokenizer(2)
       const tokens = tokenizer.tokenize('####### Not a heading\n\nEnd')
 
-      const heading = tokens.find(t => t.type === 'heading')
+      const heading = tokens.find((t) => t.type === 'heading')
       expect(heading).toBeUndefined()
     })
 
@@ -81,7 +81,7 @@ describe('BatchTokenizer', () => {
       const tokenizer = new BatchTokenizer(2)
       const tokens = tokenizer.tokenize('#NoSpace\n\nEnd')
 
-      const heading = tokens.find(t => t.type === 'heading')
+      const heading = tokens.find((t) => t.type === 'heading')
       expect(heading).toBeUndefined()
     })
 
@@ -89,7 +89,7 @@ describe('BatchTokenizer', () => {
       const tokenizer = new BatchTokenizer(2)
       const tokens = tokenizer.tokenize('  # Indented Heading  \n\nEnd')
 
-      const heading = tokens.find(t => t.type === 'heading')
+      const heading = tokens.find((t) => t.type === 'heading')
       expect(heading).toBeDefined()
       expect(heading?.text).toBe('Indented Heading')
     })
@@ -101,7 +101,7 @@ describe('BatchTokenizer', () => {
       const text = '```js\nconst x = 1\n```\n\nEnd'
       const tokens = tokenizer.tokenize(text)
 
-      const codeBlock = tokens.find(t => t.type === 'codeBlock')
+      const codeBlock = tokens.find((t) => t.type === 'codeBlock')
       expect(codeBlock).toBeDefined()
       expect(codeBlock?.lang).toBe('js')
       expect(codeBlock?.code).toContain('const x = 1')
@@ -112,7 +112,7 @@ describe('BatchTokenizer', () => {
       const text = '```\ncode here\n```\n\nEnd'
       const tokens = tokenizer.tokenize(text)
 
-      const codeBlock = tokens.find(t => t.type === 'codeBlock')
+      const codeBlock = tokens.find((t) => t.type === 'codeBlock')
       expect(codeBlock).toBeDefined()
       expect(codeBlock?.lang).toBe('')
     })
@@ -122,7 +122,7 @@ describe('BatchTokenizer', () => {
       const text = '```python\nline1\nline2\nline3\n```\n\nEnd'
       const tokens = tokenizer.tokenize(text)
 
-      const codeBlock = tokens.find(t => t.type === 'codeBlock')
+      const codeBlock = tokens.find((t) => t.type === 'codeBlock')
       expect(codeBlock).toBeDefined()
       expect(codeBlock?.lang).toBe('python')
       expect(codeBlock?.code).toContain('line1')
@@ -135,7 +135,7 @@ describe('BatchTokenizer', () => {
       const text = '```js\nconst x = 1\nconst y = 2'
       const tokens = tokenizer.tokenize(text)
 
-      const codeBlock = tokens.find(t => t.type === 'codeBlock')
+      const codeBlock = tokens.find((t) => t.type === 'codeBlock')
       expect(codeBlock).toBeDefined()
       expect(codeBlock?.code).toContain('const x = 1')
     })
@@ -145,7 +145,7 @@ describe('BatchTokenizer', () => {
       const text = '```\ncode\n  ```\n\nEnd'
       const tokens = tokenizer.tokenize(text)
 
-      const codeBlock = tokens.find(t => t.type === 'codeBlock')
+      const codeBlock = tokens.find((t) => t.type === 'codeBlock')
       expect(codeBlock).toBeDefined()
     })
   })
@@ -155,7 +155,7 @@ describe('BatchTokenizer', () => {
       const tokenizer = new BatchTokenizer(2)
       const tokens = tokenizer.tokenize('- Item 1\n- Item 2\n- Item 3')
 
-      const listItems = tokens.filter(t => t.type === 'listItem')
+      const listItems = tokens.filter((t) => t.type === 'listItem')
       expect(listItems).toHaveLength(3)
       expect(listItems[0]?.text).toBe('Item 1')
     })
@@ -164,7 +164,7 @@ describe('BatchTokenizer', () => {
       const tokenizer = new BatchTokenizer(2)
       const tokens = tokenizer.tokenize('* Item A\n* Item B')
 
-      const listItems = tokens.filter(t => t.type === 'listItem')
+      const listItems = tokens.filter((t) => t.type === 'listItem')
       expect(listItems).toHaveLength(2)
     })
 
@@ -172,7 +172,7 @@ describe('BatchTokenizer', () => {
       const tokenizer = new BatchTokenizer(2)
       const tokens = tokenizer.tokenize('+ Item X\n+ Item Y')
 
-      const listItems = tokens.filter(t => t.type === 'listItem')
+      const listItems = tokens.filter((t) => t.type === 'listItem')
       expect(listItems).toHaveLength(2)
     })
 
@@ -180,7 +180,7 @@ describe('BatchTokenizer', () => {
       const tokenizer = new BatchTokenizer(2)
       const tokens = tokenizer.tokenize('1. First\n2. Second\n3. Third')
 
-      const listItems = tokens.filter(t => t.type === 'listItem')
+      const listItems = tokens.filter((t) => t.type === 'listItem')
       expect(listItems).toHaveLength(3)
       expect(listItems[0]?.text).toBe('First')
     })
@@ -189,7 +189,7 @@ describe('BatchTokenizer', () => {
       const tokenizer = new BatchTokenizer(2)
       const tokens = tokenizer.tokenize('- [ ] Todo item\n\nEnd')
 
-      const listItem = tokens.find(t => t.type === 'listItem')
+      const listItem = tokens.find((t) => t.type === 'listItem')
       expect(listItem).toBeDefined()
       expect(listItem?.checked).toBe(false)
       expect(listItem?.text).toBe('Todo item')
@@ -199,7 +199,7 @@ describe('BatchTokenizer', () => {
       const tokenizer = new BatchTokenizer(2)
       const tokens = tokenizer.tokenize('- [x] Done item\n\nEnd')
 
-      const listItem = tokens.find(t => t.type === 'listItem')
+      const listItem = tokens.find((t) => t.type === 'listItem')
       expect(listItem).toBeDefined()
       expect(listItem?.checked).toBe(true)
       expect(listItem?.text).toBe('Done item')
@@ -209,7 +209,7 @@ describe('BatchTokenizer', () => {
       const tokenizer = new BatchTokenizer(2)
       const tokens = tokenizer.tokenize('- [X] Done item\n\nEnd')
 
-      const listItem = tokens.find(t => t.type === 'listItem')
+      const listItem = tokens.find((t) => t.type === 'listItem')
       expect(listItem).toBeDefined()
       expect(listItem?.checked).toBe(true)
     })
@@ -218,7 +218,7 @@ describe('BatchTokenizer', () => {
       const tokenizer = new BatchTokenizer(2)
       const tokens = tokenizer.tokenize('- Item\n  - Nested\n    - Deep')
 
-      const listItems = tokens.filter(t => t.type === 'listItem')
+      const listItems = tokens.filter((t) => t.type === 'listItem')
       expect(listItems).toHaveLength(3)
       expect(listItems[0]?.indent).toBe(0)
       expect(listItems[1]?.indent).toBe(2)
@@ -231,7 +231,7 @@ describe('BatchTokenizer', () => {
       const tokenizer = new BatchTokenizer(2)
       const tokens = tokenizer.tokenize('---\n\nEnd')
 
-      const hr = tokens.find(t => t.type === 'horizontalRule')
+      const hr = tokens.find((t) => t.type === 'horizontalRule')
       expect(hr).toBeDefined()
     })
 
@@ -239,7 +239,7 @@ describe('BatchTokenizer', () => {
       const tokenizer = new BatchTokenizer(2)
       const tokens = tokenizer.tokenize('***\n\nEnd')
 
-      const hr = tokens.find(t => t.type === 'horizontalRule')
+      const hr = tokens.find((t) => t.type === 'horizontalRule')
       expect(hr).toBeDefined()
     })
 
@@ -249,7 +249,7 @@ describe('BatchTokenizer', () => {
 
       // Underscores at start are not detected as HR in batch tokenizer
       // because they don't match any firstChar pattern
-      const para = tokens.find(t => t.type === 'paragraph')
+      const para = tokens.find((t) => t.type === 'paragraph')
       expect(para).toBeDefined()
     })
 
@@ -257,7 +257,7 @@ describe('BatchTokenizer', () => {
       const tokenizer = new BatchTokenizer(2)
       const tokens = tokenizer.tokenize('-----\n\nEnd')
 
-      const hr = tokens.find(t => t.type === 'horizontalRule')
+      const hr = tokens.find((t) => t.type === 'horizontalRule')
       expect(hr).toBeDefined()
     })
 
@@ -266,7 +266,7 @@ describe('BatchTokenizer', () => {
       const tokens = tokenizer.tokenize('- - -\n\nEnd')
 
       // This creates multiple list items, not a HR
-      const items = tokens.filter(t => t.type === 'listItem')
+      const items = tokens.filter((t) => t.type === 'listItem')
       expect(items.length).toBeGreaterThan(0)
     })
   })
@@ -276,7 +276,7 @@ describe('BatchTokenizer', () => {
       const tokenizer = new BatchTokenizer(2)
       const tokens = tokenizer.tokenize('> Quote text\n\nEnd')
 
-      const blockquote = tokens.find(t => t.type === 'blockquote')
+      const blockquote = tokens.find((t) => t.type === 'blockquote')
       expect(blockquote).toBeDefined()
       expect(blockquote?.text).toBe('Quote text')
     })
@@ -285,7 +285,7 @@ describe('BatchTokenizer', () => {
       const tokenizer = new BatchTokenizer(2)
       const tokens = tokenizer.tokenize('> Line 1\n> Line 2\n> Line 3')
 
-      const blockquotes = tokens.filter(t => t.type === 'blockquote')
+      const blockquotes = tokens.filter((t) => t.type === 'blockquote')
       expect(blockquotes).toHaveLength(3)
     })
 
@@ -293,7 +293,7 @@ describe('BatchTokenizer', () => {
       const tokenizer = new BatchTokenizer(2)
       const tokens = tokenizer.tokenize('  > Indented quote\n\nEnd')
 
-      const blockquote = tokens.find(t => t.type === 'blockquote')
+      const blockquote = tokens.find((t) => t.type === 'blockquote')
       expect(blockquote).toBeDefined()
       expect(blockquote?.text).toBe('Indented quote')
     })
@@ -304,7 +304,7 @@ describe('BatchTokenizer', () => {
       const tokenizer = new BatchTokenizer(2)
       const tokens = tokenizer.tokenize('This is a paragraph\n\nEnd')
 
-      const para = tokens.find(t => t.type === 'paragraph')
+      const para = tokens.find((t) => t.type === 'paragraph')
       expect(para).toBeDefined()
       expect(para?.text).toBe('This is a paragraph')
     })
@@ -323,7 +323,7 @@ describe('BatchTokenizer', () => {
       const text = 'Simple paragraph text\n\nEnd'
       const tokens = tokenizer.tokenize(text)
 
-      const para = tokens.find(t => t.type === 'paragraph')
+      const para = tokens.find((t) => t.type === 'paragraph')
       expect(para).toBeDefined()
       expect(para?.text).toBe('Simple paragraph text')
     })
@@ -333,7 +333,7 @@ describe('BatchTokenizer', () => {
       const text = 'Paragraph 1\n\nParagraph 2\n\nParagraph 3'
       const tokens = tokenizer.tokenize(text)
 
-      const paras = tokens.filter(t => t.type === 'paragraph')
+      const paras = tokens.filter((t) => t.type === 'paragraph')
       expect(paras.length).toBeGreaterThanOrEqual(3)
     })
   })
@@ -343,7 +343,7 @@ describe('BatchTokenizer', () => {
       const tokenizer = new BatchTokenizer(2)
       const tokens = tokenizer.tokenize('Text\n\nMore text')
 
-      const blankLines = tokens.filter(t => t.type === 'blankLine')
+      const blankLines = tokens.filter((t) => t.type === 'blankLine')
       expect(blankLines.length).toBeGreaterThanOrEqual(1)
     })
 
@@ -351,7 +351,7 @@ describe('BatchTokenizer', () => {
       const tokenizer = new BatchTokenizer(2)
       const tokens = tokenizer.tokenize('Text\n\n\n\nMore')
 
-      const blankLines = tokens.filter(t => t.type === 'blankLine')
+      const blankLines = tokens.filter((t) => t.type === 'blankLine')
       expect(blankLines.length).toBeGreaterThanOrEqual(1)
     })
   })
@@ -382,7 +382,7 @@ describe('BatchTokenizer', () => {
       const tokenizer = new BatchTokenizer(2)
       const tokens = tokenizer.tokenize('\n\n\n')
 
-      expect(tokens.every(t => t.type === 'blankLine')).toBe(true)
+      expect(tokens.every((t) => t.type === 'blankLine')).toBe(true)
     })
   })
 
@@ -401,10 +401,10 @@ describe('BatchTokenizer', () => {
 
       const tokens = tokenizer.tokenize(text)
 
-      expect(tokens.some(t => t.type === 'heading')).toBe(true)
-      expect(tokens.some(t => t.type === 'listItem')).toBe(true)
-      expect(tokens.some(t => t.type === 'codeBlock')).toBe(true)
-      expect(tokens.some(t => t.type === 'blockquote')).toBe(true)
+      expect(tokens.some((t) => t.type === 'heading')).toBe(true)
+      expect(tokens.some((t) => t.type === 'listItem')).toBe(true)
+      expect(tokens.some((t) => t.type === 'codeBlock')).toBe(true)
+      expect(tokens.some((t) => t.type === 'blockquote')).toBe(true)
     })
 
     it('should track line positions correctly', () => {
@@ -432,7 +432,7 @@ describe('BatchTokenizer', () => {
       const tokenizer = new BatchTokenizer(2)
       const tokens = tokenizer.tokenize('`` Not a code block\n\nEnd')
 
-      const codeBlock = tokens.find(t => t.type === 'codeBlock')
+      const codeBlock = tokens.find((t) => t.type === 'codeBlock')
       expect(codeBlock).toBeUndefined()
     })
 
@@ -442,7 +442,7 @@ describe('BatchTokenizer', () => {
       const tokens = tokenizer.tokenize(lines)
 
       // Should process all items across multiple batches
-      expect(tokens.filter(t => t.type === 'listItem').length).toBe(10)
+      expect(tokens.filter((t) => t.type === 'listItem').length).toBe(10)
     })
 
     it('should handle mixed content in one batch', () => {
@@ -463,11 +463,11 @@ describe('BatchTokenizer', () => {
 
       const tokens = tokenizer.tokenize(text)
 
-      expect(tokens.some(t => t.type === 'heading')).toBe(true)
-      expect(tokens.some(t => t.type === 'paragraph')).toBe(true)
-      expect(tokens.some(t => t.type === 'listItem')).toBe(true)
-      expect(tokens.some(t => t.type === 'blockquote')).toBe(true)
-      expect(tokens.some(t => t.type === 'codeBlock')).toBe(true)
+      expect(tokens.some((t) => t.type === 'heading')).toBe(true)
+      expect(tokens.some((t) => t.type === 'paragraph')).toBe(true)
+      expect(tokens.some((t) => t.type === 'listItem')).toBe(true)
+      expect(tokens.some((t) => t.type === 'blockquote')).toBe(true)
+      expect(tokens.some((t) => t.type === 'codeBlock')).toBe(true)
     })
   })
 })

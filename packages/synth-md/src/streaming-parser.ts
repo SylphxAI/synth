@@ -11,9 +11,9 @@
  * - Configurable chunk size and backpressure handling
  */
 
-import { EventEmitter } from 'events'
-import type { Tree, BaseNode } from '@sylphx/synth'
-import { Parser, type ParseOptions } from './parser.js'
+import { EventEmitter } from 'node:events'
+import type { BaseNode, Tree } from '@sylphx/synth'
+import { type ParseOptions, Parser } from './parser.js'
 
 /**
  * Streaming parser options
@@ -85,7 +85,7 @@ export interface StreamingParserEvents {
  * ```
  */
 export class StreamingMarkdownParser extends EventEmitter {
-  private buffer: string = ''
+  private buffer = ''
   private parser: Parser
   private options: Required<StreamingOptions>
   private ended = false
@@ -277,7 +277,6 @@ export class StreamingMarkdownParser extends EventEmitter {
     return new Promise((resolve, reject) => {
       parser.on('error', reject)
       parser.on('end', resolve)
-
       ;(async () => {
         try {
           for await (const chunk of iterable) {
@@ -340,7 +339,7 @@ export class StreamingMarkdownParser extends EventEmitter {
     const parser = new StreamingMarkdownParser(options)
     let outputTree: Tree | null = null
 
-    const stream = new (require('stream').Transform)({
+    const stream = new (require('node:stream').Transform)({
       objectMode: true,
       transform(chunk: Buffer, _encoding: string, callback: (error?: Error) => void) {
         try {
@@ -390,9 +389,10 @@ export async function parseStream(
   options?: StreamingOptions
 ): Promise<Tree> {
   // Convert Node.js stream to async iterable if needed
-  const iterable = Symbol.asyncIterator in stream
-    ? (stream as AsyncIterable<string>)
-    : streamToAsyncIterable(stream as NodeJS.ReadableStream)
+  const iterable =
+    Symbol.asyncIterator in stream
+      ? (stream as AsyncIterable<string>)
+      : streamToAsyncIterable(stream as NodeJS.ReadableStream)
 
   return StreamingMarkdownParser.fromIterable(iterable, options)
 }

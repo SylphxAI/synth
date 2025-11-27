@@ -2,13 +2,13 @@
  * Incremental Parser Tests - Comprehensive Coverage
  */
 
-import { describe, it, expect } from 'bun:test'
+import { describe, expect, it } from 'bun:test'
 import {
-  IncrementalMarkdownParser,
-  detectEdit,
-  calculateEditDistance,
-  shouldUseIncremental,
   type Edit,
+  IncrementalMarkdownParser,
+  calculateEditDistance,
+  detectEdit,
+  shouldUseIncremental,
 } from './incremental-parser.js'
 
 describe('IncrementalMarkdownParser', () => {
@@ -51,7 +51,7 @@ describe('IncrementalMarkdownParser', () => {
       const parser = new IncrementalMarkdownParser()
       const tree = parser.parse('# Hello', {
         buildIndex: true,
-        useNodePool: false
+        useNodePool: false,
       })
 
       expect(tree).toBeDefined()
@@ -135,7 +135,7 @@ describe('IncrementalMarkdownParser', () => {
         newEndIndex: 19,
       }
 
-      const newDoc = largeDoc.slice(0, 2) + 'Big Section' + largeDoc.slice(9)
+      const newDoc = `${largeDoc.slice(0, 2)}Big Section${largeDoc.slice(9)}`
       const tree = parser.update(newDoc, edit)
 
       expect(tree).toBeDefined()
@@ -159,7 +159,7 @@ describe('IncrementalMarkdownParser', () => {
         newEndIndex: 100,
       }
 
-      const newDoc = 'New content' + largeDoc.slice(halfwayPoint)
+      const newDoc = `New content${largeDoc.slice(halfwayPoint)}`
       const tree = parser.update(newDoc, edit)
 
       expect(tree).toBeDefined()
@@ -373,7 +373,7 @@ describe('IncrementalMarkdownParser', () => {
         newEndIndex: 21,
       }
 
-      const newText = text.slice(0, 15) + 'modified' + text.slice(18)
+      const newText = `${text.slice(0, 15)}modified${text.slice(18)}`
       const tree = parser.update(newText, edit)
 
       expect(tree).toBeDefined()
@@ -392,7 +392,7 @@ describe('IncrementalMarkdownParser', () => {
         newEndIndex: 11,
       }
 
-      const newText = text.slice(0, 9) + '\n\n' + text.slice(11)
+      const newText = `${text.slice(0, 9)}\n\n${text.slice(11)}`
       const tree = parser.update(newText, edit)
 
       expect(tree).toBeDefined()

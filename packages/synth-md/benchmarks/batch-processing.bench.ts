@@ -1,7 +1,7 @@
 import { bench, describe } from 'vitest'
-import { createTree, addNode } from '../src/types/tree.js'
+import { batchSelect, batchTransform, batchTraverse } from '../src/core/batch-processor.js'
 import { traverse } from '../src/core/traverse.js'
-import { batchTraverse, batchSelect, batchTransform } from '../src/core/batch-processor.js'
+import { addNode, createTree } from '../src/types/tree.js'
 
 /**
  * Benchmark: Batch Processing vs Traditional Traversal
@@ -10,7 +10,7 @@ import { batchTraverse, batchSelect, batchTransform } from '../src/core/batch-pr
  * Expected: 3-5x improvement for large trees
  */
 
-function createLargeTree(nodeCount: number) {
+function createLargeTree(_nodeCount: number) {
   const tree = createTree('test', 'source')
 
   // Create a balanced tree structure
@@ -61,48 +61,48 @@ describe('Batch Processing Performance', () => {
 
   describe('Traversal', () => {
     bench('traditional: traverse small tree', () => {
-      let count = 0
+      let _count = 0
       traverse(smallTree, {
         enter: () => {
-          count++
+          _count++
         },
       })
     })
 
     bench('batch: traverse small tree', () => {
-      let count = 0
+      let _count = 0
       batchTraverse(smallTree, {
         batch: (nodes) => {
-          count += nodes.length
+          _count += nodes.length
         },
       })
     })
 
     bench('traditional: traverse large tree', () => {
-      let count = 0
+      let _count = 0
       traverse(largeTree, {
         enter: () => {
-          count++
+          _count++
         },
       })
     })
 
     bench('batch: traverse large tree', () => {
-      let count = 0
+      let _count = 0
       batchTraverse(largeTree, {
         batch: (nodes) => {
-          count += nodes.length
+          _count += nodes.length
         },
       })
     })
 
     bench('batch: traverse large tree with type grouping', () => {
-      let count = 0
+      let _count = 0
       batchTraverse(
         largeTree,
         {
           batch: (nodes) => {
-            count += nodes.length
+            _count += nodes.length
           },
         },
         { groupByType: true }
@@ -123,7 +123,7 @@ describe('Batch Processing Performance', () => {
     })
 
     bench('batch: select by type', () => {
-      const results = batchSelect(largeTree, (node) => node.type === 'paragraph')
+      const _results = batchSelect(largeTree, (node) => node.type === 'paragraph')
     })
   })
 
@@ -170,14 +170,14 @@ describe('Batch Processing Performance', () => {
 
   describe('Cache Locality', () => {
     bench('batch: small batch size (cache-friendly)', () => {
-      let sum = 0
+      let _sum = 0
       batchTraverse(
         largeTree,
         {
           batch: (nodes) => {
             // Simulate cache-friendly access pattern
             for (const node of nodes) {
-              sum += node.id
+              _sum += node.id
             }
           },
         },
@@ -186,13 +186,13 @@ describe('Batch Processing Performance', () => {
     })
 
     bench('batch: medium batch size', () => {
-      let sum = 0
+      let _sum = 0
       batchTraverse(
         largeTree,
         {
           batch: (nodes) => {
             for (const node of nodes) {
-              sum += node.id
+              _sum += node.id
             }
           },
         },
@@ -201,13 +201,13 @@ describe('Batch Processing Performance', () => {
     })
 
     bench('batch: large batch size', () => {
-      let sum = 0
+      let _sum = 0
       batchTraverse(
         largeTree,
         {
           batch: (nodes) => {
             for (const node of nodes) {
-              sum += node.id
+              _sum += node.id
             }
           },
         },

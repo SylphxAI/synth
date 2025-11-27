@@ -2,8 +2,8 @@
  * Ruby Parser Tests
  */
 
-import { describe, it, expect } from 'bun:test'
-import { parse, parseAsync, createParser, RubyParser } from './parser.js'
+import { describe, expect, it } from 'bun:test'
+import { RubyParser, createParser, parse, parseAsync } from './parser.js'
 
 describe('RubyParser', () => {
   describe('Basic Parsing', () => {
@@ -21,7 +21,7 @@ describe('RubyParser', () => {
       expect(tree.nodes[tree.root]).toBeDefined()
 
       // Should have program root and children
-      const rootChildren = tree.nodes[tree.root]!.children
+      const rootChildren = tree.nodes[tree.root]?.children
       expect(rootChildren.length).toBeGreaterThan(0)
     })
 
@@ -32,7 +32,7 @@ describe('RubyParser', () => {
       expect(tree.meta.language).toBe('ruby')
 
       // Find assignment
-      const assignNode = tree.nodes.find(n => n.type.includes('Assignment'))
+      const assignNode = tree.nodes.find((n) => n.type.includes('Assignment'))
       expect(assignNode).toBeDefined()
     })
 
@@ -47,7 +47,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find method definition
-      const methodNode = tree.nodes.find(n => n.type === 'Method' || n.type.includes('Method'))
+      const methodNode = tree.nodes.find((n) => n.type === 'Method' || n.type.includes('Method'))
       expect(methodNode).toBeDefined()
     })
 
@@ -64,7 +64,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find class
-      const classNode = tree.nodes.find(n => n.type === 'Class')
+      const classNode = tree.nodes.find((n) => n.type === 'Class')
       expect(classNode).toBeDefined()
     })
   })
@@ -77,7 +77,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find string node
-      const stringNode = tree.nodes.find(n => n.type === 'String' || n.type.includes('String'))
+      const stringNode = tree.nodes.find((n) => n.type === 'String' || n.type.includes('String'))
       expect(stringNode).toBeDefined()
     })
 
@@ -88,7 +88,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find string node
-      const stringNode = tree.nodes.find(n => n.type === 'String' || n.type.includes('String'))
+      const stringNode = tree.nodes.find((n) => n.type === 'String' || n.type.includes('String'))
       expect(stringNode).toBeDefined()
     })
 
@@ -99,7 +99,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find string with interpolation
-      const interpolNode = tree.nodes.find(n => n.type.includes('Interpolation'))
+      const interpolNode = tree.nodes.find((n) => n.type.includes('Interpolation'))
       expect(interpolNode).toBeDefined()
     })
 
@@ -110,7 +110,9 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find symbol
-      const symbolNode = tree.nodes.find(n => n.type === 'Symbol' || n.data?.text?.startsWith(':'))
+      const symbolNode = tree.nodes.find(
+        (n) => n.type === 'Symbol' || n.data?.text?.startsWith(':')
+      )
       expect(symbolNode).toBeDefined()
     })
 
@@ -121,7 +123,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find integer node
-      const intNode = tree.nodes.find(n => n.type === 'Integer' || n.data?.text === '42')
+      const intNode = tree.nodes.find((n) => n.type === 'Integer' || n.data?.text === '42')
       expect(intNode).toBeDefined()
     })
 
@@ -132,7 +134,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find float node
-      const floatNode = tree.nodes.find(n => n.type === 'Float' || n.data?.text?.includes('.'))
+      const floatNode = tree.nodes.find((n) => n.type === 'Float' || n.data?.text?.includes('.'))
       expect(floatNode).toBeDefined()
     })
 
@@ -146,9 +148,12 @@ flag2 = false
       expect(tree.meta.language).toBe('ruby')
 
       // Find boolean nodes
-      const boolNodes = tree.nodes.filter(n =>
-        n.type === 'True' || n.type === 'False' ||
-        n.data?.text === 'true' || n.data?.text === 'false'
+      const boolNodes = tree.nodes.filter(
+        (n) =>
+          n.type === 'True' ||
+          n.type === 'False' ||
+          n.data?.text === 'true' ||
+          n.data?.text === 'false'
       )
       expect(boolNodes.length).toBeGreaterThanOrEqual(2)
     })
@@ -160,7 +165,7 @@ flag2 = false
       expect(tree.meta.language).toBe('ruby')
 
       // Find array
-      const arrayNode = tree.nodes.find(n => n.type === 'Array')
+      const arrayNode = tree.nodes.find((n) => n.type === 'Array')
       expect(arrayNode).toBeDefined()
     })
 
@@ -171,7 +176,7 @@ flag2 = false
       expect(tree.meta.language).toBe('ruby')
 
       // Find hash
-      const hashNode = tree.nodes.find(n => n.type === 'Hash')
+      const hashNode = tree.nodes.find((n) => n.type === 'Hash')
       expect(hashNode).toBeDefined()
     })
 
@@ -182,7 +187,7 @@ flag2 = false
       expect(tree.meta.language).toBe('ruby')
 
       // Find range
-      const rangeNode = tree.nodes.find(n => n.type === 'Range' || n.data?.text?.includes('..'))
+      const rangeNode = tree.nodes.find((n) => n.type === 'Range' || n.data?.text?.includes('..'))
       expect(rangeNode).toBeDefined()
     })
 
@@ -193,7 +198,7 @@ flag2 = false
       expect(tree.meta.language).toBe('ruby')
 
       // Find nil literal
-      const nilNode = tree.nodes.find(n => n.type === 'Nil' || n.data?.text === 'nil')
+      const nilNode = tree.nodes.find((n) => n.type === 'Nil' || n.data?.text === 'nil')
       expect(nilNode).toBeDefined()
     })
   })
@@ -214,7 +219,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find if statement
-      const ifNode = tree.nodes.find(n => n.type === 'If' || n.type === 'IfStatement')
+      const ifNode = tree.nodes.find((n) => n.type === 'If' || n.type === 'IfStatement')
       expect(ifNode).toBeDefined()
     })
 
@@ -229,7 +234,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find unless statement
-      const unlessNode = tree.nodes.find(n => n.type === 'Unless')
+      const unlessNode = tree.nodes.find((n) => n.type === 'Unless')
       expect(unlessNode).toBeDefined()
     })
 
@@ -244,7 +249,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find while statement
-      const whileNode = tree.nodes.find(n => n.type === 'While')
+      const whileNode = tree.nodes.find((n) => n.type === 'While')
       expect(whileNode).toBeDefined()
     })
 
@@ -259,7 +264,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find until statement
-      const untilNode = tree.nodes.find(n => n.type === 'Until')
+      const untilNode = tree.nodes.find((n) => n.type === 'Until')
       expect(untilNode).toBeDefined()
     })
 
@@ -274,7 +279,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find for statement
-      const forNode = tree.nodes.find(n => n.type === 'For')
+      const forNode = tree.nodes.find((n) => n.type === 'For')
       expect(forNode).toBeDefined()
     })
 
@@ -294,7 +299,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find case statement
-      const caseNode = tree.nodes.find(n => n.type === 'Case')
+      const caseNode = tree.nodes.find((n) => n.type === 'Case')
       expect(caseNode).toBeDefined()
     })
 
@@ -313,7 +318,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find begin statement
-      const beginNode = tree.nodes.find(n => n.type === 'Begin')
+      const beginNode = tree.nodes.find((n) => n.type === 'Begin')
       expect(beginNode).toBeDefined()
     })
   })
@@ -330,7 +335,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find method definition
-      const methodNode = tree.nodes.find(n => n.type === 'Method' || n.type.includes('Method'))
+      const methodNode = tree.nodes.find((n) => n.type === 'Method' || n.type.includes('Method'))
       expect(methodNode).toBeDefined()
     })
 
@@ -345,7 +350,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find method definition
-      const methodNode = tree.nodes.find(n => n.type === 'Method' || n.type.includes('Method'))
+      const methodNode = tree.nodes.find((n) => n.type === 'Method' || n.type.includes('Method'))
       expect(methodNode).toBeDefined()
     })
 
@@ -360,7 +365,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find method definition
-      const methodNode = tree.nodes.find(n => n.type === 'Method' || n.type.includes('Method'))
+      const methodNode = tree.nodes.find((n) => n.type === 'Method' || n.type.includes('Method'))
       expect(methodNode).toBeDefined()
     })
 
@@ -375,7 +380,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find method definition
-      const methodNode = tree.nodes.find(n => n.type === 'Method' || n.type.includes('Method'))
+      const methodNode = tree.nodes.find((n) => n.type === 'Method' || n.type.includes('Method'))
       expect(methodNode).toBeDefined()
     })
 
@@ -390,7 +395,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find method definition
-      const methodNode = tree.nodes.find(n => n.type === 'Method' || n.type.includes('Method'))
+      const methodNode = tree.nodes.find((n) => n.type === 'Method' || n.type.includes('Method'))
       expect(methodNode).toBeDefined()
     })
   })
@@ -407,7 +412,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find block
-      const blockNode = tree.nodes.find(n => n.type === 'Block' || n.type === 'DoBlock')
+      const blockNode = tree.nodes.find((n) => n.type === 'Block' || n.type === 'DoBlock')
       expect(blockNode).toBeDefined()
     })
 
@@ -418,7 +423,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find block
-      const blockNode = tree.nodes.find(n => n.type === 'Block')
+      const blockNode = tree.nodes.find((n) => n.type === 'Block')
       expect(blockNode).toBeDefined()
     })
 
@@ -433,7 +438,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find block with parameters
-      const blockNode = tree.nodes.find(n => n.type === 'Block' || n.type === 'DoBlock')
+      const blockNode = tree.nodes.find((n) => n.type === 'Block' || n.type === 'DoBlock')
       expect(blockNode).toBeDefined()
     })
 
@@ -464,7 +469,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find lambda
-      const lambdaNode = tree.nodes.find(n => n.type === 'Lambda' || n.data?.text?.includes('->'))
+      const lambdaNode = tree.nodes.find((n) => n.type === 'Lambda' || n.data?.text?.includes('->'))
       expect(lambdaNode).toBeDefined()
     })
   })
@@ -487,7 +492,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find class
-      const classNode = tree.nodes.find(n => n.type === 'Class')
+      const classNode = tree.nodes.find((n) => n.type === 'Class')
       expect(classNode).toBeDefined()
     })
 
@@ -504,7 +509,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find initialize method
-      const initNode = tree.nodes.find(n => n.data?.text?.includes('initialize'))
+      const initNode = tree.nodes.find((n) => n.data?.text?.includes('initialize'))
       expect(initNode).toBeDefined()
     })
 
@@ -521,7 +526,9 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find instance variable
-      const ivarNode = tree.nodes.find(n => n.type.includes('Instance') || n.data?.text?.startsWith('@'))
+      const ivarNode = tree.nodes.find(
+        (n) => n.type.includes('Instance') || n.data?.text?.startsWith('@')
+      )
       expect(ivarNode).toBeDefined()
     })
 
@@ -536,7 +543,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find class variable
-      const cvarNode = tree.nodes.find(n => n.data?.text?.startsWith('@@'))
+      const cvarNode = tree.nodes.find((n) => n.data?.text?.startsWith('@@'))
       expect(cvarNode).toBeDefined()
     })
 
@@ -553,7 +560,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find class method
-      const methodNode = tree.nodes.find(n => n.data?.text?.includes('self'))
+      const methodNode = tree.nodes.find((n) => n.data?.text?.includes('self'))
       expect(methodNode).toBeDefined()
     })
 
@@ -567,7 +574,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find class with inheritance
-      const classNode = tree.nodes.find(n => n.type === 'Class')
+      const classNode = tree.nodes.find((n) => n.type === 'Class')
       expect(classNode).toBeDefined()
     })
 
@@ -584,7 +591,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find module
-      const moduleNode = tree.nodes.find(n => n.type === 'Module')
+      const moduleNode = tree.nodes.find((n) => n.type === 'Module')
       expect(moduleNode).toBeDefined()
     })
 
@@ -599,7 +606,7 @@ end
       expect(tree.meta.language).toBe('ruby')
 
       // Find attr_accessor call
-      const attrNode = tree.nodes.find(n => n.data?.text?.includes('attr_accessor'))
+      const attrNode = tree.nodes.find((n) => n.data?.text?.includes('attr_accessor'))
       expect(attrNode).toBeDefined()
     })
   })
@@ -615,7 +622,9 @@ x = 42
       expect(tree.meta.language).toBe('ruby')
 
       // Find comment node
-      const commentNode = tree.nodes.find(n => n.type.includes('Comment') || n.data?.text?.includes('#'))
+      const commentNode = tree.nodes.find(
+        (n) => n.type.includes('Comment') || n.data?.text?.includes('#')
+      )
       expect(commentNode).toBeDefined()
     })
 
@@ -701,7 +710,7 @@ x = 42
       const tree = parser.getTree()
 
       expect(tree).toBeDefined()
-      expect(tree!.meta.language).toBe('ruby')
+      expect(tree?.meta.language).toBe('ruby')
     })
   })
 })

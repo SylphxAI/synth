@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'bun:test'
-import { parse, parseAsync, createParser, SQLParser } from './parser.js'
+import { describe, expect, it } from 'bun:test'
 import type { Tree } from '@sylphx/synth'
+import { SQLParser, createParser, parse, parseAsync } from './parser.js'
 
 describe('SQLParser', () => {
   describe('Basic Queries', () => {

@@ -60,7 +60,7 @@ describe('Profiling: Component Breakdown', () => {
 
 describe('Profiling: Tokenizer Patterns', () => {
   const lines = mediumDoc.split('\n')
-  const parser = new IncrementalMarkdownParser()
+  const _parser = new IncrementalMarkdownParser()
 
   bench('Heading detection', () => {
     for (const line of lines) {
@@ -82,7 +82,7 @@ describe('Profiling: Tokenizer Patterns', () => {
 
   bench('Horizontal rule detection', () => {
     for (const line of lines) {
-      /^(\*{3,}|-{3,}|_{3,})\s*$/.test(line.trim())
+      ;/^(\*{3,}|-{3,}|_{3,})\s*$/.test(line.trim())
     }
   })
 })

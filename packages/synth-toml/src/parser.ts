@@ -5,8 +5,8 @@
  * Converts TOML into Synth AST using language-agnostic BaseNode
  */
 
-import type { Tree, NodeId, Plugin } from '@sylphx/synth'
-import { createTree, addNode } from '@sylphx/synth'
+import type { NodeId, Plugin, Tree } from '@sylphx/synth'
+import { addNode, createTree } from '@sylphx/synth'
 import { SynthError } from '@sylphx/synth'
 import { TOMLTokenizer, type Token } from './tokenizer.js'
 
@@ -65,7 +65,7 @@ export class TOMLParser {
         if (this.check('key')) {
           const kvId = this.parseKeyValue(currentTable)
           if (kvId !== null) {
-            tree.nodes[currentTable]!.children.push(kvId)
+            tree.nodes[currentTable]?.children.push(kvId)
           }
           this.skipWhitespace()
           continue
@@ -140,7 +140,7 @@ export class TOMLParser {
         if (this.check('key')) {
           const kvId = this.parseKeyValue(currentTable)
           if (kvId !== null) {
-            tree.nodes[currentTable]!.children.push(kvId)
+            tree.nodes[currentTable]?.children.push(kvId)
           }
           this.skipWhitespace()
           continue
@@ -217,7 +217,7 @@ export class TOMLParser {
       },
     })
 
-    tree.nodes[parentId]!.children.push(tableId)
+    tree.nodes[parentId]?.children.push(tableId)
 
     return tableId
   }
@@ -273,7 +273,7 @@ export class TOMLParser {
     const tree = this.tree!
 
     // Skip whitespace before value
-    while (this.check('comment') || (this.current().value === ' ')) {
+    while (this.check('comment') || this.current().value === ' ') {
       if (this.check('comment')) {
         this.advance()
       } else {
@@ -375,7 +375,7 @@ export class TOMLParser {
 
       const valueId = this.parseValue(arrayId)
       if (valueId !== null) {
-        tree.nodes[arrayId]!.children.push(valueId)
+        tree.nodes[arrayId]?.children.push(valueId)
       }
 
       // Comma
@@ -410,7 +410,7 @@ export class TOMLParser {
     while (!this.isAtEnd() && !this.check('close-brace')) {
       const kvId = this.parseKeyValue(tableId)
       if (kvId !== null) {
-        tree.nodes[tableId]!.children.push(kvId)
+        tree.nodes[tableId]?.children.push(kvId)
       }
 
       if (this.check('comma')) {
@@ -463,10 +463,7 @@ export function parse(source: string, options?: TOMLParseOptions): Tree {
   return parser.parse(source, options)
 }
 
-export async function parseAsync(
-  source: string,
-  options?: TOMLParseOptions
-): Promise<Tree> {
+export async function parseAsync(source: string, options?: TOMLParseOptions): Promise<Tree> {
   const parser = new TOMLParser()
   return parser.parseAsync(source, options)
 }

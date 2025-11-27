@@ -5,18 +5,40 @@
  * Uses Acorn with acorn-jsx plugin for parsing, then converts to Synth format
  */
 
-import type { Tree, Plugin } from '@sylphx/synth'
-import { createTree, addNode } from '@sylphx/synth'
+import type { Plugin, Tree } from '@sylphx/synth'
+import { addNode, createTree } from '@sylphx/synth'
 import { SynthError } from '@sylphx/synth'
+import type { NodeId } from '@sylphx/synth'
 import * as acorn from 'acorn'
 import jsx from 'acorn-jsx'
-import type { NodeId } from '@sylphx/synth'
 
 const AcornJSXParser = acorn.Parser.extend(jsx())
 
 export interface JSXParseOptions {
   /** ECMAScript version (default: 'latest') */
-  ecmaVersion?: 3 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 'latest'
+  ecmaVersion?:
+    | 3
+    | 5
+    | 6
+    | 7
+    | 8
+    | 9
+    | 10
+    | 11
+    | 12
+    | 13
+    | 14
+    | 2015
+    | 2016
+    | 2017
+    | 2018
+    | 2019
+    | 2020
+    | 2021
+    | 2022
+    | 2023
+    | 2024
+    | 'latest'
 
   /** Source type (default: 'module') */
   sourceType?: 'script' | 'module'
@@ -203,7 +225,7 @@ export class JSXParser {
     })
 
     // Add to parent's children
-    tree.nodes[parentId]!.children.push(nodeId)
+    tree.nodes[parentId]?.children.push(nodeId)
 
     // Recursively convert children
     for (const key of Object.keys(acornNode)) {
@@ -259,10 +281,7 @@ export function parse(source: string, options?: JSXParseOptions): Tree {
   return parser.parse(source, options)
 }
 
-export async function parseAsync(
-  source: string,
-  options?: JSXParseOptions
-): Promise<Tree> {
+export async function parseAsync(source: string, options?: JSXParseOptions): Promise<Tree> {
   const parser = new JSXParser()
   return parser.parseAsync(source, options)
 }

@@ -2,7 +2,7 @@
  * Markdown compiler - converts AST back to markdown
  */
 
-import type { Tree, BaseNode } from '../../types/index.js'
+import type { BaseNode, Tree } from '../../types/index.js'
 import { getChildren } from '../../types/index.js'
 
 /**
@@ -29,50 +29,50 @@ export function compile(tree: Tree): string {
 function nodeToMarkdown(tree: Tree, node: BaseNode): string {
   switch (node.type) {
     case 'heading': {
-      const depth = (node.data?.['depth'] as number) ?? 1
+      const depth = (node.data?.depth as number) ?? 1
       const children = getChildren(tree, node.id)
-      const text = children.map(c => nodeToMarkdown(tree, c)).join('')
-      return '#'.repeat(depth) + ' ' + text
+      const text = children.map((c) => nodeToMarkdown(tree, c)).join('')
+      return `${'#'.repeat(depth)} ${text}`
     }
 
     case 'paragraph': {
       const children = getChildren(tree, node.id)
-      return children.map(c => nodeToMarkdown(tree, c)).join('')
+      return children.map((c) => nodeToMarkdown(tree, c)).join('')
     }
 
     case 'text': {
-      return (node.data?.['value'] as string) ?? ''
+      return (node.data?.value as string) ?? ''
     }
 
     case 'listItem': {
       const children = getChildren(tree, node.id)
-      const text = children.map(c => nodeToMarkdown(tree, c)).join('')
-      return '- ' + text
+      const text = children.map((c) => nodeToMarkdown(tree, c)).join('')
+      return `- ${text}`
     }
 
     case 'emphasis': {
       const children = getChildren(tree, node.id)
-      const text = children.map(c => nodeToMarkdown(tree, c)).join('')
-      return '*' + text + '*'
+      const text = children.map((c) => nodeToMarkdown(tree, c)).join('')
+      return `*${text}*`
     }
 
     case 'strong': {
       const children = getChildren(tree, node.id)
-      const text = children.map(c => nodeToMarkdown(tree, c)).join('')
-      return '**' + text + '**'
+      const text = children.map((c) => nodeToMarkdown(tree, c)).join('')
+      return `**${text}**`
     }
 
     case 'code': {
-      const value = (node.data?.['value'] as string) ?? ''
-      const lang = (node.data?.['lang'] as string) ?? ''
-      return '```' + lang + '\n' + value + '\n```'
+      const value = (node.data?.value as string) ?? ''
+      const lang = (node.data?.lang as string) ?? ''
+      return `\`\`\`${lang}\n${value}\n\`\`\``
     }
 
     case 'link': {
-      const url = (node.data?.['url'] as string) ?? ''
+      const url = (node.data?.url as string) ?? ''
       const children = getChildren(tree, node.id)
-      const text = children.map(c => nodeToMarkdown(tree, c)).join('')
-      return '[' + text + '](' + url + ')'
+      const text = children.map((c) => nodeToMarkdown(tree, c)).join('')
+      return `[${text}](${url})`
     }
 
     default:

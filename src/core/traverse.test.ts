@@ -1,7 +1,7 @@
-import { describe, it, expect } from 'vitest'
-import { createTree, addNode } from '../types/index.js'
-import { traverse, select, selectByType } from './traverse.js'
+import { describe, expect, it } from 'vitest'
+import { addNode, createTree } from '../types/index.js'
 import { TraversalOrder } from '../types/index.js'
+import { selectByType, traverse } from './traverse.js'
 
 describe('traverse', () => {
   it('should traverse tree in pre-order', () => {

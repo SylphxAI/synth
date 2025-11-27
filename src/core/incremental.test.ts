@@ -2,15 +2,15 @@
  * Incremental Parsing Tests
  */
 
-import { describe, it, expect, beforeEach } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
 import type { Tree } from '../types/index.js'
 import { createTree } from '../types/tree.js'
 import {
-  IncrementalParser,
-  createIncrementalParser,
-  applyEdit,
   type Edit,
+  type IncrementalParser,
   type SimpleEdit,
+  applyEdit,
+  createIncrementalParser,
 } from './incremental.js'
 
 // Mock parser for testing
@@ -349,11 +349,7 @@ describe('IncrementalParser', () => {
       const text = '# Heading\nParagraph'
       const tree = mockParser(text)
 
-      const result = applyEdit(
-        tree,
-        { start: 5, oldLength: 4, newLength: 6 },
-        mockParser
-      )
+      const result = applyEdit(tree, { start: 5, oldLength: 4, newLength: 6 }, mockParser)
 
       expect(result.stats.reparseTimeMs).toBeGreaterThanOrEqual(0)
       expect(result.stats.fullParseTimeMs).toBeGreaterThanOrEqual(0)

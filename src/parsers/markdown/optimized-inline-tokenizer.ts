@@ -9,13 +9,13 @@
  */
 
 import type {
-  InlineToken,
-  TextToken,
   EmphasisToken,
-  StrongToken,
-  InlineCodeToken,
-  LinkToken,
   ImageToken,
+  InlineCodeToken,
+  InlineToken,
+  LinkToken,
+  StrongToken,
+  TextToken,
 } from './tokens.js'
 import { createPosition, createTokenPosition } from './tokens.js'
 
@@ -186,28 +186,27 @@ export class OptimizedInlineTokenizer {
         },
         newOffset: end + 2,
       }
-    } else {
-      // Try emphasis
-      const end = text.indexOf(marker, offset + 1)
+    }
+    // Try emphasis
+    const end = text.indexOf(marker, offset + 1)
 
-      if (end === -1) return null
+    if (end === -1) return null
 
-      const content = text.slice(offset + 1, end)
-      const raw = text.slice(offset, end + 1)
+    const content = text.slice(offset + 1, end)
+    const raw = text.slice(offset, end + 1)
 
-      return {
-        token: {
-          type: 'emphasis',
-          marker: marker as '*' | '_',
-          text: content,
-          raw,
-          position: createTokenPosition(
-            createPosition(lineIndex, offset - lineStart, lineStart + offset),
-            createPosition(lineIndex, end + 1 - lineStart, lineStart + end + 1)
-          ),
-        },
-        newOffset: end + 1,
-      }
+    return {
+      token: {
+        type: 'emphasis',
+        marker: marker as '*' | '_',
+        text: content,
+        raw,
+        position: createTokenPosition(
+          createPosition(lineIndex, offset - lineStart, lineStart + offset),
+          createPosition(lineIndex, end + 1 - lineStart, lineStart + end + 1)
+        ),
+      },
+      newOffset: end + 1,
     }
   }
 

@@ -17,8 +17,8 @@
  * - Multi-file projects
  */
 
-import type { Tree, TokenStream } from './types/index.js'
 import type { IncrementalTokenizer } from './incremental-tokenizer.js'
+import type { TokenStream, Tree } from './types/index.js'
 
 /**
  * Language identifier
@@ -222,7 +222,11 @@ export class IncrementalParserManager {
   /**
    * Incremental update
    */
-  update(uri: string, newText: string, _edit: TextEdit): {
+  update(
+    uri: string,
+    newText: string,
+    _edit: TextEdit
+  ): {
     tree: Tree
     tokenReuseRate: number
     speedup: number
@@ -255,12 +259,11 @@ export class IncrementalParserManager {
     const n = session.stats.updates
     session.stats.avgTokenReuseRate =
       (session.stats.avgTokenReuseRate * (n - 1) + tokenReuseRate) / n
-    session.stats.avgSpeedup =
-      (session.stats.avgSpeedup * (n - 1) + speedup) / n
+    session.stats.avgSpeedup = (session.stats.avgSpeedup * (n - 1) + speedup) / n
 
     this.log(
       `Incremental update [${session.language}]: ${parseTime.toFixed(2)}ms ` +
-      `(${speedup.toFixed(1)}x speedup, ${(tokenReuseRate * 100).toFixed(1)}% reuse)`
+        `(${speedup.toFixed(1)}x speedup, ${(tokenReuseRate * 100).toFixed(1)}% reuse)`
     )
 
     return { tree, tokenReuseRate, speedup }

@@ -18,12 +18,7 @@
  * ```
  */
 
-import {
-  IncrementalParserManager,
-  detectLanguage,
-  detectEdit,
-  type Language,
-} from '@sylphx/synth'
+import { IncrementalParserManager, type Language, detectEdit } from '@sylphx/synth'
 import type { Tree } from '@sylphx/synth'
 
 /**
@@ -110,7 +105,7 @@ export class IncrementalLSPServer {
 
     console.log(
       `📄 Document opened: ${uri} [${language}] ` +
-      `(${diagnostics.length} diagnostics, ${symbols.length} symbols, ${time.toFixed(2)}ms)`
+        `(${diagnostics.length} diagnostics, ${symbols.length} symbols, ${time.toFixed(2)}ms)`
     )
   }
 
@@ -134,11 +129,7 @@ export class IncrementalLSPServer {
     const edit = detectEdit(oldText, change.text)
 
     // Incremental update
-    const { tree, tokenReuseRate, speedup } = this.manager.update(
-      change.uri,
-      change.text,
-      edit
-    )
+    const { tree, tokenReuseRate, speedup } = this.manager.update(change.uri, change.text, edit)
 
     // Update version
     docInfo.version = change.version
@@ -151,8 +142,8 @@ export class IncrementalLSPServer {
 
     console.log(
       `✏️  Document changed: ${change.uri} ` +
-      `(${(tokenReuseRate * 100).toFixed(1)}% reuse, ${speedup.toFixed(1)}x speedup, ` +
-      `${diagnostics.length} diagnostics, ${time.toFixed(2)}ms)`
+        `(${(tokenReuseRate * 100).toFixed(1)}% reuse, ${speedup.toFixed(1)}x speedup, ` +
+        `${diagnostics.length} diagnostics, ${time.toFixed(2)}ms)`
     )
 
     // Send diagnostics to client
@@ -261,17 +252,15 @@ export class IncrementalLSPServer {
    * Get heading text
    */
   private getHeadingText(node: { children: number[] }, tree: Tree): string {
-    const textNodes = node.children
-      .map(id => tree.nodes[id])
-      .filter(n => n?.type === 'text')
+    const textNodes = node.children.map((id) => tree.nodes[id]).filter((n) => n?.type === 'text')
 
-    return textNodes.map(n => n?.data?.value ?? '').join('')
+    return textNodes.map((n) => n?.data?.value ?? '').join('')
   }
 
   /**
    * Publish diagnostics to client
    */
-  private publishDiagnostics(uri: string, diagnostics: Diagnostic[]): void {
+  private publishDiagnostics(_uri: string, diagnostics: Diagnostic[]): void {
     // In real LSP, this would send to client via JSON-RPC
     if (diagnostics.length > 0) {
       console.log(`   ⚠️  ${diagnostics.length} diagnostic(s)`)
@@ -323,7 +312,7 @@ More content.`
 
   // Add new section
   console.log('➕ Adding new section...')
-  const text4 = text3 + '\n\n## Section 3\n\nNew section content.'
+  const text4 = `${text3}\n\n## Section 3\n\nNew section content.`
   server.onDocumentChange({ uri, version: 4, text: text4 })
   console.log()
 

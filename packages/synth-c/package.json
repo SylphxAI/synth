@@ -33,6 +33,6 @@
     "tree-sitter-c": "^0.23.1"
   },
   "devDependencies": {
-    "typescript": "^5.7.3"
+    "typescript": "^5.6.0"
   }
 }

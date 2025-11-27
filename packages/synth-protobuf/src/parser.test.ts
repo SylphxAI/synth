@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'bun:test'
+import { describe, expect, it } from 'bun:test'
+import type { Plugin, Tree } from '@sylphx/synth'
 import { ProtobufParser, createParser, parse, parseAsync } from './parser.js'
-import type { Tree, Plugin } from '@sylphx/synth'
 
 describe('ProtobufParser', () => {
   it('should create a parser instance', () => {
@@ -29,13 +29,13 @@ message Person {
 
     const rootNode = tree.nodes[tree.root]
     expect(rootNode).toBeDefined()
-    expect(rootNode!.children.length).toBeGreaterThan(0)
+    expect(rootNode?.children.length).toBeGreaterThan(0)
 
-    const protoRootId = rootNode!.children[0]
+    const protoRootId = rootNode?.children[0]
     const protoRoot = tree.nodes[protoRootId!]
     expect(protoRoot).toBeDefined()
-    expect(protoRoot!.type).toBe('ProtoRoot')
-    expect(protoRoot!.data.syntax).toBe('proto3')
+    expect(protoRoot?.type).toBe('ProtoRoot')
+    expect(protoRoot?.data.syntax).toBe('proto3')
   })
 
   it('should parse message with fields', () => {
@@ -49,7 +49,7 @@ message User {
 }
 `
     const tree = parse(proto)
-    const protoRootId = tree.nodes[tree.root]!.children[0]!
+    const protoRootId = tree.nodes[tree.root]?.children[0]!
     const protoRoot = tree.nodes[protoRootId]!
 
     expect(protoRoot.children.length).toBeGreaterThan(0)
@@ -86,7 +86,7 @@ enum Status {
 }
 `
     const tree = parse(proto)
-    const protoRootId = tree.nodes[tree.root]!.children[0]!
+    const protoRootId = tree.nodes[tree.root]?.children[0]!
     const protoRoot = tree.nodes[protoRootId]!
 
     const enumId = protoRoot.children[0]!
@@ -115,7 +115,7 @@ service UserService {
 }
 `
     const tree = parse(proto)
-    const protoRootId = tree.nodes[tree.root]!.children[0]!
+    const protoRootId = tree.nodes[tree.root]?.children[0]!
     const protoRoot = tree.nodes[protoRootId]!
 
     const serviceId = protoRoot.children[0]!
@@ -148,7 +148,7 @@ message Outer {
 }
 `
     const tree = parse(proto)
-    const protoRootId = tree.nodes[tree.root]!.children[0]!
+    const protoRootId = tree.nodes[tree.root]?.children[0]!
     const protoRoot = tree.nodes[protoRootId]!
 
     const outerMessageId = protoRoot.children[0]!
@@ -178,7 +178,7 @@ message Post {
 }
 `
     const tree = parse(proto)
-    const protoRootId = tree.nodes[tree.root]!.children[0]!
+    const protoRootId = tree.nodes[tree.root]?.children[0]!
     const protoRoot = tree.nodes[protoRootId]!
 
     const messageId = protoRoot.children[0]!
@@ -205,7 +205,7 @@ message Payload {
 }
 `
     const tree = parse(proto)
-    const protoRootId = tree.nodes[tree.root]!.children[0]!
+    const protoRootId = tree.nodes[tree.root]?.children[0]!
     const protoRoot = tree.nodes[protoRootId]!
 
     const messageId = protoRoot.children[0]!
@@ -235,11 +235,11 @@ message User {
 }
 `
     const tree = parse(proto)
-    const protoRootId = tree.nodes[tree.root]!.children[0]!
+    const protoRootId = tree.nodes[tree.root]?.children[0]!
     const protoRoot = tree.nodes[protoRootId]!
 
     // Package creates namespace
-    const hasNamespace = protoRoot.children.some((childId) => {
+    const _hasNamespace = protoRoot.children.some((childId) => {
       const child = tree.nodes[childId!]!
       return child.type === 'ProtoNamespace'
     })
@@ -281,7 +281,7 @@ service UserService {
 }
 `
     const tree = parse(proto)
-    const protoRootId = tree.nodes[tree.root]!.children[0]!
+    const protoRootId = tree.nodes[tree.root]?.children[0]!
     const protoRoot = tree.nodes[protoRootId]!
 
     // Should have 4 messages and 1 service
@@ -307,7 +307,7 @@ service ChatService {
 }
 `
     const tree = parse(proto)
-    const protoRootId = tree.nodes[tree.root]!.children[0]!
+    const protoRootId = tree.nodes[tree.root]?.children[0]!
     const protoRoot = tree.nodes[protoRootId]!
 
     const serviceId = protoRoot.children[0]!
@@ -467,7 +467,7 @@ service OrderService {
 }
 `
     const tree = parse(proto)
-    const protoRootId = tree.nodes[tree.root]!.children[0]!
+    const protoRootId = tree.nodes[tree.root]?.children[0]!
     const protoRoot = tree.nodes[protoRootId]!
 
     // Should have enums, messages, and service
@@ -502,7 +502,7 @@ message Person {
 }
 `
     const tree = parse(proto)
-    const protoRootId = tree.nodes[tree.root]!.children[0]!
+    const protoRootId = tree.nodes[tree.root]?.children[0]!
     const protoRoot = tree.nodes[protoRootId]!
 
     expect(protoRoot.data.syntax).toBe('proto2')
@@ -555,7 +555,7 @@ message User {
 }
 `
     const tree = parse(proto)
-    const protoRootId = tree.nodes[tree.root]!.children[0]!
+    const protoRootId = tree.nodes[tree.root]?.children[0]!
     const protoRoot = tree.nodes[protoRootId]!
 
     const messageId = protoRoot.children[0]!
@@ -590,7 +590,7 @@ message User {
 }
 `
     const tree = parse(proto)
-    const protoRootId = tree.nodes[tree.root]!.children[0]!
+    const protoRootId = tree.nodes[tree.root]?.children[0]!
     const protoRoot = tree.nodes[protoRootId]!
 
     const messageId = protoRoot.children[0]!

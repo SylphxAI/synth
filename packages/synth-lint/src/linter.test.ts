@@ -1,7 +1,7 @@
-import { describe, it, expect } from 'bun:test'
+import { describe, expect, it } from 'bun:test'
+import { addNode, createTree } from '@sylphx/synth'
 import { Linter, createLinter } from './linter.js'
-import { noEmptyBlocks, noConsole, maxDepth } from './rules/index.js'
-import { createTree, addNode } from '@sylphx/synth'
+import { maxDepth, noConsole, noEmptyBlocks } from './rules/index.js'
 import type { Rule, RuleVisitor } from './types.js'
 
 describe('Linter', () => {
@@ -38,7 +38,7 @@ describe('Linter', () => {
 
     const rule = linter.getRule('no-empty-blocks')
     expect(rule).toBeDefined()
-    expect(rule!.name).toBe('no-empty-blocks')
+    expect(rule?.name).toBe('no-empty-blocks')
   })
 
   it('should lint an empty tree', () => {
@@ -71,7 +71,7 @@ describe('Linter', () => {
       },
       data: {},
     })
-    tree.nodes[tree.root]!.children.push(blockId)
+    tree.nodes[tree.root]?.children.push(blockId)
 
     const result = linter.lint(tree)
 
@@ -102,7 +102,7 @@ describe('Linter', () => {
       },
       data: {},
     })
-    tree.nodes[tree.root]!.children.push(blockId)
+    tree.nodes[tree.root]?.children.push(blockId)
 
     const result = linter.lint(tree)
 
@@ -130,7 +130,7 @@ describe('Linter', () => {
       },
       data: {},
     })
-    tree.nodes[tree.root]!.children.push(blockId)
+    tree.nodes[tree.root]?.children.push(blockId)
 
     const result = linter.lint(tree)
 
@@ -158,7 +158,7 @@ describe('Linter', () => {
       },
       data: {},
     })
-    tree.nodes[tree.root]!.children.push(blockId)
+    tree.nodes[tree.root]?.children.push(blockId)
 
     const result = linter.lint(tree)
 
@@ -204,7 +204,7 @@ describe('Linter', () => {
       },
       data: {},
     })
-    tree.nodes[tree.root]!.children.push(testId)
+    tree.nodes[tree.root]?.children.push(testId)
 
     const result = linter.lint(tree)
 
@@ -267,7 +267,7 @@ describe('Linter', () => {
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 0, line: 1, column: 0 } },
       data: {},
     })
-    tree.nodes[tree.root]!.children.push(node1)
+    tree.nodes[tree.root]?.children.push(node1)
 
     const node2 = addNode(tree, {
       type: 'test',
@@ -276,7 +276,7 @@ describe('Linter', () => {
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 0, line: 1, column: 0 } },
       data: {},
     })
-    tree.nodes[node1]!.children.push(node2)
+    tree.nodes[node1]?.children.push(node2)
 
     linter.lint(tree)
 
@@ -315,7 +315,7 @@ describe('Linter', () => {
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 0, line: 1, column: 0 } },
       data: {},
     })
-    tree.nodes[tree.root]!.children.push(block)
+    tree.nodes[tree.root]?.children.push(block)
 
     const other = addNode(tree, {
       type: 'OtherNode',
@@ -324,7 +324,7 @@ describe('Linter', () => {
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 0, line: 1, column: 0 } },
       data: {},
     })
-    tree.nodes[tree.root]!.children.push(other)
+    tree.nodes[tree.root]?.children.push(other)
 
     linter.lint(tree)
 
@@ -369,7 +369,7 @@ describe('Linter', () => {
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 11, line: 1, column: 11 } },
       data: {},
     })
-    tree.nodes[tree.root]!.children.push(node1)
+    tree.nodes[tree.root]?.children.push(node1)
 
     linter.lint(tree)
   })
@@ -393,7 +393,7 @@ describe('Linter', () => {
         },
         data: {},
       })
-      tree.nodes[parentId]!.children.push(nodeId)
+      tree.nodes[parentId]?.children.push(nodeId)
       parentId = nodeId
     }
 
@@ -421,7 +421,7 @@ describe('Linter', () => {
       },
       data: {},
     })
-    tree.nodes[tree.root]!.children.push(blockId)
+    tree.nodes[tree.root]?.children.push(blockId)
 
     const result = linter.lint(tree)
 

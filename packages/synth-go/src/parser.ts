@@ -5,12 +5,12 @@
  * Uses tree-sitter-go for parsing, then converts to Synth format
  */
 
-import type { Tree, Plugin } from '@sylphx/synth'
-import { createTree, addNode } from '@sylphx/synth'
+import type { Plugin, Tree } from '@sylphx/synth'
+import { addNode, createTree } from '@sylphx/synth'
 import { SynthError } from '@sylphx/synth'
+import type { NodeId } from '@sylphx/synth'
 import Parser from 'tree-sitter'
 import Go from 'tree-sitter-go'
-import type { NodeId } from '@sylphx/synth'
 
 export interface GoParseOptions {
   /** Build query index for AST */
@@ -150,7 +150,7 @@ export class GoParser {
     })
 
     // Add to parent's children
-    tree.nodes[parentId]!.children.push(nodeId)
+    tree.nodes[parentId]?.children.push(nodeId)
 
     // Recursively convert children
     for (let i = 0; i < tsNode.childCount; i++) {
@@ -183,10 +183,7 @@ export function parse(source: string, options?: GoParseOptions): Tree {
   return parser.parse(source, options)
 }
 
-export async function parseAsync(
-  source: string,
-  options?: GoParseOptions
-): Promise<Tree> {
+export async function parseAsync(source: string, options?: GoParseOptions): Promise<Tree> {
   const parser = new GoParser()
   return parser.parseAsync(source, options)
 }

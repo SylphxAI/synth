@@ -2,10 +2,10 @@
  * Common transform utilities
  */
 
-import type { Tree, NodeId, BaseNode, Visitor } from '../types/index.js'
-import type { TransformFn } from './processor.js'
 import { traverse } from '../core/index.js'
-import { updateNode, removeNode } from '../types/index.js'
+import type { BaseNode, NodeId, Tree, Visitor } from '../types/index.js'
+import { removeNode, updateNode } from '../types/index.js'
+import type { TransformFn } from './processor.js'
 
 /**
  * Transform nodes matching a predicate
@@ -94,7 +94,7 @@ export function cloneTree(tree: Tree): Tree {
   return {
     meta: { ...tree.meta },
     root: tree.root,
-    nodes: tree.nodes.map(node => ({ ...node, children: [...node.children] })),
+    nodes: tree.nodes.map((node) => ({ ...node, children: [...node.children] })),
     strings: new Map(tree.strings),
   }
 }
@@ -113,7 +113,7 @@ export function mergeTrees(...trees: Tree[]): Tree {
   // Simple merge: append all children to root
   for (const tree of rest) {
     const rootNode = result.nodes[0]!
-    rootNode.children.push(...tree.nodes[0]!.children)
+    rootNode.children.push(...tree.nodes[0]?.children)
 
     // Add non-root nodes
     for (let i = 1; i < tree.nodes.length; i++) {

@@ -1,7 +1,7 @@
-import { describe, it, expect } from 'bun:test'
-import { MsgPackParser, createParser, parse, parseAsync } from './parser.js'
+import { describe, expect, it } from 'bun:test'
 import { encode } from '@msgpack/msgpack'
-import type { Tree, Plugin } from '@sylphx/synth'
+import type { Plugin, Tree } from '@sylphx/synth'
+import { MsgPackParser, createParser, parse, parseAsync } from './parser.js'
 
 describe('MsgPackParser', () => {
   it('should create a parser instance', () => {
@@ -22,11 +22,11 @@ describe('MsgPackParser', () => {
     expect(tree.meta.language).toBe('msgpack')
 
     const rootNode = tree.nodes[tree.root]
-    expect(rootNode!.children.length).toBe(1)
+    expect(rootNode?.children.length).toBe(1)
 
-    const nullNode = tree.nodes[rootNode!.children[0]!]
-    expect(nullNode!.type).toBe('MsgPackNull')
-    expect(nullNode!.data.value).toBe(null)
+    const nullNode = tree.nodes[rootNode?.children[0]!]
+    expect(nullNode?.type).toBe('MsgPackNull')
+    expect(nullNode?.data.value).toBe(null)
   })
 
   it('should parse boolean values', () => {
@@ -36,13 +36,13 @@ describe('MsgPackParser', () => {
     const trueTree = parse(trueData)
     const falseTree = parse(falseData)
 
-    const trueNode = trueTree.nodes[trueTree.nodes[trueTree.root]!.children[0]!]
-    expect(trueNode!.type).toBe('MsgPackBoolean')
-    expect(trueNode!.data.value).toBe(true)
+    const trueNode = trueTree.nodes[trueTree.nodes[trueTree.root]?.children[0]!]
+    expect(trueNode?.type).toBe('MsgPackBoolean')
+    expect(trueNode?.data.value).toBe(true)
 
-    const falseNode = falseTree.nodes[falseTree.nodes[falseTree.root]!.children[0]!]
-    expect(falseNode!.type).toBe('MsgPackBoolean')
-    expect(falseNode!.data.value).toBe(false)
+    const falseNode = falseTree.nodes[falseTree.nodes[falseTree.root]?.children[0]!]
+    expect(falseNode?.type).toBe('MsgPackBoolean')
+    expect(falseNode?.data.value).toBe(false)
   })
 
   it('should parse numbers', () => {
@@ -51,26 +51,26 @@ describe('MsgPackParser', () => {
     const floatData = encode(3.14)
 
     const positiveTree = parse(positiveData)
-    const positiveNode = positiveTree.nodes[positiveTree.nodes[positiveTree.root]!.children[0]!]
-    expect(positiveNode!.type).toBe('MsgPackNumber')
-    expect(positiveNode!.data.value).toBe(42)
+    const positiveNode = positiveTree.nodes[positiveTree.nodes[positiveTree.root]?.children[0]!]
+    expect(positiveNode?.type).toBe('MsgPackNumber')
+    expect(positiveNode?.data.value).toBe(42)
 
     const negativeTree = parse(negativeData)
-    const negativeNode = negativeTree.nodes[negativeTree.nodes[negativeTree.root]!.children[0]!]
-    expect(negativeNode!.data.value).toBe(-17)
+    const negativeNode = negativeTree.nodes[negativeTree.nodes[negativeTree.root]?.children[0]!]
+    expect(negativeNode?.data.value).toBe(-17)
 
     const floatTree = parse(floatData)
-    const floatNode = floatTree.nodes[floatTree.nodes[floatTree.root]!.children[0]!]
-    expect(floatNode!.data.value).toBe(3.14)
+    const floatNode = floatTree.nodes[floatTree.nodes[floatTree.root]?.children[0]!]
+    expect(floatNode?.data.value).toBe(3.14)
   })
 
   it('should parse strings', () => {
     const data = encode('Hello, MessagePack!')
     const tree = parse(data)
 
-    const stringNode = tree.nodes[tree.nodes[tree.root]!.children[0]!]
-    expect(stringNode!.type).toBe('MsgPackString')
-    expect(stringNode!.data.value).toBe('Hello, MessagePack!')
+    const stringNode = tree.nodes[tree.nodes[tree.root]?.children[0]!]
+    expect(stringNode?.type).toBe('MsgPackString')
+    expect(stringNode?.data.value).toBe('Hello, MessagePack!')
   })
 
   it('should parse binary data', () => {
@@ -78,49 +78,53 @@ describe('MsgPackParser', () => {
     const data = encode(binaryData)
     const tree = parse(data)
 
-    const binaryNode = tree.nodes[tree.nodes[tree.root]!.children[0]!]
-    expect(binaryNode!.type).toBe('MsgPackBinary')
-    expect(binaryNode!.data.length).toBe(4)
-    expect(binaryNode!.data.value).toBe('010203ff')
+    const binaryNode = tree.nodes[tree.nodes[tree.root]?.children[0]!]
+    expect(binaryNode?.type).toBe('MsgPackBinary')
+    expect(binaryNode?.data.length).toBe(4)
+    expect(binaryNode?.data.value).toBe('010203ff')
   })
 
   it('should parse arrays', () => {
     const data = encode([1, 2, 3, 4, 5])
     const tree = parse(data)
 
-    const arrayNode = tree.nodes[tree.nodes[tree.root]!.children[0]!]
-    expect(arrayNode!.type).toBe('MsgPackArray')
-    expect(arrayNode!.data.length).toBe(5)
-    expect(arrayNode!.children.length).toBe(5)
+    const arrayNode = tree.nodes[tree.nodes[tree.root]?.children[0]!]
+    expect(arrayNode?.type).toBe('MsgPackArray')
+    expect(arrayNode?.data.length).toBe(5)
+    expect(arrayNode?.children.length).toBe(5)
 
-    const firstElement = tree.nodes[arrayNode!.children[0]!]
-    expect(firstElement!.type).toBe('MsgPackNumber')
-    expect(firstElement!.data.value).toBe(1)
+    const firstElement = tree.nodes[arrayNode?.children[0]!]
+    expect(firstElement?.type).toBe('MsgPackNumber')
+    expect(firstElement?.data.value).toBe(1)
   })
 
   it('should parse nested arrays', () => {
-    const data = encode([[1, 2], [3, 4], [5, 6]])
+    const data = encode([
+      [1, 2],
+      [3, 4],
+      [5, 6],
+    ])
     const tree = parse(data)
 
-    const arrayNode = tree.nodes[tree.nodes[tree.root]!.children[0]!]
-    expect(arrayNode!.type).toBe('MsgPackArray')
-    expect(arrayNode!.children.length).toBe(3)
+    const arrayNode = tree.nodes[tree.nodes[tree.root]?.children[0]!]
+    expect(arrayNode?.type).toBe('MsgPackArray')
+    expect(arrayNode?.children.length).toBe(3)
 
-    const firstNested = tree.nodes[arrayNode!.children[0]!]
-    expect(firstNested!.type).toBe('MsgPackArray')
-    expect(firstNested!.children.length).toBe(2)
+    const firstNested = tree.nodes[arrayNode?.children[0]!]
+    expect(firstNested?.type).toBe('MsgPackArray')
+    expect(firstNested?.children.length).toBe(2)
   })
 
   it('should parse objects/maps', () => {
     const data = encode({ name: 'Alice', age: 30, active: true })
     const tree = parse(data)
 
-    const mapNode = tree.nodes[tree.nodes[tree.root]!.children[0]!]
-    expect(mapNode!.type).toBe('MsgPackMap')
-    expect(mapNode!.data.size).toBe(3)
-    expect(mapNode!.children.length).toBe(3)
+    const mapNode = tree.nodes[tree.nodes[tree.root]?.children[0]!]
+    expect(mapNode?.type).toBe('MsgPackMap')
+    expect(mapNode?.data.size).toBe(3)
+    expect(mapNode?.children.length).toBe(3)
 
-    const nameNode = mapNode!.children.find((childId) => {
+    const nameNode = mapNode?.children.find((childId) => {
       const child = tree.nodes[childId!]!
       return child.data.key === 'name'
     })
@@ -142,10 +146,10 @@ describe('MsgPackParser', () => {
     })
     const tree = parse(data)
 
-    const rootMap = tree.nodes[tree.nodes[tree.root]!.children[0]!]
-    expect(rootMap!.type).toBe('MsgPackMap')
+    const rootMap = tree.nodes[tree.nodes[tree.root]?.children[0]!]
+    expect(rootMap?.type).toBe('MsgPackMap')
 
-    const userNode = rootMap!.children.find((childId) => {
+    const userNode = rootMap?.children.find((childId) => {
       const child = tree.nodes[childId!]!
       return child.data.key === 'user'
     })
@@ -158,10 +162,10 @@ describe('MsgPackParser', () => {
     const data = encode([1, 'two', true, null, [5, 6]])
     const tree = parse(data)
 
-    const arrayNode = tree.nodes[tree.nodes[tree.root]!.children[0]!]
-    expect(arrayNode!.children.length).toBe(5)
+    const arrayNode = tree.nodes[tree.nodes[tree.root]?.children[0]!]
+    expect(arrayNode?.children.length).toBe(5)
 
-    const types = arrayNode!.children.map((childId) => tree.nodes[childId!]!.type)
+    const types = arrayNode?.children.map((childId) => tree.nodes[childId!]?.type)
     expect(types).toEqual([
       'MsgPackNumber',
       'MsgPackString',
@@ -192,9 +196,9 @@ describe('MsgPackParser', () => {
     const data = encode(userData)
     const tree = parse(data)
 
-    const rootMap = tree.nodes[tree.nodes[tree.root]!.children[0]!]
-    expect(rootMap!.type).toBe('MsgPackMap')
-    expect(rootMap!.children.length).toBe(6)
+    const rootMap = tree.nodes[tree.nodes[tree.root]?.children[0]!]
+    expect(rootMap?.type).toBe('MsgPackMap')
+    expect(rootMap?.children.length).toBe(6)
   })
 
   it('should parse array of objects', () => {
@@ -205,12 +209,12 @@ describe('MsgPackParser', () => {
     ])
     const tree = parse(data)
 
-    const arrayNode = tree.nodes[tree.nodes[tree.root]!.children[0]!]
-    expect(arrayNode!.type).toBe('MsgPackArray')
-    expect(arrayNode!.children.length).toBe(3)
+    const arrayNode = tree.nodes[tree.nodes[tree.root]?.children[0]!]
+    expect(arrayNode?.type).toBe('MsgPackArray')
+    expect(arrayNode?.children.length).toBe(3)
 
-    const firstItem = tree.nodes[arrayNode!.children[0]!]
-    expect(firstItem!.type).toBe('MsgPackMap')
+    const firstItem = tree.nodes[arrayNode?.children[0]!]
+    expect(firstItem?.type).toBe('MsgPackMap')
   })
 
   it('should handle plugins synchronously', () => {
@@ -304,52 +308,49 @@ describe('MsgPackParser', () => {
 
   it('should handle ArrayBuffer input', () => {
     const data = encode(789)
-    const arrayBuffer = data.buffer.slice(
-      data.byteOffset,
-      data.byteOffset + data.byteLength
-    )
+    const arrayBuffer = data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength)
     const tree = parse(arrayBuffer)
 
     expect(tree).toBeDefined()
-    const numNode = tree.nodes[tree.nodes[tree.root]!.children[0]!]
-    expect(numNode!.data.value).toBe(789)
+    const numNode = tree.nodes[tree.nodes[tree.root]?.children[0]!]
+    expect(numNode?.data.value).toBe(789)
   })
 
   it('should parse empty object', () => {
     const data = encode({})
     const tree = parse(data)
 
-    const mapNode = tree.nodes[tree.nodes[tree.root]!.children[0]!]
-    expect(mapNode!.type).toBe('MsgPackMap')
-    expect(mapNode!.data.size).toBe(0)
-    expect(mapNode!.children.length).toBe(0)
+    const mapNode = tree.nodes[tree.nodes[tree.root]?.children[0]!]
+    expect(mapNode?.type).toBe('MsgPackMap')
+    expect(mapNode?.data.size).toBe(0)
+    expect(mapNode?.children.length).toBe(0)
   })
 
   it('should parse empty array', () => {
     const data = encode([])
     const tree = parse(data)
 
-    const arrayNode = tree.nodes[tree.nodes[tree.root]!.children[0]!]
-    expect(arrayNode!.type).toBe('MsgPackArray')
-    expect(arrayNode!.data.length).toBe(0)
-    expect(arrayNode!.children.length).toBe(0)
+    const arrayNode = tree.nodes[tree.nodes[tree.root]?.children[0]!]
+    expect(arrayNode?.type).toBe('MsgPackArray')
+    expect(arrayNode?.data.length).toBe(0)
+    expect(arrayNode?.children.length).toBe(0)
   })
 
   it('should parse large numbers', () => {
     const data = encode(Number.MAX_SAFE_INTEGER)
     const tree = parse(data)
 
-    const numNode = tree.nodes[tree.nodes[tree.root]!.children[0]!]
-    expect(numNode!.data.value).toBe(Number.MAX_SAFE_INTEGER)
+    const numNode = tree.nodes[tree.nodes[tree.root]?.children[0]!]
+    expect(numNode?.data.value).toBe(Number.MAX_SAFE_INTEGER)
   })
 
   it('should parse unicode strings', () => {
     const data = encode('Hello 世界 🌍')
     const tree = parse(data)
 
-    const stringNode = tree.nodes[tree.nodes[tree.root]!.children[0]!]
-    expect(stringNode!.type).toBe('MsgPackString')
-    expect(stringNode!.data.value).toBe('Hello 世界 🌍')
+    const stringNode = tree.nodes[tree.nodes[tree.root]?.children[0]!]
+    expect(stringNode?.type).toBe('MsgPackString')
+    expect(stringNode?.data.value).toBe('Hello 世界 🌍')
   })
 
   it('should parse deeply nested structure', () => {
@@ -369,7 +370,7 @@ describe('MsgPackParser', () => {
     const tree = parse(data)
 
     expect(tree).toBeDefined()
-    const rootMap = tree.nodes[tree.nodes[tree.root]!.children[0]!]
-    expect(rootMap!.type).toBe('MsgPackMap')
+    const rootMap = tree.nodes[tree.nodes[tree.root]?.children[0]!]
+    expect(rootMap?.type).toBe('MsgPackMap')
   })
 })

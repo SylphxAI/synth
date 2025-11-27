@@ -5,8 +5,8 @@
  * Hand-written recursive descent parser for JSON
  */
 
-import type { Tree, NodeId, Plugin } from '@sylphx/synth'
-import { createTree, addNode } from '@sylphx/synth'
+import type { NodeId, Plugin, Tree } from '@sylphx/synth'
+import { addNode, createTree } from '@sylphx/synth'
 import { SynthError } from '@sylphx/synth'
 
 export interface JSONParseOptions {
@@ -60,7 +60,7 @@ export class JSONParser {
       }
 
       const valueId = this.parseValue(tree.root)
-      tree.nodes[tree.root]!.children.push(valueId)
+      tree.nodes[tree.root]?.children.push(valueId)
 
       this.skipWhitespace()
       if (this.pos < this.source.length) {
@@ -77,8 +77,8 @@ export class JSONParser {
     const allPlugins = [...this.plugins, ...(options.plugins || [])]
 
     // Check for async plugins
-    const hasAsyncPlugin = allPlugins.some(p =>
-      'transform' in p && p.transform.constructor.name === 'AsyncFunction'
+    const hasAsyncPlugin = allPlugins.some(
+      (p) => 'transform' in p && p.transform.constructor.name === 'AsyncFunction'
     )
 
     if (hasAsyncPlugin) {
@@ -119,7 +119,7 @@ export class JSONParser {
       }
 
       const valueId = this.parseValue(tree.root)
-      tree.nodes[tree.root]!.children.push(valueId)
+      tree.nodes[tree.root]?.children.push(valueId)
 
       this.skipWhitespace()
       if (this.pos < this.source.length) {
@@ -228,7 +228,7 @@ export class JSONParser {
       }
 
       const propId = this.parseProperty(objId)
-      tree.nodes[objId]!.children.push(propId)
+      tree.nodes[objId]?.children.push(propId)
 
       this.skipWhitespace()
 
@@ -299,7 +299,7 @@ export class JSONParser {
     })
 
     const valueId = this.parseValue(propId)
-    tree.nodes[propId]!.children.push(valueId)
+    tree.nodes[propId]?.children.push(valueId)
 
     const propNode = tree.nodes[propId]
     if (propNode?.span) {
@@ -350,7 +350,7 @@ export class JSONParser {
     // Parse elements
     while (true) {
       const elemId = this.parseValue(arrId)
-      tree.nodes[arrId]!.children.push(elemId)
+      tree.nodes[arrId]?.children.push(elemId)
 
       this.skipWhitespace()
 
@@ -449,7 +449,7 @@ export class JSONParser {
             if (hex.length !== 4 || !/^[0-9a-fA-F]{4}$/.test(hex)) {
               throw this.error('Invalid unicode escape sequence')
             }
-            value += String.fromCharCode(parseInt(hex, 16))
+            value += String.fromCharCode(Number.parseInt(hex, 16))
             this.pos += 3 // Will advance one more at loop end
             this.column += 3
             break
@@ -549,7 +549,7 @@ export class JSONParser {
       }
     }
 
-    const value = parseFloat(numStr)
+    const value = Number.parseFloat(numStr)
 
     const tree = this.tree!
     return addNode(tree, {
@@ -650,10 +650,7 @@ export class JSONParser {
   }
 
   private error(message: string): SynthError {
-    return new SynthError(
-      `${message} at line ${this.line}, column ${this.column}`,
-      'PARSE_ERROR'
-    )
+    return new SynthError(`${message} at line ${this.line}, column ${this.column}`, 'PARSE_ERROR')
   }
 }
 

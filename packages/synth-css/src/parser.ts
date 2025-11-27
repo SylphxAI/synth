@@ -5,8 +5,8 @@
  * Converts CSS into Synth AST using language-agnostic BaseNode
  */
 
-import type { Tree, NodeId, Plugin } from '@sylphx/synth'
-import { createTree, addNode } from '@sylphx/synth'
+import type { NodeId, Plugin, Tree } from '@sylphx/synth'
+import { addNode, createTree } from '@sylphx/synth'
 import { SynthError } from '@sylphx/synth'
 import { CSSTokenizer, type Token } from './tokenizer.js'
 
@@ -49,7 +49,7 @@ export class CSSParser {
       while (!this.isAtEnd()) {
         const ruleId = this.parseRule(tree.root)
         if (ruleId !== null) {
-          tree.nodes[tree.root]!.children.push(ruleId)
+          tree.nodes[tree.root]?.children.push(ruleId)
         }
       }
     } catch (error) {
@@ -62,8 +62,8 @@ export class CSSParser {
     // Apply plugins
     const allPlugins = [...this.plugins, ...(options.plugins || [])]
 
-    const hasAsyncPlugin = allPlugins.some(p =>
-      'transform' in p && p.transform.constructor.name === 'AsyncFunction'
+    const hasAsyncPlugin = allPlugins.some(
+      (p) => 'transform' in p && p.transform.constructor.name === 'AsyncFunction'
     )
 
     if (hasAsyncPlugin) {
@@ -99,7 +99,7 @@ export class CSSParser {
       while (!this.isAtEnd()) {
         const ruleId = this.parseRule(tree.root)
         if (ruleId !== null) {
-          tree.nodes[tree.root]!.children.push(ruleId)
+          tree.nodes[tree.root]?.children.push(ruleId)
         }
       }
     } catch (error) {
@@ -173,7 +173,10 @@ export class CSSParser {
       params.push(this.advance().value)
     }
 
-    tree.nodes[ruleId]!.data!.params = params.join(' ')
+    const ruleNode = tree.nodes[ruleId]
+    if (ruleNode?.data) {
+      ruleNode.data.params = params.join(' ')
+    }
 
     // Parse block
     if (this.check('open-brace')) {
@@ -182,7 +185,7 @@ export class CSSParser {
       while (!this.isAtEnd() && !this.check('close-brace')) {
         const childId = this.parseRule(ruleId)
         if (childId !== null) {
-          tree.nodes[ruleId]!.children.push(childId)
+          tree.nodes[ruleId]?.children.push(childId)
         }
       }
 
@@ -232,7 +235,7 @@ export class CSSParser {
 
       const declId = this.parseDeclaration(ruleId)
       if (declId !== null) {
-        tree.nodes[ruleId]!.children.push(declId)
+        tree.nodes[ruleId]?.children.push(declId)
       }
     }
 
@@ -248,7 +251,12 @@ export class CSSParser {
 
     // Parse property
     const propertyTokens: string[] = []
-    while (!this.isAtEnd() && !this.check('colon') && !this.check('semicolon') && !this.check('close-brace')) {
+    while (
+      !this.isAtEnd() &&
+      !this.check('colon') &&
+      !this.check('semicolon') &&
+      !this.check('close-brace')
+    ) {
       if (this.check('comment')) {
         this.advance()
         continue

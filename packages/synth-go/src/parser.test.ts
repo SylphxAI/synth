@@ -2,8 +2,8 @@
  * Go Parser Tests
  */
 
-import { describe, it, expect } from 'bun:test'
-import { parse, parseAsync, createParser, GoParser } from './parser.js'
+import { describe, expect, it } from 'bun:test'
+import { GoParser, createParser, parse, parseAsync } from './parser.js'
 
 describe('GoParser', () => {
   describe('Basic Parsing', () => {
@@ -20,7 +20,7 @@ describe('GoParser', () => {
       expect(tree.meta.language).toBe('go')
       expect(tree.nodes[tree.root]).toBeDefined()
 
-      const rootChildren = tree.nodes[tree.root]!.children
+      const rootChildren = tree.nodes[tree.root]?.children
       expect(rootChildren.length).toBeGreaterThan(0)
     })
 
@@ -36,7 +36,7 @@ func main() {
 
       expect(tree.meta.language).toBe('go')
 
-      const funcNode = tree.nodes.find(n => n.type === 'FunctionDeclaration')
+      const funcNode = tree.nodes.find((n) => n.type === 'FunctionDeclaration')
       expect(funcNode).toBeDefined()
     })
 
@@ -53,7 +53,9 @@ type Person struct {
 
       expect(tree.meta.language).toBe('go')
 
-      const structNode = tree.nodes.find(n => n.type?.includes('Struct') || n.type?.includes('Type'))
+      const structNode = tree.nodes.find(
+        (n) => n.type?.includes('Struct') || n.type?.includes('Type')
+      )
       expect(structNode).toBeDefined()
     })
   })
@@ -65,7 +67,9 @@ type Person struct {
 
       expect(tree.meta.language).toBe('go')
 
-      const stringNode = tree.nodes.find(n => n.type?.includes('String') || n.data?.text?.includes('"'))
+      const stringNode = tree.nodes.find(
+        (n) => n.type?.includes('String') || n.data?.text?.includes('"')
+      )
       expect(stringNode).toBeDefined()
     })
 
@@ -134,7 +138,7 @@ func main() {
 
       expect(tree.meta.language).toBe('go')
 
-      const ifNode = tree.nodes.find(n => n.type?.includes('If'))
+      const ifNode = tree.nodes.find((n) => n.type?.includes('If'))
       expect(ifNode).toBeDefined()
     })
 
@@ -152,7 +156,7 @@ func main() {
 
       expect(tree.meta.language).toBe('go')
 
-      const forNode = tree.nodes.find(n => n.type?.includes('For'))
+      const forNode = tree.nodes.find((n) => n.type?.includes('For'))
       expect(forNode).toBeDefined()
     })
 
@@ -171,7 +175,7 @@ func main() {
 
       expect(tree.meta.language).toBe('go')
 
-      const rangeNode = tree.nodes.find(n => n.type?.includes('Range') || n.type?.includes('For'))
+      const rangeNode = tree.nodes.find((n) => n.type?.includes('Range') || n.type?.includes('For'))
       expect(rangeNode).toBeDefined()
     })
 
@@ -194,7 +198,7 @@ func main() {
 
       expect(tree.meta.language).toBe('go')
 
-      const switchNode = tree.nodes.find(n => n.type?.includes('Switch'))
+      const switchNode = tree.nodes.find((n) => n.type?.includes('Switch'))
       expect(switchNode).toBeDefined()
     })
   })
@@ -212,7 +216,7 @@ func greet(name string, greeting string) string {
 
       expect(tree.meta.language).toBe('go')
 
-      const funcNode = tree.nodes.find(n => n.type === 'FunctionDeclaration')
+      const funcNode = tree.nodes.find((n) => n.type === 'FunctionDeclaration')
       expect(funcNode).toBeDefined()
     })
 
@@ -231,7 +235,7 @@ func divide(a, b int) (int, error) {
 
       expect(tree.meta.language).toBe('go')
 
-      const funcNode = tree.nodes.find(n => n.type === 'FunctionDeclaration')
+      const funcNode = tree.nodes.find((n) => n.type === 'FunctionDeclaration')
       expect(funcNode).toBeDefined()
     })
 
@@ -249,7 +253,7 @@ func split(sum int) (x, y int) {
 
       expect(tree.meta.language).toBe('go')
 
-      const funcNode = tree.nodes.find(n => n.type === 'FunctionDeclaration')
+      const funcNode = tree.nodes.find((n) => n.type === 'FunctionDeclaration')
       expect(funcNode).toBeDefined()
     })
 
@@ -269,7 +273,7 @@ func sum(nums ...int) int {
 
       expect(tree.meta.language).toBe('go')
 
-      const funcNode = tree.nodes.find(n => n.type === 'FunctionDeclaration')
+      const funcNode = tree.nodes.find((n) => n.type === 'FunctionDeclaration')
       expect(funcNode).toBeDefined()
     })
   })
@@ -292,7 +296,9 @@ func (r Rectangle) Area() float64 {
 
       expect(tree.meta.language).toBe('go')
 
-      const methodNode = tree.nodes.find(n => n.type?.includes('Method') || n.type === 'FunctionDeclaration')
+      const methodNode = tree.nodes.find(
+        (n) => n.type?.includes('Method') || n.type === 'FunctionDeclaration'
+      )
       expect(methodNode).toBeDefined()
     })
 
@@ -312,7 +318,9 @@ func (c *Counter) Increment() {
 
       expect(tree.meta.language).toBe('go')
 
-      const methodNode = tree.nodes.find(n => n.type === 'FunctionDeclaration' || n.type?.includes('Method'))
+      const methodNode = tree.nodes.find(
+        (n) => n.type === 'FunctionDeclaration' || n.type?.includes('Method')
+      )
       expect(methodNode).toBeDefined()
     })
 
@@ -351,7 +359,7 @@ type Shape interface {
 
       expect(tree.meta.language).toBe('go')
 
-      const interfaceNode = tree.nodes.find(n => n.type?.includes('Interface'))
+      const interfaceNode = tree.nodes.find((n) => n.type?.includes('Interface'))
       expect(interfaceNode).toBeDefined()
     })
 
@@ -387,7 +395,7 @@ func doWork() {
 
       expect(tree.meta.language).toBe('go')
 
-      const goNode = tree.nodes.find(n => n.type?.includes('Go') && n.data?.text?.includes('go'))
+      const goNode = tree.nodes.find((n) => n.type?.includes('Go') && n.data?.text?.includes('go'))
       expect(goNode).toBeDefined()
     })
 
@@ -426,7 +434,7 @@ func main() {
 
       expect(tree.meta.language).toBe('go')
 
-      const selectNode = tree.nodes.find(n => n.type?.includes('Select'))
+      const selectNode = tree.nodes.find((n) => n.type?.includes('Select'))
       expect(selectNode).toBeDefined()
     })
   })
@@ -438,7 +446,7 @@ func main() {
 
       expect(tree.meta.language).toBe('go')
 
-      const packageNode = tree.nodes.find(n => n.type?.includes('Package'))
+      const packageNode = tree.nodes.find((n) => n.type?.includes('Package'))
       expect(packageNode).toBeDefined()
     })
 
@@ -452,7 +460,7 @@ import "fmt"
 
       expect(tree.meta.language).toBe('go')
 
-      const importNode = tree.nodes.find(n => n.type?.includes('Import'))
+      const importNode = tree.nodes.find((n) => n.type?.includes('Import'))
       expect(importNode).toBeDefined()
     })
 
@@ -470,7 +478,7 @@ import (
 
       expect(tree.meta.language).toBe('go')
 
-      const importNodes = tree.nodes.filter(n => n.type?.includes('Import'))
+      const importNodes = tree.nodes.filter((n) => n.type?.includes('Import'))
       expect(importNodes.length).toBeGreaterThan(0)
     })
 
@@ -724,7 +732,9 @@ func main() {
 
       expect(tree.meta.language).toBe('go')
 
-      const deferNode = tree.nodes.find(n => n.type?.includes('Defer') || n.data?.text?.includes('defer'))
+      const deferNode = tree.nodes.find(
+        (n) => n.type?.includes('Defer') || n.data?.text?.includes('defer')
+      )
       expect(deferNode).toBeDefined()
     })
 

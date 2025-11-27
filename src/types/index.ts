@@ -42,6 +42,4 @@ export type {
   TraversalOptions,
 } from './visitor.js'
 
-export {
-  TraversalOrder,
-} from './visitor.js'
+export { TraversalOrder } from './visitor.js'

@@ -8,11 +8,7 @@ import type { BaseNode, Tree } from '@sylphx/synth'
 import { Printer } from './printer.js'
 
 // Custom printer handler type
-export type PrinterHandler = (
-  tree: Tree,
-  node: BaseNode,
-  printer: Printer
-) => string | null
+export type PrinterHandler = (tree: Tree, node: BaseNode, printer: Printer) => string | null
 
 // Plugin interface for printer extensions
 export interface PrinterPlugin {
@@ -26,7 +22,7 @@ export interface PrinterPlugin {
 export const deferredImportPlugin: PrinterPlugin = {
   name: 'deferred-import',
   handlers: {
-    ImportDeclaration: (tree, node, printer) => {
+    ImportDeclaration: (_tree, node, _printer) => {
       // Handle new "import defer" syntax
       if (node.data?.defer) {
         return `import defer * as ${node.data.name} from "${node.data.source}";`
@@ -42,9 +38,9 @@ export const deferredImportPlugin: PrinterPlugin = {
 export const pipelineOperatorPlugin: PrinterPlugin = {
   name: 'pipeline-operator',
   handlers: {
-    PipelineExpression: (tree, node, printer) => {
+    PipelineExpression: (tree, node, _printer) => {
       // value |> transform |> finalTransform
-      const children = node.children.map(id => tree.nodes[id]!)
+      const _children = node.children.map((id) => tree.nodes[id]!)
       const parts: string[] = []
 
       // Recursively print each part

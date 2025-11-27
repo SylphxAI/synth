@@ -71,9 +71,9 @@ export type HTMLToken =
   | CDATAToken
 
 export class HTMLTokenizer {
-  private input: string = ''
-  private pos: number = 0
-  private len: number = 0
+  private input = ''
+  private pos = 0
+  private len = 0
 
   tokenize(html: string): HTMLToken[] {
     this.input = html

@@ -4,8 +4,8 @@
 
 import type { LanguageAdapter } from '../../api/index.js'
 import type { Tree } from '../../types/index.js'
-import { parse } from './parser.js'
 import { compile } from './compiler.js'
+import { parse } from './parser.js'
 
 export * from './types.js'
 

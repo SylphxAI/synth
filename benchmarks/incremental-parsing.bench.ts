@@ -5,9 +5,9 @@
  */
 
 import { bench, describe } from 'vitest'
+import { applyEdit, createIncrementalParser } from '../src/core/incremental.js'
 import type { Tree } from '../src/types/index.js'
 import { createTree } from '../src/types/tree.js'
-import { createIncrementalParser, applyEdit } from '../src/core/incremental.js'
 
 // Mock parser for benchmarking
 function mockParser(text: string): Tree {
@@ -24,11 +24,7 @@ function mockParser(text: string): Tree {
     if (trimmed) {
       const node = {
         id: i,
-        type: trimmed.startsWith('#')
-          ? 'heading'
-          : trimmed.startsWith('-')
-            ? 'list'
-            : 'paragraph',
+        type: trimmed.startsWith('#') ? 'heading' : trimmed.startsWith('-') ? 'list' : 'paragraph',
         parent: null,
         children: [],
         span: {

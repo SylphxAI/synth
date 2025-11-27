@@ -7,14 +7,14 @@
 
 import type { Edit } from '../../core/incremental.js'
 import type {
-  BlockToken,
-  HeadingToken,
-  ParagraphToken,
-  CodeBlockToken,
-  ListItemToken,
-  BlockquoteToken,
-  HorizontalRuleToken,
   BlankLineToken,
+  BlockToken,
+  BlockquoteToken,
+  CodeBlockToken,
+  HeadingToken,
+  HorizontalRuleToken,
+  ListItemToken,
+  ParagraphToken,
 } from './tokens.js'
 import { createPosition, createTokenPosition } from './tokens.js'
 
@@ -33,7 +33,7 @@ interface TokenRange {
  */
 export class IncrementalTokenizer {
   private tokens: BlockToken[] = []
-  private source: string = ''
+  private source = ''
 
   /**
    * Full tokenization of Markdown text
@@ -105,10 +105,7 @@ export class IncrementalTokenizer {
     const result = [
       ...oldTokens.slice(0, affectedRange.start),
       ...newTokens,
-      ...this.adjustTokenPositions(
-        oldTokens.slice(affectedRange.end + 1),
-        edit
-      ),
+      ...this.adjustTokenPositions(oldTokens.slice(affectedRange.end + 1), edit),
     ]
 
     this.tokens = result
@@ -176,11 +173,7 @@ export class IncrementalTokenizer {
   /**
    * Tokenize a single line
    */
-  private tokenizeLine(
-    line: string,
-    lineIndex: number,
-    lineStart: number
-  ): BlockToken | null {
+  private tokenizeLine(line: string, lineIndex: number, lineStart: number): BlockToken | null {
     const trimmed = line.trim()
 
     // Blank line
@@ -223,7 +216,7 @@ export class IncrementalTokenizer {
     lineStart: number,
     match: RegExpMatchArray
   ): HeadingToken {
-    const depth = match[1]!.length as 1 | 2 | 3 | 4 | 5 | 6
+    const depth = match[1]?.length as 1 | 2 | 3 | 4 | 5 | 6
     const text = match[2]!
 
     return {
@@ -241,11 +234,7 @@ export class IncrementalTokenizer {
   /**
    * Create paragraph token
    */
-  private createParagraphToken(
-    line: string,
-    lineIndex: number,
-    lineStart: number
-  ): ParagraphToken {
+  private createParagraphToken(line: string, lineIndex: number, lineStart: number): ParagraphToken {
     return {
       type: 'paragraph',
       text: line,
@@ -266,14 +255,12 @@ export class IncrementalTokenizer {
     lineStart: number,
     match: RegExpMatchArray
   ): ListItemToken {
-    const indent = match[1]!.length
+    const indent = match[1]?.length
     const text = match[3]!
 
     // Check for task list ([x] or [ ])
     const taskMatch = text.match(/^\[([x ])\]\s+(.*)$/)
-    const checked = taskMatch
-      ? taskMatch[1] === 'x'
-      : undefined
+    const checked = taskMatch ? taskMatch[1] === 'x' : undefined
 
     return {
       type: 'listItem',
@@ -330,11 +317,7 @@ export class IncrementalTokenizer {
   /**
    * Create blank line token
    */
-  private createBlankLineToken(
-    line: string,
-    lineIndex: number,
-    lineStart: number
-  ): BlankLineToken {
+  private createBlankLineToken(line: string, lineIndex: number, lineStart: number): BlankLineToken {
     return {
       type: 'blankLine',
       raw: line,

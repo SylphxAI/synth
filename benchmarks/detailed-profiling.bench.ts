@@ -11,8 +11,8 @@
  * 5. Feature-specific benchmarks (tables, lists, code blocks)
  */
 
-import { bench, describe } from 'vitest'
 import { remark } from 'remark'
+import { bench, describe } from 'vitest'
 import { UltraOptimizedMarkdownParser } from '../src/parsers/markdown/ultra-optimized-parser.js'
 
 // ============================================================================
@@ -304,7 +304,7 @@ describe('Profiling: Query Index', () => {
 
   bench('Query after parse (index exists)', () => {
     const parser = new UltraOptimizedMarkdownParser()
-    const tree = parser.parse(realWorldDoc, { buildIndex: true })
+    const _tree = parser.parse(realWorldDoc, { buildIndex: true })
     const index = parser.getIndex()
     // @ts-ignore - accessing for benchmark
     index.query('heading')
@@ -365,12 +365,21 @@ describe('Profiling: Real-World Document', () => {
 
 describe('Profiling: Edge Cases', () => {
   const deeplyNested = `
-${Array(100).fill(0).map((_, i) => '  '.repeat(i) + `- Item at depth ${i}`).join('\n')}
+${Array(100)
+  .fill(0)
+  .map((_, i) => `${'  '.repeat(i)}- Item at depth ${i}`)
+  .join('\n')}
 `
 
-  const manyHeadings = Array(500).fill(0).map((_, i) => `# Heading ${i}\n\nParagraph ${i}\n`).join('\n')
+  const manyHeadings = Array(500)
+    .fill(0)
+    .map((_, i) => `# Heading ${i}\n\nParagraph ${i}\n`)
+    .join('\n')
 
-  const manyCodeBlocks = Array(100).fill(0).map((_, i) => `\`\`\`javascript\nconst x${i} = ${i}\n\`\`\`\n`).join('\n')
+  const manyCodeBlocks = Array(100)
+    .fill(0)
+    .map((_, i) => `\`\`\`javascript\nconst x${i} = ${i}\n\`\`\`\n`)
+    .join('\n')
 
   bench('Deeply nested lists', () => {
     const parser = new UltraOptimizedMarkdownParser()

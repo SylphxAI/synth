@@ -2,10 +2,10 @@
  * Parser Coverage Tests - Cover remaining uncovered lines
  */
 
-import { describe, it, expect } from 'bun:test'
-import { Parser, createParser, parse, parseAsync } from './parser.js'
+import { describe, expect, it } from 'bun:test'
 import { createTransformPlugin } from '@sylphx/synth'
 import { SynthError, TreeStructureError } from '@sylphx/synth'
+import { Parser, createParser, parse, parseAsync } from './parser.js'
 
 describe('Parser Coverage', () => {
   describe('createParser factory function', () => {
@@ -44,7 +44,7 @@ describe('Parser Coverage', () => {
         },
         async (tree) => {
           // Simulate async operation
-          await new Promise(resolve => setTimeout(resolve, 1))
+          await new Promise((resolve) => setTimeout(resolve, 1))
           return tree
         }
       )
@@ -60,10 +60,7 @@ describe('Parser Coverage', () => {
   describe('Parser.use() method', () => {
     it('should register a plugin', () => {
       const parser = new Parser()
-      const plugin = createTransformPlugin(
-        { name: 'test', version: '1.0.0' },
-        (tree) => tree
-      )
+      const plugin = createTransformPlugin({ name: 'test', version: '1.0.0' }, (tree) => tree)
 
       const result = parser.use(plugin)
       expect(result).toBe(parser) // Should return this for chaining
@@ -71,14 +68,8 @@ describe('Parser Coverage', () => {
 
     it('should allow chaining', () => {
       const parser = new Parser()
-      const plugin1 = createTransformPlugin(
-        { name: 'test1', version: '1.0.0' },
-        (tree) => tree
-      )
-      const plugin2 = createTransformPlugin(
-        { name: 'test2', version: '1.0.0' },
-        (tree) => tree
-      )
+      const plugin1 = createTransformPlugin({ name: 'test1', version: '1.0.0' }, (tree) => tree)
+      const plugin2 = createTransformPlugin({ name: 'test2', version: '1.0.0' }, (tree) => tree)
 
       const result = parser.use(plugin1).use(plugin2)
       expect(result).toBe(parser)
@@ -88,13 +79,10 @@ describe('Parser Coverage', () => {
       const parser = new Parser()
 
       let pluginWasCalled = false
-      const plugin = createTransformPlugin(
-        { name: 'test', version: '1.0.0' },
-        (tree) => {
-          pluginWasCalled = true
-          return tree
-        }
-      )
+      const plugin = createTransformPlugin({ name: 'test', version: '1.0.0' }, (tree) => {
+        pluginWasCalled = true
+        return tree
+      })
 
       parser.use(plugin)
       parser.parse('# Test')
@@ -166,7 +154,8 @@ describe('Parser Coverage', () => {
       const parser = new Parser()
       parser.parse('# Original')
 
-      const tree = parser.parseIncremental('# Modified',
+      const tree = parser.parseIncremental(
+        '# Modified',
         {
           startIndex: 0,
           oldEndIndex: 10,
@@ -192,7 +181,7 @@ describe('Parser Coverage', () => {
           version: '1.0.0',
         },
         async (tree) => {
-          await new Promise(resolve => setTimeout(resolve, 1))
+          await new Promise((resolve) => setTimeout(resolve, 1))
           return tree
         }
       )
@@ -219,7 +208,7 @@ describe('Parser Coverage', () => {
           version: '1.0.0',
         },
         async (tree) => {
-          await new Promise(resolve => setTimeout(resolve, 1))
+          await new Promise((resolve) => setTimeout(resolve, 1))
           return tree
         }
       )
@@ -267,13 +256,10 @@ describe('Parser Coverage', () => {
         }
       )
 
-      const oneOffPlugin = createTransformPlugin(
-        { name: 'one-off', version: '1.0.0' },
-        (tree) => {
-          oneOffCalled = true
-          return tree
-        }
-      )
+      const oneOffPlugin = createTransformPlugin({ name: 'one-off', version: '1.0.0' }, (tree) => {
+        oneOffCalled = true
+        return tree
+      })
 
       parser.use(registeredPlugin)
       parser.parse('# Test', {
@@ -334,13 +320,10 @@ describe('Parser Coverage', () => {
 
     it('should work with sync plugins', () => {
       let wasCalled = false
-      const plugin = createTransformPlugin(
-        { name: 'test', version: '1.0.0' },
-        (tree) => {
-          wasCalled = true
-          return tree
-        }
-      )
+      const plugin = createTransformPlugin({ name: 'test', version: '1.0.0' }, (tree) => {
+        wasCalled = true
+        return tree
+      })
 
       parse('# Test', { plugins: [plugin] })
       expect(wasCalled).toBe(true)

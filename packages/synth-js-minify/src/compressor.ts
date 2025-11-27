@@ -24,7 +24,7 @@ export class Compressor {
     this.mangleCounter = 0
 
     // Find Program node
-    const program = tree.nodes.find(n => n.type === 'Program')
+    const program = tree.nodes.find((n) => n.type === 'Program')
     if (!program) {
       throw new Error('No Program node found in tree')
     }
@@ -37,7 +37,7 @@ export class Compressor {
   }
 
   private compressStatements(tree: Tree, nodes: BaseNode[]): void {
-    nodes.forEach(node => {
+    nodes.forEach((node) => {
       this.compressNode(tree, node)
     })
   }
@@ -165,8 +165,8 @@ export class Compressor {
 
   private compressVariableDeclarator(tree: Tree, node: BaseNode): void {
     const children = this.getChildren(tree, node)
-    const id = children.find(n => n.type === 'Identifier' || n.type.includes('Pattern'))
-    const init = children.find(n => n !== id)
+    const id = children.find((n) => n.type === 'Identifier' || n.type.includes('Pattern'))
+    const init = children.find((n) => n !== id)
 
     if (id) {
       this.compressNode(tree, id)
@@ -197,8 +197,8 @@ export class Compressor {
     this.write('(')
 
     const children = this.getChildren(tree, node)
-    const body = children.find(n => n.type === 'BlockStatement')
-    const params = children.filter(n => n !== body)
+    const body = children.find((n) => n.type === 'BlockStatement')
+    const params = children.filter((n) => n !== body)
 
     params.forEach((param, i) => {
       this.compressNode(tree, param)
@@ -462,14 +462,14 @@ export class Compressor {
     }
 
     const children = this.getChildren(tree, node)
-    const classBody = children.find(n => n.type === 'ClassBody')
+    const classBody = children.find((n) => n.type === 'ClassBody')
 
     if (classBody) {
       const methods = this.getChildren(tree, classBody)
 
       this.write('{')
 
-      methods.forEach(method => {
+      methods.forEach((method) => {
         this.compressNode(tree, method)
       })
 
@@ -485,16 +485,16 @@ export class Compressor {
       this.write(`${kind} `)
     }
 
-    const key = this.getChildren(tree, node).find(n => n.type === 'Identifier')
+    const key = this.getChildren(tree, node).find((n) => n.type === 'Identifier')
     if (key) {
       this.compressNode(tree, key)
     }
 
     this.write('()')
 
-    const value = this.getChildren(tree, node).find(n => n.type === 'FunctionExpression')
+    const value = this.getChildren(tree, node).find((n) => n.type === 'FunctionExpression')
     if (value) {
-      const body = this.getChildren(tree, value).find(n => n.type === 'BlockStatement')
+      const body = this.getChildren(tree, value).find((n) => n.type === 'BlockStatement')
       if (body) {
         this.compressNode(tree, body)
       }
@@ -561,7 +561,7 @@ export class Compressor {
   }
 
   private getChildren(tree: Tree, node: BaseNode): BaseNode[] {
-    return node.children.map(id => tree.nodes[id]!).filter(Boolean)
+    return node.children.map((id) => tree.nodes[id]!).filter(Boolean)
   }
 
   private write(str: string): void {

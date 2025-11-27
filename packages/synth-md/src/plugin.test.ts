@@ -2,23 +2,22 @@
  * Plugin System Tests
  */
 
-import { describe, it, expect, beforeEach } from 'bun:test'
+import { beforeEach, describe, expect, it } from 'bun:test'
 import { createTree } from '@sylphx/synth'
-import type { Tree, BaseNode } from '@sylphx/synth'
+import type { Tree } from '@sylphx/synth'
 import {
   PluginManager,
+  addCodeLineNumbers,
+  addHeadingIds,
   createTransformPlugin,
   createVisitorPlugin,
   isTransformPlugin,
   isVisitorPlugin,
-  removeComments,
-  addHeadingIds,
   tableOfContents,
   uppercaseHeadings,
-  addCodeLineNumbers,
   wrapParagraphs,
 } from './plugin.js'
-import type { HeadingNode, ParagraphNode, CodeBlockNode } from './types.js'
+import type { CodeBlockNode, HeadingNode, ParagraphNode } from './types.js'
 
 describe('Plugin System', () => {
   let tree: Tree
@@ -60,10 +59,7 @@ describe('Plugin System', () => {
   describe('PluginManager', () => {
     it('should register plugins', () => {
       const manager = new PluginManager()
-      const plugin = createTransformPlugin(
-        { name: 'test' },
-        (tree) => tree
-      )
+      const plugin = createTransformPlugin({ name: 'test' }, (tree) => tree)
 
       manager.use(plugin)
       expect(manager.getPlugins()).toHaveLength(1)
@@ -119,13 +115,10 @@ describe('Plugin System', () => {
   describe('Transform Plugins', () => {
     it('should apply transform plugin', async () => {
       const manager = new PluginManager()
-      const plugin = createTransformPlugin(
-        { name: 'add-metadata' },
-        (tree) => {
-          tree.meta.data = { transformed: true }
-          return tree
-        }
-      )
+      const plugin = createTransformPlugin({ name: 'add-metadata' }, (tree) => {
+        tree.meta.data = { transformed: true }
+        return tree
+      })
 
       manager.use(plugin)
       const result = await manager.apply(tree)
@@ -156,14 +149,11 @@ describe('Plugin System', () => {
 
     it('should support async transform plugins', async () => {
       const manager = new PluginManager()
-      const plugin = createTransformPlugin(
-        { name: 'async-transform' },
-        async (tree) => {
-          await new Promise((resolve) => setTimeout(resolve, 10))
-          tree.meta.data = { async: true }
-          return tree
-        }
-      )
+      const plugin = createTransformPlugin({ name: 'async-transform' }, async (tree) => {
+        await new Promise((resolve) => setTimeout(resolve, 10))
+        tree.meta.data = { async: true }
+        return tree
+      })
 
       manager.use(plugin)
       const result = await manager.apply(tree)
@@ -360,7 +350,7 @@ describe('Plugin System', () => {
         }
 
         tree.nodes.push(h2, h3)
-        tree.nodes[0]!.children.push(4, 5)
+        tree.nodes[0]?.children.push(4, 5)
 
         const manager = new PluginManager()
         // Use both plugins to add IDs and collect TOC
@@ -396,9 +386,7 @@ describe('Plugin System', () => {
       expect(heading.text).toBe('HELLO WORLD')
 
       // TOC should be collected with uppercase text
-      expect(result.meta.data?.toc).toEqual([
-        { depth: 1, text: 'HELLO WORLD', id: 'hello-world' },
-      ])
+      expect(result.meta.data?.toc).toEqual([{ depth: 1, text: 'HELLO WORLD', id: 'hello-world' }])
     })
 
     it('should apply plugins in order', async () => {

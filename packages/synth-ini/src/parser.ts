@@ -5,8 +5,8 @@
  * Converts INI into Synth AST using language-agnostic BaseNode
  */
 
-import type { Tree, Plugin } from '@sylphx/synth'
-import { createTree, addNode } from '@sylphx/synth'
+import type { Plugin, Tree } from '@sylphx/synth'
+import { addNode, createTree } from '@sylphx/synth'
 import { SynthError } from '@sylphx/synth'
 
 export interface INIParseOptions {
@@ -47,10 +47,10 @@ export class INIParser {
     try {
       const lines = source.split(/\r?\n/)
       let currentSection = tree.root
-      let lineNumber = 0
+      let _lineNumber = 0
 
       for (const rawLine of lines) {
-        lineNumber++
+        _lineNumber++
         const line = rawLine.trim()
 
         // Skip empty lines
@@ -68,7 +68,7 @@ export class INIParser {
             children: [],
             data: { name: sectionName },
           })
-          tree.nodes[tree.root]!.children.push(sectionId)
+          tree.nodes[tree.root]?.children.push(sectionId)
           currentSection = sectionId
           continue
         }
@@ -120,7 +120,7 @@ export class INIParser {
             data: { key, value },
           })
 
-          tree.nodes[currentSection]!.children.push(kvId)
+          tree.nodes[currentSection]?.children.push(kvId)
         }
       }
     } catch (error) {
@@ -166,10 +166,10 @@ export class INIParser {
     try {
       const lines = source.split(/\r?\n/)
       let currentSection = tree.root
-      let lineNumber = 0
+      let _lineNumber = 0
 
       for (const rawLine of lines) {
-        lineNumber++
+        _lineNumber++
         const line = rawLine.trim()
 
         if (line === '') continue
@@ -183,7 +183,7 @@ export class INIParser {
             children: [],
             data: { name: sectionName },
           })
-          tree.nodes[tree.root]!.children.push(sectionId)
+          tree.nodes[tree.root]?.children.push(sectionId)
           currentSection = sectionId
           continue
         }
@@ -231,7 +231,7 @@ export class INIParser {
             data: { key, value },
           })
 
-          tree.nodes[currentSection]!.children.push(kvId)
+          tree.nodes[currentSection]?.children.push(kvId)
         }
       }
     } catch (error) {
@@ -282,10 +282,7 @@ export function parse(source: string, options?: INIParseOptions): Tree {
   return parser.parse(source, options)
 }
 
-export async function parseAsync(
-  source: string,
-  options?: INIParseOptions
-): Promise<Tree> {
+export async function parseAsync(source: string, options?: INIParseOptions): Promise<Tree> {
   const parser = new INIParser()
   return parser.parseAsync(source, options)
 }

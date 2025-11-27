@@ -8,8 +8,8 @@
  */
 
 import { bench, describe } from 'vitest'
-import { TrueIncrementalParser, detectEdit } from '../src/true-incremental-parser.js'
 import { Parser } from '../src/parser.js'
+import { TrueIncrementalParser, detectEdit } from '../src/true-incremental-parser.js'
 
 // Generate realistic Markdown documents
 function generateMarkdownDocument(paragraphs: number): string {
@@ -93,7 +93,7 @@ describe('True Incremental Parsing - Medium Documents (1-10KB)', () => {
     const parser = new TrueIncrementalParser()
     const text1 = doc
     const insertPoint = text1.indexOf('## Section 25')
-    const text2 = text1.slice(0, insertPoint) + '\nNEW PARAGRAPH\n\n' + text1.slice(insertPoint)
+    const text2 = `${text1.slice(0, insertPoint)}\nNEW PARAGRAPH\n\n${text1.slice(insertPoint)}`
 
     parser.parse(text1)
     const edit = detectEdit(text1, text2)
@@ -270,7 +270,7 @@ describe('Token Reuse Statistics', () => {
     if (process.env.NODE_ENV !== 'production') {
       console.log(
         `Token reuse: ${(stats.tokenReuseRate * 100).toFixed(1)}%, ` +
-        `Speedup: ${stats.speedup.toFixed(1)}x`
+          `Speedup: ${stats.speedup.toFixed(1)}x`
       )
     }
   })
@@ -279,7 +279,7 @@ describe('Token Reuse Statistics', () => {
     const parser = new TrueIncrementalParser()
     const text1 = doc
     const insertPoint = doc.indexOf('## Section 50')
-    const text2 = doc.slice(0, insertPoint) + '\n\nNEW CONTENT HERE\n\n' + doc.slice(insertPoint)
+    const text2 = `${doc.slice(0, insertPoint)}\n\nNEW CONTENT HERE\n\n${doc.slice(insertPoint)}`
 
     parser.parse(text1)
     const edit = detectEdit(text1, text2)
@@ -288,7 +288,7 @@ describe('Token Reuse Statistics', () => {
     if (process.env.NODE_ENV !== 'production') {
       console.log(
         `Token reuse: ${(stats.tokenReuseRate * 100).toFixed(1)}%, ` +
-        `Speedup: ${stats.speedup.toFixed(1)}x`
+          `Speedup: ${stats.speedup.toFixed(1)}x`
       )
     }
   })
@@ -307,7 +307,7 @@ describe('Token Reuse Statistics', () => {
     if (process.env.NODE_ENV !== 'production') {
       console.log(
         `Token reuse: ${(stats.tokenReuseRate * 100).toFixed(1)}%, ` +
-        `Speedup: ${stats.speedup.toFixed(1)}x`
+          `Speedup: ${stats.speedup.toFixed(1)}x`
       )
     }
   })

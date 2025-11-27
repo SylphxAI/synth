@@ -2,15 +2,15 @@
  * INI Parser Tests
  */
 
-import { describe, it, expect } from 'bun:test'
-import { parse, parseAsync, createParser, INIParser } from './parser.js'
+import { describe, expect, it } from 'bun:test'
+import { INIParser, createParser, parse, parseAsync } from './parser.js'
 
 describe('INIParser', () => {
   describe('Basic Parsing', () => {
     it('should parse empty INI', () => {
       const tree = parse('')
       expect(tree.meta.language).toBe('ini')
-      expect(tree.nodes[tree.root]!.children).toHaveLength(0)
+      expect(tree.nodes[tree.root]?.children).toHaveLength(0)
     })
 
     it('should parse basic key-value pair', () => {
@@ -51,7 +51,7 @@ describe('INIParser', () => {
     it('should parse with equals separator', () => {
       const ini = 'key = value'
       const tree = parse(ini)
-      const kv = tree.nodes[tree.nodes[tree.root]!.children[0]!]!
+      const kv = tree.nodes[tree.nodes[tree.root]?.children[0]!]!
 
       expect(kv.data?.key).toBe('key')
       expect(kv.data?.value).toBe('value')
@@ -60,7 +60,7 @@ describe('INIParser', () => {
     it('should parse with colon separator', () => {
       const ini = 'key: value'
       const tree = parse(ini)
-      const kv = tree.nodes[tree.nodes[tree.root]!.children[0]!]!
+      const kv = tree.nodes[tree.nodes[tree.root]?.children[0]!]!
 
       expect(kv.data?.key).toBe('key')
       expect(kv.data?.value).toBe('value')
@@ -69,7 +69,7 @@ describe('INIParser', () => {
     it('should handle no spaces around separator', () => {
       const ini = 'key=value'
       const tree = parse(ini)
-      const kv = tree.nodes[tree.nodes[tree.root]!.children[0]!]!
+      const kv = tree.nodes[tree.nodes[tree.root]?.children[0]!]!
 
       expect(kv.data?.key).toBe('key')
       expect(kv.data?.value).toBe('value')
@@ -122,7 +122,7 @@ describe('INIParser', () => {
         key = value
       `
       const tree = parse(ini)
-      const section = tree.nodes[tree.nodes[tree.root]!.children[0]!]!
+      const section = tree.nodes[tree.nodes[tree.root]?.children[0]!]!
 
       expect(section.data?.name).toBe('section.subsection')
     })
@@ -181,7 +181,7 @@ describe('INIParser', () => {
     it('should handle inline comments', () => {
       const ini = 'key = value ; inline comment'
       const tree = parse(ini)
-      const kv = tree.nodes[tree.nodes[tree.root]!.children[0]!]!
+      const kv = tree.nodes[tree.nodes[tree.root]?.children[0]!]!
 
       expect(kv.data?.key).toBe('key')
       expect(kv.data?.value).toBe('value')
@@ -205,7 +205,7 @@ describe('INIParser', () => {
     it('should handle double quoted values', () => {
       const ini = 'key = "quoted value"'
       const tree = parse(ini)
-      const kv = tree.nodes[tree.nodes[tree.root]!.children[0]!]!
+      const kv = tree.nodes[tree.nodes[tree.root]?.children[0]!]!
 
       expect(kv.data?.value).toBe('quoted value')
     })
@@ -213,7 +213,7 @@ describe('INIParser', () => {
     it('should handle single quoted values', () => {
       const ini = "key = 'quoted value'"
       const tree = parse(ini)
-      const kv = tree.nodes[tree.nodes[tree.root]!.children[0]!]!
+      const kv = tree.nodes[tree.nodes[tree.root]?.children[0]!]!
 
       expect(kv.data?.value).toBe('quoted value')
     })
@@ -221,7 +221,7 @@ describe('INIParser', () => {
     it('should preserve spaces in quoted values', () => {
       const ini = 'key = "  spaced  "'
       const tree = parse(ini)
-      const kv = tree.nodes[tree.nodes[tree.root]!.children[0]!]!
+      const kv = tree.nodes[tree.nodes[tree.root]?.children[0]!]!
 
       expect(kv.data?.value).toBe('  spaced  ')
     })
@@ -252,14 +252,12 @@ describe('INIParser', () => {
       expect(root.children.length).toBeGreaterThanOrEqual(4)
 
       // Find user section
-      const userSection = tree.nodes.find(
-        (n) => n.type === 'Section' && n.data?.name === 'user'
-      )
+      const userSection = tree.nodes.find((n) => n.type === 'Section' && n.data?.name === 'user')
       expect(userSection).toBeDefined()
-      expect(userSection!.children.length).toBe(2)
+      expect(userSection?.children.length).toBe(2)
 
       // Check a key-value in user section
-      const nameKv = tree.nodes[userSection!.children[0]!]!
+      const nameKv = tree.nodes[userSection?.children[0]!]!
       expect(nameKv.data?.key).toBe('name')
       expect(nameKv.data?.value).toBe('John Doe')
     })
@@ -358,7 +356,7 @@ describe('INIParser', () => {
     it('should handle empty values', () => {
       const ini = 'key ='
       const tree = parse(ini)
-      const kv = tree.nodes[tree.nodes[tree.root]!.children[0]!]!
+      const kv = tree.nodes[tree.nodes[tree.root]?.children[0]!]!
 
       expect(kv.data?.key).toBe('key')
       expect(kv.data?.value).toBe('')
@@ -367,7 +365,7 @@ describe('INIParser', () => {
     it('should handle values with equals signs', () => {
       const ini = 'url = https://example.com?foo=bar'
       const tree = parse(ini)
-      const kv = tree.nodes[tree.nodes[tree.root]!.children[0]!]!
+      const kv = tree.nodes[tree.nodes[tree.root]?.children[0]!]!
 
       expect(kv.data?.key).toBe('url')
       expect(kv.data?.value).toBe('https://example.com?foo=bar')
@@ -397,7 +395,7 @@ describe('INIParser', () => {
     it('should handle keys with spaces', () => {
       const ini = 'key with spaces = value'
       const tree = parse(ini)
-      const kv = tree.nodes[tree.nodes[tree.root]!.children[0]!]!
+      const kv = tree.nodes[tree.nodes[tree.root]?.children[0]!]!
 
       expect(kv.data?.key).toBe('key with spaces')
     })
@@ -409,7 +407,7 @@ describe('INIParser', () => {
       const tree = parser.parse('key = value')
 
       expect(tree.meta.language).toBe('ini')
-      expect(tree.nodes[tree.root]!.children).toHaveLength(1)
+      expect(tree.nodes[tree.root]?.children).toHaveLength(1)
     })
 
     it('should work with INIParser class', () => {
@@ -417,21 +415,21 @@ describe('INIParser', () => {
       const tree = parser.parse('key = value')
 
       expect(tree.meta.language).toBe('ini')
-      expect(tree.nodes[tree.root]!.children).toHaveLength(1)
+      expect(tree.nodes[tree.root]?.children).toHaveLength(1)
     })
 
     it('should work with standalone parse function', () => {
       const tree = parse('key = value')
 
       expect(tree.meta.language).toBe('ini')
-      expect(tree.nodes[tree.root]!.children).toHaveLength(1)
+      expect(tree.nodes[tree.root]?.children).toHaveLength(1)
     })
 
     it('should work with parseAsync function', async () => {
       const tree = await parseAsync('key = value')
 
       expect(tree.meta.language).toBe('ini')
-      expect(tree.nodes[tree.root]!.children).toHaveLength(1)
+      expect(tree.nodes[tree.root]?.children).toHaveLength(1)
     })
 
     it('should support getTree method', () => {

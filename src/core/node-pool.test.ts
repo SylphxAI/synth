@@ -1,5 +1,5 @@
-import { describe, it, expect, beforeEach } from 'vitest'
-import { NodePoolManager, createNodePool } from './node-pool.js'
+import { beforeEach, describe, expect, it } from 'vitest'
+import { type NodePoolManager, createNodePool } from './node-pool.js'
 
 describe('Node Pool', () => {
   describe('NodePoolManager', () => {

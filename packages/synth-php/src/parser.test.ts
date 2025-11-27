@@ -2,8 +2,8 @@
  * PHP Parser Tests
  */
 
-import { describe, it, expect } from 'bun:test'
-import { parse, parseAsync, createParser, PhpParser } from './parser.js'
+import { describe, expect, it } from 'bun:test'
+import { PhpParser, createParser, parse, parseAsync } from './parser.js'
 
 describe('PhpParser', () => {
   describe('Basic Parsing', () => {
@@ -23,7 +23,7 @@ echo "Hello, World!";
       expect(tree.nodes[tree.root]).toBeDefined()
 
       // Should have program root and children
-      const rootChildren = tree.nodes[tree.root]!.children
+      const rootChildren = tree.nodes[tree.root]?.children
       expect(rootChildren.length).toBeGreaterThan(0)
     })
 
@@ -34,7 +34,9 @@ echo "Hello, World!";
       expect(tree.meta.language).toBe('php')
 
       // Find assignment or variable
-      const varNode = tree.nodes.find(n => n.type.includes('Variable') || n.type.includes('Assignment'))
+      const varNode = tree.nodes.find(
+        (n) => n.type.includes('Variable') || n.type.includes('Assignment')
+      )
       expect(varNode).toBeDefined()
     })
 
@@ -49,7 +51,7 @@ function greet($name) {
       expect(tree.meta.language).toBe('php')
 
       // Find function definition
-      const funcNode = tree.nodes.find(n => n.type === 'FunctionDefinition')
+      const funcNode = tree.nodes.find((n) => n.type === 'FunctionDefinition')
       expect(funcNode).toBeDefined()
     })
 
@@ -68,7 +70,7 @@ class Person {
       expect(tree.meta.language).toBe('php')
 
       // Find class declaration
-      const classNode = tree.nodes.find(n => n.type === 'ClassDeclaration')
+      const classNode = tree.nodes.find((n) => n.type === 'ClassDeclaration')
       expect(classNode).toBeDefined()
     })
   })
@@ -81,7 +83,9 @@ class Person {
       expect(tree.meta.language).toBe('php')
 
       // Find variable name
-      const varNode = tree.nodes.find(n => n.type === 'VariableName' || n.data?.text?.includes('$'))
+      const varNode = tree.nodes.find(
+        (n) => n.type === 'VariableName' || n.data?.text?.includes('$')
+      )
       expect(varNode).toBeDefined()
     })
 
@@ -92,7 +96,7 @@ class Person {
       expect(tree.meta.language).toBe('php')
 
       // Find variable usage
-      const varNode = tree.nodes.find(n => n.data?.text?.includes('$_POST'))
+      const varNode = tree.nodes.find((n) => n.data?.text?.includes('$_POST'))
       expect(varNode).toBeDefined()
     })
 
@@ -115,7 +119,7 @@ class Person {
       expect(tree.meta.language).toBe('php')
 
       // Find string node
-      const stringNode = tree.nodes.find(n => n.type === 'String' || n.type.includes('String'))
+      const stringNode = tree.nodes.find((n) => n.type === 'String' || n.type.includes('String'))
       expect(stringNode).toBeDefined()
     })
 
@@ -126,7 +130,7 @@ class Person {
       expect(tree.meta.language).toBe('php')
 
       // Find string node
-      const stringNode = tree.nodes.find(n => n.type === 'String' || n.type.includes('String'))
+      const stringNode = tree.nodes.find((n) => n.type === 'String' || n.type.includes('String'))
       expect(stringNode).toBeDefined()
     })
 
@@ -137,7 +141,7 @@ class Person {
       expect(tree.meta.language).toBe('php')
 
       // Find integer node
-      const intNode = tree.nodes.find(n => n.type === 'Integer' || n.data?.text === '42')
+      const intNode = tree.nodes.find((n) => n.type === 'Integer' || n.data?.text === '42')
       expect(intNode).toBeDefined()
     })
 
@@ -148,7 +152,7 @@ class Person {
       expect(tree.meta.language).toBe('php')
 
       // Find float node
-      const floatNode = tree.nodes.find(n => n.type === 'Float' || n.data?.text?.includes('.'))
+      const floatNode = tree.nodes.find((n) => n.type === 'Float' || n.data?.text?.includes('.'))
       expect(floatNode).toBeDefined()
     })
 
@@ -162,9 +166,12 @@ $flag2 = false;
       expect(tree.meta.language).toBe('php')
 
       // Find boolean nodes
-      const boolNodes = tree.nodes.filter(n =>
-        n.type === 'True' || n.type === 'False' ||
-        n.data?.text === 'true' || n.data?.text === 'false'
+      const boolNodes = tree.nodes.filter(
+        (n) =>
+          n.type === 'True' ||
+          n.type === 'False' ||
+          n.data?.text === 'true' ||
+          n.data?.text === 'false'
       )
       expect(boolNodes.length).toBeGreaterThanOrEqual(2)
     })
@@ -176,7 +183,7 @@ $flag2 = false;
       expect(tree.meta.language).toBe('php')
 
       // Find array
-      const arrayNode = tree.nodes.find(n => n.type.includes('Array'))
+      const arrayNode = tree.nodes.find((n) => n.type.includes('Array'))
       expect(arrayNode).toBeDefined()
     })
 
@@ -187,7 +194,7 @@ $flag2 = false;
       expect(tree.meta.language).toBe('php')
 
       // Find array
-      const arrayNode = tree.nodes.find(n => n.type.includes('Array'))
+      const arrayNode = tree.nodes.find((n) => n.type.includes('Array'))
       expect(arrayNode).toBeDefined()
     })
 
@@ -198,7 +205,7 @@ $flag2 = false;
       expect(tree.meta.language).toBe('php')
 
       // Find null literal
-      const nullNode = tree.nodes.find(n => n.type === 'Null' || n.data?.text === 'null')
+      const nullNode = tree.nodes.find((n) => n.type === 'Null' || n.data?.text === 'null')
       expect(nullNode).toBeDefined()
     })
   })
@@ -219,7 +226,7 @@ if ($x > 0) {
       expect(tree.meta.language).toBe('php')
 
       // Find if statement
-      const ifNode = tree.nodes.find(n => n.type === 'IfStatement')
+      const ifNode = tree.nodes.find((n) => n.type === 'IfStatement')
       expect(ifNode).toBeDefined()
     })
 
@@ -234,7 +241,7 @@ for ($i = 0; $i < 10; $i++) {
       expect(tree.meta.language).toBe('php')
 
       // Find for statement
-      const forNode = tree.nodes.find(n => n.type === 'ForStatement')
+      const forNode = tree.nodes.find((n) => n.type === 'ForStatement')
       expect(forNode).toBeDefined()
     })
 
@@ -249,7 +256,7 @@ foreach ($items as $item) {
       expect(tree.meta.language).toBe('php')
 
       // Find foreach statement
-      const foreachNode = tree.nodes.find(n => n.type === 'ForeachStatement')
+      const foreachNode = tree.nodes.find((n) => n.type === 'ForeachStatement')
       expect(foreachNode).toBeDefined()
     })
 
@@ -264,7 +271,7 @@ foreach ($array as $key => $value) {
       expect(tree.meta.language).toBe('php')
 
       // Find foreach statement
-      const foreachNode = tree.nodes.find(n => n.type === 'ForeachStatement')
+      const foreachNode = tree.nodes.find((n) => n.type === 'ForeachStatement')
       expect(foreachNode).toBeDefined()
     })
 
@@ -279,7 +286,7 @@ while ($x < 10) {
       expect(tree.meta.language).toBe('php')
 
       // Find while statement
-      const whileNode = tree.nodes.find(n => n.type === 'WhileStatement')
+      const whileNode = tree.nodes.find((n) => n.type === 'WhileStatement')
       expect(whileNode).toBeDefined()
     })
 
@@ -294,7 +301,7 @@ do {
       expect(tree.meta.language).toBe('php')
 
       // Find do statement
-      const doNode = tree.nodes.find(n => n.type === 'DoStatement')
+      const doNode = tree.nodes.find((n) => n.type === 'DoStatement')
       expect(doNode).toBeDefined()
     })
 
@@ -316,7 +323,7 @@ switch ($day) {
       expect(tree.meta.language).toBe('php')
 
       // Find switch statement
-      const switchNode = tree.nodes.find(n => n.type.includes('Switch'))
+      const switchNode = tree.nodes.find((n) => n.type.includes('Switch'))
       expect(switchNode).toBeDefined()
     })
 
@@ -335,7 +342,7 @@ try {
       expect(tree.meta.language).toBe('php')
 
       // Find try statement
-      const tryNode = tree.nodes.find(n => n.type === 'TryStatement')
+      const tryNode = tree.nodes.find((n) => n.type === 'TryStatement')
       expect(tryNode).toBeDefined()
     })
   })
@@ -352,7 +359,7 @@ function add($a, $b) {
       expect(tree.meta.language).toBe('php')
 
       // Find function definition
-      const funcNode = tree.nodes.find(n => n.type === 'FunctionDefinition')
+      const funcNode = tree.nodes.find((n) => n.type === 'FunctionDefinition')
       expect(funcNode).toBeDefined()
     })
 
@@ -367,7 +374,7 @@ function greet($name = "World") {
       expect(tree.meta.language).toBe('php')
 
       // Find function definition
-      const funcNode = tree.nodes.find(n => n.type === 'FunctionDefinition')
+      const funcNode = tree.nodes.find((n) => n.type === 'FunctionDefinition')
       expect(funcNode).toBeDefined()
     })
 
@@ -382,7 +389,7 @@ function add(int $a, int $b): int {
       expect(tree.meta.language).toBe('php')
 
       // Find function definition with types
-      const funcNode = tree.nodes.find(n => n.type === 'FunctionDefinition')
+      const funcNode = tree.nodes.find((n) => n.type === 'FunctionDefinition')
       expect(funcNode).toBeDefined()
     })
 
@@ -397,7 +404,9 @@ $square = function($x) {
       expect(tree.meta.language).toBe('php')
 
       // Find anonymous function
-      const funcNode = tree.nodes.find(n => n.type.includes('Anonymous') || n.type.includes('Function'))
+      const funcNode = tree.nodes.find(
+        (n) => n.type.includes('Anonymous') || n.type.includes('Function')
+      )
       expect(funcNode).toBeDefined()
     })
 
@@ -408,7 +417,9 @@ $square = function($x) {
       expect(tree.meta.language).toBe('php')
 
       // Find arrow function
-      const arrowNode = tree.nodes.find(n => n.type.includes('Arrow') || n.data?.text?.includes('=>'))
+      const arrowNode = tree.nodes.find(
+        (n) => n.type.includes('Arrow') || n.data?.text?.includes('=>')
+      )
       expect(arrowNode).toBeDefined()
     })
   })
@@ -427,11 +438,11 @@ class Person {
       expect(tree.meta.language).toBe('php')
 
       // Find class declaration
-      const classNode = tree.nodes.find(n => n.type === 'ClassDeclaration')
+      const classNode = tree.nodes.find((n) => n.type === 'ClassDeclaration')
       expect(classNode).toBeDefined()
 
       // Find property declarations
-      const propNodes = tree.nodes.filter(n => n.type.includes('Property'))
+      const propNodes = tree.nodes.filter((n) => n.type.includes('Property'))
       expect(propNodes.length).toBeGreaterThanOrEqual(1)
     })
 
@@ -448,7 +459,7 @@ class Person {
       expect(tree.meta.language).toBe('php')
 
       // Find method with __construct
-      const constructorNode = tree.nodes.find(n => n.data?.text?.includes('__construct'))
+      const constructorNode = tree.nodes.find((n) => n.data?.text?.includes('__construct'))
       expect(constructorNode).toBeDefined()
     })
 
@@ -469,7 +480,7 @@ class Calculator {
       expect(tree.meta.language).toBe('php')
 
       // Find methods
-      const methodNodes = tree.nodes.filter(n => n.type.includes('Method'))
+      const methodNodes = tree.nodes.filter((n) => n.type.includes('Method'))
       expect(methodNodes.length).toBeGreaterThanOrEqual(1)
     })
 
@@ -486,7 +497,7 @@ class Math {
       expect(tree.meta.language).toBe('php')
 
       // Find static method
-      const staticNode = tree.nodes.find(n => n.data?.text?.includes('static'))
+      const staticNode = tree.nodes.find((n) => n.data?.text?.includes('static'))
       expect(staticNode).toBeDefined()
     })
 
@@ -500,7 +511,7 @@ class Dog extends Animal {
       expect(tree.meta.language).toBe('php')
 
       // Find class with extends
-      const classNode = tree.nodes.find(n => n.type === 'ClassDeclaration')
+      const classNode = tree.nodes.find((n) => n.type === 'ClassDeclaration')
       expect(classNode).toBeDefined()
     })
 
@@ -515,7 +526,7 @@ interface Drawable {
       expect(tree.meta.language).toBe('php')
 
       // Find interface declaration
-      const interfaceNode = tree.nodes.find(n => n.type === 'InterfaceDeclaration')
+      const interfaceNode = tree.nodes.find((n) => n.type === 'InterfaceDeclaration')
       expect(interfaceNode).toBeDefined()
     })
 
@@ -532,7 +543,7 @@ trait Loggable {
       expect(tree.meta.language).toBe('php')
 
       // Find trait declaration
-      const traitNode = tree.nodes.find(n => n.type === 'TraitDeclaration')
+      const traitNode = tree.nodes.find((n) => n.type === 'TraitDeclaration')
       expect(traitNode).toBeDefined()
     })
   })
@@ -548,7 +559,9 @@ $x = 42;
       expect(tree.meta.language).toBe('php')
 
       // Find comment node
-      const commentNode = tree.nodes.find(n => n.type.includes('Comment') || n.data?.text?.includes('//'))
+      const commentNode = tree.nodes.find(
+        (n) => n.type.includes('Comment') || n.data?.text?.includes('//')
+      )
       expect(commentNode).toBeDefined()
     })
 
@@ -665,7 +678,7 @@ function add($a, $b) {
       const tree = parser.getTree()
 
       expect(tree).toBeDefined()
-      expect(tree!.meta.language).toBe('php')
+      expect(tree?.meta.language).toBe('php')
     })
   })
 })

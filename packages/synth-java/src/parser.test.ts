@@ -2,8 +2,8 @@
  * Java Parser Tests
  */
 
-import { describe, it, expect } from 'bun:test'
-import { parse, parseAsync, createParser, JavaParser } from './parser.js'
+import { describe, expect, it } from 'bun:test'
+import { JavaParser, createParser, parse, parseAsync } from './parser.js'
 
 describe('JavaParser', () => {
   describe('Basic Parsing', () => {
@@ -27,7 +27,7 @@ public class HelloWorld {
       expect(tree.nodes[tree.root]).toBeDefined()
 
       // Should have program root and children
-      const rootChildren = tree.nodes[tree.root]!.children
+      const rootChildren = tree.nodes[tree.root]?.children
       expect(rootChildren.length).toBeGreaterThan(0)
     })
 
@@ -38,7 +38,9 @@ public class HelloWorld {
       expect(tree.meta.language).toBe('java')
 
       // Find variable declaration
-      const varNode = tree.nodes.find(n => n.type.includes('VariableDecl') || n.type.includes('Local'))
+      const varNode = tree.nodes.find(
+        (n) => n.type.includes('VariableDecl') || n.type.includes('Local')
+      )
       expect(varNode).toBeDefined()
     })
 
@@ -53,7 +55,7 @@ public int add(int a, int b) {
       expect(tree.meta.language).toBe('java')
 
       // Find method declaration
-      const methodNode = tree.nodes.find(n => n.type === 'MethodDeclaration')
+      const methodNode = tree.nodes.find((n) => n.type === 'MethodDeclaration')
       expect(methodNode).toBeDefined()
     })
   })
@@ -66,7 +68,7 @@ public int add(int a, int b) {
       expect(tree.meta.language).toBe('java')
 
       // Find string literal
-      const stringNode = tree.nodes.find(n => n.type === 'StringLiteral')
+      const stringNode = tree.nodes.find((n) => n.type === 'StringLiteral')
       expect(stringNode).toBeDefined()
     })
 
@@ -77,7 +79,7 @@ public int add(int a, int b) {
       expect(tree.meta.language).toBe('java')
 
       // Find decimal integer literal
-      const intNode = tree.nodes.find(n => n.type === 'DecimalIntegerLiteral')
+      const intNode = tree.nodes.find((n) => n.type === 'DecimalIntegerLiteral')
       expect(intNode).toBeDefined()
     })
 
@@ -88,7 +90,7 @@ public int add(int a, int b) {
       expect(tree.meta.language).toBe('java')
 
       // Find floating point literal
-      const floatNode = tree.nodes.find(n => n.type.includes('Float'))
+      const floatNode = tree.nodes.find((n) => n.type.includes('Float'))
       expect(floatNode).toBeDefined()
     })
 
@@ -102,7 +104,13 @@ boolean flag2 = false;
       expect(tree.meta.language).toBe('java')
 
       // Find boolean literals
-      const boolNodes = tree.nodes.filter(n => n.type === 'True' || n.type === 'False' || n.data?.text === 'true' || n.data?.text === 'false')
+      const boolNodes = tree.nodes.filter(
+        (n) =>
+          n.type === 'True' ||
+          n.type === 'False' ||
+          n.data?.text === 'true' ||
+          n.data?.text === 'false'
+      )
       expect(boolNodes.length).toBeGreaterThanOrEqual(2)
     })
 
@@ -113,7 +121,7 @@ boolean flag2 = false;
       expect(tree.meta.language).toBe('java')
 
       // Find array type or array initializer
-      const arrayNode = tree.nodes.find(n => n.type.includes('Array'))
+      const arrayNode = tree.nodes.find((n) => n.type.includes('Array'))
       expect(arrayNode).toBeDefined()
     })
 
@@ -124,7 +132,7 @@ boolean flag2 = false;
       expect(tree.meta.language).toBe('java')
 
       // Find null literal
-      const nullNode = tree.nodes.find(n => n.type === 'NullLiteral' || n.data?.text === 'null')
+      const nullNode = tree.nodes.find((n) => n.type === 'NullLiteral' || n.data?.text === 'null')
       expect(nullNode).toBeDefined()
     })
   })
@@ -145,7 +153,7 @@ if (x > 0) {
       expect(tree.meta.language).toBe('java')
 
       // Find if statement
-      const ifNode = tree.nodes.find(n => n.type === 'IfStatement')
+      const ifNode = tree.nodes.find((n) => n.type === 'IfStatement')
       expect(ifNode).toBeDefined()
     })
 
@@ -160,7 +168,7 @@ for (int i = 0; i < 10; i++) {
       expect(tree.meta.language).toBe('java')
 
       // Find for statement
-      const forNode = tree.nodes.find(n => n.type === 'ForStatement')
+      const forNode = tree.nodes.find((n) => n.type === 'ForStatement')
       expect(forNode).toBeDefined()
     })
 
@@ -175,7 +183,7 @@ for (String item : items) {
       expect(tree.meta.language).toBe('java')
 
       // Find enhanced for statement
-      const forNode = tree.nodes.find(n => n.type === 'EnhancedForStatement')
+      const forNode = tree.nodes.find((n) => n.type === 'EnhancedForStatement')
       expect(forNode).toBeDefined()
     })
 
@@ -190,7 +198,7 @@ while (x < 10) {
       expect(tree.meta.language).toBe('java')
 
       // Find while statement
-      const whileNode = tree.nodes.find(n => n.type === 'WhileStatement')
+      const whileNode = tree.nodes.find((n) => n.type === 'WhileStatement')
       expect(whileNode).toBeDefined()
     })
 
@@ -205,7 +213,7 @@ do {
       expect(tree.meta.language).toBe('java')
 
       // Find do statement
-      const doNode = tree.nodes.find(n => n.type === 'DoStatement')
+      const doNode = tree.nodes.find((n) => n.type === 'DoStatement')
       expect(doNode).toBeDefined()
     })
 
@@ -227,7 +235,7 @@ switch (day) {
       expect(tree.meta.language).toBe('java')
 
       // Find switch statement
-      const switchNode = tree.nodes.find(n => n.type.includes('Switch'))
+      const switchNode = tree.nodes.find((n) => n.type.includes('Switch'))
       expect(switchNode).toBeDefined()
     })
 
@@ -246,7 +254,7 @@ try {
       expect(tree.meta.language).toBe('java')
 
       // Find try statement
-      const tryNode = tree.nodes.find(n => n.type === 'TryStatement')
+      const tryNode = tree.nodes.find((n) => n.type === 'TryStatement')
       expect(tryNode).toBeDefined()
     })
   })
@@ -264,11 +272,11 @@ public class Person {
       expect(tree.meta.language).toBe('java')
 
       // Find class declaration
-      const classNode = tree.nodes.find(n => n.type === 'ClassDeclaration')
+      const classNode = tree.nodes.find((n) => n.type === 'ClassDeclaration')
       expect(classNode).toBeDefined()
 
       // Find field declarations
-      const fieldNodes = tree.nodes.filter(n => n.type === 'FieldDeclaration')
+      const fieldNodes = tree.nodes.filter((n) => n.type === 'FieldDeclaration')
       expect(fieldNodes.length).toBeGreaterThanOrEqual(2)
     })
 
@@ -285,7 +293,7 @@ public class Person {
       expect(tree.meta.language).toBe('java')
 
       // Find constructor declaration
-      const constructorNode = tree.nodes.find(n => n.type === 'ConstructorDeclaration')
+      const constructorNode = tree.nodes.find((n) => n.type === 'ConstructorDeclaration')
       expect(constructorNode).toBeDefined()
     })
 
@@ -301,7 +309,7 @@ public interface Drawable {
       expect(tree.meta.language).toBe('java')
 
       // Find interface declaration
-      const interfaceNode = tree.nodes.find(n => n.type === 'InterfaceDeclaration')
+      const interfaceNode = tree.nodes.find((n) => n.type === 'InterfaceDeclaration')
       expect(interfaceNode).toBeDefined()
     })
 
@@ -316,7 +324,7 @@ public enum Day {
       expect(tree.meta.language).toBe('java')
 
       // Find enum declaration
-      const enumNode = tree.nodes.find(n => n.type === 'EnumDeclaration')
+      const enumNode = tree.nodes.find((n) => n.type === 'EnumDeclaration')
       expect(enumNode).toBeDefined()
     })
 
@@ -330,11 +338,11 @@ public class Dog extends Animal implements Pet {
       expect(tree.meta.language).toBe('java')
 
       // Find class with extends
-      const classNode = tree.nodes.find(n => n.type === 'ClassDeclaration')
+      const classNode = tree.nodes.find((n) => n.type === 'ClassDeclaration')
       expect(classNode).toBeDefined()
 
       // Find superclass
-      const superNode = tree.nodes.find(n => n.type.includes('Super'))
+      const superNode = tree.nodes.find((n) => n.type.includes('Super'))
       expect(superNode).toBeDefined()
     })
   })
@@ -351,11 +359,11 @@ public int add(int a, int b) {
       expect(tree.meta.language).toBe('java')
 
       // Find method declaration
-      const methodNode = tree.nodes.find(n => n.type === 'MethodDeclaration')
+      const methodNode = tree.nodes.find((n) => n.type === 'MethodDeclaration')
       expect(methodNode).toBeDefined()
 
       // Find formal parameters
-      const paramsNode = tree.nodes.find(n => n.type === 'FormalParameters')
+      const paramsNode = tree.nodes.find((n) => n.type === 'FormalParameters')
       expect(paramsNode).toBeDefined()
     })
 
@@ -370,7 +378,7 @@ public static void main(String[] args) {
       expect(tree.meta.language).toBe('java')
 
       // Find method with static modifier
-      const methodNode = tree.nodes.find(n => n.type === 'MethodDeclaration')
+      const methodNode = tree.nodes.find((n) => n.type === 'MethodDeclaration')
       expect(methodNode).toBeDefined()
     })
 
@@ -383,7 +391,7 @@ public abstract void draw();
       expect(tree.meta.language).toBe('java')
 
       // Find abstract method
-      const methodNode = tree.nodes.find(n => n.type === 'MethodDeclaration')
+      const methodNode = tree.nodes.find((n) => n.type === 'MethodDeclaration')
       expect(methodNode).toBeDefined()
     })
 
@@ -398,7 +406,7 @@ public void readFile() throws IOException {
       expect(tree.meta.language).toBe('java')
 
       // Find throws clause
-      const throwsNode = tree.nodes.find(n => n.type.includes('Throws'))
+      const throwsNode = tree.nodes.find((n) => n.type.includes('Throws'))
       expect(throwsNode).toBeDefined()
     })
   })
@@ -415,7 +423,7 @@ public class Box<T> {
       expect(tree.meta.language).toBe('java')
 
       // Find type parameters
-      const typeParamsNode = tree.nodes.find(n => n.type === 'TypeParameters')
+      const typeParamsNode = tree.nodes.find((n) => n.type === 'TypeParameters')
       expect(typeParamsNode).toBeDefined()
     })
 
@@ -430,7 +438,7 @@ public <T> T getValue(T input) {
       expect(tree.meta.language).toBe('java')
 
       // Find type parameters
-      const typeParamsNode = tree.nodes.find(n => n.type === 'TypeParameters')
+      const typeParamsNode = tree.nodes.find((n) => n.type === 'TypeParameters')
       expect(typeParamsNode).toBeDefined()
     })
 
@@ -441,7 +449,7 @@ public <T> T getValue(T input) {
       expect(tree.meta.language).toBe('java')
 
       // Find type arguments
-      const typeArgsNode = tree.nodes.find(n => n.type === 'TypeArguments')
+      const typeArgsNode = tree.nodes.find((n) => n.type === 'TypeArguments')
       expect(typeArgsNode).toBeDefined()
     })
   })
@@ -459,7 +467,7 @@ public class User {
       expect(tree.meta.language).toBe('java')
 
       // Find annotations
-      const annotationNodes = tree.nodes.filter(n => n.type.includes('Annotation'))
+      const annotationNodes = tree.nodes.filter((n) => n.type.includes('Annotation'))
       expect(annotationNodes.length).toBeGreaterThanOrEqual(2)
     })
 
@@ -475,7 +483,7 @@ public String toString() {
       expect(tree.meta.language).toBe('java')
 
       // Find annotation
-      const annotationNode = tree.nodes.find(n => n.type.includes('Annotation'))
+      const annotationNode = tree.nodes.find((n) => n.type.includes('Annotation'))
       expect(annotationNode).toBeDefined()
     })
   })
@@ -488,7 +496,7 @@ public String toString() {
       expect(tree.meta.language).toBe('java')
 
       // Find lambda expression
-      const lambdaNode = tree.nodes.find(n => n.type === 'LambdaExpression')
+      const lambdaNode = tree.nodes.find((n) => n.type === 'LambdaExpression')
       expect(lambdaNode).toBeDefined()
     })
 
@@ -503,7 +511,7 @@ Consumer<String> printer = s -> {
       expect(tree.meta.language).toBe('java')
 
       // Find lambda expression
-      const lambdaNode = tree.nodes.find(n => n.type === 'LambdaExpression')
+      const lambdaNode = tree.nodes.find((n) => n.type === 'LambdaExpression')
       expect(lambdaNode).toBeDefined()
     })
   })
@@ -519,7 +527,9 @@ int x = 42;
       expect(tree.meta.language).toBe('java')
 
       // Find comment node
-      const commentNode = tree.nodes.find(n => n.type.includes('Comment') || n.data?.text?.includes('//'))
+      const commentNode = tree.nodes.find(
+        (n) => n.type.includes('Comment') || n.data?.text?.includes('//')
+      )
       expect(commentNode).toBeDefined()
     })
 
@@ -623,7 +633,7 @@ public int add(int a, int b) {
       const tree = parser.getTree()
 
       expect(tree).toBeDefined()
-      expect(tree!.meta.language).toBe('java')
+      expect(tree?.meta.language).toBe('java')
     })
   })
 })

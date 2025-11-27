@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'bun:test'
+import { describe, expect, it } from 'bun:test'
+import { addNode, createTree } from '@sylphx/synth'
 import { DocGenerator, createGenerator, generate } from './generator.js'
-import { createTree, addNode } from '@sylphx/synth'
 
 describe('DocGenerator', () => {
   it('should create a documentation generator', () => {
@@ -37,10 +37,11 @@ describe('DocGenerator', () => {
       data: {
         name: 'add',
         params: ['a', 'b'],
-        comment: '/**\n * Adds two numbers\n * @param {number} a - First number\n * @param {number} b - Second number\n * @returns {number} Sum of a and b\n */',
+        comment:
+          '/**\n * Adds two numbers\n * @param {number} a - First number\n * @param {number} b - Second number\n * @returns {number} Sum of a and b\n */',
       },
     })
-    tree.nodes[tree.root]!.children.push(fnId)
+    tree.nodes[tree.root]?.children.push(fnId)
 
     const result = generate(tree)
 
@@ -49,7 +50,7 @@ describe('DocGenerator', () => {
     expect(result.module.symbols[0].kind).toBe('function')
     expect(result.module.symbols[0].description).toContain('Adds two numbers')
     expect(result.module.symbols[0].params).toBeDefined()
-    expect(result.module.symbols[0].params!.length).toBe(2)
+    expect(result.module.symbols[0].params?.length).toBe(2)
     expect(result.module.symbols[0].returns).toBeDefined()
   })
 
@@ -69,7 +70,7 @@ describe('DocGenerator', () => {
         comment: '/**\n * User class\n */',
       },
     })
-    tree.nodes[tree.root]!.children.push(classId)
+    tree.nodes[tree.root]?.children.push(classId)
 
     const result = generate(tree)
 
@@ -94,7 +95,7 @@ describe('DocGenerator', () => {
         comment: '/** Counter variable */',
       },
     })
-    tree.nodes[tree.root]!.children.push(varId)
+    tree.nodes[tree.root]?.children.push(varId)
 
     const result = generate(tree)
 
@@ -120,7 +121,7 @@ describe('DocGenerator', () => {
         comment: '/** Maximum size */',
       },
     })
-    tree.nodes[tree.root]!.children.push(constId)
+    tree.nodes[tree.root]?.children.push(constId)
 
     const result = generate(tree)
 
@@ -143,17 +144,17 @@ describe('DocGenerator', () => {
         comment: '/**\n * @param {string} name - User name\n * @param {number} age - User age\n */',
       },
     })
-    tree.nodes[tree.root]!.children.push(fnId)
+    tree.nodes[tree.root]?.children.push(fnId)
 
     const result = generate(tree)
 
     const params = result.module.symbols[0].params
     expect(params).toBeDefined()
-    expect(params!.length).toBe(2)
-    expect(params![0].name).toBe('name')
-    expect(params![0].type).toBe('string')
-    expect(params![1].name).toBe('age')
-    expect(params![1].type).toBe('number')
+    expect(params?.length).toBe(2)
+    expect(params?.[0].name).toBe('name')
+    expect(params?.[0].type).toBe('string')
+    expect(params?.[1].name).toBe('age')
+    expect(params?.[1].type).toBe('number')
   })
 
   it('should parse return value from comment', () => {
@@ -172,14 +173,14 @@ describe('DocGenerator', () => {
         comment: '/**\n * @returns {boolean} Success status\n */',
       },
     })
-    tree.nodes[tree.root]!.children.push(fnId)
+    tree.nodes[tree.root]?.children.push(fnId)
 
     const result = generate(tree)
 
     const returns = result.module.symbols[0].returns
     expect(returns).toBeDefined()
-    expect(returns!.type).toBe('boolean')
-    expect(returns!.description).toContain('Success status')
+    expect(returns?.type).toBe('boolean')
+    expect(returns?.description).toContain('Success status')
   })
 
   it('should parse examples from comment', () => {
@@ -198,13 +199,13 @@ describe('DocGenerator', () => {
         comment: '/**\n * @example\n * test()\n * // => true\n */',
       },
     })
-    tree.nodes[tree.root]!.children.push(fnId)
+    tree.nodes[tree.root]?.children.push(fnId)
 
     const result = generate(tree)
 
     const examples = result.module.symbols[0].examples
     expect(examples).toBeDefined()
-    expect(examples!.length).toBeGreaterThan(0)
+    expect(examples?.length).toBeGreaterThan(0)
   })
 
   it('should handle exported symbols', () => {
@@ -223,7 +224,7 @@ describe('DocGenerator', () => {
         exported: true,
       },
     })
-    tree.nodes[tree.root]!.children.push(fnId)
+    tree.nodes[tree.root]?.children.push(fnId)
 
     const result = generate(tree)
 
@@ -246,7 +247,7 @@ describe('DocGenerator', () => {
         async: true,
       },
     })
-    tree.nodes[tree.root]!.children.push(fnId)
+    tree.nodes[tree.root]?.children.push(fnId)
 
     const result = generate(tree)
 
@@ -269,7 +270,7 @@ describe('DocGenerator', () => {
         comment: '/** Test function */',
       },
     })
-    tree.nodes[tree.root]!.children.push(fnId)
+    tree.nodes[tree.root]?.children.push(fnId)
 
     const result = generate(tree, { format: 'markdown' })
 
@@ -293,7 +294,7 @@ describe('DocGenerator', () => {
         name: 'test',
       },
     })
-    tree.nodes[tree.root]!.children.push(fnId)
+    tree.nodes[tree.root]?.children.push(fnId)
 
     const result = generate(tree, { format: 'json' })
 
@@ -318,7 +319,7 @@ describe('DocGenerator', () => {
         name: 'test',
       },
     })
-    tree.nodes[tree.root]!.children.push(fnId)
+    tree.nodes[tree.root]?.children.push(fnId)
 
     const result = generate(tree, { format: 'html' })
 
@@ -349,7 +350,7 @@ describe('DocGenerator', () => {
         name: 'test',
       },
     })
-    tree.nodes[tree.root]!.children.push(fnId)
+    tree.nodes[tree.root]?.children.push(fnId)
 
     const result = generate(tree, { file: 'example.js' })
 
@@ -379,7 +380,7 @@ describe('DocGenerator', () => {
       },
       data: { name: 'fn1' },
     })
-    tree.nodes[tree.root]!.children.push(fn1)
+    tree.nodes[tree.root]?.children.push(fn1)
 
     const fn2 = addNode(tree, {
       type: 'FunctionDeclaration',
@@ -391,7 +392,7 @@ describe('DocGenerator', () => {
       },
       data: { name: 'fn2' },
     })
-    tree.nodes[tree.root]!.children.push(fn2)
+    tree.nodes[tree.root]?.children.push(fn2)
 
     const result = generate(tree)
 
@@ -416,7 +417,7 @@ describe('DocGenerator', () => {
         comment: '/**\n * @access private\n */',
       },
     })
-    tree.nodes[tree.root]!.children.push(fnId)
+    tree.nodes[tree.root]?.children.push(fnId)
 
     // Without includePrivate
     const result1 = generate(tree)
@@ -443,7 +444,7 @@ describe('DocGenerator', () => {
         comment: '/**\n * @internal\n */',
       },
     })
-    tree.nodes[tree.root]!.children.push(fnId)
+    tree.nodes[tree.root]?.children.push(fnId)
 
     // Without includeInternal
     const result1 = generate(tree)

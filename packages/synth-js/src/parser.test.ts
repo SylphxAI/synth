@@ -2,25 +2,23 @@
  * JavaScript Parser Tests
  */
 
-import { describe, it, expect } from 'bun:test'
-import { JSParser, createParser, parse, parseAsync } from './parser.js'
+import { describe, expect, it } from 'bun:test'
 import { createTransformPlugin } from '@sylphx/synth'
+import { JSParser, createParser, parse, parseAsync } from './parser.js'
 import {
-  isProgramNode,
-  isIdentifier,
-  isLiteral,
-  isFunctionDeclaration,
-  isVariableDeclaration,
-  isImportDeclaration,
-  isExportDeclaration,
-  getIdentifierName,
-  getLiteralValue,
-  getVariableKind,
-  getFunctionName,
-  findImports,
   findExports,
   findFunctions,
   findIdentifiersByName,
+  findImports,
+  getFunctionName,
+  getIdentifierName,
+  getLiteralValue,
+  getVariableKind,
+  isFunctionDeclaration,
+  isIdentifier,
+  isLiteral,
+  isProgramNode,
+  isVariableDeclaration,
 } from './types.js'
 
 describe('JSParser', () => {
@@ -61,13 +59,13 @@ describe('JSParser', () => {
       const literals = tree.nodes.filter(isLiteral)
       expect(literals.length).toBeGreaterThan(0)
 
-      const numLiteral = literals.find(l => getLiteralValue(l) === 42)
+      const numLiteral = literals.find((l) => getLiteralValue(l) === 42)
       expect(numLiteral).toBeDefined()
 
-      const strLiteral = literals.find(l => getLiteralValue(l) === 'hello')
+      const strLiteral = literals.find((l) => getLiteralValue(l) === 'hello')
       expect(strLiteral).toBeDefined()
 
-      const boolLiteral = literals.find(l => getLiteralValue(l) === true)
+      const boolLiteral = literals.find((l) => getLiteralValue(l) === true)
       expect(boolLiteral).toBeDefined()
     })
 
@@ -78,7 +76,7 @@ describe('JSParser', () => {
       const identifiers = tree.nodes.filter(isIdentifier)
       expect(identifiers.length).toBeGreaterThan(0)
 
-      const myVar = identifiers.find(i => getIdentifierName(i) === 'myVariable')
+      const myVar = identifiers.find((i) => getIdentifierName(i) === 'myVariable')
       expect(myVar).toBeDefined()
     })
   })
@@ -137,7 +135,7 @@ describe('JSParser', () => {
         }
       `)
 
-      const classDecl = tree.nodes.find(n => n.type === 'ClassDeclaration')
+      const classDecl = tree.nodes.find((n) => n.type === 'ClassDeclaration')
       expect(classDecl).toBeDefined()
     })
 
@@ -158,7 +156,7 @@ describe('JSParser', () => {
       const parser = new JSParser()
       const tree = parser.parse('const msg = `Hello ${name}`;')
 
-      const templateLiteral = tree.nodes.find(n => n.type === 'TemplateLiteral')
+      const templateLiteral = tree.nodes.find((n) => n.type === 'TemplateLiteral')
       expect(templateLiteral).toBeDefined()
     })
 
@@ -166,8 +164,8 @@ describe('JSParser', () => {
       const parser = new JSParser()
       const tree = parser.parse('const { x, y } = point; const [a, b] = arr;')
 
-      const patterns = tree.nodes.filter(n =>
-        n.type === 'ObjectPattern' || n.type === 'ArrayPattern'
+      const patterns = tree.nodes.filter(
+        (n) => n.type === 'ObjectPattern' || n.type === 'ArrayPattern'
       )
       expect(patterns.length).toBe(2)
     })
@@ -176,7 +174,7 @@ describe('JSParser', () => {
       const parser = new JSParser()
       const tree = parser.parse('const arr = [...items]; const obj = {...props};')
 
-      const spreadElements = tree.nodes.filter(n => n.type === 'SpreadElement')
+      const spreadElements = tree.nodes.filter((n) => n.type === 'SpreadElement')
       expect(spreadElements.length).toBeGreaterThan(0)
     })
   })
@@ -186,7 +184,7 @@ describe('JSParser', () => {
       const parser = new JSParser()
       const tree = parser.parse('if (x > 0) { console.log("positive"); }')
 
-      const ifStmt = tree.nodes.find(n => n.type === 'IfStatement')
+      const ifStmt = tree.nodes.find((n) => n.type === 'IfStatement')
       expect(ifStmt).toBeDefined()
     })
 
@@ -198,9 +196,9 @@ describe('JSParser', () => {
         do {} while (y < 10);
       `)
 
-      const forStmt = tree.nodes.find(n => n.type === 'ForStatement')
-      const whileStmt = tree.nodes.find(n => n.type === 'WhileStatement')
-      const doWhileStmt = tree.nodes.find(n => n.type === 'DoWhileStatement')
+      const forStmt = tree.nodes.find((n) => n.type === 'ForStatement')
+      const whileStmt = tree.nodes.find((n) => n.type === 'WhileStatement')
+      const doWhileStmt = tree.nodes.find((n) => n.type === 'DoWhileStatement')
 
       expect(forStmt).toBeDefined()
       expect(whileStmt).toBeDefined()
@@ -218,7 +216,7 @@ describe('JSParser', () => {
         }
       `)
 
-      const switchStmt = tree.nodes.find(n => n.type === 'SwitchStatement')
+      const switchStmt = tree.nodes.find((n) => n.type === 'SwitchStatement')
       expect(switchStmt).toBeDefined()
     })
 
@@ -232,7 +230,7 @@ describe('JSParser', () => {
         }
       `)
 
-      const tryStmt = tree.nodes.find(n => n.type === 'TryStatement')
+      const tryStmt = tree.nodes.find((n) => n.type === 'TryStatement')
       expect(tryStmt).toBeDefined()
     })
   })
@@ -240,10 +238,9 @@ describe('JSParser', () => {
   describe('TypeScript Support', () => {
     it('should parse TypeScript with type annotations', () => {
       const parser = new JSParser()
-      const tree = parser.parse(
-        'const x: number = 42; function greet(name: string): void {}',
-        { typescript: true }
-      )
+      const tree = parser.parse('const x: number = 42; function greet(name: string): void {}', {
+        typescript: true,
+      })
 
       expect(tree).toBeDefined()
       expect(tree.nodes.length).toBeGreaterThan(0)
@@ -251,20 +248,18 @@ describe('JSParser', () => {
 
     it('should parse TypeScript interfaces', () => {
       const parser = new JSParser()
-      const tree = parser.parse(
-        'interface User { name: string; age: number; }',
-        { typescript: true }
-      )
+      const tree = parser.parse('interface User { name: string; age: number; }', {
+        typescript: true,
+      })
 
       expect(tree).toBeDefined()
     })
 
     it('should parse TypeScript generics', () => {
       const parser = new JSParser()
-      const tree = parser.parse(
-        'function identity<T>(arg: T): T { return arg; }',
-        { typescript: true }
-      )
+      const tree = parser.parse('function identity<T>(arg: T): T { return arg; }', {
+        typescript: true,
+      })
 
       expect(tree).toBeDefined()
     })
@@ -275,13 +270,10 @@ describe('JSParser', () => {
       const parser = new JSParser()
 
       let pluginCalled = false
-      const plugin = createTransformPlugin(
-        { name: 'test', version: '1.0.0' },
-        (tree) => {
-          pluginCalled = true
-          return tree
-        }
-      )
+      const plugin = createTransformPlugin({ name: 'test', version: '1.0.0' }, (tree) => {
+        pluginCalled = true
+        return tree
+      })
 
       parser.parse('const x = 42;', { plugins: [plugin] })
       expect(pluginCalled).toBe(true)
@@ -291,13 +283,10 @@ describe('JSParser', () => {
       const parser = new JSParser()
 
       let pluginCalled = false
-      const plugin = createTransformPlugin(
-        { name: 'test', version: '1.0.0' },
-        (tree) => {
-          pluginCalled = true
-          return tree
-        }
-      )
+      const plugin = createTransformPlugin({ name: 'test', version: '1.0.0' }, (tree) => {
+        pluginCalled = true
+        return tree
+      })
 
       parser.use(plugin)
       parser.parse('const x = 42;')
@@ -308,14 +297,8 @@ describe('JSParser', () => {
     it('should support plugin chaining', () => {
       const parser = new JSParser()
 
-      const plugin1 = createTransformPlugin(
-        { name: 'test1', version: '1.0.0' },
-        (tree) => tree
-      )
-      const plugin2 = createTransformPlugin(
-        { name: 'test2', version: '1.0.0' },
-        (tree) => tree
-      )
+      const plugin1 = createTransformPlugin({ name: 'test1', version: '1.0.0' }, (tree) => tree)
+      const plugin2 = createTransformPlugin({ name: 'test2', version: '1.0.0' }, (tree) => tree)
 
       const result = parser.use(plugin1).use(plugin2)
       expect(result).toBe(parser)
@@ -335,13 +318,10 @@ describe('JSParser', () => {
         }
       )
 
-      const oneOffPlugin = createTransformPlugin(
-        { name: 'one-off', version: '1.0.0' },
-        (tree) => {
-          oneOff = true
-          return tree
-        }
-      )
+      const oneOffPlugin = createTransformPlugin({ name: 'one-off', version: '1.0.0' }, (tree) => {
+        oneOff = true
+        return tree
+      })
 
       parser.use(registeredPlugin)
       parser.parse('const x = 42;', { plugins: [oneOffPlugin] })
@@ -367,7 +347,7 @@ describe('JSParser', () => {
       const asyncPlugin = createTransformPlugin(
         { name: 'async-test', version: '1.0.0' },
         async (tree) => {
-          await new Promise(resolve => setTimeout(resolve, 1))
+          await new Promise((resolve) => setTimeout(resolve, 1))
           pluginCalled = true
           return tree
         }
@@ -383,7 +363,7 @@ describe('JSParser', () => {
       const asyncPlugin = createTransformPlugin(
         { name: 'async', version: '1.0.0' },
         async (tree) => {
-          await new Promise(resolve => setTimeout(resolve, 1))
+          await new Promise((resolve) => setTimeout(resolve, 1))
           return tree
         }
       )
@@ -477,10 +457,9 @@ describe('JSParser', () => {
 
     it('should handle top-level await', () => {
       const parser = new JSParser()
-      const tree = parser.parse(
-        'const data = await fetch("/api");',
-        { allowAwaitOutsideFunction: true }
-      )
+      const tree = parser.parse('const data = await fetch("/api");', {
+        allowAwaitOutsideFunction: true,
+      })
 
       expect(tree).toBeDefined()
     })

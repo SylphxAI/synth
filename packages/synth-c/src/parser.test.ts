@@ -2,8 +2,8 @@
  * C Parser Tests
  */
 
-import { describe, it, expect } from 'bun:test'
-import { parse, parseAsync, createParser, CParser } from './parser.js'
+import { describe, expect, it } from 'bun:test'
+import { CParser, createParser, parse, parseAsync } from './parser.js'
 
 describe('CParser', () => {
   describe('Basic Parsing', () => {
@@ -26,7 +26,7 @@ int main() {
       expect(tree.nodes[tree.root]).toBeDefined()
 
       // Should have translation unit root and children
-      const rootChildren = tree.nodes[tree.root]!.children
+      const rootChildren = tree.nodes[tree.root]?.children
       expect(rootChildren.length).toBeGreaterThan(0)
     })
 
@@ -37,7 +37,7 @@ int main() {
       expect(tree.meta.language).toBe('c')
 
       // Find declaration
-      const declNode = tree.nodes.find(n => n.type.includes('Declaration'))
+      const declNode = tree.nodes.find((n) => n.type.includes('Declaration'))
       expect(declNode).toBeDefined()
     })
 
@@ -52,7 +52,7 @@ int add(int a, int b) {
       expect(tree.meta.language).toBe('c')
 
       // Find function definition
-      const funcNode = tree.nodes.find(n => n.type === 'FunctionDefinition')
+      const funcNode = tree.nodes.find((n) => n.type === 'FunctionDefinition')
       expect(funcNode).toBeDefined()
     })
   })
@@ -70,7 +70,9 @@ unsigned int w = 42U;
       expect(tree.meta.language).toBe('c')
 
       // Find type specifiers
-      const typeNodes = tree.nodes.filter(n => n.type.includes('Type') || n.type.includes('PrimitiveType'))
+      const typeNodes = tree.nodes.filter(
+        (n) => n.type.includes('Type') || n.type.includes('PrimitiveType')
+      )
       expect(typeNodes.length).toBeGreaterThanOrEqual(1)
     })
 
@@ -84,7 +86,9 @@ double y = 3.14159;
       expect(tree.meta.language).toBe('c')
 
       // Find float/double types
-      const floatNodes = tree.nodes.filter(n => n.data?.text?.includes('.') || n.type.includes('Float'))
+      const floatNodes = tree.nodes.filter(
+        (n) => n.data?.text?.includes('.') || n.type.includes('Float')
+      )
       expect(floatNodes.length).toBeGreaterThanOrEqual(1)
     })
 
@@ -98,7 +102,7 @@ char *str = "Hello";
       expect(tree.meta.language).toBe('c')
 
       // Find char declarations
-      const charNodes = tree.nodes.filter(n => n.data?.text?.includes('char'))
+      const charNodes = tree.nodes.filter((n) => n.data?.text?.includes('char'))
       expect(charNodes.length).toBeGreaterThanOrEqual(1)
     })
 
@@ -122,7 +126,7 @@ bool flag = true;
       expect(tree.meta.language).toBe('c')
 
       // Find void
-      const voidNode = tree.nodes.find(n => n.data?.text === 'void')
+      const voidNode = tree.nodes.find((n) => n.data?.text === 'void')
       expect(voidNode).toBeDefined()
     })
   })
@@ -135,7 +139,7 @@ bool flag = true;
       expect(tree.meta.language).toBe('c')
 
       // Find pointer declarator
-      const ptrNode = tree.nodes.find(n => n.type.includes('Pointer'))
+      const ptrNode = tree.nodes.find((n) => n.type.includes('Pointer'))
       expect(ptrNode).toBeDefined()
     })
 
@@ -146,7 +150,7 @@ bool flag = true;
       expect(tree.meta.language).toBe('c')
 
       // Find dereference operator
-      const derefNode = tree.nodes.find(n => n.data?.text === '*ptr')
+      const derefNode = tree.nodes.find((n) => n.data?.text === '*ptr')
       expect(derefNode).toBeDefined()
     })
 
@@ -157,7 +161,7 @@ bool flag = true;
       expect(tree.meta.language).toBe('c')
 
       // Find address-of
-      const addrNode = tree.nodes.find(n => n.data?.text?.includes('&'))
+      const addrNode = tree.nodes.find((n) => n.data?.text?.includes('&'))
       expect(addrNode).toBeDefined()
     })
 
@@ -168,7 +172,7 @@ bool flag = true;
       expect(tree.meta.language).toBe('c')
 
       // Find pointer declarator
-      const ptrNode = tree.nodes.find(n => n.type.includes('Pointer'))
+      const ptrNode = tree.nodes.find((n) => n.type.includes('Pointer'))
       expect(ptrNode).toBeDefined()
     })
   })
@@ -181,7 +185,7 @@ bool flag = true;
       expect(tree.meta.language).toBe('c')
 
       // Find array declarator
-      const arrNode = tree.nodes.find(n => n.type.includes('Array'))
+      const arrNode = tree.nodes.find((n) => n.type.includes('Array'))
       expect(arrNode).toBeDefined()
     })
 
@@ -192,7 +196,7 @@ bool flag = true;
       expect(tree.meta.language).toBe('c')
 
       // Find initializer list
-      const initNode = tree.nodes.find(n => n.type.includes('Initializer'))
+      const initNode = tree.nodes.find((n) => n.type.includes('Initializer'))
       expect(initNode).toBeDefined()
     })
 
@@ -203,7 +207,7 @@ bool flag = true;
       expect(tree.meta.language).toBe('c')
 
       // Find array declarator
-      const arrNode = tree.nodes.find(n => n.type.includes('Array'))
+      const arrNode = tree.nodes.find((n) => n.type.includes('Array'))
       expect(arrNode).toBeDefined()
     })
 
@@ -214,7 +218,7 @@ bool flag = true;
       expect(tree.meta.language).toBe('c')
 
       // Find subscript expression
-      const subNode = tree.nodes.find(n => n.type.includes('Subscript'))
+      const subNode = tree.nodes.find((n) => n.type.includes('Subscript'))
       expect(subNode).toBeDefined()
     })
   })
@@ -232,7 +236,7 @@ struct Point {
       expect(tree.meta.language).toBe('c')
 
       // Find struct specifier
-      const structNode = tree.nodes.find(n => n.type.includes('Struct'))
+      const structNode = tree.nodes.find((n) => n.type.includes('Struct'))
       expect(structNode).toBeDefined()
     })
 
@@ -245,7 +249,7 @@ struct Point p = {10, 20};
       expect(tree.meta.language).toBe('c')
 
       // Find struct usage
-      const structNode = tree.nodes.find(n => n.type.includes('Struct'))
+      const structNode = tree.nodes.find((n) => n.type.includes('Struct'))
       expect(structNode).toBeDefined()
     })
 
@@ -262,7 +266,7 @@ union Data {
       expect(tree.meta.language).toBe('c')
 
       // Find union specifier
-      const unionNode = tree.nodes.find(n => n.type.includes('Union'))
+      const unionNode = tree.nodes.find((n) => n.type.includes('Union'))
       expect(unionNode).toBeDefined()
     })
 
@@ -273,7 +277,7 @@ union Data {
       expect(tree.meta.language).toBe('c')
 
       // Find field expression
-      const fieldNode = tree.nodes.find(n => n.type.includes('Field'))
+      const fieldNode = tree.nodes.find((n) => n.type.includes('Field'))
       expect(fieldNode).toBeDefined()
     })
 
@@ -284,7 +288,7 @@ union Data {
       expect(tree.meta.language).toBe('c')
 
       // Find pointer member access
-      const arrowNode = tree.nodes.find(n => n.data?.text?.includes('->'))
+      const arrowNode = tree.nodes.find((n) => n.data?.text?.includes('->'))
       expect(arrowNode).toBeDefined()
     })
   })
@@ -305,7 +309,7 @@ if (x > 0) {
       expect(tree.meta.language).toBe('c')
 
       // Find if statement
-      const ifNode = tree.nodes.find(n => n.type === 'IfStatement')
+      const ifNode = tree.nodes.find((n) => n.type === 'IfStatement')
       expect(ifNode).toBeDefined()
     })
 
@@ -320,7 +324,7 @@ for (int i = 0; i < 10; i++) {
       expect(tree.meta.language).toBe('c')
 
       // Find for statement
-      const forNode = tree.nodes.find(n => n.type === 'ForStatement')
+      const forNode = tree.nodes.find((n) => n.type === 'ForStatement')
       expect(forNode).toBeDefined()
     })
 
@@ -335,7 +339,7 @@ while (x < 10) {
       expect(tree.meta.language).toBe('c')
 
       // Find while statement
-      const whileNode = tree.nodes.find(n => n.type === 'WhileStatement')
+      const whileNode = tree.nodes.find((n) => n.type === 'WhileStatement')
       expect(whileNode).toBeDefined()
     })
 
@@ -350,7 +354,7 @@ do {
       expect(tree.meta.language).toBe('c')
 
       // Find do statement
-      const doNode = tree.nodes.find(n => n.type === 'DoStatement')
+      const doNode = tree.nodes.find((n) => n.type === 'DoStatement')
       expect(doNode).toBeDefined()
     })
 
@@ -372,7 +376,7 @@ switch (day) {
       expect(tree.meta.language).toBe('c')
 
       // Find switch statement
-      const switchNode = tree.nodes.find(n => n.type === 'SwitchStatement')
+      const switchNode = tree.nodes.find((n) => n.type === 'SwitchStatement')
       expect(switchNode).toBeDefined()
     })
 
@@ -388,8 +392,8 @@ for (int i = 0; i < 10; i++) {
       expect(tree.meta.language).toBe('c')
 
       // Find break and continue
-      const breakNode = tree.nodes.find(n => n.type === 'BreakStatement')
-      const contNode = tree.nodes.find(n => n.type === 'ContinueStatement')
+      const breakNode = tree.nodes.find((n) => n.type === 'BreakStatement')
+      const contNode = tree.nodes.find((n) => n.type === 'ContinueStatement')
       expect(breakNode).toBeDefined()
       expect(contNode).toBeDefined()
     })
@@ -406,7 +410,7 @@ cleanup:
       expect(tree.meta.language).toBe('c')
 
       // Find goto statement
-      const gotoNode = tree.nodes.find(n => n.type.includes('Goto'))
+      const gotoNode = tree.nodes.find((n) => n.type.includes('Goto'))
       expect(gotoNode).toBeDefined()
     })
   })
@@ -419,7 +423,7 @@ cleanup:
       expect(tree.meta.language).toBe('c')
 
       // Find declaration
-      const declNode = tree.nodes.find(n => n.type.includes('Declaration'))
+      const declNode = tree.nodes.find((n) => n.type.includes('Declaration'))
       expect(declNode).toBeDefined()
     })
 
@@ -434,7 +438,7 @@ int add(int a, int b) {
       expect(tree.meta.language).toBe('c')
 
       // Find function definition
-      const funcNode = tree.nodes.find(n => n.type === 'FunctionDefinition')
+      const funcNode = tree.nodes.find((n) => n.type === 'FunctionDefinition')
       expect(funcNode).toBeDefined()
     })
 
@@ -445,7 +449,7 @@ int add(int a, int b) {
       expect(tree.meta.language).toBe('c')
 
       // Find call expression
-      const callNode = tree.nodes.find(n => n.type === 'CallExpression')
+      const callNode = tree.nodes.find((n) => n.type === 'CallExpression')
       expect(callNode).toBeDefined()
     })
 
@@ -466,7 +470,7 @@ int add(int a, int b) {
       expect(tree.meta.language).toBe('c')
 
       // Find function pointer declarator
-      const ptrNode = tree.nodes.find(n => n.type.includes('Pointer'))
+      const ptrNode = tree.nodes.find((n) => n.type.includes('Pointer'))
       expect(ptrNode).toBeDefined()
     })
   })
@@ -479,7 +483,9 @@ int add(int a, int b) {
       expect(tree.meta.language).toBe('c')
 
       // Find preproc include
-      const includeNode = tree.nodes.find(n => n.type.includes('Preproc') && n.type.includes('Include'))
+      const includeNode = tree.nodes.find(
+        (n) => n.type.includes('Preproc') && n.type.includes('Include')
+      )
       expect(includeNode).toBeDefined()
     })
 
@@ -490,7 +496,9 @@ int add(int a, int b) {
       expect(tree.meta.language).toBe('c')
 
       // Find preproc def
-      const defineNode = tree.nodes.find(n => n.type.includes('Preproc') && n.type.includes('Def'))
+      const defineNode = tree.nodes.find(
+        (n) => n.type.includes('Preproc') && n.type.includes('Def')
+      )
       expect(defineNode).toBeDefined()
     })
 
@@ -505,7 +513,9 @@ int add(int a, int b) {
       expect(tree.meta.language).toBe('c')
 
       // Find preproc ifdef
-      const ifdefNode = tree.nodes.find(n => n.type.includes('Preproc') && n.type.includes('Ifdef'))
+      const ifdefNode = tree.nodes.find(
+        (n) => n.type.includes('Preproc') && n.type.includes('Ifdef')
+      )
       expect(ifdefNode).toBeDefined()
     })
 
@@ -520,7 +530,7 @@ int add(int a, int b) {
       expect(tree.meta.language).toBe('c')
 
       // Find preproc ifndef
-      const ifndefNode = tree.nodes.find(n => n.type.includes('Preproc'))
+      const ifndefNode = tree.nodes.find((n) => n.type.includes('Preproc'))
       expect(ifndefNode).toBeDefined()
     })
 
@@ -531,7 +541,7 @@ int add(int a, int b) {
       expect(tree.meta.language).toBe('c')
 
       // Find preproc function def
-      const macroNode = tree.nodes.find(n => n.type.includes('Preproc'))
+      const macroNode = tree.nodes.find((n) => n.type.includes('Preproc'))
       expect(macroNode).toBeDefined()
     })
   })
@@ -544,7 +554,7 @@ int add(int a, int b) {
       expect(tree.meta.language).toBe('c')
 
       // Find binary expressions
-      const binNodes = tree.nodes.filter(n => n.type.includes('Binary'))
+      const binNodes = tree.nodes.filter((n) => n.type.includes('Binary'))
       expect(binNodes.length).toBeGreaterThanOrEqual(1)
     })
 
@@ -560,7 +570,7 @@ y--;
       expect(tree.meta.language).toBe('c')
 
       // Find update expressions
-      const updateNodes = tree.nodes.filter(n => n.type.includes('Update'))
+      const updateNodes = tree.nodes.filter((n) => n.type.includes('Update'))
       expect(updateNodes.length).toBeGreaterThanOrEqual(1)
     })
 
@@ -571,7 +581,7 @@ y--;
       expect(tree.meta.language).toBe('c')
 
       // Find binary expressions
-      const binNodes = tree.nodes.filter(n => n.type.includes('Binary'))
+      const binNodes = tree.nodes.filter((n) => n.type.includes('Binary'))
       expect(binNodes.length).toBeGreaterThanOrEqual(1)
     })
 
@@ -582,7 +592,9 @@ y--;
       expect(tree.meta.language).toBe('c')
 
       // Find logical expressions
-      const logicNodes = tree.nodes.filter(n => n.type.includes('Binary') || n.type.includes('Unary'))
+      const logicNodes = tree.nodes.filter(
+        (n) => n.type.includes('Binary') || n.type.includes('Unary')
+      )
       expect(logicNodes.length).toBeGreaterThanOrEqual(1)
     })
 
@@ -593,7 +605,7 @@ y--;
       expect(tree.meta.language).toBe('c')
 
       // Find conditional expression
-      const ternaryNode = tree.nodes.find(n => n.type.includes('Conditional'))
+      const ternaryNode = tree.nodes.find((n) => n.type.includes('Conditional'))
       expect(ternaryNode).toBeDefined()
     })
 
@@ -604,7 +616,7 @@ y--;
       expect(tree.meta.language).toBe('c')
 
       // Find sizeof expression
-      const sizeofNode = tree.nodes.find(n => n.type.includes('Sizeof'))
+      const sizeofNode = tree.nodes.find((n) => n.type.includes('Sizeof'))
       expect(sizeofNode).toBeDefined()
     })
   })
@@ -620,7 +632,9 @@ int x = 42;
       expect(tree.meta.language).toBe('c')
 
       // Find comment node
-      const commentNode = tree.nodes.find(n => n.type.includes('Comment') || n.data?.text?.includes('//'))
+      const commentNode = tree.nodes.find(
+        (n) => n.type.includes('Comment') || n.data?.text?.includes('//')
+      )
       expect(commentNode).toBeDefined()
     })
 
@@ -704,7 +718,7 @@ int x = 42;
       const tree = parser.getTree()
 
       expect(tree).toBeDefined()
-      expect(tree!.meta.language).toBe('c')
+      expect(tree?.meta.language).toBe('c')
     })
   })
 })

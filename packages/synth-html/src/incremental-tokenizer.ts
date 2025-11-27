@@ -12,21 +12,21 @@
  */
 
 import { IncrementalTokenizer } from '@sylphx/synth'
-import type { Token, TokenRange, Edit } from '@sylphx/synth'
-import { TokenKind, TokenFlags, createToken } from '@sylphx/synth'
+import type { Edit, Token, TokenRange } from '@sylphx/synth'
+import { TokenFlags, TokenKind, createToken } from '@sylphx/synth'
 
 /**
  * HTML element types
  */
 enum HTMLElementType {
-  TAG = 'tag',                    // Complete tag: <div>...</div>
-  SELF_CLOSING = 'self_closing',  // Self-closing: <img />
-  TEXT = 'text',                  // Text content
-  COMMENT = 'comment',            // <!-- comment -->
-  DOCTYPE = 'doctype',            // <!DOCTYPE html>
-  CDATA = 'cdata',                // <![CDATA[...]]>
-  SCRIPT = 'script',              // <script>...</script>
-  STYLE = 'style',                // <style>...</style>
+  TAG = 'tag', // Complete tag: <div>...</div>
+  SELF_CLOSING = 'self_closing', // Self-closing: <img />
+  TEXT = 'text', // Text content
+  COMMENT = 'comment', // <!-- comment -->
+  DOCTYPE = 'doctype', // <!DOCTYPE html>
+  CDATA = 'cdata', // <![CDATA[...]]>
+  SCRIPT = 'script', // <script>...</script>
+  STYLE = 'style', // <style>...</style>
 }
 
 /**
@@ -38,11 +38,7 @@ export class IncrementalHTMLTokenizer extends IncrementalTokenizer {
   /**
    * Tokenize HTML with element-level granularity
    */
-  protected tokenizeImpl(
-    source: string,
-    startOffset: number,
-    endOffset: number
-  ): Token[] {
+  protected tokenizeImpl(source: string, startOffset: number, endOffset: number): Token[] {
     const tokens: Token[] = []
     const region = source.slice(startOffset, endOffset)
 
@@ -141,7 +137,7 @@ export class IncrementalHTMLTokenizer extends IncrementalTokenizer {
         // Extract tag name
         const tagNameMatch = region.slice(i + 1).match(/^(\/?[\w-]+)/)
         if (tagNameMatch) {
-          tagName = tagNameMatch[1]!.replace('/', '')
+          tagName = tagNameMatch[1]?.replace('/', '')
         }
       }
 
@@ -169,7 +165,10 @@ export class IncrementalHTMLTokenizer extends IncrementalTokenizer {
           const closingTag = `</${tagName}>`
           const closingIndex = region.indexOf(closingTag, i + 1)
           if (closingIndex !== -1) {
-            buffer = region.slice(tagStart - startOffset, closingIndex - startOffset + closingTag.length)
+            buffer = region.slice(
+              tagStart - startOffset,
+              closingIndex - startOffset + closingTag.length
+            )
             i = closingIndex + closingTag.length - 1
           }
         }
@@ -178,7 +177,10 @@ export class IncrementalHTMLTokenizer extends IncrementalTokenizer {
           const closingTag = `</${tagName}>`
           const closingIndex = this.findMatchingClosingTag(region, i + 1, tagName)
           if (closingIndex !== -1) {
-            buffer = region.slice(tagStart - startOffset, closingIndex - startOffset + closingTag.length)
+            buffer = region.slice(
+              tagStart - startOffset,
+              closingIndex - startOffset + closingTag.length
+            )
             i = closingIndex + closingTag.length - 1
           }
         }
@@ -288,14 +290,7 @@ export class IncrementalHTMLTokenizer extends IncrementalTokenizer {
       tagName: tagNameMatch ? tagNameMatch[1] : null,
     }
 
-    return createToken(
-      kind,
-      content,
-      { start: startPos, end: endPos },
-      index,
-      flags,
-      metadata
-    )
+    return createToken(kind, content, { start: startPos, end: endPos }, index, flags, metadata)
   }
 
   /**
@@ -314,7 +309,6 @@ export class IncrementalHTMLTokenizer extends IncrementalTokenizer {
       case HTMLElementType.DOCTYPE:
       case HTMLElementType.CDATA:
         return TokenKind.TAG_OPEN
-      case HTMLElementType.TEXT:
       default:
         return TokenKind.TEXT
     }
@@ -364,8 +358,8 @@ export class IncrementalHTMLTokenizer extends IncrementalTokenizer {
       startIndex,
       endIndex,
       byteRange: {
-        start: tokens[startIndex]!.span.start.offset,
-        end: tokens[endIndex]!.span.end.offset,
+        start: tokens[startIndex]?.span.start.offset,
+        end: tokens[endIndex]?.span.end.offset,
       },
     }
   }

@@ -17,7 +17,7 @@ export const maxDepth: Rule = {
 
   create(context) {
     const maxDepth = DEFAULT_MAX_DEPTH
-    const depthStack: number[] = [0]
+    const _depthStack: number[] = [0]
 
     const visitor: RuleVisitor = {
       enter(node) {

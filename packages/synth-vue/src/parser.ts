@@ -5,11 +5,11 @@
  * Uses @vue/compiler-sfc for parsing, then converts to Synth format
  */
 
-import type { Tree, Plugin } from '@sylphx/synth'
-import { createTree, addNode } from '@sylphx/synth'
+import type { Plugin, Tree } from '@sylphx/synth'
+import { addNode, createTree } from '@sylphx/synth'
 import { SynthError } from '@sylphx/synth'
-import { parse as parseVueSFC } from '@vue/compiler-sfc'
 import type { NodeId } from '@sylphx/synth'
+import { parse as parseVueSFC } from '@vue/compiler-sfc'
 
 export interface VueParseOptions {
   /** Source filename (for better error messages) */
@@ -141,12 +141,7 @@ export class VueParser {
     return this.tree
   }
 
-  private convertDescriptor(
-    tree: Tree,
-    descriptor: any,
-    parentId: NodeId,
-    source: string
-  ): void {
+  private convertDescriptor(tree: Tree, descriptor: any, parentId: NodeId, source: string): void {
     // Create SFC root node
     const sfcId = addNode(tree, {
       type: 'VueSFC',
@@ -161,7 +156,7 @@ export class VueParser {
       },
     })
 
-    tree.nodes[parentId]!.children.push(sfcId)
+    tree.nodes[parentId]?.children.push(sfcId)
 
     // Parse template block
     if (descriptor.template) {
@@ -229,7 +224,7 @@ export class VueParser {
       },
     })
 
-    tree.nodes[parentId]!.children.push(blockId)
+    tree.nodes[parentId]?.children.push(blockId)
 
     // Add content as text node
     if (content) {
@@ -254,7 +249,7 @@ export class VueParser {
         },
       })
 
-      tree.nodes[blockId]!.children.push(textId)
+      tree.nodes[blockId]?.children.push(textId)
     }
   }
 
@@ -300,10 +295,7 @@ export function parse(source: string, options?: VueParseOptions): Tree {
   return parser.parse(source, options)
 }
 
-export async function parseAsync(
-  source: string,
-  options?: VueParseOptions
-): Promise<Tree> {
+export async function parseAsync(source: string, options?: VueParseOptions): Promise<Tree> {
   const parser = new VueParser()
   return parser.parseAsync(source, options)
 }

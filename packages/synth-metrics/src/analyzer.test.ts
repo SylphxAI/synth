@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'bun:test'
-import { MetricsAnalyzer, createAnalyzer, analyze, report } from './analyzer.js'
-import { createTree, addNode } from '@sylphx/synth'
+import { describe, expect, it } from 'bun:test'
+import { addNode, createTree } from '@sylphx/synth'
+import { MetricsAnalyzer, analyze, createAnalyzer, report } from './analyzer.js'
 
 describe('MetricsAnalyzer', () => {
   it('should create an analyzer instance', () => {
@@ -77,7 +77,7 @@ line 4`
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 0, line: 1, column: 0 } },
       data: {},
     })
-    tree.nodes[tree.root]!.children.push(node1)
+    tree.nodes[tree.root]?.children.push(node1)
 
     const node2 = addNode(tree, {
       type: 'test',
@@ -86,7 +86,7 @@ line 4`
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 0, line: 1, column: 0 } },
       data: {},
     })
-    tree.nodes[node1]!.children.push(node2)
+    tree.nodes[node1]?.children.push(node2)
 
     const metrics = analyze(tree)
 
@@ -106,7 +106,7 @@ line 4`
         span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 0, line: 1, column: 0 } },
         data: {},
       })
-      tree.nodes[parentId]!.children.push(nodeId)
+      tree.nodes[parentId]?.children.push(nodeId)
       parentId = nodeId
     }
 
@@ -126,7 +126,7 @@ line 4`
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 0, line: 1, column: 0 } },
       data: {},
     })
-    tree.nodes[tree.root]!.children.push(node1)
+    tree.nodes[tree.root]?.children.push(node1)
 
     const node2 = addNode(tree, {
       type: 'test',
@@ -135,7 +135,7 @@ line 4`
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 0, line: 1, column: 0 } },
       data: {},
     })
-    tree.nodes[node1]!.children.push(node2)
+    tree.nodes[node1]?.children.push(node2)
 
     const metrics = analyze(tree)
 
@@ -153,7 +153,7 @@ line 4`
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 0, line: 1, column: 0 } },
       data: {},
     })
-    tree.nodes[tree.root]!.children.push(ifStmt)
+    tree.nodes[tree.root]?.children.push(ifStmt)
 
     const metrics = analyze(tree)
 
@@ -172,7 +172,7 @@ line 4`
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 0, line: 1, column: 0 } },
       data: {},
     })
-    tree.nodes[tree.root]!.children.push(ifStmt)
+    tree.nodes[tree.root]?.children.push(ifStmt)
 
     const andExpr = addNode(tree, {
       type: 'LogicalExpression',
@@ -181,7 +181,7 @@ line 4`
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 0, line: 1, column: 0 } },
       data: { operator: '&&' },
     })
-    tree.nodes[ifStmt]!.children.push(andExpr)
+    tree.nodes[ifStmt]?.children.push(andExpr)
 
     const orExpr = addNode(tree, {
       type: 'LogicalExpression',
@@ -190,7 +190,7 @@ line 4`
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 0, line: 1, column: 0 } },
       data: { operator: '||' },
     })
-    tree.nodes[ifStmt]!.children.push(orExpr)
+    tree.nodes[ifStmt]?.children.push(orExpr)
 
     const metrics = analyze(tree)
 
@@ -208,7 +208,7 @@ line 4`
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 0, line: 1, column: 0 } },
       data: {},
     })
-    tree.nodes[tree.root]!.children.push(if1)
+    tree.nodes[tree.root]?.children.push(if1)
 
     const if2 = addNode(tree, {
       type: 'IfStatement',
@@ -217,7 +217,7 @@ line 4`
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 0, line: 1, column: 0 } },
       data: {},
     })
-    tree.nodes[if1]!.children.push(if2)
+    tree.nodes[if1]?.children.push(if2)
 
     const metrics = analyze(tree)
 
@@ -272,7 +272,7 @@ line 4`
         params: [],
       },
     })
-    tree.nodes[tree.root]!.children.push(fn)
+    tree.nodes[tree.root]?.children.push(fn)
 
     const metrics = report(tree)
 
@@ -294,7 +294,7 @@ line 4`
         params: ['a', 'b', 'c'],
       },
     })
-    tree.nodes[tree.root]!.children.push(fn)
+    tree.nodes[tree.root]?.children.push(fn)
 
     const metrics = report(tree)
 
@@ -317,7 +317,7 @@ line 4`
       },
       data: { name: 'test' },
     })
-    tree.nodes[tree.root]!.children.push(fn)
+    tree.nodes[tree.root]?.children.push(fn)
 
     const metrics = report(tree)
 
@@ -334,7 +334,7 @@ line 4`
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 0, line: 1, column: 0 } },
       data: { name: 'test' },
     })
-    tree.nodes[tree.root]!.children.push(fn)
+    tree.nodes[tree.root]?.children.push(fn)
 
     // Add if statement inside function
     const ifStmt = addNode(tree, {
@@ -344,7 +344,7 @@ line 4`
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 0, line: 1, column: 0 } },
       data: {},
     })
-    tree.nodes[fn]!.children.push(ifStmt)
+    tree.nodes[fn]?.children.push(ifStmt)
 
     const metrics = report(tree)
 
@@ -361,7 +361,7 @@ line 4`
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 0, line: 1, column: 0 } },
       data: {},
     })
-    tree.nodes[tree.root]!.children.push(fn)
+    tree.nodes[tree.root]?.children.push(fn)
 
     const metrics = report(tree)
 

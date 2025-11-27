@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'bun:test'
+import { describe, expect, it } from 'bun:test'
 import { createTokenizer } from './tokenizer.js'
 
 const tokenizer = createTokenizer()
@@ -417,12 +417,12 @@ code block
       const tokens = tokenizer.tokenize(markdown)
       expect(tokens.length).toBeGreaterThan(0)
       expect(tokens[0]?.type).toBe('heading')
-      expect(tokens.some(t => t.type === 'paragraph')).toBe(true)
-      expect(tokens.some(t => t.type === 'listItem')).toBe(true)
-      expect(tokens.some(t => t.type === 'blockquote')).toBe(true)
-      expect(tokens.some(t => t.type === 'codeBlock')).toBe(true)
-      expect(tokens.some(t => t.type === 'horizontalRule')).toBe(true)
-      expect(tokens.some(t => t.type === 'linkReference')).toBe(true)
+      expect(tokens.some((t) => t.type === 'paragraph')).toBe(true)
+      expect(tokens.some((t) => t.type === 'listItem')).toBe(true)
+      expect(tokens.some((t) => t.type === 'blockquote')).toBe(true)
+      expect(tokens.some((t) => t.type === 'codeBlock')).toBe(true)
+      expect(tokens.some((t) => t.type === 'horizontalRule')).toBe(true)
+      expect(tokens.some((t) => t.type === 'linkReference')).toBe(true)
     })
   })
 })

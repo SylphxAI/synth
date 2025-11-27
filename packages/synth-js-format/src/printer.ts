@@ -22,7 +22,7 @@ export class Printer {
     this.currentIndent = 0
 
     // Find Program node
-    const program = tree.nodes.find(n => n.type === 'Program')
+    const program = tree.nodes.find((n) => n.type === 'Program')
     if (!program) {
       throw new Error('No Program node found in tree')
     }
@@ -165,8 +165,8 @@ export class Printer {
 
   private printVariableDeclarator(tree: Tree, node: BaseNode): void {
     const children = this.getChildren(tree, node)
-    const id = children.find(n => n.type === 'Identifier' || n.type.includes('Pattern'))
-    const init = children.find(n => n !== id)
+    const id = children.find((n) => n.type === 'Identifier' || n.type.includes('Pattern'))
+    const init = children.find((n) => n !== id)
 
     if (id) {
       this.printNode(tree, id)
@@ -200,8 +200,8 @@ export class Printer {
 
     const children = this.getChildren(tree, node)
     // Body is always BlockStatement, params are everything else
-    const body = children.find(n => n.type === 'BlockStatement')
-    const params = children.filter(n => n !== body)
+    const body = children.find((n) => n.type === 'BlockStatement')
+    const params = children.filter((n) => n !== body)
 
     params.forEach((param, i) => {
       this.printNode(tree, param)
@@ -484,7 +484,7 @@ export class Printer {
 
     // Handle class body
     const children = this.getChildren(tree, node)
-    const classBody = children.find(n => n.type === 'ClassBody')
+    const classBody = children.find((n) => n.type === 'ClassBody')
 
     if (classBody) {
       const methods = this.getChildren(tree, classBody)
@@ -494,7 +494,7 @@ export class Printer {
       if (methods.length > 0) {
         this.write('\n')
         this.currentIndent++
-        methods.forEach(method => {
+        methods.forEach((method) => {
           this.printNode(tree, method)
           this.write('\n')
         })
@@ -516,16 +516,16 @@ export class Printer {
       this.write(`${kind} `)
     }
 
-    const key = this.getChildren(tree, node).find(n => n.type === 'Identifier')
+    const key = this.getChildren(tree, node).find((n) => n.type === 'Identifier')
     if (key) {
       this.printNode(tree, key)
     }
 
     this.write('() ')
 
-    const value = this.getChildren(tree, node).find(n => n.type === 'FunctionExpression')
+    const value = this.getChildren(tree, node).find((n) => n.type === 'FunctionExpression')
     if (value) {
-      const body = this.getChildren(tree, value).find(n => n.type === 'BlockStatement')
+      const body = this.getChildren(tree, value).find((n) => n.type === 'BlockStatement')
       if (body) {
         this.printNode(tree, body)
       }
@@ -557,7 +557,7 @@ export class Printer {
   }
 
   private getChildren(tree: Tree, node: BaseNode): BaseNode[] {
-    return node.children.map(id => tree.nodes[id]!).filter(Boolean)
+    return node.children.map((id) => tree.nodes[id]!).filter(Boolean)
   }
 
   private writeIndent(): void {

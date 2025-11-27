@@ -4,47 +4,46 @@
  * Demonstrates the type-safe API for Markdown nodes
  */
 
-import { describe, it, expect } from 'bun:test'
+import { describe, expect, it } from 'bun:test'
 import type { BaseNode } from '@sylphx/synth'
 import {
-  type HeadingNode,
-  type ParagraphNode,
-  type LinkNode,
-  type CodeBlockNode,
-  type ListNode,
-  type ListItemNode,
   type BlockquoteNode,
-  type TableNode,
-  type ImageNode,
+  type CodeBlockNode,
   type EmphasisNode,
-  type StrongNode,
+  type HeadingNode,
+  type ImageNode,
   type InlineCodeNode,
+  type LinkNode,
+  type ListItemNode,
+  type ListNode,
   type MarkdownNode,
   type NodeByType,
-  isHeadingNode,
-  isParagraphNode,
-  isCodeBlockNode,
-  isListNode,
-  isListItemNode,
-  isBlockquoteNode,
-  isTableNode,
-  isLinkNode,
-  isImageNode,
-  isEmphasisNode,
-  isStrongNode,
-  isInlineCodeNode,
-  isBlockNode,
-  isInlineNode,
-  assertNodeType,
-  isNodeType,
+  type ParagraphNode,
+  type StrongNode,
+  type TableNode,
   asNodeType,
+  assertNodeType,
+  createCodeBlockNode,
+  createHeadingNode,
+  createLinkNode,
+  createParagraphNode,
   filterByType,
   findByType,
+  isBlockNode,
+  isBlockquoteNode,
+  isCodeBlockNode,
+  isEmphasisNode,
+  isHeadingNode,
+  isImageNode,
+  isInlineCodeNode,
+  isInlineNode,
+  isListItemNode,
+  isListNode,
+  isNodeType,
+  isParagraphNode,
+  isStrongNode,
+  isTableNode,
   mapNodes,
-  createHeadingNode,
-  createParagraphNode,
-  createCodeBlockNode,
-  createLinkNode,
 } from './types.js'
 
 describe('Type Safety', () => {
@@ -80,7 +79,12 @@ describe('Type Safety', () => {
     })
 
     it('should distinguish block vs inline nodes', () => {
-      const heading: BaseNode = { id: 1, type: 'heading', parent: null, children: [] } as HeadingNode
+      const heading: BaseNode = {
+        id: 1,
+        type: 'heading',
+        parent: null,
+        children: [],
+      } as HeadingNode
       const link: BaseNode = { id: 2, type: 'link', parent: null, children: [] } as LinkNode
 
       expect(isBlockNode(heading)).toBe(true)
@@ -226,8 +230,18 @@ describe('Type Safety', () => {
 
   describe('isNodeType', () => {
     it('should check multiple types', () => {
-      const heading: BaseNode = { id: 1, type: 'heading', parent: null, children: [] } as HeadingNode
-      const paragraph: BaseNode = { id: 2, type: 'paragraph', parent: null, children: [] } as ParagraphNode
+      const heading: BaseNode = {
+        id: 1,
+        type: 'heading',
+        parent: null,
+        children: [],
+      } as HeadingNode
+      const paragraph: BaseNode = {
+        id: 2,
+        type: 'paragraph',
+        parent: null,
+        children: [],
+      } as ParagraphNode
       const link: BaseNode = { id: 3, type: 'link', parent: null, children: [] } as LinkNode
 
       expect(isNodeType(heading, 'heading', 'paragraph')).toBe(true)
@@ -248,15 +262,15 @@ describe('Type Safety', () => {
     it('should filter by type', () => {
       const headings = filterByType(nodes, 'heading')
       expect(headings).toHaveLength(2)
-      expect(headings[0]!.depth).toBe(1)
-      expect(headings[1]!.depth).toBe(2)
+      expect(headings[0]?.depth).toBe(1)
+      expect(headings[1]?.depth).toBe(2)
     })
 
     it('should find first by type', () => {
       const firstHeading = findByType(nodes, 'heading')
       expect(firstHeading).toBeDefined()
-      expect(firstHeading!.depth).toBe(1)
-      expect(firstHeading!.text).toBe('H1')
+      expect(firstHeading?.depth).toBe(1)
+      expect(firstHeading?.text).toBe('H1')
     })
 
     it('should return undefined if not found', () => {

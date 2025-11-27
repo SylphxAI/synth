@@ -9,14 +9,14 @@
  */
 
 import type {
-  BlockToken,
-  HeadingToken,
-  ParagraphToken,
-  CodeBlockToken,
-  ListItemToken,
-  BlockquoteToken,
-  HorizontalRuleToken,
   BlankLineToken,
+  BlockToken,
+  BlockquoteToken,
+  CodeBlockToken,
+  HeadingToken,
+  HorizontalRuleToken,
+  ListItemToken,
+  ParagraphToken,
 } from './tokens.js'
 import { createPosition, createTokenPosition } from './tokens.js'
 
@@ -76,11 +76,7 @@ export class OptimizedTokenizer {
       const secondChar = line[1]
       const thirdChar = line[2]
 
-      if (
-        firstChar === '`' &&
-        secondChar === '`' &&
-        thirdChar === '`'
-      ) {
+      if (firstChar === '`' && secondChar === '`' && thirdChar === '`') {
         // Code block
         const result = this.tokenizeCodeBlockFast(text, offset, lineIndex, length)
         if (result) {
@@ -206,7 +202,7 @@ export class OptimizedTokenizer {
     const match = line.match(PATTERNS.listItem)
     if (!match) return null
 
-    const indent = match[1]!.length
+    const indent = match[1]?.length
     const text = match[3]!
 
     // Check for task list
@@ -229,7 +225,11 @@ export class OptimizedTokenizer {
   /**
    * Fast horizontal rule detection
    */
-  private tryHorizontalRule(line: string, lineIndex: number, offset: number): HorizontalRuleToken | null {
+  private tryHorizontalRule(
+    line: string,
+    lineIndex: number,
+    offset: number
+  ): HorizontalRuleToken | null {
     // Must be all same character (-, *, or _) with at least 3
     const firstChar = line[0]!
     if (firstChar !== '-' && firstChar !== '*' && firstChar !== '_') {

@@ -5,8 +5,8 @@
  * Uses tree-sitter-python for parsing, then converts to Synth format
  */
 
-import type { Tree, NodeId, Plugin } from '@sylphx/synth'
-import { createTree, addNode } from '@sylphx/synth'
+import type { NodeId, Plugin, Tree } from '@sylphx/synth'
+import { addNode, createTree } from '@sylphx/synth'
 import { SynthError } from '@sylphx/synth'
 import Parser from 'tree-sitter'
 import Python from 'tree-sitter-python'
@@ -152,7 +152,7 @@ export class PythonParser {
     })
 
     // Add to parent's children
-    tree.nodes[parentId]!.children.push(nodeId)
+    tree.nodes[parentId]?.children.push(nodeId)
 
     // Recursively convert children
     for (let i = 0; i < tsNode.childCount; i++) {
@@ -185,10 +185,7 @@ export function parse(source: string, options?: PythonParseOptions): Tree {
   return parser.parse(source, options)
 }
 
-export async function parseAsync(
-  source: string,
-  options?: PythonParseOptions
-): Promise<Tree> {
+export async function parseAsync(source: string, options?: PythonParseOptions): Promise<Tree> {
   const parser = new PythonParser()
   return parser.parseAsync(source, options)
 }

@@ -10,17 +10,17 @@
  * Performance: 26-42x faster than remark
  */
 
-import type { Tree, NodeId } from '@sylphx/synth'
-import { createTree, addNode } from '@sylphx/synth'
+import type { NodeId, Tree } from '@sylphx/synth'
+import { addNode, createTree } from '@sylphx/synth'
 import type { Edit } from '@sylphx/synth'
-import { createIndex, type ASTIndex } from '@sylphx/synth'
-import { TreeStructureError, SynthError } from '@sylphx/synth'
-import { Tokenizer } from './tokenizer.js'
-import { InlineTokenizer } from './inline-tokenizer.js'
+import { type ASTIndex, createIndex } from '@sylphx/synth'
+import { SynthError, TreeStructureError } from '@sylphx/synth'
 import { BatchTokenizer } from './batch-tokenizer.js'
+import { InlineTokenizer } from './inline-tokenizer.js'
+import { type MarkdownNodePool, createNodePool } from './node-pool.js'
+import { type Plugin, PluginManager } from './plugin.js'
+import { Tokenizer } from './tokenizer.js'
 import type { BlockToken, InlineToken } from './tokens.js'
-import { PluginManager, type Plugin } from './plugin.js'
-import { createNodePool, type MarkdownNodePool } from './node-pool.js'
 
 /**
  * Parse options
@@ -137,7 +137,7 @@ export class Parser {
       plugins = DEFAULT_PARSE_OPTIONS.plugins,
       useBatchTokenizer = DEFAULT_PARSE_OPTIONS.useBatchTokenizer,
       batchSize = DEFAULT_PARSE_OPTIONS.batchSize,
-      useNodePool = DEFAULT_PARSE_OPTIONS.useNodePool
+      useNodePool = DEFAULT_PARSE_OPTIONS.useNodePool,
     } = options
 
     // Initialize node pool if requested
@@ -148,7 +148,7 @@ export class Parser {
     // Tokenize (choose tokenizer based on option)
     if (useBatchTokenizer) {
       // Lazy init batch tokenizer with specified batch size
-      if (!this.batchTokenizer || this.batchTokenizer['batchSize'] !== batchSize) {
+      if (!this.batchTokenizer || this.batchTokenizer.batchSize !== batchSize) {
         this.batchTokenizer = new BatchTokenizer(batchSize)
       }
       this.tokens = this.batchTokenizer.tokenize(text)
@@ -163,8 +163,8 @@ export class Parser {
     const allPlugins = [...this.pluginManager.getPlugins(), ...plugins]
     if (allPlugins.length > 0) {
       // Check for async plugins
-      const hasAsyncPlugin = allPlugins.some(p =>
-        'transform' in p && p.transform.constructor.name === 'AsyncFunction'
+      const hasAsyncPlugin = allPlugins.some(
+        (p) => 'transform' in p && p.transform.constructor.name === 'AsyncFunction'
       )
 
       if (hasAsyncPlugin) {
@@ -185,7 +185,7 @@ export class Parser {
 
           const tempManager = new PluginManager()
           tempManager.use(plugin)
-          this.tree = tempManager['applyVisitors'](this.tree, plugin.visitors)
+          this.tree = tempManager.applyVisitors(this.tree, plugin.visitors)
 
           if (plugin.teardown) {
             plugin.teardown(this.tree)
@@ -236,7 +236,7 @@ export class Parser {
       plugins = DEFAULT_PARSE_OPTIONS.plugins,
       useBatchTokenizer = DEFAULT_PARSE_OPTIONS.useBatchTokenizer,
       batchSize = DEFAULT_PARSE_OPTIONS.batchSize,
-      useNodePool = DEFAULT_PARSE_OPTIONS.useNodePool
+      useNodePool = DEFAULT_PARSE_OPTIONS.useNodePool,
     } = options
 
     // Initialize node pool if requested
@@ -247,7 +247,7 @@ export class Parser {
     // Tokenize (choose tokenizer based on option)
     if (useBatchTokenizer) {
       // Lazy init batch tokenizer with specified batch size
-      if (!this.batchTokenizer || this.batchTokenizer['batchSize'] !== batchSize) {
+      if (!this.batchTokenizer || this.batchTokenizer.batchSize !== batchSize) {
         this.batchTokenizer = new BatchTokenizer(batchSize)
       }
       this.tokens = this.batchTokenizer.tokenize(text)
@@ -319,7 +319,7 @@ export class Parser {
     for (const token of tokens) {
       const nodeId = this.buildNode(tree, token, tree.root, useNodePool)
       if (nodeId !== null) {
-        tree.nodes[tree.root]!.children.push(nodeId)
+        tree.nodes[tree.root]?.children.push(nodeId)
       }
     }
 
@@ -329,116 +329,186 @@ export class Parser {
   /**
    * Build AST node from block token
    */
-  private buildNode(tree: Tree, token: BlockToken, parent: NodeId, useNodePool: boolean): NodeId | null {
+  private buildNode(
+    tree: Tree,
+    token: BlockToken,
+    parent: NodeId,
+    useNodePool: boolean
+  ): NodeId | null {
     if (token.type === 'blankLine') return null
 
     switch (token.type) {
       case 'heading': {
-        const headingId = useNodePool && this.nodePool
-          ? this.addPooledNode(tree, 'heading', parent, token.position.start, token.position.end, { depth: token.depth })
-          : addNode(tree, {
-              type: 'heading',
-              parent,
-              children: [],
-              span: {
-                start: token.position.start,
-                end: token.position.end,
-              },
-              data: { depth: token.depth },
-            })
+        const headingId =
+          useNodePool && this.nodePool
+            ? this.addPooledNode(
+                tree,
+                'heading',
+                parent,
+                token.position.start,
+                token.position.end,
+                { depth: token.depth }
+              )
+            : addNode(tree, {
+                type: 'heading',
+                parent,
+                children: [],
+                span: {
+                  start: token.position.start,
+                  end: token.position.end,
+                },
+                data: { depth: token.depth },
+              })
 
         // Parse inline content
-        this.buildInlineNodes(tree, token.text, headingId, token.position.start.line, token.position.start.offset, useNodePool)
+        this.buildInlineNodes(
+          tree,
+          token.text,
+          headingId,
+          token.position.start.line,
+          token.position.start.offset,
+          useNodePool
+        )
 
         return headingId
       }
 
       case 'paragraph': {
-        const paragraphId = useNodePool && this.nodePool
-          ? this.addPooledNode(tree, 'paragraph', parent, token.position.start, token.position.end)
-          : addNode(tree, {
-              type: 'paragraph',
-              parent,
-              children: [],
-              span: {
-                start: token.position.start,
-                end: token.position.end,
-              },
-            })
+        const paragraphId =
+          useNodePool && this.nodePool
+            ? this.addPooledNode(
+                tree,
+                'paragraph',
+                parent,
+                token.position.start,
+                token.position.end
+              )
+            : addNode(tree, {
+                type: 'paragraph',
+                parent,
+                children: [],
+                span: {
+                  start: token.position.start,
+                  end: token.position.end,
+                },
+              })
 
         // Parse inline content
-        this.buildInlineNodes(tree, token.text, paragraphId, token.position.start.line, token.position.start.offset, useNodePool)
+        this.buildInlineNodes(
+          tree,
+          token.text,
+          paragraphId,
+          token.position.start.line,
+          token.position.start.offset,
+          useNodePool
+        )
 
         return paragraphId
       }
 
       case 'codeBlock': {
-        const codeId = useNodePool && this.nodePool
-          ? this.addPooledNode(tree, 'code', parent, token.position.start, token.position.end, {
-              lang: token.lang,
-              meta: token.meta,
-              value: token.code,
-            })
-          : addNode(tree, {
-              type: 'code',
-              parent,
-              children: [],
-              span: {
-                start: token.position.start,
-                end: token.position.end,
-              },
-              data: {
+        const codeId =
+          useNodePool && this.nodePool
+            ? this.addPooledNode(tree, 'code', parent, token.position.start, token.position.end, {
                 lang: token.lang,
                 meta: token.meta,
                 value: token.code,
-              },
-            })
+              })
+            : addNode(tree, {
+                type: 'code',
+                parent,
+                children: [],
+                span: {
+                  start: token.position.start,
+                  end: token.position.end,
+                },
+                data: {
+                  lang: token.lang,
+                  meta: token.meta,
+                  value: token.code,
+                },
+              })
 
         return codeId
       }
 
       case 'listItem': {
-        const listItemId = useNodePool && this.nodePool
-          ? this.addPooledNode(tree, 'listItem', parent, token.position.start, token.position.end, { checked: token.checked })
-          : addNode(tree, {
-              type: 'listItem',
-              parent,
-              children: [],
-              span: {
-                start: token.position.start,
-                end: token.position.end,
-              },
-              data: { checked: token.checked },
-            })
+        const listItemId =
+          useNodePool && this.nodePool
+            ? this.addPooledNode(
+                tree,
+                'listItem',
+                parent,
+                token.position.start,
+                token.position.end,
+                { checked: token.checked }
+              )
+            : addNode(tree, {
+                type: 'listItem',
+                parent,
+                children: [],
+                span: {
+                  start: token.position.start,
+                  end: token.position.end,
+                },
+                data: { checked: token.checked },
+              })
 
         // Parse inline content
-        this.buildInlineNodes(tree, token.text, listItemId, token.position.start.line, token.position.start.offset, useNodePool)
+        this.buildInlineNodes(
+          tree,
+          token.text,
+          listItemId,
+          token.position.start.line,
+          token.position.start.offset,
+          useNodePool
+        )
 
         return listItemId
       }
 
       case 'blockquote': {
-        const blockquoteId = useNodePool && this.nodePool
-          ? this.addPooledNode(tree, 'blockquote', parent, token.position.start, token.position.end)
-          : addNode(tree, {
-              type: 'blockquote',
-              parent,
-              children: [],
-              span: {
-                start: token.position.start,
-                end: token.position.end,
-              },
-            })
+        const blockquoteId =
+          useNodePool && this.nodePool
+            ? this.addPooledNode(
+                tree,
+                'blockquote',
+                parent,
+                token.position.start,
+                token.position.end
+              )
+            : addNode(tree, {
+                type: 'blockquote',
+                parent,
+                children: [],
+                span: {
+                  start: token.position.start,
+                  end: token.position.end,
+                },
+              })
 
         // Parse inline content
-        this.buildInlineNodes(tree, token.text, blockquoteId, token.position.start.line, token.position.start.offset, useNodePool)
+        this.buildInlineNodes(
+          tree,
+          token.text,
+          blockquoteId,
+          token.position.start.line,
+          token.position.start.offset,
+          useNodePool
+        )
 
         return blockquoteId
       }
 
       case 'horizontalRule': {
         return useNodePool && this.nodePool
-          ? this.addPooledNode(tree, 'thematicBreak', parent, token.position.start, token.position.end)
+          ? this.addPooledNode(
+              tree,
+              'thematicBreak',
+              parent,
+              token.position.start,
+              token.position.end
+            )
           : addNode(tree, {
               type: 'thematicBreak',
               parent,
@@ -471,18 +541,25 @@ export class Parser {
 
     for (const token of inlineTokens) {
       const nodeId = this.buildInlineNode(tree, token, parent, useNodePool)
-      tree.nodes[parent]!.children.push(nodeId)
+      tree.nodes[parent]?.children.push(nodeId)
     }
   }
 
   /**
    * Build inline AST node from inline token
    */
-  private buildInlineNode(tree: Tree, token: InlineToken, parent: NodeId, useNodePool: boolean): NodeId {
+  private buildInlineNode(
+    tree: Tree,
+    token: InlineToken,
+    parent: NodeId,
+    useNodePool: boolean
+  ): NodeId {
     switch (token.type) {
       case 'text': {
         return useNodePool && this.nodePool
-          ? this.addPooledNode(tree, 'text', parent, token.position.start, token.position.end, { value: token.value })
+          ? this.addPooledNode(tree, 'text', parent, token.position.start, token.position.end, {
+              value: token.value,
+            })
           : addNode(tree, {
               type: 'text',
               parent,
@@ -496,17 +573,18 @@ export class Parser {
       }
 
       case 'emphasis': {
-        const emphasisId = useNodePool && this.nodePool
-          ? this.addPooledNode(tree, 'emphasis', parent, token.position.start, token.position.end)
-          : addNode(tree, {
-              type: 'emphasis',
-              parent,
-              children: [],
-              span: {
-                start: token.position.start,
-                end: token.position.end,
-              },
-            })
+        const emphasisId =
+          useNodePool && this.nodePool
+            ? this.addPooledNode(tree, 'emphasis', parent, token.position.start, token.position.end)
+            : addNode(tree, {
+                type: 'emphasis',
+                parent,
+                children: [],
+                span: {
+                  start: token.position.start,
+                  end: token.position.end,
+                },
+              })
 
         // Parse nested inline content
         const nestedTokens = this.inlineTokenizer.tokenize(
@@ -516,24 +594,25 @@ export class Parser {
         )
         for (const nested of nestedTokens) {
           const childId = this.buildInlineNode(tree, nested, emphasisId, useNodePool)
-          tree.nodes[emphasisId]!.children.push(childId)
+          tree.nodes[emphasisId]?.children.push(childId)
         }
 
         return emphasisId
       }
 
       case 'strong': {
-        const strongId = useNodePool && this.nodePool
-          ? this.addPooledNode(tree, 'strong', parent, token.position.start, token.position.end)
-          : addNode(tree, {
-              type: 'strong',
-              parent,
-              children: [],
-              span: {
-                start: token.position.start,
-                end: token.position.end,
-              },
-            })
+        const strongId =
+          useNodePool && this.nodePool
+            ? this.addPooledNode(tree, 'strong', parent, token.position.start, token.position.end)
+            : addNode(tree, {
+                type: 'strong',
+                parent,
+                children: [],
+                span: {
+                  start: token.position.start,
+                  end: token.position.end,
+                },
+              })
 
         // Parse nested inline content
         const nestedTokens = this.inlineTokenizer.tokenize(
@@ -543,7 +622,7 @@ export class Parser {
         )
         for (const nested of nestedTokens) {
           const childId = this.buildInlineNode(tree, nested, strongId, useNodePool)
-          tree.nodes[strongId]!.children.push(childId)
+          tree.nodes[strongId]?.children.push(childId)
         }
 
         return strongId
@@ -551,7 +630,14 @@ export class Parser {
 
       case 'inlineCode': {
         return useNodePool && this.nodePool
-          ? this.addPooledNode(tree, 'inlineCode', parent, token.position.start, token.position.end, { value: token.value })
+          ? this.addPooledNode(
+              tree,
+              'inlineCode',
+              parent,
+              token.position.start,
+              token.position.end,
+              { value: token.value }
+            )
           : addNode(tree, {
               type: 'inlineCode',
               parent,
@@ -565,18 +651,21 @@ export class Parser {
       }
 
       case 'link': {
-        const linkId = useNodePool && this.nodePool
-          ? this.addPooledNode(tree, 'link', parent, token.position.start, token.position.end, { url: token.url })
-          : addNode(tree, {
-              type: 'link',
-              parent,
-              children: [],
-              span: {
-                start: token.position.start,
-                end: token.position.end,
-              },
-              data: { url: token.url },
-            })
+        const linkId =
+          useNodePool && this.nodePool
+            ? this.addPooledNode(tree, 'link', parent, token.position.start, token.position.end, {
+                url: token.url,
+              })
+            : addNode(tree, {
+                type: 'link',
+                parent,
+                children: [],
+                span: {
+                  start: token.position.start,
+                  end: token.position.end,
+                },
+                data: { url: token.url },
+              })
 
         // Parse link text
         const nestedTokens = this.inlineTokenizer.tokenize(
@@ -586,7 +675,7 @@ export class Parser {
         )
         for (const nested of nestedTokens) {
           const childId = this.buildInlineNode(tree, nested, linkId, useNodePool)
-          tree.nodes[linkId]!.children.push(childId)
+          tree.nodes[linkId]?.children.push(childId)
         }
 
         return linkId
@@ -615,7 +704,9 @@ export class Parser {
 
       default: {
         return useNodePool && this.nodePool
-          ? this.addPooledNode(tree, 'text', parent, token.position.start, token.position.end, { value: token.raw })
+          ? this.addPooledNode(tree, 'text', parent, token.position.start, token.position.end, {
+              value: token.raw,
+            })
           : addNode(tree, {
               type: 'text',
               parent,
@@ -641,7 +732,7 @@ export class Parser {
     end: { line: number; column: number; offset: number },
     data?: Record<string, unknown>
   ): NodeId {
-    const node = this.nodePool!.acquire(type)
+    const node = this.nodePool?.acquire(type)
 
     // Set properties
     node.type = type

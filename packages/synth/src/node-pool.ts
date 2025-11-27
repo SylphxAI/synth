@@ -272,7 +272,7 @@ export class NodePoolManager {
   /**
    * Trim all pools to reduce memory usage
    */
-  trim(targetSizePerType: number = 50): void {
+  trim(targetSizePerType = 50): void {
     for (const pool of this.pools.values()) {
       pool.trim(targetSizePerType)
     }

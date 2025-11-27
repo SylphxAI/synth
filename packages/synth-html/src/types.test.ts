@@ -2,27 +2,27 @@
  * HTML Types Tests
  */
 
-import { describe, it, expect } from 'bun:test'
+import { describe, expect, it } from 'bun:test'
 import type { BaseNode } from '@sylphx/synth'
 import {
   VOID_ELEMENTS,
-  isDocumentNode,
-  isDoctypeNode,
-  isElementNode,
-  isTextNode,
-  isCommentNode,
-  isCDATANode,
-  getTagName,
-  getAttributes,
   getAttribute,
-  isVoidElement,
-  isSelfClosing,
-  getTextValue,
-  getCommentValue,
+  getAttributes,
   getCDATAValue,
+  getCommentValue,
   getDoctypeName,
   getDoctypePublicId,
   getDoctypeSystemId,
+  getTagName,
+  getTextValue,
+  isCDATANode,
+  isCommentNode,
+  isDoctypeNode,
+  isDocumentNode,
+  isElementNode,
+  isSelfClosing,
+  isTextNode,
+  isVoidElement,
 } from './types.js'
 
 describe('HTML Types', () => {

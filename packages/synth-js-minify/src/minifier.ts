@@ -4,8 +4,8 @@
  * Main API for minifying JavaScript code using Synth AST
  */
 
-import { parse } from '@sylphx/synth-js'
 import type { Tree } from '@sylphx/synth'
+import { parse } from '@sylphx/synth-js'
 import { Compressor } from './compressor.js'
 import type { MinifyOptions } from './options.js'
 
@@ -54,7 +54,10 @@ export function minify(code: string, options?: MinifyOptions): string {
 /**
  * Calculate size savings
  */
-export function savings(original: string, minified: string): {
+export function savings(
+  original: string,
+  minified: string
+): {
   originalSize: number
   minifiedSize: number
   savedBytes: number

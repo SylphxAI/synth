@@ -12,9 +12,9 @@
  * Expected performance: 90%+ faster than full re-parse
  */
 
-import type { Tree, NodeId, BaseNode, Position } from './types/index.js'
+import { type ASTIndex, createIndex } from './query-index.js'
+import type { BaseNode, NodeId, Position, Tree } from './types/index.js'
 import { getNode } from './types/tree.js'
-import { createIndex, type ASTIndex } from './query-index.js'
 // TODO: Node pool has been moved to @sylphx/ast-optimizations package
 // import { globalNodePool } from './node-pool.js'
 
@@ -188,12 +188,7 @@ export class IncrementalParser {
   /**
    * Check if two ranges overlap
    */
-  private rangesOverlap(
-    start1: number,
-    end1: number,
-    start2: number,
-    end2: number
-  ): boolean {
+  private rangesOverlap(start1: number, end1: number, start2: number, end2: number): boolean {
     return start1 <= end2 && start2 <= end1
   }
 
@@ -212,7 +207,7 @@ export class IncrementalParser {
    * Calculate the overall affected range
    */
   private calculateAffectedRange(edits: Edit[]): AffectedRange {
-    let minStart = Infinity
+    let minStart = Number.POSITIVE_INFINITY
     let maxEnd = 0
 
     for (const edit of edits) {
@@ -223,8 +218,8 @@ export class IncrementalParser {
     return {
       startByte: minStart,
       endByte: maxEnd,
-      startPosition: edits[0]!.startPosition,
-      endPosition: edits[edits.length - 1]!.newEndPosition,
+      startPosition: edits[0]?.startPosition,
+      endPosition: edits[edits.length - 1]?.newEndPosition,
     }
   }
 
@@ -302,7 +297,7 @@ export class IncrementalParser {
   private offsetToPosition(offset: number): Position {
     let line = 0
     let column = 0
-    let currentOffset = 0
+    let _currentOffset = 0
 
     const text = this.tree.meta.source
 
@@ -313,7 +308,7 @@ export class IncrementalParser {
       } else {
         column++
       }
-      currentOffset++
+      _currentOffset++
     }
 
     return { line, column, offset }

@@ -71,7 +71,5 @@ function isBlockNode(type: string): boolean {
     'suite',
   ]
 
-  return blockTypes.some((pattern) =>
-    type.toLowerCase().includes(pattern.toLowerCase())
-  )
+  return blockTypes.some((pattern) => type.toLowerCase().includes(pattern.toLowerCase()))
 }

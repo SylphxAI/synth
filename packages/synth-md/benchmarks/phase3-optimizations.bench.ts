@@ -7,10 +7,13 @@
  * - Incremental parsing (10-100x expected for edits)
  */
 
-import { describe, bench } from 'vitest'
-import { UltraOptimizedMarkdownParser } from '../src/parsers/markdown/ultra-optimized-parser.js'
+import { bench, describe } from 'vitest'
 import { BatchTokenizer } from '../src/parsers/markdown/batch-tokenizer.js'
-import { IncrementalMarkdownParser, detectEdit } from '../src/parsers/markdown/incremental-parser.js'
+import {
+  IncrementalMarkdownParser,
+  detectEdit,
+} from '../src/parsers/markdown/incremental-parser.js'
+import { UltraOptimizedMarkdownParser } from '../src/parsers/markdown/ultra-optimized-parser.js'
 
 // Generate test documents
 const smallDoc = `# Small Document
@@ -143,7 +146,7 @@ describe('Phase 3: Incremental Parsing', () => {
   })
 
   // Simulate large edit (section addition)
-  const largeEditText = originalText + '\n\n# New Section\n\nCompletely new content here.\n\n'
+  const largeEditText = `${originalText}\n\n# New Section\n\nCompletely new content here.\n\n`
   const largeEdit = detectEdit(originalText, largeEditText)
 
   bench('Full re-parse (large edit)', () => {
@@ -207,7 +210,7 @@ describe('Phase 3: Scaling Analysis', () => {
     })
 
     // Simulate typing (single character edit)
-    const edited = doc + 'x'
+    const edited = `${doc}x`
     const edit = detectEdit(doc, edited)
 
     bench(`Incremental - ${name} (typing)`, () => {

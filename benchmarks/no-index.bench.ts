@@ -5,8 +5,8 @@
  * This should show 4x performance improvement when index is disabled.
  */
 
-import { bench, describe } from 'vitest'
 import { remark } from 'remark'
+import { bench, describe } from 'vitest'
 import { UltraOptimizedMarkdownParser } from '../src/parsers/markdown/ultra-optimized-parser.js'
 
 // Test documents

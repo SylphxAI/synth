@@ -13,8 +13,8 @@
  */
 
 import { IncrementalTokenizer } from '@sylphx/synth'
-import type { Token, TokenRange, Edit } from '@sylphx/synth'
-import { TokenKind, TokenFlags, createToken } from '@sylphx/synth'
+import type { Edit, Token, TokenRange } from '@sylphx/synth'
+import { TokenFlags, TokenKind, createToken } from '@sylphx/synth'
 
 /**
  * JavaScript statement detection
@@ -48,11 +48,7 @@ export class IncrementalJavaScriptTokenizer extends IncrementalTokenizer {
   /**
    * Tokenize JavaScript code with statement-level granularity
    */
-  protected tokenizeImpl(
-    source: string,
-    startOffset: number,
-    endOffset: number
-  ): Token[] {
+  protected tokenizeImpl(source: string, startOffset: number, endOffset: number): Token[] {
     const tokens: Token[] = []
     const region = source.slice(startOffset, endOffset)
 
@@ -79,7 +75,7 @@ export class IncrementalJavaScriptTokenizer extends IncrementalTokenizer {
         if (line.includes('*/')) {
           inComment = false
           // Complete the comment token
-          const commentContent = statementLines.join('\n') + '\n' + line
+          const commentContent = `${statementLines.join('\n')}\n${line}`
           const token = this.createStatementToken(
             JSStatementType.COMMENT,
             commentContent,
@@ -265,14 +261,7 @@ export class IncrementalJavaScriptTokenizer extends IncrementalTokenizer {
       lines: content.split('\n').length,
     }
 
-    return createToken(
-      kind,
-      content,
-      { start: startPos, end: endPos },
-      index,
-      flags,
-      metadata
-    )
+    return createToken(kind, content, { start: startPos, end: endPos }, index, flags, metadata)
   }
 
   /**
@@ -299,7 +288,6 @@ export class IncrementalJavaScriptTokenizer extends IncrementalTokenizer {
         return TokenKind.COMMENT
       case JSStatementType.EMPTY:
         return TokenKind.WHITESPACE
-      case JSStatementType.EXPRESSION:
       default:
         return TokenKind.TEXT
     }
@@ -326,10 +314,7 @@ export class IncrementalJavaScriptTokenizer extends IncrementalTokenizer {
 
       // Include preceding empty lines or comments
       const statementType = prevToken.metadata?.statementType as JSStatementType
-      if (
-        statementType === JSStatementType.EMPTY ||
-        statementType === JSStatementType.COMMENT
-      ) {
+      if (statementType === JSStatementType.EMPTY || statementType === JSStatementType.COMMENT) {
         startIndex--
       } else {
         break
@@ -343,10 +328,7 @@ export class IncrementalJavaScriptTokenizer extends IncrementalTokenizer {
 
       // Include following empty lines or comments
       const statementType = nextToken.metadata?.statementType as JSStatementType
-      if (
-        statementType === JSStatementType.EMPTY ||
-        statementType === JSStatementType.COMMENT
-      ) {
+      if (statementType === JSStatementType.EMPTY || statementType === JSStatementType.COMMENT) {
         endIndex++
       } else {
         break
@@ -357,8 +339,8 @@ export class IncrementalJavaScriptTokenizer extends IncrementalTokenizer {
       startIndex,
       endIndex,
       byteRange: {
-        start: tokens[startIndex]!.span.start.offset,
-        end: tokens[endIndex]!.span.end.offset,
+        start: tokens[startIndex]?.span.start.offset,
+        end: tokens[endIndex]?.span.end.offset,
       },
     }
   }

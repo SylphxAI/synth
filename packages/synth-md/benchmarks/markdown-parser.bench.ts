@@ -6,9 +6,9 @@
  * Goal: Demonstrate 50-100x faster parsing and 10-100x faster incremental parsing.
  */
 
-import { bench, describe } from 'vitest'
-import { unified } from 'unified'
 import remarkParse from 'remark-parse'
+import { unified } from 'unified'
+import { bench, describe } from 'vitest'
 import { IncrementalMarkdownParser, parseMarkdown } from '../src/parsers/markdown/index.js'
 
 // Test documents of various sizes
@@ -27,13 +27,9 @@ const x = 1
 \`\`\`
 `
 
-const mediumDoc = Array(50)
-  .fill(smallDoc)
-  .join('\n\n---\n\n')
+const mediumDoc = Array(50).fill(smallDoc).join('\n\n---\n\n')
 
-const largeDoc = Array(200)
-  .fill(smallDoc)
-  .join('\n\n---\n\n')
+const largeDoc = Array(200).fill(smallDoc).join('\n\n---\n\n')
 
 // Remark processor
 const remarkProcessor = unified().use(remarkParse)

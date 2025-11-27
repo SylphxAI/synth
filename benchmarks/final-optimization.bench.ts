@@ -9,11 +9,11 @@
  * Goal: Demonstrate 20-30x improvement over remark
  */
 
-import { bench, describe } from 'vitest'
-import { unified } from 'unified'
 import remarkParse from 'remark-parse'
-import { IncrementalMarkdownParser } from '../src/parsers/markdown/parser.js'
+import { unified } from 'unified'
+import { bench, describe } from 'vitest'
 import { OptimizedMarkdownParser } from '../src/parsers/markdown/optimized-parser.js'
+import { IncrementalMarkdownParser } from '../src/parsers/markdown/parser.js'
 
 // Test documents
 const smallDoc = `# Hello World

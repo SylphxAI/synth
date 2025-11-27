@@ -5,8 +5,8 @@
  * Uses tree-sitter-ruby for parsing, then converts to Synth format
  */
 
-import type { Tree, NodeId, Plugin } from '@sylphx/synth'
-import { createTree, addNode } from '@sylphx/synth'
+import type { NodeId, Plugin, Tree } from '@sylphx/synth'
+import { addNode, createTree } from '@sylphx/synth'
 import { SynthError } from '@sylphx/synth'
 import Parser from 'tree-sitter'
 import Ruby from 'tree-sitter-ruby'
@@ -142,7 +142,7 @@ export class RubyParser {
     })
 
     // Add to parent's children
-    tree.nodes[parentId]!.children.push(nodeId)
+    tree.nodes[parentId]?.children.push(nodeId)
 
     // Recursively convert children
     for (let i = 0; i < tsNode.childCount; i++) {
@@ -175,10 +175,7 @@ export function parse(source: string, options?: RubyParseOptions): Tree {
   return parser.parse(source, options)
 }
 
-export async function parseAsync(
-  source: string,
-  options?: RubyParseOptions
-): Promise<Tree> {
+export async function parseAsync(source: string, options?: RubyParseOptions): Promise<Tree> {
   const parser = new RubyParser()
   return parser.parseAsync(source, options)
 }

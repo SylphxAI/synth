@@ -5,10 +5,10 @@
  * Uses @msgpack/msgpack for decoding
  */
 
-import type { Tree, Plugin } from '@sylphx/synth'
-import { createTree, addNode } from '@sylphx/synth'
-import { SynthError } from '@sylphx/synth'
 import { decode } from '@msgpack/msgpack'
+import type { Plugin, Tree } from '@sylphx/synth'
+import { addNode, createTree } from '@sylphx/synth'
+import { SynthError } from '@sylphx/synth'
 import type { NodeId } from '@sylphx/synth'
 
 export interface MsgPackParseOptions {
@@ -192,16 +192,11 @@ export class MsgPackParser {
       data,
     })
 
-    tree.nodes[parentId]!.children.push(nodeId)
+    tree.nodes[parentId]?.children.push(nodeId)
     return nodeId
   }
 
-  private convertArray(
-    tree: Tree,
-    array: unknown[],
-    parentId: NodeId,
-    key?: string
-  ): NodeId {
+  private convertArray(tree: Tree, array: unknown[], parentId: NodeId, key?: string): NodeId {
     const arrayId = this.createNode(tree, 'MsgPackArray', parentId, {
       key,
       length: array.length,
@@ -232,7 +227,12 @@ export class MsgPackParser {
     return objId
   }
 
-  private convertMap(tree: Tree, map: Map<unknown, unknown>, parentId: NodeId, key?: string): NodeId {
+  private convertMap(
+    tree: Tree,
+    map: Map<unknown, unknown>,
+    parentId: NodeId,
+    key?: string
+  ): NodeId {
     const mapId = this.createNode(tree, 'MsgPackMap', parentId, {
       key,
       size: map.size,

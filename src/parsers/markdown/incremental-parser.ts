@@ -5,9 +5,9 @@
  * Expected gain: 10-100x for incremental updates
  */
 
-import type { Tree, NodeId } from '../../types/index.js'
-import { UltraOptimizedMarkdownParser, type ParseOptions } from './ultra-optimized-parser.js'
 import type { ASTIndex } from '../../core/query-index.js'
+import type { NodeId, Tree } from '../../types/index.js'
+import { type ParseOptions, UltraOptimizedMarkdownParser } from './ultra-optimized-parser.js'
 
 /**
  * Simple edit description
@@ -51,7 +51,7 @@ interface AffectedRegion {
  */
 export class IncrementalMarkdownParser {
   private parser: UltraOptimizedMarkdownParser
-  private previousText: string = ''
+  private previousText = ''
   private previousTree: Tree | null = null
 
   constructor() {
@@ -97,10 +97,9 @@ export class IncrementalMarkdownParser {
     if (affectedPercent < 0.1) {
       // Incremental update (< 10% of large document affected)
       return this.incrementalParse(newText, affected, options)
-    } else {
-      // Full re-parse (>= 10% affected or small document)
-      return this.parse(newText, options)
     }
+    // Full re-parse (>= 10% affected or small document)
+    return this.parse(newText, options)
   }
 
   /**
@@ -165,7 +164,7 @@ export class IncrementalMarkdownParser {
 
     // Move end forward to include following blank line (if any)
     while (end < text.length) {
-      let nextLineStart = end + 1
+      const nextLineStart = end + 1
       let nextLineEnd = nextLineStart
       while (nextLineEnd < text.length && text[nextLineEnd] !== '\n') {
         nextLineEnd++
@@ -255,12 +254,7 @@ export class IncrementalMarkdownParser {
     const affectedTree = this.parser.parse(affectedText, options)
 
     // Merge trees: Replace affected nodes with new nodes
-    const mergedTree = this.mergeTree(
-      this.previousTree,
-      affectedTree,
-      affected,
-      newText
-    )
+    const mergedTree = this.mergeTree(this.previousTree, affectedTree, affected, newText)
 
     // Update state
     this.previousText = newText
@@ -272,12 +266,7 @@ export class IncrementalMarkdownParser {
   /**
    * Merge new tree with existing tree (in-place modification for performance)
    */
-  private mergeTree(
-    oldTree: Tree,
-    newTree: Tree,
-    affected: AffectedRegion,
-    newText: string
-  ): Tree {
+  private mergeTree(oldTree: Tree, newTree: Tree, affected: AffectedRegion, newText: string): Tree {
     // Update metadata in-place
     oldTree.meta.source = newText
     oldTree.meta.modified = Date.now()
@@ -343,11 +332,7 @@ export class IncrementalMarkdownParser {
     }
 
     // Reconstruct root children: before + new + after
-    rootNode.children = [
-      ...childrenBeforeAffected,
-      ...newNodeIds,
-      ...childrenAfterAffected,
-    ]
+    rootNode.children = [...childrenBeforeAffected, ...newNodeIds, ...childrenAfterAffected]
 
     return oldTree
   }

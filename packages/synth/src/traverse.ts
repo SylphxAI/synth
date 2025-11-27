@@ -2,24 +2,14 @@
  * Tree traversal implementation
  */
 
-import type {
-  Tree,
-  NodeId,
-  Visitor,
-  VisitorContext,
-  TraversalOptions,
-} from './types/index.js'
+import type { NodeId, TraversalOptions, Tree, Visitor, VisitorContext } from './types/index.js'
 import { getNode } from './types/index.js'
 import { TraversalOrder } from './types/index.js'
 
 /**
  * Traverse the tree with a visitor
  */
-export function traverse(
-  tree: Tree,
-  visitor: Visitor,
-  options: TraversalOptions = {}
-): void {
+export function traverse(tree: Tree, visitor: Visitor, options: TraversalOptions = {}): void {
   const order = options.order ?? TraversalOrder.PreOrder
 
   switch (order) {
@@ -170,11 +160,7 @@ function traversePostOrder(
 /**
  * Breadth-first traversal (level by level)
  */
-function traverseBreadthFirst(
-  tree: Tree,
-  visitor: Visitor,
-  options: TraversalOptions
-): void {
+function traverseBreadthFirst(tree: Tree, visitor: Visitor, options: TraversalOptions): void {
   const queue: Array<{ nodeId: NodeId; depth: number; ancestors: NodeId[] }> = [
     { nodeId: tree.root, depth: 0, ancestors: [] },
   ]
@@ -250,10 +236,7 @@ export function select<T extends NodeId>(
 /**
  * Find the first node matching a predicate
  */
-export function find(
-  tree: Tree,
-  predicate: (context: VisitorContext) => boolean
-): NodeId | null {
+export function find(tree: Tree, predicate: (context: VisitorContext) => boolean): NodeId | null {
   let result: NodeId | null = null
 
   traverse(tree, {

@@ -10,7 +10,7 @@
  * $$
  */
 
-import { createTransformPlugin, type TransformPlugin } from '@sylphx/synth'
+import { type TransformPlugin, createTransformPlugin } from '@sylphx/synth'
 import type { BaseNode } from '@sylphx/synth'
 
 export interface MathNode extends BaseNode {
@@ -61,16 +61,13 @@ export interface KatexPluginOptions {
  * ```
  */
 export function katexPlugin(options: KatexPluginOptions = {}): TransformPlugin {
-  const {
-    inlineMath = true,
-    blockMath = true,
-  } = options
+  const { inlineMath = true, blockMath = true } = options
 
   return createTransformPlugin(
     {
       name: 'katex',
       version: '0.1.0',
-      description: 'Process KaTeX math expressions'
+      description: 'Process KaTeX math expressions',
     },
     (tree) => {
       const mathNodes: MathNode[] = []
@@ -92,8 +89,8 @@ export function katexPlugin(options: KatexPluginOptions = {}): TransformPlugin {
                   value: match[1].trim(),
                   inline: false,
                   data: {
-                    latex: match[1].trim()
-                  }
+                    latex: match[1].trim(),
+                  },
                 } as MathNode)
               }
             }
@@ -111,8 +108,8 @@ export function katexPlugin(options: KatexPluginOptions = {}): TransformPlugin {
                   value: match[1],
                   inline: true,
                   data: {
-                    latex: match[1]
-                  }
+                    latex: match[1],
+                  },
                 } as MathNode)
               }
             }
@@ -126,8 +123,8 @@ export function katexPlugin(options: KatexPluginOptions = {}): TransformPlugin {
           ...tree.meta,
           data: {
             ...tree.meta?.data,
-            mathExpressions: mathNodes
-          }
+            mathExpressions: mathNodes,
+          },
         }
       } else {
         tree.meta.data.mathExpressions = mathNodes

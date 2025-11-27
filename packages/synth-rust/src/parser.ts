@@ -5,12 +5,12 @@
  * Uses tree-sitter-rust for parsing, then converts to Synth format
  */
 
-import type { Tree, Plugin } from '@sylphx/synth'
-import { createTree, addNode } from '@sylphx/synth'
+import type { Plugin, Tree } from '@sylphx/synth'
+import { addNode, createTree } from '@sylphx/synth'
 import { SynthError } from '@sylphx/synth'
+import type { NodeId } from '@sylphx/synth'
 import Parser from 'tree-sitter'
 import Rust from 'tree-sitter-rust'
-import type { NodeId } from '@sylphx/synth'
 
 export interface RustParseOptions {
   /** Build query index for AST */
@@ -150,7 +150,7 @@ export class RustParser {
     })
 
     // Add to parent's children
-    tree.nodes[parentId]!.children.push(nodeId)
+    tree.nodes[parentId]?.children.push(nodeId)
 
     // Recursively convert children
     for (let i = 0; i < tsNode.childCount; i++) {
@@ -183,10 +183,7 @@ export function parse(source: string, options?: RustParseOptions): Tree {
   return parser.parse(source, options)
 }
 
-export async function parseAsync(
-  source: string,
-  options?: RustParseOptions
-): Promise<Tree> {
+export async function parseAsync(source: string, options?: RustParseOptions): Promise<Tree> {
   const parser = new RustParser()
   return parser.parseAsync(source, options)
 }

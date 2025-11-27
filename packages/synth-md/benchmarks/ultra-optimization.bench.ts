@@ -7,11 +7,11 @@
  * - Synth Ultra-Optimized (target 20-30x)
  */
 
-import { bench, describe } from 'vitest'
 import { remark } from 'remark'
+import { bench, describe } from 'vitest'
+import { BatchTokenizer } from '../src/parsers/markdown/batch-tokenizer.js'
 import { OptimizedMarkdownParser } from '../src/parsers/markdown/optimized-parser.js'
 import { UltraOptimizedMarkdownParser } from '../src/parsers/markdown/ultra-optimized-parser.js'
-import { BatchTokenizer } from '../src/parsers/markdown/batch-tokenizer.js'
 
 // Test documents
 const smallDoc = `# Hello World

@@ -2,15 +2,15 @@
  * Universal linter implementation
  */
 
-import type { Tree, BaseNode, NodeId } from '@sylphx/synth'
+import type { NodeId, Tree } from '@sylphx/synth'
 import type {
+  Diagnostic,
+  DiagnosticSeverity,
+  LintResult,
+  LinterConfig,
   Rule,
   RuleContext,
   RuleVisitor,
-  Diagnostic,
-  DiagnosticSeverity,
-  LinterConfig,
-  LintResult,
 } from './types.js'
 
 /**
@@ -93,9 +93,7 @@ export class Linter {
     for (const [name, rule] of this.rules) {
       // Check if rule is enabled in config
       const configValue = this.config.rules?.[name]
-      const isEnabled =
-        configValue === true ||
-        (configValue !== false && rule.enabled !== false)
+      const isEnabled = configValue === true || (configValue !== false && rule.enabled !== false)
 
       if (!isEnabled) continue
 
@@ -128,9 +126,7 @@ export class Linter {
         // Get severity from config or rule default
         const configSeverity = this.config.rules?.[rule.name]
         const severity =
-          typeof configSeverity === 'string'
-            ? configSeverity
-            : diagnostic.severity || rule.severity
+          typeof configSeverity === 'string' ? configSeverity : diagnostic.severity || rule.severity
 
         diagnostics.push({
           ...diagnostic,

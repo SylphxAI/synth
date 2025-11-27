@@ -5,11 +5,11 @@
  * Uses graphql-js (reference implementation) for parsing, then converts to Synth format
  */
 
-import type { Tree, Plugin } from '@sylphx/synth'
-import { createTree, addNode } from '@sylphx/synth'
+import type { Plugin, Tree } from '@sylphx/synth'
+import { addNode, createTree } from '@sylphx/synth'
 import { SynthError } from '@sylphx/synth'
-import { parse as gqlParse, type ASTNode } from 'graphql'
 import type { NodeId } from '@sylphx/synth'
+import { parse as gqlParse } from 'graphql'
 
 export interface GraphQLParseOptions {
   /** Allow legacy SDL syntax */
@@ -188,7 +188,7 @@ export class GraphQLParser {
     })
 
     // Add to parent's children
-    tree.nodes[parentId]!.children.push(nodeId)
+    tree.nodes[parentId]?.children.push(nodeId)
 
     // Recursively convert children
     for (const key of Object.keys(gqlNode)) {
@@ -240,10 +240,7 @@ export function parse(source: string, options?: GraphQLParseOptions): Tree {
   return parser.parse(source, options)
 }
 
-export async function parseAsync(
-  source: string,
-  options?: GraphQLParseOptions
-): Promise<Tree> {
+export async function parseAsync(source: string, options?: GraphQLParseOptions): Promise<Tree> {
   const parser = new GraphQLParser()
   return parser.parseAsync(source, options)
 }

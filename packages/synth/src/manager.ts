@@ -2,9 +2,9 @@
  * Generic Plugin Manager
  */
 
-import type { Tree, BaseNode } from './types/index.js'
 import type { Plugin } from './plugin.js'
 import { isTransformPlugin, isVisitorPlugin } from './plugin.js'
+import type { BaseNode, Tree } from './types/index.js'
 
 /**
  * Plugin manager for composing and executing plugins
@@ -93,7 +93,10 @@ export class PluginManager {
   /**
    * Visit tree with visitors - can be overridden by subclasses
    */
-  protected visitTree(tree: Tree, visitors: Record<string, (node: BaseNode) => BaseNode | void>): Tree {
+  protected visitTree(
+    tree: Tree,
+    visitors: Record<string, (node: BaseNode) => BaseNode | undefined>
+  ): Tree {
     // Default implementation - traverse and apply visitors
     const visitNode = (node: BaseNode): BaseNode => {
       const visitor = visitors[node.type]

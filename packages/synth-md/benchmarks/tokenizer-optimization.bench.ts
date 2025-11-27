@@ -5,8 +5,8 @@
  */
 
 import { bench, describe } from 'vitest'
-import { IncrementalTokenizer } from '../src/parsers/markdown/tokenizer.js'
 import { OptimizedTokenizer } from '../src/parsers/markdown/optimized-tokenizer.js'
+import { IncrementalTokenizer } from '../src/parsers/markdown/tokenizer.js'
 
 // Test documents
 const smallDoc = `# Heading 1

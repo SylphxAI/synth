@@ -5,13 +5,13 @@
  * Integrates with node pool and query index for maximum performance.
  */
 
-import type { Tree, NodeId } from '../../types/index.js'
-import { createTree, addNode } from '../../types/tree.js'
 import type { Edit } from '../../core/incremental.js'
-import { createIndex, type ASTIndex } from '../../core/query-index.js'
 import { globalNodePool } from '../../core/node-pool.js'
-import { IncrementalTokenizer } from './tokenizer.js'
+import { type ASTIndex, createIndex } from '../../core/query-index.js'
+import type { NodeId, Tree } from '../../types/index.js'
+import { addNode, createTree } from '../../types/tree.js'
 import { InlineTokenizer } from './inline-tokenizer.js'
+import { IncrementalTokenizer } from './tokenizer.js'
 import type { BlockToken, InlineToken } from './tokens.js'
 
 /**
@@ -97,7 +97,7 @@ export class IncrementalMarkdownParser {
     for (const token of tokens) {
       const nodeId = this.buildNode(tree, token, tree.root)
       if (nodeId !== null) {
-        tree.nodes[tree.root]!.children.push(nodeId)
+        tree.nodes[tree.root]?.children.push(nodeId)
       }
     }
 
@@ -238,7 +238,7 @@ export class IncrementalMarkdownParser {
     for (const inlineToken of inlineTokens) {
       const nodeId = this.buildInlineNode(tree, inlineToken, parent)
       if (nodeId !== null) {
-        tree.nodes[parent]!.children.push(nodeId)
+        tree.nodes[parent]?.children.push(nodeId)
       }
     }
   }
@@ -284,7 +284,7 @@ export class IncrementalMarkdownParser {
           data: { value: token.text },
         })
 
-        tree.nodes[emphasisId]!.children.push(textId)
+        tree.nodes[emphasisId]?.children.push(textId)
         return emphasisId
       }
 
@@ -311,7 +311,7 @@ export class IncrementalMarkdownParser {
           data: { value: token.text },
         })
 
-        tree.nodes[strongId]!.children.push(textId)
+        tree.nodes[strongId]?.children.push(textId)
         return strongId
       }
 
@@ -355,7 +355,7 @@ export class IncrementalMarkdownParser {
           data: { value: token.text },
         })
 
-        tree.nodes[linkId]!.children.push(textId)
+        tree.nodes[linkId]?.children.push(textId)
         return linkId
       }
 
@@ -405,8 +405,8 @@ export class IncrementalMarkdownParser {
     const affected = new Set<NodeId>()
 
     // Find nodes that overlap with the edit range
-    for (let i = 0; i < this.tree!.nodes.length; i++) {
-      const node = this.tree!.nodes[i]
+    for (let i = 0; i < this.tree?.nodes.length; i++) {
+      const node = this.tree?.nodes[i]
       if (!node || !node.span) continue
 
       const nodeStart = node.span.start.offset

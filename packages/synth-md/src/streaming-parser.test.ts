@@ -2,14 +2,9 @@
  * Streaming Parser Tests
  */
 
-import { describe, it, expect, beforeEach, vi } from 'bun:test'
-import {
-  StreamingMarkdownParser,
-  parseStream,
-  parseWithProgress,
-  type StreamingOptions,
-} from './streaming-parser.js'
+import { describe, expect, it } from 'bun:test'
 import type { BaseNode, Tree } from '@sylphx/synth'
+import { StreamingMarkdownParser, parseStream, parseWithProgress } from './streaming-parser.js'
 
 describe('Streaming Markdown Parser', () => {
   describe('Basic Streaming', () => {
@@ -157,15 +152,13 @@ Paragraph 3 text here.`
         emitNodes: true,
       })
 
-      let drainCalled = false
+      let _drainCalled = false
       parser.on('drain', () => {
-        drainCalled = true
+        _drainCalled = true
       })
 
       // Write enough to trigger backpressure
-      const markdown = Array(100)
-        .fill('# Heading\n\nParagraph\n\n')
-        .join('')
+      const markdown = Array(100).fill('# Heading\n\nParagraph\n\n').join('')
 
       parser.write(markdown)
       await parser.end()
@@ -178,9 +171,7 @@ Paragraph 3 text here.`
       const parser = new StreamingMarkdownParser({ highWaterMark: 1 })
 
       // Write a large amount
-      const markdown = Array(1000)
-        .fill('# Heading\n\nParagraph\n\n')
-        .join('')
+      const markdown = Array(1000).fill('# Heading\n\nParagraph\n\n').join('')
 
       const canWrite = parser.write(markdown)
       // May or may not apply backpressure depending on processing speed
@@ -208,9 +199,7 @@ Paragraph 2.`
       })
 
       it('should handle large strings', async () => {
-        const markdown = Array(1000)
-          .fill('# Heading\n\nParagraph text.\n\n')
-          .join('')
+        const markdown = Array(1000).fill('# Heading\n\nParagraph text.\n\n').join('')
 
         const tree = await StreamingMarkdownParser.fromString(markdown, {
           chunkSize: 100,
@@ -265,7 +254,7 @@ Paragraph 2.`
       })
 
       it('should respect backpressure in iterable', async () => {
-        let drainCount = 0
+        let _drainCount = 0
 
         async function* generateLargeChunks() {
           for (let i = 0; i < 100; i++) {
@@ -278,7 +267,7 @@ Paragraph 2.`
         })
 
         parser.on('drain', () => {
-          drainCount++
+          _drainCount++
         })
 
         const treePromise = new Promise<Tree>((resolve, reject) => {
@@ -555,10 +544,10 @@ Paragraph 2.`
     it('should handle transform stream errors', (done) => {
       const transform = StreamingMarkdownParser.createTransform()
 
-      let errorEmitted = false
+      let _errorEmitted = false
 
       transform.on('error', () => {
-        errorEmitted = true
+        _errorEmitted = true
       })
 
       transform.on('finish', () => {
@@ -592,7 +581,7 @@ Paragraph 2.`
     })
 
     it('should parse from Node.js readable stream', async () => {
-      const { Readable } = await import('stream')
+      const { Readable } = await import('node:stream')
 
       const chunks = ['# Heading\n', '\n', 'Text content']
       let index = 0
@@ -629,7 +618,7 @@ Paragraph 2.`
     })
 
     it('should convert readable stream to async iterable', async () => {
-      const { Readable } = await import('stream')
+      const { Readable } = await import('node:stream')
 
       const readable = new Readable({
         read() {
@@ -648,7 +637,7 @@ Paragraph 2.`
 
   describe('fromIterable with backpressure', () => {
     it('should handle backpressure correctly', async () => {
-      let drainEventCount = 0
+      const _drainEventCount = 0
 
       async function* slowIterable() {
         for (let i = 0; i < 50; i++) {
@@ -689,7 +678,6 @@ Paragraph 2.`
         parser.on('end', () => resolve())
         parser.on('error', reject)
       })
-
       ;(async () => {
         for await (const chunk of fastIterable()) {
           const canWrite = parser.write(chunk)
@@ -719,7 +707,7 @@ Paragraph 2.`
 
       try {
         await StreamingMarkdownParser.fromIterable(errorIterable())
-      } catch (error) {
+      } catch (_error) {
         errorCaught = true
       }
 
@@ -730,7 +718,7 @@ Paragraph 2.`
 
   describe('streamToAsyncIterable coverage', () => {
     it('should convert Node.js stream with Buffer chunks', async () => {
-      const { Readable } = await import('stream')
+      const { Readable } = await import('node:stream')
 
       // Create a stream that emits Buffer objects
       const stream = new Readable({
@@ -739,7 +727,7 @@ Paragraph 2.`
           this.push(Buffer.from('\n'))
           this.push(Buffer.from('Second'))
           this.push(null)
-        }
+        },
       })
 
       // parseStream will call streamToAsyncIterable internally
@@ -750,7 +738,7 @@ Paragraph 2.`
     })
 
     it('should handle stream with multiple buffer chunks', async () => {
-      const { Readable } = await import('stream')
+      const { Readable } = await import('node:stream')
 
       const buffers = [
         Buffer.from('# Title\n'),
@@ -768,7 +756,7 @@ Paragraph 2.`
           } else {
             this.push(null)
           }
-        }
+        },
       })
 
       const tree = await parseStream(stream)

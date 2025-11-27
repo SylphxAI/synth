@@ -2,21 +2,21 @@
  * HTML Parser Tests
  */
 
-import { describe, it, expect } from 'bun:test'
-import { HTMLParser, createParser, parse, parseAsync } from './parser.js'
+import { describe, expect, it } from 'bun:test'
 import { createTransformPlugin } from '@sylphx/synth'
+import { HTMLParser, createParser, parse, parseAsync } from './parser.js'
 import {
-  isElementNode,
-  isTextNode,
-  isDocumentNode,
-  isDoctypeNode,
-  getTagName,
-  getTextValue,
+  getAttribute,
   getDoctypeName,
   getDoctypePublicId,
   getDoctypeSystemId,
-  getAttribute,
+  getTagName,
+  getTextValue,
+  isDoctypeNode,
+  isDocumentNode,
+  isElementNode,
   isSelfClosing,
+  isTextNode,
   isVoidElement,
 } from './types.js'
 
@@ -29,10 +29,10 @@ describe('HTMLParser', () => {
       expect(tree).toBeDefined()
       expect(tree.nodes.length).toBeGreaterThan(0)
 
-      const div = tree.nodes.find(n => isElementNode(n) && getTagName(n) === 'div')
+      const div = tree.nodes.find((n) => isElementNode(n) && getTagName(n) === 'div')
       expect(div).toBeDefined()
 
-      const text = tree.nodes.find(n => isTextNode(n))
+      const text = tree.nodes.find((n) => isTextNode(n))
       expect(text).toBeDefined()
       expect(getTextValue(text!)).toBe('Hello')
     })
@@ -41,19 +41,19 @@ describe('HTMLParser', () => {
       const parser = new HTMLParser()
       const tree = parser.parse('<div><p>Text</p></div>')
 
-      const div = tree.nodes.find(n => isElementNode(n) && getTagName(n) === 'div')
-      const p = tree.nodes.find(n => isElementNode(n) && getTagName(n) === 'p')
+      const div = tree.nodes.find((n) => isElementNode(n) && getTagName(n) === 'div')
+      const p = tree.nodes.find((n) => isElementNode(n) && getTagName(n) === 'p')
 
       expect(div).toBeDefined()
       expect(p).toBeDefined()
-      expect(p!.parent).toBe(div!.id)
+      expect(p?.parent).toBe(div?.id)
     })
 
     it('should parse elements with attributes', () => {
       const parser = new HTMLParser()
       const tree = parser.parse('<div id="main" class="container"></div>')
 
-      const div = tree.nodes.find(n => isElementNode(n) && getTagName(n) === 'div')
+      const div = tree.nodes.find((n) => isElementNode(n) && getTagName(n) === 'div')
       expect(div).toBeDefined()
 
       expect(getAttribute(div!, 'id')).toBe('main')
@@ -66,7 +66,7 @@ describe('HTMLParser', () => {
       const parser = new HTMLParser()
       const tree = parser.parse('<!DOCTYPE html><html></html>')
 
-      const doctype = tree.nodes.find(n => isDoctypeNode(n))
+      const doctype = tree.nodes.find((n) => isDoctypeNode(n))
       expect(doctype).toBeDefined()
       expect(getDoctypeName(doctype!)).toBe('html')
     })
@@ -77,7 +77,7 @@ describe('HTMLParser', () => {
         '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">'
       )
 
-      const doctype = tree.nodes.find(n => isDoctypeNode(n))
+      const doctype = tree.nodes.find((n) => isDoctypeNode(n))
       expect(getDoctypePublicId(doctype!)).toBe('-//W3C//DTD HTML 4.01//EN')
       expect(getDoctypeSystemId(doctype!)).toBe('http://www.w3.org/TR/html4/strict.dtd')
     })
@@ -88,16 +88,16 @@ describe('HTMLParser', () => {
       const parser = new HTMLParser()
       const tree = parser.parse('<div><br><img src="test.jpg"></div>')
 
-      const br = tree.nodes.find(n => isElementNode(n) && getTagName(n) === 'br')
-      const img = tree.nodes.find(n => isElementNode(n) && getTagName(n) === 'img')
-      const div = tree.nodes.find(n => isElementNode(n) && getTagName(n) === 'div')
+      const br = tree.nodes.find((n) => isElementNode(n) && getTagName(n) === 'br')
+      const img = tree.nodes.find((n) => isElementNode(n) && getTagName(n) === 'img')
+      const div = tree.nodes.find((n) => isElementNode(n) && getTagName(n) === 'div')
 
       expect(br).toBeDefined()
       expect(img).toBeDefined()
 
       expect(isVoidElement(br!)).toBe(true)
-      expect(br!.parent).toBe(div!.id)
-      expect(br!.children).toEqual([])
+      expect(br?.parent).toBe(div?.id)
+      expect(br?.children).toEqual([])
 
       expect(isVoidElement(img!)).toBe(true)
       expect(getAttribute(img!, 'src')).toBe('test.jpg')
@@ -109,7 +109,7 @@ describe('HTMLParser', () => {
       const parser = new HTMLParser()
       const tree = parser.parse('<component />')
 
-      const element = tree.nodes.find(n => isElementNode(n) && getTagName(n) === 'component')
+      const element = tree.nodes.find((n) => isElementNode(n) && getTagName(n) === 'component')
       expect(element).toBeDefined()
       expect(isSelfClosing(element!)).toBe(true)
     })
@@ -118,7 +118,7 @@ describe('HTMLParser', () => {
       const parser = new HTMLParser()
       const tree = parser.parse('<component name="test" value="123" />')
 
-      const element = tree.nodes.find(n => isElementNode(n) && getTagName(n) === 'component')
+      const element = tree.nodes.find((n) => isElementNode(n) && getTagName(n) === 'component')
       expect(isSelfClosing(element!)).toBe(true)
       expect(getAttribute(element!, 'name')).toBe('test')
       expect(getAttribute(element!, 'value')).toBe('123')
@@ -148,10 +148,10 @@ describe('HTMLParser', () => {
 
       expect(tree.nodes.length).toBeGreaterThan(0)
 
-      const doctype = tree.nodes.find(n => isDoctypeNode(n))
-      const html_elem = tree.nodes.find(n => isElementNode(n) && getTagName(n) === 'html')
-      const head = tree.nodes.find(n => isElementNode(n) && getTagName(n) === 'head')
-      const body = tree.nodes.find(n => isElementNode(n) && getTagName(n) === 'body')
+      const doctype = tree.nodes.find((n) => isDoctypeNode(n))
+      const html_elem = tree.nodes.find((n) => isElementNode(n) && getTagName(n) === 'html')
+      const head = tree.nodes.find((n) => isElementNode(n) && getTagName(n) === 'head')
+      const body = tree.nodes.find((n) => isElementNode(n) && getTagName(n) === 'body')
 
       expect(doctype).toBeDefined()
       expect(html_elem).toBeDefined()
@@ -163,12 +163,12 @@ describe('HTMLParser', () => {
       const parser = new HTMLParser()
       const tree = parser.parse('<div><span><a>Link</a></span></div>')
 
-      const div = tree.nodes.find(n => isElementNode(n) && getTagName(n) === 'div')
-      const span = tree.nodes.find(n => isElementNode(n) && getTagName(n) === 'span')
-      const a = tree.nodes.find(n => isElementNode(n) && getTagName(n) === 'a')
+      const div = tree.nodes.find((n) => isElementNode(n) && getTagName(n) === 'div')
+      const span = tree.nodes.find((n) => isElementNode(n) && getTagName(n) === 'span')
+      const a = tree.nodes.find((n) => isElementNode(n) && getTagName(n) === 'a')
 
-      expect(span!.parent).toBe(div!.id)
-      expect(a!.parent).toBe(span!.id)
+      expect(span?.parent).toBe(div?.id)
+      expect(a?.parent).toBe(span?.id)
     })
   })
 
@@ -177,13 +177,10 @@ describe('HTMLParser', () => {
       const parser = new HTMLParser()
 
       let pluginCalled = false
-      const plugin = createTransformPlugin(
-        { name: 'test', version: '1.0.0' },
-        (tree) => {
-          pluginCalled = true
-          return tree
-        }
-      )
+      const plugin = createTransformPlugin({ name: 'test', version: '1.0.0' }, (tree) => {
+        pluginCalled = true
+        return tree
+      })
 
       parser.parse('<div>Test</div>', { plugins: [plugin] })
       expect(pluginCalled).toBe(true)
@@ -193,13 +190,10 @@ describe('HTMLParser', () => {
       const parser = new HTMLParser()
 
       let pluginCalled = false
-      const plugin = createTransformPlugin(
-        { name: 'test', version: '1.0.0' },
-        (tree) => {
-          pluginCalled = true
-          return tree
-        }
-      )
+      const plugin = createTransformPlugin({ name: 'test', version: '1.0.0' }, (tree) => {
+        pluginCalled = true
+        return tree
+      })
 
       parser.use(plugin)
       parser.parse('<div>Test</div>')
@@ -210,14 +204,8 @@ describe('HTMLParser', () => {
     it('should support plugin chaining', () => {
       const parser = new HTMLParser()
 
-      const plugin1 = createTransformPlugin(
-        { name: 'test1', version: '1.0.0' },
-        (tree) => tree
-      )
-      const plugin2 = createTransformPlugin(
-        { name: 'test2', version: '1.0.0' },
-        (tree) => tree
-      )
+      const plugin1 = createTransformPlugin({ name: 'test1', version: '1.0.0' }, (tree) => tree)
+      const plugin2 = createTransformPlugin({ name: 'test2', version: '1.0.0' }, (tree) => tree)
 
       const result = parser.use(plugin1).use(plugin2)
       expect(result).toBe(parser)
@@ -237,13 +225,10 @@ describe('HTMLParser', () => {
         }
       )
 
-      const oneOffPlugin = createTransformPlugin(
-        { name: 'one-off', version: '1.0.0' },
-        (tree) => {
-          oneOff = true
-          return tree
-        }
-      )
+      const oneOffPlugin = createTransformPlugin({ name: 'one-off', version: '1.0.0' }, (tree) => {
+        oneOff = true
+        return tree
+      })
 
       parser.use(registeredPlugin)
       parser.parse('<div>Test</div>', { plugins: [oneOffPlugin] })
@@ -269,7 +254,7 @@ describe('HTMLParser', () => {
       const asyncPlugin = createTransformPlugin(
         { name: 'async-test', version: '1.0.0' },
         async (tree) => {
-          await new Promise(resolve => setTimeout(resolve, 1))
+          await new Promise((resolve) => setTimeout(resolve, 1))
           pluginCalled = true
           return tree
         }
@@ -285,7 +270,7 @@ describe('HTMLParser', () => {
       const asyncPlugin = createTransformPlugin(
         { name: 'async', version: '1.0.0' },
         async (tree) => {
-          await new Promise(resolve => setTimeout(resolve, 1))
+          await new Promise((resolve) => setTimeout(resolve, 1))
           return tree
         }
       )
@@ -349,7 +334,7 @@ describe('HTMLParser', () => {
       const tree = parser.parse('')
 
       expect(tree).toBeDefined()
-      const docNode = tree.nodes.find(n => isDocumentNode(n))
+      const docNode = tree.nodes.find((n) => isDocumentNode(n))
       expect(docNode).toBeDefined()
     })
 
@@ -358,15 +343,15 @@ describe('HTMLParser', () => {
       const tree = parser.parse('<div>   \n  \t  </div>')
 
       // Whitespace-only text should be ignored
-      const div = tree.nodes.find(n => isElementNode(n) && getTagName(n) === 'div')
-      expect(div!.children).toEqual([])
+      const div = tree.nodes.find((n) => isElementNode(n) && getTagName(n) === 'div')
+      expect(div?.children).toEqual([])
     })
 
     it('should handle multiple root elements', () => {
       const parser = new HTMLParser()
       const tree = parser.parse('<div>First</div><div>Second</div>')
 
-      const divs = tree.nodes.filter(n => isElementNode(n) && getTagName(n) === 'div')
+      const divs = tree.nodes.filter((n) => isElementNode(n) && getTagName(n) === 'div')
       expect(divs.length).toBe(2)
     })
   })

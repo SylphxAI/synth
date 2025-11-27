@@ -1,6 +1,6 @@
-import { describe, it, expect } from 'bun:test'
-import { TypeChecker, createChecker, check } from './checker.js'
-import { createTree, addNode } from '@sylphx/synth'
+import { describe, expect, it } from 'bun:test'
+import { addNode, createTree } from '@sylphx/synth'
+import { TypeChecker, check, createChecker } from './checker.js'
 
 describe('TypeChecker', () => {
   it('should create a type checker', () => {
@@ -33,15 +33,15 @@ describe('TypeChecker', () => {
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 2, line: 1, column: 2 } },
       data: { value: 42 },
     })
-    tree.nodes[tree.root]!.children.push(numId)
+    tree.nodes[tree.root]?.children.push(numId)
 
     const result = check(tree)
 
     expect(result.success).toBe(true)
     const type = result.types.get(numId)
     expect(type).toBeDefined()
-    expect(type!.kind).toBe('number')
-    expect(type!.value).toBe(42)
+    expect(type?.kind).toBe('number')
+    expect(type?.value).toBe(42)
   })
 
   it('should infer string literal type', () => {
@@ -54,13 +54,13 @@ describe('TypeChecker', () => {
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 7, line: 1, column: 7 } },
       data: { value: 'hello' },
     })
-    tree.nodes[tree.root]!.children.push(strId)
+    tree.nodes[tree.root]?.children.push(strId)
 
     const result = check(tree)
 
     const type = result.types.get(strId)
-    expect(type!.kind).toBe('string')
-    expect(type!.value).toBe('hello')
+    expect(type?.kind).toBe('string')
+    expect(type?.value).toBe('hello')
   })
 
   it('should infer boolean literal type', () => {
@@ -73,13 +73,13 @@ describe('TypeChecker', () => {
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 4, line: 1, column: 4 } },
       data: { value: true },
     })
-    tree.nodes[tree.root]!.children.push(boolId)
+    tree.nodes[tree.root]?.children.push(boolId)
 
     const result = check(tree)
 
     const type = result.types.get(boolId)
-    expect(type!.kind).toBe('boolean')
-    expect(type!.value).toBe(true)
+    expect(type?.kind).toBe('boolean')
+    expect(type?.value).toBe(true)
   })
 
   it('should infer null type', () => {
@@ -92,12 +92,12 @@ describe('TypeChecker', () => {
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 4, line: 1, column: 4 } },
       data: {},
     })
-    tree.nodes[tree.root]!.children.push(nullId)
+    tree.nodes[tree.root]?.children.push(nullId)
 
     const result = check(tree)
 
     const type = result.types.get(nullId)
-    expect(type!.kind).toBe('null')
+    expect(type?.kind).toBe('null')
   })
 
   it('should infer array type', () => {
@@ -110,7 +110,7 @@ describe('TypeChecker', () => {
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 9, line: 1, column: 9 } },
       data: {},
     })
-    tree.nodes[tree.root]!.children.push(arrayId)
+    tree.nodes[tree.root]?.children.push(arrayId)
 
     // Add elements
     const elem1 = addNode(tree, {
@@ -120,14 +120,14 @@ describe('TypeChecker', () => {
       span: { start: { offset: 1, line: 1, column: 1 }, end: { offset: 2, line: 1, column: 2 } },
       data: { value: 1 },
     })
-    tree.nodes[arrayId]!.children.push(elem1)
+    tree.nodes[arrayId]?.children.push(elem1)
 
     const result = check(tree)
 
     const type = result.types.get(arrayId)
-    expect(type!.kind).toBe('array')
-    expect(type!.elementType).toBeDefined()
-    expect(type!.elementType!.kind).toBe('number')
+    expect(type?.kind).toBe('array')
+    expect(type?.elementType).toBeDefined()
+    expect(type?.elementType?.kind).toBe('number')
   })
 
   it('should infer empty array type', () => {
@@ -140,13 +140,13 @@ describe('TypeChecker', () => {
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 2, line: 1, column: 2 } },
       data: {},
     })
-    tree.nodes[tree.root]!.children.push(arrayId)
+    tree.nodes[tree.root]?.children.push(arrayId)
 
     const result = check(tree)
 
     const type = result.types.get(arrayId)
-    expect(type!.kind).toBe('array')
-    expect(type!.elementType!.kind).toBe('unknown')
+    expect(type?.kind).toBe('array')
+    expect(type?.elementType?.kind).toBe('unknown')
   })
 
   it('should infer object type', () => {
@@ -159,7 +159,7 @@ describe('TypeChecker', () => {
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 8, line: 1, column: 8 } },
       data: {},
     })
-    tree.nodes[tree.root]!.children.push(objId)
+    tree.nodes[tree.root]?.children.push(objId)
 
     // Add property
     const propId = addNode(tree, {
@@ -169,7 +169,7 @@ describe('TypeChecker', () => {
       span: { start: { offset: 2, line: 1, column: 2 }, end: { offset: 6, line: 1, column: 6 } },
       data: { key: { name: 'x' } },
     })
-    tree.nodes[objId]!.children.push(propId)
+    tree.nodes[objId]?.children.push(propId)
 
     const valueId = addNode(tree, {
       type: 'NumericLiteral',
@@ -178,15 +178,15 @@ describe('TypeChecker', () => {
       span: { start: { offset: 5, line: 1, column: 5 }, end: { offset: 6, line: 1, column: 6 } },
       data: { value: 1 },
     })
-    tree.nodes[propId]!.children.push(valueId)
+    tree.nodes[propId]?.children.push(valueId)
 
     const result = check(tree)
 
     const type = result.types.get(objId)
-    expect(type!.kind).toBe('object')
-    expect(type!.properties).toBeDefined()
-    expect(type!.properties!.has('x')).toBe(true)
-    expect(type!.properties!.get('x')!.kind).toBe('number')
+    expect(type?.kind).toBe('object')
+    expect(type?.properties).toBeDefined()
+    expect(type?.properties?.has('x')).toBe(true)
+    expect(type?.properties?.get('x')?.kind).toBe('number')
   })
 
   it('should infer binary expression type', () => {
@@ -199,7 +199,7 @@ describe('TypeChecker', () => {
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 5, line: 1, column: 5 } },
       data: { operator: '+' },
     })
-    tree.nodes[tree.root]!.children.push(binId)
+    tree.nodes[tree.root]?.children.push(binId)
 
     const left = addNode(tree, {
       type: 'NumericLiteral',
@@ -208,7 +208,7 @@ describe('TypeChecker', () => {
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 1, line: 1, column: 1 } },
       data: { value: 1 },
     })
-    tree.nodes[binId]!.children.push(left)
+    tree.nodes[binId]?.children.push(left)
 
     const right = addNode(tree, {
       type: 'NumericLiteral',
@@ -217,12 +217,12 @@ describe('TypeChecker', () => {
       span: { start: { offset: 4, line: 1, column: 4 }, end: { offset: 5, line: 1, column: 5 } },
       data: { value: 2 },
     })
-    tree.nodes[binId]!.children.push(right)
+    tree.nodes[binId]?.children.push(right)
 
     const result = check(tree)
 
     const type = result.types.get(binId)
-    expect(type!.kind).toBe('number')
+    expect(type?.kind).toBe('number')
   })
 
   it('should infer string concatenation type', () => {
@@ -235,7 +235,7 @@ describe('TypeChecker', () => {
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 9, line: 1, column: 9 } },
       data: { operator: '+' },
     })
-    tree.nodes[tree.root]!.children.push(binId)
+    tree.nodes[tree.root]?.children.push(binId)
 
     const left = addNode(tree, {
       type: 'StringLiteral',
@@ -244,7 +244,7 @@ describe('TypeChecker', () => {
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 3, line: 1, column: 3 } },
       data: { value: 'a' },
     })
-    tree.nodes[binId]!.children.push(left)
+    tree.nodes[binId]?.children.push(left)
 
     const right = addNode(tree, {
       type: 'StringLiteral',
@@ -253,12 +253,12 @@ describe('TypeChecker', () => {
       span: { start: { offset: 6, line: 1, column: 6 }, end: { offset: 9, line: 1, column: 9 } },
       data: { value: 'b' },
     })
-    tree.nodes[binId]!.children.push(right)
+    tree.nodes[binId]?.children.push(right)
 
     const result = check(tree)
 
     const type = result.types.get(binId)
-    expect(type!.kind).toBe('string')
+    expect(type?.kind).toBe('string')
   })
 
   it('should infer comparison expression type', () => {
@@ -271,7 +271,7 @@ describe('TypeChecker', () => {
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 5, line: 1, column: 5 } },
       data: { operator: '<' },
     })
-    tree.nodes[tree.root]!.children.push(binId)
+    tree.nodes[tree.root]?.children.push(binId)
 
     const left = addNode(tree, {
       type: 'NumericLiteral',
@@ -280,7 +280,7 @@ describe('TypeChecker', () => {
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 1, line: 1, column: 1 } },
       data: { value: 1 },
     })
-    tree.nodes[binId]!.children.push(left)
+    tree.nodes[binId]?.children.push(left)
 
     const right = addNode(tree, {
       type: 'NumericLiteral',
@@ -289,12 +289,12 @@ describe('TypeChecker', () => {
       span: { start: { offset: 4, line: 1, column: 4 }, end: { offset: 5, line: 1, column: 5 } },
       data: { value: 2 },
     })
-    tree.nodes[binId]!.children.push(right)
+    tree.nodes[binId]?.children.push(right)
 
     const result = check(tree)
 
     const type = result.types.get(binId)
-    expect(type!.kind).toBe('boolean')
+    expect(type?.kind).toBe('boolean')
   })
 
   it('should infer unary expression type', () => {
@@ -307,12 +307,12 @@ describe('TypeChecker', () => {
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 5, line: 1, column: 5 } },
       data: { operator: '!' },
     })
-    tree.nodes[tree.root]!.children.push(unaryId)
+    tree.nodes[tree.root]?.children.push(unaryId)
 
     const result = check(tree)
 
     const type = result.types.get(unaryId)
-    expect(type!.kind).toBe('boolean')
+    expect(type?.kind).toBe('boolean')
   })
 
   it('should infer typeof expression type', () => {
@@ -325,12 +325,12 @@ describe('TypeChecker', () => {
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 8, line: 1, column: 8 } },
       data: { operator: 'typeof' },
     })
-    tree.nodes[tree.root]!.children.push(typeofId)
+    tree.nodes[tree.root]?.children.push(typeofId)
 
     const result = check(tree)
 
     const type = result.types.get(typeofId)
-    expect(type!.kind).toBe('string')
+    expect(type?.kind).toBe('string')
   })
 
   it('should infer logical expression type', () => {
@@ -343,12 +343,12 @@ describe('TypeChecker', () => {
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 13, line: 1, column: 13 } },
       data: { operator: '&&' },
     })
-    tree.nodes[tree.root]!.children.push(logicalId)
+    tree.nodes[tree.root]?.children.push(logicalId)
 
     const result = check(tree)
 
     const type = result.types.get(logicalId)
-    expect(type!.kind).toBe('boolean')
+    expect(type?.kind).toBe('boolean')
   })
 
   it('should check type compatibility', () => {
@@ -387,13 +387,13 @@ describe('TypeChecker', () => {
       span: { start: { offset: 0, line: 1, column: 0 }, end: { offset: 2, line: 1, column: 2 } },
       data: { value: 42 },
     })
-    tree.nodes[tree.root]!.children.push(numId)
+    tree.nodes[tree.root]?.children.push(numId)
 
     const checker = new TypeChecker()
     checker.check(tree)
 
     const type = checker.getType(numId)
     expect(type).toBeDefined()
-    expect(type!.kind).toBe('number')
+    expect(type?.kind).toBe('number')
   })
 })

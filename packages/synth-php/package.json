@@ -32,6 +32,6 @@
     "tree-sitter-php": "^0.23.8"
   },
   "devDependencies": {
-    "typescript": "^5.7.3"
+    "typescript": "^5.6.0"
   }
 }

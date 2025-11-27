@@ -6,14 +6,14 @@
  */
 
 import type {
-  InlineToken,
-  TextToken,
   EmphasisToken,
-  StrongToken,
-  InlineCodeToken,
-  LinkToken,
   ImageToken,
+  InlineCodeToken,
+  InlineToken,
   LineBreakToken,
+  LinkToken,
+  StrongToken,
+  TextToken,
 } from './tokens.js'
 import { createPosition, createTokenPosition } from './tokens.js'
 

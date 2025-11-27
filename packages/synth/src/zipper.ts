@@ -6,8 +6,8 @@
  * and a "path" back to the root.
  */
 
-import type { Tree, NodeId, BaseNode } from './types/index.js'
-import { getNode, updateNode, addNode } from './types/index.js'
+import type { BaseNode, NodeId, Tree } from './types/index.js'
+import { addNode, getNode, updateNode } from './types/index.js'
 
 /**
  * Breadcrumb - represents one step in the path from root to focus

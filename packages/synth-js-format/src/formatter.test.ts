@@ -2,8 +2,8 @@
  * Formatter Tests
  */
 
-import { describe, it, expect } from 'bun:test'
-import { Formatter, format, check } from './formatter.js'
+import { describe, expect, it } from 'bun:test'
+import { Formatter, check, format } from './formatter.js'
 
 describe('Formatter', () => {
   describe('Basic Formatting', () => {

@@ -8,11 +8,7 @@
  * - Task lists (already supported in base tokenizer)
  */
 
-import type {
-  TableToken,
-  StrikethroughToken,
-  AutolinkToken,
-} from '@sylphx/synth-md'
+import type { AutolinkToken, StrikethroughToken, TableToken } from '@sylphx/synth-md'
 import { createPosition, createTokenPosition } from '@sylphx/synth-md'
 
 /**
@@ -48,7 +44,7 @@ function parseAlignment(separatorLine: string): Alignment[] {
   const content = trimmed.slice(1, -1) // Remove outer pipes
   const cells = content.split('|')
 
-  return cells.map(cell => {
+  return cells.map((cell) => {
     const c = cell.trim()
     const hasLeft = c.startsWith(':')
     const hasRight = c.endsWith(':')
@@ -70,7 +66,7 @@ function parseTableRow(line: string): string[] {
   }
 
   const content = trimmed.slice(1, -1) // Remove outer pipes
-  return content.split('|').map(cell => cell.trim())
+  return content.split('|').map((cell) => cell.trim())
 }
 
 /**
@@ -140,7 +136,7 @@ export function tryTokenizeTable(
   // Count characters to get end offset
   let endOffset = offset
   for (let i = startLine; i < currentLine; i++) {
-    endOffset += lines[i]!.length + 1 // +1 for \n
+    endOffset += lines[i]?.length + 1 // +1 for \n
   }
 
   return {
@@ -152,7 +148,7 @@ export function tryTokenizeTable(
       raw,
       position: createTokenPosition(
         createPosition(startLine, 0, offset),
-        createPosition(endLine, lines[endLine]!.length, endOffset - 1)
+        createPosition(endLine, lines[endLine]?.length, endOffset - 1)
       ),
     },
     nextLine: currentLine,
@@ -205,7 +201,11 @@ export function tryTokenizeAutolink(
           raw: url,
           position: createTokenPosition(
             createPosition(lineIndex, offset - lineStart, lineStart + offset),
-            createPosition(lineIndex, offset - lineStart + url.length, lineStart + offset + url.length)
+            createPosition(
+              lineIndex,
+              offset - lineStart + url.length,
+              lineStart + offset + url.length
+            )
           ),
         },
         newOffset: offset + url.length,
@@ -217,7 +217,7 @@ export function tryTokenizeAutolink(
   const wwwMatch = text.slice(offset).match(/^(www\.[^\s<>]+)/)
   if (wwwMatch) {
     const url = wwwMatch[1]!
-    const fullUrl = 'https://' + url
+    const fullUrl = `https://${url}`
 
     return {
       token: {
@@ -226,7 +226,11 @@ export function tryTokenizeAutolink(
         raw: url,
         position: createTokenPosition(
           createPosition(lineIndex, offset - lineStart, lineStart + offset),
-          createPosition(lineIndex, offset - lineStart + url.length, lineStart + offset + url.length)
+          createPosition(
+            lineIndex,
+            offset - lineStart + url.length,
+            lineStart + offset + url.length
+          )
         ),
       },
       newOffset: offset + url.length,
@@ -241,11 +245,15 @@ export function tryTokenizeAutolink(
       return {
         token: {
           type: 'autolink',
-          url: 'mailto:' + email,
+          url: `mailto:${email}`,
           raw: email,
           position: createTokenPosition(
             createPosition(lineIndex, offset - lineStart, lineStart + offset),
-            createPosition(lineIndex, offset - lineStart + email.length, lineStart + offset + email.length)
+            createPosition(
+              lineIndex,
+              offset - lineStart + email.length,
+              lineStart + offset + email.length
+            )
           ),
         },
         newOffset: offset + email.length,

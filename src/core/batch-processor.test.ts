@@ -1,13 +1,12 @@
-import { describe, it, expect } from 'vitest'
-import { createTree, addNode } from '../types/tree.js'
-import type { BaseNode } from '../types/index.js'
+import { describe, expect, it } from 'vitest'
+import { addNode, createTree } from '../types/tree.js'
 import {
+  batchFilter,
+  batchMap,
   batchProcess,
-  batchTraverse,
   batchSelect,
   batchTransform,
-  batchMap,
-  batchFilter,
+  batchTraverse,
 } from './batch-processor.js'
 
 describe('Batch Processor', () => {
@@ -220,17 +219,13 @@ describe('Batch Processor', () => {
       const visited: number[] = []
 
       // Process only child1 and child3
-      batchProcess(
-        tree,
-        [child1Id, child3Id],
-        {
-          batch: (nodes) => {
-            for (const node of nodes) {
-              visited.push(node.id)
-            }
-          },
-        }
-      )
+      batchProcess(tree, [child1Id, child3Id], {
+        batch: (nodes) => {
+          for (const node of nodes) {
+            visited.push(node.id)
+          }
+        },
+      })
 
       expect(visited).toEqual([child1Id, child3Id])
     })

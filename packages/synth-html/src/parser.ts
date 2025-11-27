@@ -4,10 +4,10 @@
  * Converts HTML into Synth AST using language-agnostic BaseNode
  */
 
-import type { Tree, NodeId, Plugin } from '@sylphx/synth'
-import { createTree, addNode } from '@sylphx/synth'
+import type { NodeId, Plugin, Tree } from '@sylphx/synth'
+import { addNode, createTree } from '@sylphx/synth'
 import { SynthError } from '@sylphx/synth'
-import { HTMLTokenizer, type HTMLToken } from './tokenizer.js'
+import { type HTMLToken, HTMLTokenizer } from './tokenizer.js'
 import { VOID_ELEMENTS } from './types.js'
 
 export interface HTMLParseOptions {
@@ -42,8 +42,8 @@ export class HTMLParser {
     const allPlugins = [...this.plugins, ...(options?.plugins || [])]
 
     // Check for async plugins
-    const hasAsyncPlugin = allPlugins.some(p =>
-      'transform' in p && p.transform.constructor.name === 'AsyncFunction'
+    const hasAsyncPlugin = allPlugins.some(
+      (p) => 'transform' in p && p.transform.constructor.name === 'AsyncFunction'
     )
 
     if (hasAsyncPlugin) {
@@ -116,7 +116,7 @@ export class HTMLParser {
               systemId: token.systemId,
             },
           })
-          tree.nodes[currentParent]!.children.push(id)
+          tree.nodes[currentParent]?.children.push(id)
           break
         }
 
@@ -132,7 +132,7 @@ export class HTMLParser {
               void: VOID_ELEMENTS.has(token.tagName),
             },
           })
-          tree.nodes[currentParent]!.children.push(id)
+          tree.nodes[currentParent]?.children.push(id)
 
           // Void elements don't have children
           if (!VOID_ELEMENTS.has(token.tagName)) {
@@ -147,9 +147,7 @@ export class HTMLParser {
           const lastElement = stack[stack.length - 1]
           if (lastElement && lastElement.tagName === token.tagName) {
             stack.pop()
-            currentParent = stack.length > 0
-              ? stack[stack.length - 1]!.id
-              : tree.root
+            currentParent = stack.length > 0 ? stack[stack.length - 1]?.id : tree.root
           }
           break
         }
@@ -166,7 +164,7 @@ export class HTMLParser {
               void: VOID_ELEMENTS.has(token.tagName),
             },
           })
-          tree.nodes[currentParent]!.children.push(id)
+          tree.nodes[currentParent]?.children.push(id)
           break
         }
 
@@ -179,7 +177,7 @@ export class HTMLParser {
               children: [],
               data: { value },
             })
-            tree.nodes[currentParent]!.children.push(id)
+            tree.nodes[currentParent]?.children.push(id)
           }
           break
         }
@@ -191,7 +189,7 @@ export class HTMLParser {
             children: [],
             data: { value: token.value },
           })
-          tree.nodes[currentParent]!.children.push(id)
+          tree.nodes[currentParent]?.children.push(id)
           break
         }
 
@@ -202,7 +200,7 @@ export class HTMLParser {
             children: [],
             data: { value: token.value },
           })
-          tree.nodes[currentParent]!.children.push(id)
+          tree.nodes[currentParent]?.children.push(id)
           break
         }
       }

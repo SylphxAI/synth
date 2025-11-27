@@ -13,7 +13,7 @@
  * - Parent-child index: Fast relationship queries
  */
 
-import type { Tree, NodeId, BaseNode } from '../types/index.js'
+import type { BaseNode, NodeId, Tree } from '../types/index.js'
 import { getNode } from '../types/tree.js'
 
 /**
@@ -295,7 +295,7 @@ export class ASTIndex {
             )
 
       if (candidates) {
-        candidates = new Set(depthIds.filter((id) => candidates!.has(id)))
+        candidates = new Set(depthIds.filter((id) => candidates?.has(id)))
       } else {
         candidates = new Set(depthIds)
       }
@@ -306,7 +306,7 @@ export class ASTIndex {
       const childIds = this.findChildren(selector.parent)
 
       if (candidates) {
-        candidates = new Set(childIds.filter((id) => candidates!.has(id)))
+        candidates = new Set(childIds.filter((id) => candidates?.has(id)))
       } else {
         candidates = new Set(childIds)
       }
@@ -318,7 +318,7 @@ export class ASTIndex {
         const dataIds = this.findByData(key, value)
 
         if (candidates) {
-          candidates = new Set(dataIds.filter((id) => candidates!.has(id)))
+          candidates = new Set(dataIds.filter((id) => candidates?.has(id)))
         } else {
           candidates = new Set(dataIds)
         }

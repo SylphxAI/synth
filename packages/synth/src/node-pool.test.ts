@@ -1,5 +1,5 @@
-import { describe, it, expect, beforeEach } from 'bun:test'
-import { NodePoolManager, createNodePool } from './node-pool.js'
+import { beforeEach, describe, expect, it } from 'bun:test'
+import { type NodePoolManager, createNodePool } from './node-pool.js'
 
 describe('Node Pool', () => {
   describe('NodePoolManager', () => {

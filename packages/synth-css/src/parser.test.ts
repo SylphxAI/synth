@@ -2,15 +2,15 @@
  * CSS Parser Tests
  */
 
-import { describe, it, expect } from 'bun:test'
-import { parse, parseAsync, createParser, CSSParser } from './parser.js'
+import { describe, expect, it } from 'bun:test'
+import { CSSParser, createParser, parse, parseAsync } from './parser.js'
 
 describe('CSSParser', () => {
   describe('Basic Parsing', () => {
     it('should parse empty CSS', () => {
       const tree = parse('')
       expect(tree.meta.language).toBe('css')
-      expect(tree.nodes[tree.root]!.children).toHaveLength(0)
+      expect(tree.nodes[tree.root]?.children).toHaveLength(0)
     })
 
     it('should parse single rule with one declaration', () => {
@@ -73,35 +73,35 @@ describe('CSSParser', () => {
   describe('Selectors', () => {
     it('should parse element selector', () => {
       const tree = parse('body { margin: 0; }')
-      const ruleId = tree.nodes[tree.root]!.children[0]!
+      const ruleId = tree.nodes[tree.root]?.children[0]!
       const rule = tree.nodes[ruleId]!
       expect(rule.data?.selector).toBe('body')
     })
 
     it('should parse class selector', () => {
       const tree = parse('.container { width: 100%; }')
-      const ruleId = tree.nodes[tree.root]!.children[0]!
+      const ruleId = tree.nodes[tree.root]?.children[0]!
       const rule = tree.nodes[ruleId]!
       expect(rule.data?.selector).toBe('.container')
     })
 
     it('should parse ID selector', () => {
       const tree = parse('#header { height: 60px; }')
-      const ruleId = tree.nodes[tree.root]!.children[0]!
+      const ruleId = tree.nodes[tree.root]?.children[0]!
       const rule = tree.nodes[ruleId]!
       expect(rule.data?.selector).toBe('#header')
     })
 
     it('should parse universal selector', () => {
       const tree = parse('* { box-sizing: border-box; }')
-      const ruleId = tree.nodes[tree.root]!.children[0]!
+      const ruleId = tree.nodes[tree.root]?.children[0]!
       const rule = tree.nodes[ruleId]!
       expect(rule.data?.selector).toBe('*')
     })
 
     it('should parse descendant selector', () => {
       const tree = parse('div p { color: gray; }')
-      const ruleId = tree.nodes[tree.root]!.children[0]!
+      const ruleId = tree.nodes[tree.root]?.children[0]!
       const rule = tree.nodes[ruleId]!
       expect(rule.data?.selector).toContain('div')
       expect(rule.data?.selector).toContain('p')
@@ -109,7 +109,7 @@ describe('CSSParser', () => {
 
     it('should parse child selector', () => {
       const tree = parse('ul > li { list-style: none; }')
-      const ruleId = tree.nodes[tree.root]!.children[0]!
+      const ruleId = tree.nodes[tree.root]?.children[0]!
       const rule = tree.nodes[ruleId]!
       expect(rule.data?.selector).toContain('ul')
       expect(rule.data?.selector).toContain('>')
@@ -118,7 +118,7 @@ describe('CSSParser', () => {
 
     it('should parse adjacent sibling selector', () => {
       const tree = parse('h1 + p { margin-top: 0; }')
-      const ruleId = tree.nodes[tree.root]!.children[0]!
+      const ruleId = tree.nodes[tree.root]?.children[0]!
       const rule = tree.nodes[ruleId]!
       expect(rule.data?.selector).toContain('h1')
       expect(rule.data?.selector).toContain('+')
@@ -127,7 +127,7 @@ describe('CSSParser', () => {
 
     it('should parse general sibling selector', () => {
       const tree = parse('h1 ~ p { color: gray; }')
-      const ruleId = tree.nodes[tree.root]!.children[0]!
+      const ruleId = tree.nodes[tree.root]?.children[0]!
       const rule = tree.nodes[ruleId]!
       expect(rule.data?.selector).toContain('h1')
       expect(rule.data?.selector).toContain('~')
@@ -136,7 +136,7 @@ describe('CSSParser', () => {
 
     it('should parse attribute selector', () => {
       const tree = parse('input[type="text"] { border: 1px solid; }')
-      const ruleId = tree.nodes[tree.root]!.children[0]!
+      const ruleId = tree.nodes[tree.root]?.children[0]!
       const rule = tree.nodes[ruleId]!
       expect(rule.data?.selector).toContain('input')
       expect(rule.data?.selector).toContain('[')
@@ -146,21 +146,21 @@ describe('CSSParser', () => {
 
     it('should parse pseudo-class selector', () => {
       const tree = parse('a:hover { color: blue; }')
-      const ruleId = tree.nodes[tree.root]!.children[0]!
+      const ruleId = tree.nodes[tree.root]?.children[0]!
       const rule = tree.nodes[ruleId]!
       expect(rule.data?.selector).toBe('a:hover')
     })
 
     it('should parse pseudo-element selector', () => {
       const tree = parse('p::before { content: "→"; }')
-      const ruleId = tree.nodes[tree.root]!.children[0]!
+      const ruleId = tree.nodes[tree.root]?.children[0]!
       const rule = tree.nodes[ruleId]!
       expect(rule.data?.selector).toBe('p::before')
     })
 
     it('should parse multiple selectors', () => {
       const tree = parse('h1, h2, h3 { font-weight: bold; }')
-      const ruleId = tree.nodes[tree.root]!.children[0]!
+      const ruleId = tree.nodes[tree.root]?.children[0]!
       const rule = tree.nodes[ruleId]!
       expect(rule.data?.selector).toContain('h1')
       expect(rule.data?.selector).toContain('h2')
@@ -170,7 +170,7 @@ describe('CSSParser', () => {
 
     it('should parse complex selector', () => {
       const tree = parse('.nav > ul > li:first-child a[href^="http"] { color: red; }')
-      const ruleId = tree.nodes[tree.root]!.children[0]!
+      const ruleId = tree.nodes[tree.root]?.children[0]!
       const rule = tree.nodes[ruleId]!
       expect(rule.data?.selector).toContain('.nav')
       expect(rule.data?.selector).toContain('ul')
@@ -190,7 +190,7 @@ describe('CSSParser', () => {
         }
       `
       const tree = parse(css)
-      const ruleId = tree.nodes[tree.root]!.children[0]!
+      const ruleId = tree.nodes[tree.root]?.children[0]!
       const rule = tree.nodes[ruleId]!
 
       const decl1 = tree.nodes[rule.children[0]!]!
@@ -216,7 +216,7 @@ describe('CSSParser', () => {
         }
       `
       const tree = parse(css)
-      const ruleId = tree.nodes[tree.root]!.children[0]!
+      const ruleId = tree.nodes[tree.root]?.children[0]!
       const rule = tree.nodes[ruleId]!
 
       const decl1 = tree.nodes[rule.children[0]!]!
@@ -238,7 +238,7 @@ describe('CSSParser', () => {
         }
       `
       const tree = parse(css)
-      const ruleId = tree.nodes[tree.root]!.children[0]!
+      const ruleId = tree.nodes[tree.root]?.children[0]!
       const rule = tree.nodes[ruleId]!
 
       const decl1 = tree.nodes[rule.children[0]!]!
@@ -266,7 +266,7 @@ describe('CSSParser', () => {
         }
       `
       const tree = parse(css)
-      const ruleId = tree.nodes[tree.root]!.children[0]!
+      const ruleId = tree.nodes[tree.root]?.children[0]!
       const rule = tree.nodes[ruleId]!
 
       const decl1 = tree.nodes[rule.children[0]!]!
@@ -286,7 +286,7 @@ describe('CSSParser', () => {
         }
       `
       const tree = parse(css)
-      const ruleId = tree.nodes[tree.root]!.children[0]!
+      const ruleId = tree.nodes[tree.root]?.children[0]!
       const rule = tree.nodes[ruleId]!
       const decl = tree.nodes[rule.children[0]!]!
 
@@ -301,7 +301,7 @@ describe('CSSParser', () => {
         }
       `
       const tree = parse(css)
-      const ruleId = tree.nodes[tree.root]!.children[0]!
+      const ruleId = tree.nodes[tree.root]?.children[0]!
       const rule = tree.nodes[ruleId]!
       const decl = tree.nodes[rule.children[0]!]!
 
@@ -345,7 +345,7 @@ describe('CSSParser', () => {
         }
       `
       const tree = parse(css)
-      const atRuleId = tree.nodes[tree.root]!.children[0]!
+      const atRuleId = tree.nodes[tree.root]?.children[0]!
       const atRule = tree.nodes[atRuleId]!
 
       expect(atRule.type).toBe('AtRule')
@@ -357,7 +357,7 @@ describe('CSSParser', () => {
     it('should parse @import rule', () => {
       const css = `@import url("styles.css");`
       const tree = parse(css)
-      const atRuleId = tree.nodes[tree.root]!.children[0]!
+      const atRuleId = tree.nodes[tree.root]?.children[0]!
       const atRule = tree.nodes[atRuleId]!
 
       expect(atRule.type).toBe('AtRule')
@@ -374,7 +374,7 @@ describe('CSSParser', () => {
         }
       `
       const tree = parse(css)
-      const atRuleId = tree.nodes[tree.root]!.children[0]!
+      const atRuleId = tree.nodes[tree.root]?.children[0]!
       const atRule = tree.nodes[atRuleId]!
 
       expect(atRule.type).toBe('AtRule')
@@ -395,7 +395,7 @@ describe('CSSParser', () => {
         }
       `
       const tree = parse(css)
-      const outerMedia = tree.nodes[tree.root]!.children[0]!
+      const outerMedia = tree.nodes[tree.root]?.children[0]!
       const outerMediaNode = tree.nodes[outerMedia]!
 
       expect(outerMediaNode.type).toBe('AtRule')
@@ -631,7 +631,7 @@ describe('CSSParser', () => {
     it('should handle empty rule', () => {
       const css = `.empty {}`
       const tree = parse(css)
-      const ruleId = tree.nodes[tree.root]!.children[0]!
+      const ruleId = tree.nodes[tree.root]?.children[0]!
       const rule = tree.nodes[ruleId]!
 
       expect(rule.type).toBe('StyleRule')
@@ -645,7 +645,7 @@ describe('CSSParser', () => {
         }
       `
       const tree = parse(css)
-      const ruleId = tree.nodes[tree.root]!.children[0]!
+      const ruleId = tree.nodes[tree.root]?.children[0]!
       const rule = tree.nodes[ruleId]!
 
       expect(rule.type).toBe('StyleRule')
@@ -660,7 +660,7 @@ describe('CSSParser', () => {
         }
       `
       const tree = parse(css)
-      const ruleId = tree.nodes[tree.root]!.children[0]!
+      const ruleId = tree.nodes[tree.root]?.children[0]!
       const rule = tree.nodes[ruleId]!
 
       expect(rule.children.length).toBeGreaterThanOrEqual(1)
@@ -673,7 +673,7 @@ describe('CSSParser', () => {
         }
       `
       const tree = parse(css)
-      const ruleId = tree.nodes[tree.root]!.children[0]!
+      const ruleId = tree.nodes[tree.root]?.children[0]!
       const rule = tree.nodes[ruleId]!
 
       expect(rule.children).toHaveLength(1)
@@ -686,7 +686,7 @@ describe('CSSParser', () => {
       const tree = parser.parse('div { color: red; }')
 
       expect(tree.meta.language).toBe('css')
-      expect(tree.nodes[tree.root]!.children).toHaveLength(1)
+      expect(tree.nodes[tree.root]?.children).toHaveLength(1)
     })
 
     it('should work with CSSParser class', () => {
@@ -694,21 +694,21 @@ describe('CSSParser', () => {
       const tree = parser.parse('div { color: red; }')
 
       expect(tree.meta.language).toBe('css')
-      expect(tree.nodes[tree.root]!.children).toHaveLength(1)
+      expect(tree.nodes[tree.root]?.children).toHaveLength(1)
     })
 
     it('should work with standalone parse function', () => {
       const tree = parse('div { color: red; }')
 
       expect(tree.meta.language).toBe('css')
-      expect(tree.nodes[tree.root]!.children).toHaveLength(1)
+      expect(tree.nodes[tree.root]?.children).toHaveLength(1)
     })
 
     it('should work with parseAsync function', async () => {
       const tree = await parseAsync('div { color: red; }')
 
       expect(tree.meta.language).toBe('css')
-      expect(tree.nodes[tree.root]!.children).toHaveLength(1)
+      expect(tree.nodes[tree.root]?.children).toHaveLength(1)
     })
 
     it('should support getTree method', () => {
@@ -754,7 +754,7 @@ describe('CSSParser', () => {
       const asyncPlugin = {
         name: 'async-plugin',
         transform: async (tree: any) => {
-          await new Promise(resolve => setTimeout(resolve, 1))
+          await new Promise((resolve) => setTimeout(resolve, 1))
           tree.metadata = { async: true }
           return tree
         },

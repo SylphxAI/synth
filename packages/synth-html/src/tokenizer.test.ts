@@ -2,7 +2,7 @@
  * HTML Tokenizer Tests
  */
 
-import { describe, it, expect } from 'bun:test'
+import { describe, expect, it } from 'bun:test'
 import { HTMLTokenizer } from './tokenizer.js'
 
 describe('HTMLTokenizer', () => {
@@ -12,12 +12,12 @@ describe('HTMLTokenizer', () => {
       const tokens = tokenizer.tokenize('<div>Hello</div>')
 
       expect(tokens).toHaveLength(3)
-      expect(tokens[0]!.type).toBe('startTag')
-      expect(tokens[0]!.tagName).toBe('div')
-      expect(tokens[1]!.type).toBe('text')
-      expect(tokens[1]!.value).toBe('Hello')
-      expect(tokens[2]!.type).toBe('endTag')
-      expect(tokens[2]!.tagName).toBe('div')
+      expect(tokens[0]?.type).toBe('startTag')
+      expect(tokens[0]?.tagName).toBe('div')
+      expect(tokens[1]?.type).toBe('text')
+      expect(tokens[1]?.value).toBe('Hello')
+      expect(tokens[2]?.type).toBe('endTag')
+      expect(tokens[2]?.tagName).toBe('div')
     })
 
     it('should handle nested elements', () => {
@@ -25,11 +25,11 @@ describe('HTMLTokenizer', () => {
       const tokens = tokenizer.tokenize('<div><span>Text</span></div>')
 
       expect(tokens).toHaveLength(5)
-      expect(tokens[0]!.tagName).toBe('div')
-      expect(tokens[1]!.tagName).toBe('span')
-      expect(tokens[2]!.type).toBe('text')
-      expect(tokens[3]!.tagName).toBe('span')
-      expect(tokens[4]!.tagName).toBe('div')
+      expect(tokens[0]?.tagName).toBe('div')
+      expect(tokens[1]?.tagName).toBe('span')
+      expect(tokens[2]?.type).toBe('text')
+      expect(tokens[3]?.tagName).toBe('span')
+      expect(tokens[4]?.tagName).toBe('div')
     })
 
     it('should handle empty elements', () => {
@@ -37,8 +37,8 @@ describe('HTMLTokenizer', () => {
       const tokens = tokenizer.tokenize('<div></div>')
 
       expect(tokens).toHaveLength(2)
-      expect(tokens[0]!.type).toBe('startTag')
-      expect(tokens[1]!.type).toBe('endTag')
+      expect(tokens[0]?.type).toBe('startTag')
+      expect(tokens[1]?.type).toBe('endTag')
     })
   })
 
@@ -105,8 +105,8 @@ describe('HTMLTokenizer', () => {
       const tokens = tokenizer.tokenize('<br/>')
 
       expect(tokens).toHaveLength(1)
-      expect(tokens[0]!.type).toBe('selfClosingTag')
-      expect(tokens[0]!.tagName).toBe('br')
+      expect(tokens[0]?.type).toBe('selfClosingTag')
+      expect(tokens[0]?.tagName).toBe('br')
     })
 
     it('should parse self-closing tags with attributes', () => {
@@ -129,8 +129,8 @@ describe('HTMLTokenizer', () => {
       const tokens = tokenizer.tokenize('<br>')
 
       expect(tokens).toHaveLength(1)
-      expect(tokens[0]!.type).toBe('startTag')
-      expect(tokens[0]!.tagName).toBe('br')
+      expect(tokens[0]?.type).toBe('startTag')
+      expect(tokens[0]?.tagName).toBe('br')
     })
 
     it('should parse img element', () => {
@@ -302,21 +302,21 @@ describe('HTMLTokenizer', () => {
       const tokenizer = new HTMLTokenizer()
       const tokens = tokenizer.tokenize('<div>Text</div>')
 
-      expect(tokens[0]!.start).toBe(0)
-      expect(tokens[0]!.end).toBe(5)
-      expect(tokens[1]!.start).toBe(5)
-      expect(tokens[1]!.end).toBe(9)
-      expect(tokens[2]!.start).toBe(9)
-      expect(tokens[2]!.end).toBe(15)
+      expect(tokens[0]?.start).toBe(0)
+      expect(tokens[0]?.end).toBe(5)
+      expect(tokens[1]?.start).toBe(5)
+      expect(tokens[1]?.end).toBe(9)
+      expect(tokens[2]?.start).toBe(9)
+      expect(tokens[2]?.end).toBe(15)
     })
 
     it('should include raw content', () => {
       const tokenizer = new HTMLTokenizer()
       const tokens = tokenizer.tokenize('<div class="test">Text</div>')
 
-      expect(tokens[0]!.raw).toBe('<div class="test">')
-      expect(tokens[1]!.raw).toBe('Text')
-      expect(tokens[2]!.raw).toBe('</div>')
+      expect(tokens[0]?.raw).toBe('<div class="test">')
+      expect(tokens[1]?.raw).toBe('Text')
+      expect(tokens[2]?.raw).toBe('</div>')
     })
   })
 
@@ -340,12 +340,12 @@ describe('HTMLTokenizer', () => {
       const tokens = tokenizer.tokenize(html)
 
       expect(tokens.length).toBeGreaterThan(0)
-      expect(tokens[0]!.type).toBe('doctype')
+      expect(tokens[0]?.type).toBe('doctype')
 
-      const htmlTags = tokens.filter(t => t.tagName === 'html')
+      const htmlTags = tokens.filter((t) => t.tagName === 'html')
       expect(htmlTags.length).toBe(2) // Start and end
 
-      const divTag = tokens.find(t => t.tagName === 'div' && t.type === 'startTag') as any
+      const divTag = tokens.find((t) => t.tagName === 'div' && t.type === 'startTag') as any
       expect(divTag.attributes.id).toBe('main')
       expect(divTag.attributes.class).toBe('container')
     })
@@ -366,13 +366,13 @@ describe('HTMLTokenizer', () => {
       const tokenizer = new HTMLTokenizer()
       const tokens = tokenizer.tokenize(html)
 
-      const comments = tokens.filter(t => t.type === 'comment')
+      const comments = tokens.filter((t) => t.type === 'comment')
       expect(comments.length).toBe(2)
 
-      const cdata = tokens.filter(t => t.type === 'cdata')
+      const cdata = tokens.filter((t) => t.type === 'cdata')
       expect(cdata.length).toBe(1)
 
-      const elements = tokens.filter(t => t.type === 'startTag')
+      const elements = tokens.filter((t) => t.type === 'startTag')
       expect(elements.length).toBeGreaterThan(0)
     })
   })
@@ -390,7 +390,7 @@ describe('HTMLTokenizer', () => {
       const tokens = tokenizer.tokenize('   \n  \t  ')
 
       expect(tokens).toHaveLength(1)
-      expect(tokens[0]!.type).toBe('text')
+      expect(tokens[0]?.type).toBe('text')
     })
 
     it('should handle unclosed tags gracefully', () => {
@@ -398,7 +398,7 @@ describe('HTMLTokenizer', () => {
       const tokens = tokenizer.tokenize('<div>Text')
 
       expect(tokens.length).toBeGreaterThan(0)
-      expect(tokens[0]!.type).toBe('startTag')
+      expect(tokens[0]?.type).toBe('startTag')
     })
 
     it('should handle malformed attributes', () => {
@@ -414,8 +414,8 @@ describe('HTMLTokenizer', () => {
       const tokenizer = new HTMLTokenizer()
       const tokens = tokenizer.tokenize('<DIV><SPAN>Text</SPAN></DIV>')
 
-      expect(tokens[0]!.tagName).toBe('div')
-      expect(tokens[1]!.tagName).toBe('span')
+      expect(tokens[0]?.tagName).toBe('div')
+      expect(tokens[1]?.tagName).toBe('span')
     })
 
     it('should normalize attribute names to lowercase', () => {

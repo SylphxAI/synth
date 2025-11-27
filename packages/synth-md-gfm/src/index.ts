@@ -10,7 +10,7 @@
  * - Task lists ([x] and [ ])
  */
 
-import { createTransformPlugin, type TransformPlugin } from '@sylphx/synth'
+import { type TransformPlugin, createTransformPlugin } from '@sylphx/synth'
 
 // Re-export GFM tokenizer utilities
 export * from './gfm-tokenizer.js'
@@ -51,18 +51,14 @@ export interface GFMPluginOptions {
  * ```
  */
 export function gfmPlugin(options: GFMPluginOptions = {}): TransformPlugin {
-  const {
-    tables = true,
-    strikethrough = true,
-    autolinks = true,
-    taskLists = true,
-  } = options
+  const { tables = true, strikethrough = true, autolinks = true, taskLists = true } = options
 
   return createTransformPlugin(
     {
       name: 'gfm',
       version: '0.1.0',
-      description: 'GitHub Flavored Markdown extensions (tables, strikethrough, autolinks, task lists)'
+      description:
+        'GitHub Flavored Markdown extensions (tables, strikethrough, autolinks, task lists)',
     },
     (tree) => {
       // GFM transformations would be applied here
@@ -79,10 +75,10 @@ export function gfmPlugin(options: GFMPluginOptions = {}): TransformPlugin {
                 tables,
                 strikethrough,
                 autolinks,
-                taskLists
-              }
-            }
-          }
+                taskLists,
+              },
+            },
+          },
         }
       } else {
         tree.meta.data.gfm = {
@@ -91,8 +87,8 @@ export function gfmPlugin(options: GFMPluginOptions = {}): TransformPlugin {
             tables,
             strikethrough,
             autolinks,
-            taskLists
-          }
+            taskLists,
+          },
         }
       }
 

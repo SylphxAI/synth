@@ -2,8 +2,8 @@
  * Functional composition utilities
  */
 
-import type { TransformFn } from './processor.js'
 import type { Tree } from '../types/index.js'
+import type { TransformFn } from './processor.js'
 
 /**
  * Compose multiple transforms into one
@@ -52,7 +52,7 @@ export async function map(trees: Tree[], transform: TransformFn): Promise<Tree[]
  */
 export function parallel(...transforms: TransformFn[]): TransformFn {
   return async (tree: Tree) => {
-    const results = await Promise.all(transforms.map(t => t(tree)))
+    const results = await Promise.all(transforms.map((t) => t(tree)))
     // Return the last result (can be customized with a merge strategy)
     return results[results.length - 1]!
   }
@@ -68,7 +68,7 @@ export function sequential(...transforms: TransformFn[]): TransformFn {
 /**
  * Retry a transform on failure
  */
-export function retry(transform: TransformFn, maxAttempts: number = 3): TransformFn {
+export function retry(transform: TransformFn, maxAttempts = 3): TransformFn {
   return async (tree: Tree) => {
     let lastError: Error | undefined
 
@@ -80,9 +80,7 @@ export function retry(transform: TransformFn, maxAttempts: number = 3): Transfor
       }
     }
 
-    throw new Error(
-      `Transform failed after ${maxAttempts} attempts: ${lastError?.message}`
-    )
+    throw new Error(`Transform failed after ${maxAttempts} attempts: ${lastError?.message}`)
   }
 }
 

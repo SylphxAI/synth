@@ -70,8 +70,7 @@ const ast2 = acorn.parse(code2, { ecmaVersion: 2015 })
 
 console.log('Example 2: ES6+ Features')
 console.log('Input:', code2)
-console.log('Arrow Function node:',
-  ast2.body[0].declarations[0].init.type) // ArrowFunctionExpression
+console.log('Arrow Function node:', ast2.body[0].declarations[0].init.type) // ArrowFunctionExpression
 console.log('Class node:', ast2.body[1].type) // ClassDeclaration
 console.log('\n')
 
@@ -104,7 +103,7 @@ const y = 100;`
 const ast4 = acorn.parse(code4, {
   ecmaVersion: 'latest',
   locations: true, // Add line/column info
-  ranges: true,    // Add character positions
+  ranges: true, // Add character positions
 })
 
 console.log('Example 4: Position Tracking')
@@ -155,10 +154,8 @@ const code6 = `
 const ast6 = acorn.parse(code6, { ecmaVersion: 2022 })
 
 console.log('Example 6: Modern JavaScript Features')
-console.log('Optional chaining node:',
-  ast6.body[0].declarations[0].init.type) // ChainExpression
-console.log('Private field node:',
-  ast6.body[2].body.body[0].type) // PropertyDefinition
+console.log('Optional chaining node:', ast6.body[0].declarations[0].init.type) // ChainExpression
+console.log('Private field node:', ast6.body[2].body.body[0].type) // PropertyDefinition
 console.log('\n')
 
 // ========================================

@@ -2,15 +2,15 @@
  * TOML Parser Tests
  */
 
-import { describe, it, expect } from 'bun:test'
-import { parse, parseAsync, createParser, TOMLParser } from './parser.js'
+import { describe, expect, it } from 'bun:test'
+import { TOMLParser, createParser, parse, parseAsync } from './parser.js'
 
 describe('TOMLParser', () => {
   describe('Basic Parsing', () => {
     it('should parse empty TOML', () => {
       const tree = parse('')
       expect(tree.meta.language).toBe('toml')
-      expect(tree.nodes[tree.root]!.children).toHaveLength(0)
+      expect(tree.nodes[tree.root]?.children).toHaveLength(0)
     })
 
     it('should parse basic key-value pair', () => {
@@ -422,9 +422,7 @@ describe('TOMLParser', () => {
       expect(root.children.length).toBeGreaterThanOrEqual(3)
 
       // Find package table
-      const packageTable = tree.nodes.find(
-        (n) => n.type === 'Table' && n.data?.name === 'package'
-      )
+      const packageTable = tree.nodes.find((n) => n.type === 'Table' && n.data?.name === 'package')
       expect(packageTable).toBeDefined()
     })
 
@@ -520,7 +518,7 @@ describe('TOMLParser', () => {
       const tree = parser.parse('key = "value"')
 
       expect(tree.meta.language).toBe('toml')
-      expect(tree.nodes[tree.root]!.children).toHaveLength(1)
+      expect(tree.nodes[tree.root]?.children).toHaveLength(1)
     })
 
     it('should work with TOMLParser class', () => {
@@ -528,21 +526,21 @@ describe('TOMLParser', () => {
       const tree = parser.parse('key = "value"')
 
       expect(tree.meta.language).toBe('toml')
-      expect(tree.nodes[tree.root]!.children).toHaveLength(1)
+      expect(tree.nodes[tree.root]?.children).toHaveLength(1)
     })
 
     it('should work with standalone parse function', () => {
       const tree = parse('key = "value"')
 
       expect(tree.meta.language).toBe('toml')
-      expect(tree.nodes[tree.root]!.children).toHaveLength(1)
+      expect(tree.nodes[tree.root]?.children).toHaveLength(1)
     })
 
     it('should work with parseAsync function', async () => {
       const tree = await parseAsync('key = "value"')
 
       expect(tree.meta.language).toBe('toml')
-      expect(tree.nodes[tree.root]!.children).toHaveLength(1)
+      expect(tree.nodes[tree.root]?.children).toHaveLength(1)
     })
 
     it('should support getTree method', () => {

@@ -11,16 +11,8 @@
  */
 
 import type { Edit } from './incremental.js'
-import type {
-  Token,
-  TokenStream,
-  TokenRange,
-  TokenPosition,
-} from './types/token.js'
-import {
-  createTokenStream,
-  getTokenRange,
-} from './types/token.js'
+import type { Token, TokenPosition, TokenRange, TokenStream } from './types/token.js'
+import { createTokenStream, getTokenRange } from './types/token.js'
 
 /**
  * Tokenizer statistics
@@ -64,7 +56,7 @@ export interface TokenizerStats {
  */
 export abstract class IncrementalTokenizer {
   protected tokenStream: TokenStream | null = null
-  protected source: string = ''
+  protected source = ''
 
   /**
    * Language identifier
@@ -85,7 +77,9 @@ export abstract class IncrementalTokenizer {
 
     // Log performance
     if (process.env.NODE_ENV !== 'production') {
-      console.log(`[Tokenizer] Initial tokenization: ${tokens.length} tokens in ${timeMs.toFixed(2)}ms`)
+      console.log(
+        `[Tokenizer] Initial tokenization: ${tokens.length} tokens in ${timeMs.toFixed(2)}ms`
+      )
     }
 
     return this.tokenStream
@@ -128,11 +122,7 @@ export abstract class IncrementalTokenizer {
     const newAffectedEnd = affectedRange.byteRange.end + editDelta
 
     // 3. Re-tokenize only the affected region
-    const newTokens = this.tokenizeImpl(
-      newSource,
-      affectedRange.byteRange.start,
-      newAffectedEnd
-    )
+    const newTokens = this.tokenizeImpl(newSource, affectedRange.byteRange.start, newAffectedEnd)
 
     // 4. Reuse unchanged tokens before affected region
     const tokensBeforeEdit = this.tokenStream.tokens.slice(0, affectedRange.startIndex)
@@ -140,14 +130,10 @@ export abstract class IncrementalTokenizer {
     // 5. Reuse unchanged tokens after affected region (with position adjustment)
     const tokensAfterEdit = this.tokenStream.tokens
       .slice(affectedRange.endIndex + 1)
-      .map(token => this.adjustTokenPosition(token, editDelta))
+      .map((token) => this.adjustTokenPosition(token, editDelta))
 
     // 6. Merge: before + new + after
-    const allTokens = [
-      ...tokensBeforeEdit,
-      ...newTokens,
-      ...tokensAfterEdit,
-    ]
+    const allTokens = [...tokensBeforeEdit, ...newTokens, ...tokensAfterEdit]
 
     // 7. Re-index tokens
     this.reindexTokens(allTokens)
@@ -172,8 +158,8 @@ export abstract class IncrementalTokenizer {
     if (process.env.NODE_ENV !== 'production') {
       console.log(
         `[Tokenizer] Incremental: ${stats.totalTokens} tokens ` +
-        `(${stats.reusedTokens} reused, ${stats.newTokens} new) ` +
-        `${(stats.reuseRate * 100).toFixed(1)}% reuse in ${timeMs.toFixed(2)}ms`
+          `(${stats.reusedTokens} reused, ${stats.newTokens} new) ` +
+          `${(stats.reuseRate * 100).toFixed(1)}% reuse in ${timeMs.toFixed(2)}ms`
       )
     }
 
@@ -194,11 +180,7 @@ export abstract class IncrementalTokenizer {
     }
 
     // Find tokens at edit start and end
-    let tokenRange = getTokenRange(
-      this.tokenStream,
-      edit.startByte,
-      edit.oldEndByte
-    )
+    let tokenRange = getTokenRange(this.tokenStream, edit.startByte, edit.oldEndByte)
 
     if (!tokenRange) {
       // Edit is outside current tokens, re-tokenize everything
@@ -277,11 +259,7 @@ export abstract class IncrementalTokenizer {
    * @param endOffset - Byte offset to end tokenizing
    * @returns Array of tokens
    */
-  protected abstract tokenizeImpl(
-    source: string,
-    startOffset: number,
-    endOffset: number
-  ): Token[]
+  protected abstract tokenizeImpl(source: string, startOffset: number, endOffset: number): Token[]
 
   /**
    * Convert byte offset to Position

@@ -2,8 +2,8 @@
  * Documentation generator implementation
  */
 
-import type { Tree, Node, NodeId } from '@sylphx/synth'
-import type { SymbolDoc, ParamDoc, ReturnDoc, ModuleDoc, DocOptions, DocResult } from './types.js'
+import type { Node, NodeId, Tree } from '@sylphx/synth'
+import type { DocOptions, DocResult, ModuleDoc, ParamDoc, ReturnDoc, SymbolDoc } from './types.js'
 
 /**
  * Documentation generator
@@ -151,7 +151,7 @@ export class DocGenerator {
   /**
    * Find comment for a node
    */
-  private findComment(tree: Tree, node: Node): string {
+  private findComment(_tree: Tree, node: Node): string {
     // Look for comment in node data
     if (node.data?.comment) {
       return String(node.data.comment)
@@ -285,7 +285,7 @@ export class DocGenerator {
    */
   private extractModuleDescription(tree: Tree): string {
     // Look for file-level comment in root children
-    for (const childId of tree.nodes[tree.root]!.children) {
+    for (const childId of tree.nodes[tree.root]?.children) {
       const child = tree.nodes[childId]
       if (child?.data?.leadingComments) {
         const comments = child.data.leadingComments as any[]
@@ -307,7 +307,6 @@ export class DocGenerator {
         return JSON.stringify(module, null, 2)
       case 'html':
         return this.formatHTML(module, options)
-      case 'markdown':
       default:
         return this.formatMarkdown(module, options)
     }
@@ -411,7 +410,9 @@ export class DocGenerator {
     parts.push('body { font-family: sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }')
     parts.push('h1 { border-bottom: 2px solid #eee; }')
     parts.push('h2 { border-bottom: 1px solid #eee; margin-top: 40px; }')
-    parts.push('.badge { display: inline-block; background: #007bff; color: white; padding: 2px 8px; border-radius: 3px; font-size: 12px; margin-right: 5px; }')
+    parts.push(
+      '.badge { display: inline-block; background: #007bff; color: white; padding: 2px 8px; border-radius: 3px; font-size: 12px; margin-right: 5px; }'
+    )
     parts.push('pre { background: #f5f5f5; padding: 10px; border-radius: 4px; }')
     parts.push('</style>')
     parts.push('</head>')

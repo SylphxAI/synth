@@ -2,8 +2,8 @@
  * Python Parser Tests
  */
 
-import { describe, it, expect } from 'bun:test'
-import { parse, parseAsync, createParser, PythonParser } from './parser.js'
+import { describe, expect, it } from 'bun:test'
+import { PythonParser, createParser, parse, parseAsync } from './parser.js'
 
 describe('PythonParser', () => {
   describe('Basic Parsing', () => {
@@ -21,7 +21,7 @@ describe('PythonParser', () => {
       expect(tree.nodes[tree.root]).toBeDefined()
 
       // Should have module root and children
-      const rootChildren = tree.nodes[tree.root]!.children
+      const rootChildren = tree.nodes[tree.root]?.children
       expect(rootChildren.length).toBeGreaterThan(0)
     })
 
@@ -35,7 +35,7 @@ def hello():
       expect(tree.meta.language).toBe('python')
 
       // Find function definition node
-      const funcNode = tree.nodes.find(n => n.type === 'FunctionDefinition')
+      const funcNode = tree.nodes.find((n) => n.type === 'FunctionDefinition')
       expect(funcNode).toBeDefined()
     })
 
@@ -50,7 +50,7 @@ class MyClass:
       expect(tree.meta.language).toBe('python')
 
       // Find class definition node
-      const classNode = tree.nodes.find(n => n.type === 'ClassDefinition')
+      const classNode = tree.nodes.find((n) => n.type === 'ClassDefinition')
       expect(classNode).toBeDefined()
     })
   })
@@ -63,7 +63,7 @@ class MyClass:
       expect(tree.meta.language).toBe('python')
 
       // Find string node
-      const stringNode = tree.nodes.find(n => n.type === 'String')
+      const stringNode = tree.nodes.find((n) => n.type === 'String')
       expect(stringNode).toBeDefined()
     })
 
@@ -74,7 +74,7 @@ class MyClass:
       expect(tree.meta.language).toBe('python')
 
       // Find integer node
-      const intNode = tree.nodes.find(n => n.type === 'Integer')
+      const intNode = tree.nodes.find((n) => n.type === 'Integer')
       expect(intNode).toBeDefined()
     })
 
@@ -85,7 +85,7 @@ class MyClass:
       expect(tree.meta.language).toBe('python')
 
       // Find float node
-      const floatNode = tree.nodes.find(n => n.type === 'Float')
+      const floatNode = tree.nodes.find((n) => n.type === 'Float')
       expect(floatNode).toBeDefined()
     })
 
@@ -99,7 +99,7 @@ flag2 = False
       expect(tree.meta.language).toBe('python')
 
       // Find boolean nodes
-      const boolNodes = tree.nodes.filter(n => n.type === 'True' || n.type === 'False')
+      const boolNodes = tree.nodes.filter((n) => n.type === 'True' || n.type === 'False')
       expect(boolNodes.length).toBeGreaterThanOrEqual(2)
     })
 
@@ -110,7 +110,7 @@ flag2 = False
       expect(tree.meta.language).toBe('python')
 
       // Find list node
-      const listNode = tree.nodes.find(n => n.type === 'List')
+      const listNode = tree.nodes.find((n) => n.type === 'List')
       expect(listNode).toBeDefined()
     })
 
@@ -121,7 +121,7 @@ flag2 = False
       expect(tree.meta.language).toBe('python')
 
       // Find dictionary node
-      const dictNode = tree.nodes.find(n => n.type === 'Dictionary')
+      const dictNode = tree.nodes.find((n) => n.type === 'Dictionary')
       expect(dictNode).toBeDefined()
     })
   })
@@ -141,7 +141,7 @@ else:
       expect(tree.meta.language).toBe('python')
 
       // Find if statement
-      const ifNode = tree.nodes.find(n => n.type === 'IfStatement')
+      const ifNode = tree.nodes.find((n) => n.type === 'IfStatement')
       expect(ifNode).toBeDefined()
     })
 
@@ -155,7 +155,7 @@ for i in range(10):
       expect(tree.meta.language).toBe('python')
 
       // Find for statement
-      const forNode = tree.nodes.find(n => n.type === 'ForStatement')
+      const forNode = tree.nodes.find((n) => n.type === 'ForStatement')
       expect(forNode).toBeDefined()
     })
 
@@ -169,7 +169,7 @@ while x < 10:
       expect(tree.meta.language).toBe('python')
 
       // Find while statement
-      const whileNode = tree.nodes.find(n => n.type === 'WhileStatement')
+      const whileNode = tree.nodes.find((n) => n.type === 'WhileStatement')
       expect(whileNode).toBeDefined()
     })
 
@@ -187,7 +187,7 @@ finally:
       expect(tree.meta.language).toBe('python')
 
       // Find try statement
-      const tryNode = tree.nodes.find(n => n.type === 'TryStatement')
+      const tryNode = tree.nodes.find((n) => n.type === 'TryStatement')
       expect(tryNode).toBeDefined()
     })
   })
@@ -202,7 +202,7 @@ def greet(name, greeting="Hello"):
 
       expect(tree.meta.language).toBe('python')
 
-      const funcNode = tree.nodes.find(n => n.type === 'FunctionDefinition')
+      const funcNode = tree.nodes.find((n) => n.type === 'FunctionDefinition')
       expect(funcNode).toBeDefined()
     })
 
@@ -215,7 +215,7 @@ def add(a: int, b: int) -> int:
 
       expect(tree.meta.language).toBe('python')
 
-      const funcNode = tree.nodes.find(n => n.type === 'FunctionDefinition')
+      const funcNode = tree.nodes.find((n) => n.type === 'FunctionDefinition')
       expect(funcNode).toBeDefined()
     })
 
@@ -225,7 +225,7 @@ def add(a: int, b: int) -> int:
 
       expect(tree.meta.language).toBe('python')
 
-      const lambdaNode = tree.nodes.find(n => n.type === 'Lambda')
+      const lambdaNode = tree.nodes.find((n) => n.type === 'Lambda')
       expect(lambdaNode).toBeDefined()
     })
 
@@ -239,7 +239,9 @@ def utility_function():
 
       expect(tree.meta.language).toBe('python')
 
-      const decoratorNode = tree.nodes.find(n => n.type === 'Decorator' || n.type === 'DecoratedDefinition')
+      const decoratorNode = tree.nodes.find(
+        (n) => n.type === 'Decorator' || n.type === 'DecoratedDefinition'
+      )
       expect(decoratorNode).toBeDefined()
     })
   })
@@ -258,7 +260,7 @@ class Calculator:
 
       expect(tree.meta.language).toBe('python')
 
-      const classNode = tree.nodes.find(n => n.type === 'ClassDefinition')
+      const classNode = tree.nodes.find((n) => n.type === 'ClassDefinition')
       expect(classNode).toBeDefined()
     })
 
@@ -274,7 +276,7 @@ class Dog(Animal):
 
       expect(tree.meta.language).toBe('python')
 
-      const classNodes = tree.nodes.filter(n => n.type === 'ClassDefinition')
+      const classNodes = tree.nodes.filter((n) => n.type === 'ClassDefinition')
       expect(classNodes.length).toBeGreaterThanOrEqual(2)
     })
 
@@ -289,7 +291,7 @@ class Person:
 
       expect(tree.meta.language).toBe('python')
 
-      const classNode = tree.nodes.find(n => n.type === 'ClassDefinition')
+      const classNode = tree.nodes.find((n) => n.type === 'ClassDefinition')
       expect(classNode).toBeDefined()
     })
   })
@@ -301,7 +303,7 @@ class Person:
 
       expect(tree.meta.language).toBe('python')
 
-      const importNode = tree.nodes.find(n => n.type === 'ImportStatement')
+      const importNode = tree.nodes.find((n) => n.type === 'ImportStatement')
       expect(importNode).toBeDefined()
     })
 
@@ -311,7 +313,7 @@ class Person:
 
       expect(tree.meta.language).toBe('python')
 
-      const fromImportNode = tree.nodes.find(n => n.type === 'ImportFromStatement')
+      const fromImportNode = tree.nodes.find((n) => n.type === 'ImportFromStatement')
       expect(fromImportNode).toBeDefined()
     })
 
@@ -321,7 +323,7 @@ class Person:
 
       expect(tree.meta.language).toBe('python')
 
-      const importNode = tree.nodes.find(n => n.type === 'ImportStatement')
+      const importNode = tree.nodes.find((n) => n.type === 'ImportStatement')
       expect(importNode).toBeDefined()
     })
   })

@@ -5,8 +5,8 @@
  * Uses the 'yaml' library for parsing and converts to universal format
  */
 
-import type { Tree, NodeId, Plugin } from '@sylphx/synth'
-import { createTree, addNode } from '@sylphx/synth'
+import type { NodeId, Plugin, Tree } from '@sylphx/synth'
+import { addNode, createTree } from '@sylphx/synth'
 import { SynthError } from '@sylphx/synth'
 import * as YAML from 'yaml'
 
@@ -52,16 +52,13 @@ export class YAMLParser {
 
       if (doc.errors.length > 0) {
         const error = doc.errors[0]!
-        throw new SynthError(
-          `YAML parse error: ${error.message}`,
-          'PARSE_ERROR'
-        )
+        throw new SynthError(`YAML parse error: ${error.message}`, 'PARSE_ERROR')
       }
 
       // Convert to Synth AST
       if (doc.contents !== null) {
         const valueId = this.convertNode(tree, doc.contents, tree.root)
-        tree.nodes[tree.root]!.children.push(valueId)
+        tree.nodes[tree.root]?.children.push(valueId)
       }
     } catch (error) {
       if (error instanceof SynthError) {
@@ -73,8 +70,8 @@ export class YAMLParser {
     // Apply plugins
     const allPlugins = [...this.plugins, ...(options.plugins || [])]
 
-    const hasAsyncPlugin = allPlugins.some(p =>
-      'transform' in p && p.transform.constructor.name === 'AsyncFunction'
+    const hasAsyncPlugin = allPlugins.some(
+      (p) => 'transform' in p && p.transform.constructor.name === 'AsyncFunction'
     )
 
     if (hasAsyncPlugin) {
@@ -110,15 +107,12 @@ export class YAMLParser {
 
       if (doc.errors.length > 0) {
         const error = doc.errors[0]!
-        throw new SynthError(
-          `YAML parse error: ${error.message}`,
-          'PARSE_ERROR'
-        )
+        throw new SynthError(`YAML parse error: ${error.message}`, 'PARSE_ERROR')
       }
 
       if (doc.contents !== null) {
         const valueId = this.convertNode(tree, doc.contents, tree.root)
-        tree.nodes[tree.root]!.children.push(valueId)
+        tree.nodes[tree.root]?.children.push(valueId)
       }
     } catch (error) {
       if (error instanceof SynthError) {
@@ -214,7 +208,7 @@ export class YAMLParser {
     // Convert each key-value pair
     for (const pair of node.items) {
       const pairId = this.convertPair(tree, pair, mapId)
-      tree.nodes[mapId]!.children.push(pairId)
+      tree.nodes[mapId]?.children.push(pairId)
     }
 
     return mapId
@@ -239,7 +233,7 @@ export class YAMLParser {
     // Convert value
     if (pair.value !== null && pair.value !== undefined) {
       const valueId = this.convertNode(tree, pair.value, pairId)
-      tree.nodes[pairId]!.children.push(valueId)
+      tree.nodes[pairId]?.children.push(valueId)
     } else {
       // Null value
       const nullId = addNode(tree, {
@@ -248,7 +242,7 @@ export class YAMLParser {
         children: [],
         data: { value: null },
       })
-      tree.nodes[pairId]!.children.push(nullId)
+      tree.nodes[pairId]?.children.push(nullId)
     }
 
     return pairId
@@ -267,14 +261,19 @@ export class YAMLParser {
     for (const item of node.items) {
       if (item !== null && item !== undefined) {
         const itemId = this.convertNode(tree, item, seqId)
-        tree.nodes[seqId]!.children.push(itemId)
+        tree.nodes[seqId]?.children.push(itemId)
       }
     }
 
     return seqId
   }
 
-  private getSpan(node: any): { start: { offset: number; line: number; column: number }; end: { offset: number; line: number; column: number } } | undefined {
+  private getSpan(node: any):
+    | {
+        start: { offset: number; line: number; column: number }
+        end: { offset: number; line: number; column: number }
+      }
+    | undefined {
     if (node.range) {
       const [start, , end] = node.range
       return {

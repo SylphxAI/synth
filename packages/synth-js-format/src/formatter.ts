@@ -6,8 +6,8 @@
 
 import type { Tree } from '@sylphx/synth'
 import { parse } from '@sylphx/synth-js'
-import { Printer } from './printer.js'
 import type { FormatOptions } from './options.js'
+import { Printer } from './printer.js'
 
 export class Formatter {
   private options: FormatOptions

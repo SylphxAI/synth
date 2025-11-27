@@ -11,9 +11,9 @@
  */
 
 import type { BaseNode, Tree } from '@sylphx/synth'
+import type { BlockToken, InlineToken } from './tokens.js'
 import type { MarkdownNode, MarkdownVisitorMap } from './types.js'
 import { isHeadingNode } from './types.js'
-import type { BlockToken, InlineToken } from './tokens.js'
 
 // ============================================================================
 // Plugin Types

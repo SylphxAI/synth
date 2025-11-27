@@ -2,37 +2,37 @@
  * JavaScript Types Tests
  */
 
-import { describe, it, expect } from 'bun:test'
+import { describe, expect, it } from 'bun:test'
 import { parse } from './parser.js'
 import {
-  isProgramNode,
-  isIdentifier,
-  isLiteral,
-  isFunctionDeclaration,
-  isClassDeclaration,
-  isVariableDeclaration,
-  isImportDeclaration,
-  isExportDeclaration,
-  isStatement,
-  isExpression,
-  isCallExpression,
-  isMemberExpression,
-  isArrowFunction,
-  isFunctionExpression,
-  getIdentifierName,
-  getLiteralValue,
-  getLiteralRaw,
-  getVariableKind,
-  getFunctionName,
-  isAsync,
-  isGenerator,
-  getOperator,
-  getSourceType,
-  findImports,
+  findClasses,
   findExports,
   findFunctions,
-  findClasses,
   findIdentifiersByName,
+  findImports,
+  getFunctionName,
+  getIdentifierName,
+  getLiteralRaw,
+  getLiteralValue,
+  getOperator,
+  getSourceType,
+  getVariableKind,
+  isArrowFunction,
+  isAsync,
+  isCallExpression,
+  isClassDeclaration,
+  isExportDeclaration,
+  isExpression,
+  isFunctionDeclaration,
+  isFunctionExpression,
+  isGenerator,
+  isIdentifier,
+  isImportDeclaration,
+  isLiteral,
+  isMemberExpression,
+  isProgramNode,
+  isStatement,
+  isVariableDeclaration,
 } from './types.js'
 
 describe('JavaScript Types', () => {
@@ -104,7 +104,7 @@ describe('JavaScript Types', () => {
 
     it('should identify statements', () => {
       const tree = parse('const x = 42; if (x > 0) {} return x;', {
-        allowReturnOutsideFunction: true
+        allowReturnOutsideFunction: true,
       })
       const statements = tree.nodes.filter(isStatement)
 
@@ -155,7 +155,7 @@ describe('JavaScript Types', () => {
   describe('Data Accessors', () => {
     it('should get identifier names', () => {
       const tree = parse('const myVariable = x;')
-      const myVar = tree.nodes.find(n => isIdentifier(n) && getIdentifierName(n) === 'myVariable')
+      const myVar = tree.nodes.find((n) => isIdentifier(n) && getIdentifierName(n) === 'myVariable')
 
       expect(myVar).toBeDefined()
       expect(getIdentifierName(myVar!)).toBe('myVariable')
@@ -164,9 +164,9 @@ describe('JavaScript Types', () => {
     it('should get literal values', () => {
       const tree = parse('const num = 42; const str = "hello"; const bool = false;')
 
-      const num = tree.nodes.find(n => isLiteral(n) && getLiteralValue(n) === 42)
-      const str = tree.nodes.find(n => isLiteral(n) && getLiteralValue(n) === 'hello')
-      const bool = tree.nodes.find(n => isLiteral(n) && getLiteralValue(n) === false)
+      const num = tree.nodes.find((n) => isLiteral(n) && getLiteralValue(n) === 42)
+      const str = tree.nodes.find((n) => isLiteral(n) && getLiteralValue(n) === 'hello')
+      const bool = tree.nodes.find((n) => isLiteral(n) && getLiteralValue(n) === false)
 
       expect(num).toBeDefined()
       expect(str).toBeDefined()
@@ -184,9 +184,15 @@ describe('JavaScript Types', () => {
     it('should get variable kind', () => {
       const tree = parse('const a = 1; let b = 2; var c = 3;')
 
-      const constDecl = tree.nodes.find(n => isVariableDeclaration(n) && getVariableKind(n) === 'const')
-      const letDecl = tree.nodes.find(n => isVariableDeclaration(n) && getVariableKind(n) === 'let')
-      const varDecl = tree.nodes.find(n => isVariableDeclaration(n) && getVariableKind(n) === 'var')
+      const constDecl = tree.nodes.find(
+        (n) => isVariableDeclaration(n) && getVariableKind(n) === 'const'
+      )
+      const letDecl = tree.nodes.find(
+        (n) => isVariableDeclaration(n) && getVariableKind(n) === 'let'
+      )
+      const varDecl = tree.nodes.find(
+        (n) => isVariableDeclaration(n) && getVariableKind(n) === 'var'
+      )
 
       expect(constDecl).toBeDefined()
       expect(letDecl).toBeDefined()
@@ -218,7 +224,7 @@ describe('JavaScript Types', () => {
 
     it('should get operators', () => {
       const tree = parse('const x = 1 + 2;')
-      const binary = tree.nodes.find(n => n.type === 'BinaryExpression')
+      const binary = tree.nodes.find((n) => n.type === 'BinaryExpression')
 
       expect(binary).toBeDefined()
       expect(getOperator(binary!)).toBe('+')

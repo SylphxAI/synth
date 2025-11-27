@@ -2,7 +2,7 @@
  * Minifier Tests
  */
 
-import { describe, it, expect } from 'bun:test'
+import { describe, expect, it } from 'bun:test'
 import { Minifier, minify, savings } from './minifier.js'
 
 describe('Minifier', () => {

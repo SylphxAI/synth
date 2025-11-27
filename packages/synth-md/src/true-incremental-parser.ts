@@ -12,10 +12,10 @@
  * Expected: <1ms for typical edits on 1000-line documents
  */
 
-import type { Tree, Edit as SynthEdit } from '@sylphx/synth'
-import { IncrementalMarkdownTokenizer } from './incremental-tokenizer.js'
+import type { Edit as SynthEdit, Tree } from '@sylphx/synth'
 import type { TokenStream } from '@sylphx/synth'
-import { Parser, type ParseOptions } from './parser.js'
+import { IncrementalMarkdownTokenizer } from './incremental-tokenizer.js'
+import { type ParseOptions, Parser } from './parser.js'
 
 /**
  * Edit for incremental parsing
@@ -55,7 +55,7 @@ export interface IncrementalParseStats {
 export class TrueIncrementalParser {
   private tokenizer: IncrementalMarkdownTokenizer
   private parser: Parser
-  private previousText: string = ''
+  private previousText = ''
   private previousTree: Tree | null = null
   private previousTokens: TokenStream | null = null
 
@@ -125,19 +125,12 @@ export class TrueIncrementalParser {
 
     // 1. Incremental tokenization
     const tokenizeStart = performance.now()
-    const { stream: newTokens, stats: tokenStats } = this.tokenizer.retokenize(
-      newText,
-      synthEdit
-    )
+    const { stream: newTokens, stats: tokenStats } = this.tokenizer.retokenize(newText, synthEdit)
     const tokenizeTime = performance.now() - tokenizeStart
 
     // 2. Detect affected AST nodes
     const parseStart = performance.now()
-    const affectedNodeIds = this.detectAffectedNodes(
-      this.previousTokens,
-      newTokens,
-      synthEdit
-    )
+    const affectedNodeIds = this.detectAffectedNodes(this.previousTokens, newTokens, synthEdit)
 
     // 3. Strategy decision: incremental vs full re-parse
     const shouldUseIncremental = this.shouldUseIncremental(
@@ -152,12 +145,7 @@ export class TrueIncrementalParser {
 
     if (shouldUseIncremental) {
       // 4a. Incremental parse: Re-parse only affected nodes
-      const result = this.incrementalParse(
-        newText,
-        newTokens,
-        affectedNodeIds,
-        options
-      )
+      const result = this.incrementalParse(newText, newTokens, affectedNodeIds, options)
       newTree = result.tree
       nodeReuseCount = result.reusedNodes
     } else {
@@ -201,9 +189,9 @@ export class TrueIncrementalParser {
     if (process.env.NODE_ENV !== 'production') {
       console.log(
         `[TrueIncremental] Update: ${totalTime.toFixed(2)}ms ` +
-        `(${speedup.toFixed(1)}x speedup) ` +
-        `Tokens: ${(tokenStats.reuseRate * 100).toFixed(1)}% reused, ` +
-        `Nodes: ${(stats.nodeReuseRate * 100).toFixed(1)}% reused`
+          `(${speedup.toFixed(1)}x speedup) ` +
+          `Tokens: ${(tokenStats.reuseRate * 100).toFixed(1)}% reused, ` +
+          `Nodes: ${(stats.nodeReuseRate * 100).toFixed(1)}% reused`
       )
     }
 

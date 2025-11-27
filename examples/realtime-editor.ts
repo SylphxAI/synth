@@ -11,8 +11,8 @@
  * - Multi-language support
  */
 
-import { TrueIncrementalParser, detectEdit } from '@sylphx/synth-md'
 import type { Tree } from '@sylphx/synth'
+import { TrueIncrementalParser, detectEdit } from '@sylphx/synth-md'
 
 /**
  * Editor state
@@ -57,7 +57,7 @@ export class RealTimeEditor {
       keystrokeCount: 0,
       totalParseTime: 0,
       avgParseTime: 0,
-      minParseTime: Infinity,
+      minParseTime: Number.POSITIVE_INFINITY,
       maxParseTime: 0,
       avgTokenReuse: 0,
       avgSpeedup: 0,
@@ -153,11 +153,7 @@ export class RealTimeEditor {
   /**
    * Update performance metrics
    */
-  private updateMetrics(
-    parseTime: number,
-    tokenReuseRate: number,
-    speedup: number
-  ): void {
+  private updateMetrics(parseTime: number, tokenReuseRate: number, speedup: number): void {
     this.metrics.keystrokeCount++
     this.metrics.totalParseTime += parseTime
     this.metrics.minParseTime = Math.min(this.metrics.minParseTime, parseTime)
@@ -165,8 +161,7 @@ export class RealTimeEditor {
 
     const n = this.metrics.keystrokeCount
     this.metrics.avgParseTime = this.metrics.totalParseTime / n
-    this.metrics.avgTokenReuse =
-      (this.metrics.avgTokenReuse * (n - 1) + tokenReuseRate) / n
+    this.metrics.avgTokenReuse = (this.metrics.avgTokenReuse * (n - 1) + tokenReuseRate) / n
     this.metrics.avgSpeedup = (this.metrics.avgSpeedup * (n - 1) + speedup) / n
   }
 

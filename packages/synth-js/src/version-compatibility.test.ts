@@ -4,7 +4,7 @@
  * Demonstrates how the parser handles different ECMAScript versions
  */
 
-import { describe, it, expect } from 'bun:test'
+import { describe, expect, it } from 'bun:test'
 import { parse } from './parser.js'
 
 describe('ECMAScript Version Compatibility', () => {
@@ -19,8 +19,8 @@ describe('ECMAScript Version Compatibility', () => {
       `
 
       const tree = parse(code, { ecmaVersion: 5 })
-      expect(tree.nodes.some(n => n.type === 'VariableDeclaration')).toBe(true)
-      expect(tree.nodes.some(n => n.type === 'FunctionDeclaration')).toBe(true)
+      expect(tree.nodes.some((n) => n.type === 'VariableDeclaration')).toBe(true)
+      expect(tree.nodes.some((n) => n.type === 'FunctionDeclaration')).toBe(true)
     })
 
     it('should reject ES6+ syntax in ES5 mode', () => {
@@ -37,16 +37,16 @@ describe('ECMAScript Version Compatibility', () => {
       const code = 'const add = (a, b) => a + b;'
       const tree = parse(code, { ecmaVersion: 2015 })
 
-      expect(tree.nodes.some(n => n.type === 'ArrowFunctionExpression')).toBe(true)
+      expect(tree.nodes.some((n) => n.type === 'ArrowFunctionExpression')).toBe(true)
     })
 
     it('should parse let/const', () => {
       const code = 'let x = 1; const y = 2;'
       const tree = parse(code, { ecmaVersion: 2015 })
 
-      const varDecls = tree.nodes.filter(n => n.type === 'VariableDeclaration')
-      expect(varDecls.some(n => n.data?.kind === 'let')).toBe(true)
-      expect(varDecls.some(n => n.data?.kind === 'const')).toBe(true)
+      const varDecls = tree.nodes.filter((n) => n.type === 'VariableDeclaration')
+      expect(varDecls.some((n) => n.data?.kind === 'let')).toBe(true)
+      expect(varDecls.some((n) => n.data?.kind === 'const')).toBe(true)
     })
 
     it('should parse classes', () => {
@@ -60,14 +60,14 @@ describe('ECMAScript Version Compatibility', () => {
       `
 
       const tree = parse(code, { ecmaVersion: 2015 })
-      expect(tree.nodes.some(n => n.type === 'ClassDeclaration')).toBe(true)
+      expect(tree.nodes.some((n) => n.type === 'ClassDeclaration')).toBe(true)
     })
 
     it('should parse template literals', () => {
       const code = 'const msg = `Hello ${name}`;'
       const tree = parse(code, { ecmaVersion: 2015 })
 
-      expect(tree.nodes.some(n => n.type === 'TemplateLiteral')).toBe(true)
+      expect(tree.nodes.some((n) => n.type === 'TemplateLiteral')).toBe(true)
     })
   })
 
@@ -81,8 +81,8 @@ describe('ECMAScript Version Compatibility', () => {
       `
 
       const tree = parse(code, { ecmaVersion: 2017 })
-      expect(tree.nodes.some(n => n.type === 'FunctionDeclaration' && n.data?.async)).toBe(true)
-      expect(tree.nodes.some(n => n.type === 'AwaitExpression')).toBe(true)
+      expect(tree.nodes.some((n) => n.type === 'FunctionDeclaration' && n.data?.async)).toBe(true)
+      expect(tree.nodes.some((n) => n.type === 'AwaitExpression')).toBe(true)
     })
   })
 
@@ -91,21 +91,21 @@ describe('ECMAScript Version Compatibility', () => {
       const code = 'const value = obj?.prop?.nested;'
       const tree = parse(code, { ecmaVersion: 2020 })
 
-      expect(tree.nodes.some(n => n.type === 'ChainExpression')).toBe(true)
+      expect(tree.nodes.some((n) => n.type === 'ChainExpression')).toBe(true)
     })
 
     it('should parse nullish coalescing', () => {
       const code = 'const value = x ?? defaultValue;'
       const tree = parse(code, { ecmaVersion: 2020 })
 
-      expect(tree.nodes.some(n => n.type === 'LogicalExpression')).toBe(true)
+      expect(tree.nodes.some((n) => n.type === 'LogicalExpression')).toBe(true)
     })
 
     it('should parse BigInt literals', () => {
       const code = 'const big = 9007199254740991n;'
       const tree = parse(code, { ecmaVersion: 2020 })
 
-      expect(tree.nodes.some(n => n.type === 'Literal')).toBe(true)
+      expect(tree.nodes.some((n) => n.type === 'Literal')).toBe(true)
     })
   })
 
@@ -122,18 +122,18 @@ describe('ECMAScript Version Compatibility', () => {
       `
 
       const tree = parse(code, { ecmaVersion: 2022 })
-      expect(tree.nodes.some(n => n.type === 'PropertyDefinition')).toBe(true)
-      expect(tree.nodes.some(n => n.type === 'PrivateIdentifier')).toBe(true)
+      expect(tree.nodes.some((n) => n.type === 'PropertyDefinition')).toBe(true)
+      expect(tree.nodes.some((n) => n.type === 'PrivateIdentifier')).toBe(true)
     })
 
     it('should parse top-level await', () => {
       const code = 'const data = await fetch("/api");'
       const tree = parse(code, {
         ecmaVersion: 2022,
-        allowAwaitOutsideFunction: true
+        allowAwaitOutsideFunction: true,
       })
 
-      expect(tree.nodes.some(n => n.type === 'AwaitExpression')).toBe(true)
+      expect(tree.nodes.some((n) => n.type === 'AwaitExpression')).toBe(true)
     })
   })
 
@@ -165,8 +165,8 @@ describe('ECMAScript Version Compatibility', () => {
       const es5Code = 'var x = 42; function foo() { return x; }'
       const tree = parse(es5Code, { ecmaVersion: 'latest' })
 
-      expect(tree.nodes.some(n => n.type === 'VariableDeclaration')).toBe(true)
-      expect(tree.nodes.some(n => n.type === 'FunctionDeclaration')).toBe(true)
+      expect(tree.nodes.some((n) => n.type === 'VariableDeclaration')).toBe(true)
+      expect(tree.nodes.some((n) => n.type === 'FunctionDeclaration')).toBe(true)
     })
 
     it('should preserve node types across versions', () => {
@@ -196,11 +196,11 @@ describe('ECMAScript Version Compatibility', () => {
 
       const tree = parse(tsCode, {
         typescript: true,
-        ecmaVersion: 'latest'
+        ecmaVersion: 'latest',
       })
 
-      expect(tree.nodes.some(n => n.type === 'TSInterfaceDeclaration')).toBe(true)
-      expect(tree.nodes.some(n => n.type === 'FunctionDeclaration')).toBe(true)
+      expect(tree.nodes.some((n) => n.type === 'TSInterfaceDeclaration')).toBe(true)
+      expect(tree.nodes.some((n) => n.type === 'FunctionDeclaration')).toBe(true)
     })
 
     it('should parse TypeScript enums', () => {
@@ -213,7 +213,7 @@ describe('ECMAScript Version Compatibility', () => {
       `
 
       const tree = parse(tsCode, { typescript: true })
-      expect(tree.nodes.some(n => n.type === 'TSEnumDeclaration')).toBe(true)
+      expect(tree.nodes.some((n) => n.type === 'TSEnumDeclaration')).toBe(true)
     })
 
     it('should parse TypeScript generics', () => {
@@ -224,7 +224,7 @@ describe('ECMAScript Version Compatibility', () => {
       `
 
       const tree = parse(tsCode, { typescript: true })
-      expect(tree.nodes.some(n => n.type === 'FunctionDeclaration')).toBe(true)
+      expect(tree.nodes.some((n) => n.type === 'FunctionDeclaration')).toBe(true)
     })
   })
 
@@ -239,7 +239,7 @@ describe('ECMAScript Version Compatibility', () => {
       expect(tree.nodes.length).toBeGreaterThan(0)
 
       // Can access any node type
-      tree.nodes.forEach(node => {
+      tree.nodes.forEach((node) => {
         expect(node.type).toBeDefined()
         expect(node.children).toBeDefined()
         // data might be undefined or empty object for some nodes
@@ -259,9 +259,7 @@ describe('ECMAScript Version Compatibility', () => {
       const tree = parse(code, { ecmaVersion: 2022 })
 
       // Find private field node
-      const privateFieldNode = tree.nodes.find(
-        n => n.type === 'PrivateIdentifier'
-      )
+      const privateFieldNode = tree.nodes.find((n) => n.type === 'PrivateIdentifier')
 
       // All data is preserved even if we don't have special handling
       expect(privateFieldNode).toBeDefined()
@@ -276,16 +274,16 @@ describe('ECMAScript Version Compatibility', () => {
       expect(() => {
         parse(code, {
           ecmaVersion: 5,
-          allowReturnOutsideFunction: false
+          allowReturnOutsideFunction: false,
         })
       }).toThrow()
 
       const tree = parse(code, {
         ecmaVersion: 5,
-        allowReturnOutsideFunction: true
+        allowReturnOutsideFunction: true,
       })
 
-      expect(tree.nodes.some(n => n.type === 'ReturnStatement')).toBe(true)
+      expect(tree.nodes.some((n) => n.type === 'ReturnStatement')).toBe(true)
     })
 
     it('should handle hashbang in scripts', () => {
@@ -293,7 +291,7 @@ describe('ECMAScript Version Compatibility', () => {
 
       const tree = parse(code, {
         ecmaVersion: 'latest',
-        allowHashBang: true
+        allowHashBang: true,
       })
 
       expect(tree).toBeDefined()
@@ -302,7 +300,7 @@ describe('ECMAScript Version Compatibility', () => {
 
   describe('Real-World Examples', () => {
     it('should parse modern React component', () => {
-      const reactCode = `
+      const _reactCode = `
         import React, { useState } from 'react';
 
         export default function Counter() {
@@ -330,8 +328,8 @@ describe('ECMAScript Version Compatibility', () => {
       `
 
       const tree = parse(jsOnlyCode, { ecmaVersion: 'latest' })
-      expect(tree.nodes.some(n => n.type === 'ImportDeclaration')).toBe(true)
-      expect(tree.nodes.some(n => n.type === 'ExportDefaultDeclaration')).toBe(true)
+      expect(tree.nodes.some((n) => n.type === 'ImportDeclaration')).toBe(true)
+      expect(tree.nodes.some((n) => n.type === 'ExportDefaultDeclaration')).toBe(true)
     })
 
     it('should parse Node.js ESM code', () => {
@@ -346,8 +344,8 @@ describe('ECMAScript Version Compatibility', () => {
       `
 
       const tree = parse(nodeCode, { ecmaVersion: 'latest' })
-      expect(tree.nodes.some(n => n.type === 'ImportDeclaration')).toBe(true)
-      expect(tree.nodes.some(n => n.type === 'FunctionDeclaration')).toBe(true)
+      expect(tree.nodes.some((n) => n.type === 'ImportDeclaration')).toBe(true)
+      expect(tree.nodes.some((n) => n.type === 'FunctionDeclaration')).toBe(true)
     })
   })
 })

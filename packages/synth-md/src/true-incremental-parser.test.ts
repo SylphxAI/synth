@@ -7,8 +7,12 @@
  * 3. Correctness (same AST as full parse)
  */
 
-import { describe, it, expect } from 'bun:test'
-import { TrueIncrementalParser, detectEdit, formatIncrementalStats } from './true-incremental-parser.js'
+import { describe, expect, it } from 'bun:test'
+import {
+  TrueIncrementalParser,
+  detectEdit,
+  formatIncrementalStats,
+} from './true-incremental-parser.js'
 
 describe('TrueIncrementalParser', () => {
   describe('Token-Level Reuse', () => {
@@ -40,7 +44,7 @@ This is paragraph 3.`
 
       // Should reuse most tokens (paragraphs 1 and 3 unchanged)
       expect(stats.tokenReuseRate).toBeGreaterThan(0.7)
-      console.log('Token reuse rate:', (stats.tokenReuseRate * 100).toFixed(1) + '%')
+      console.log('Token reuse rate:', `${(stats.tokenReuseRate * 100).toFixed(1)}%`)
     })
 
     it('should achieve high token reuse for insertion', () => {
@@ -68,7 +72,7 @@ Paragraph 2.`
 
       // Insertion adds lines which affects adjacent blank lines
       expect(stats.tokenReuseRate).toBeGreaterThan(0.5)
-      console.log('Insertion - Token reuse:', (stats.tokenReuseRate * 100).toFixed(1) + '%')
+      console.log('Insertion - Token reuse:', `${(stats.tokenReuseRate * 100).toFixed(1)}%`)
     })
 
     it('should achieve high token reuse for deletion', () => {
@@ -95,7 +99,7 @@ Paragraph 2.`
       const { stats } = parser.update(text2, edit)
 
       expect(stats.tokenReuseRate).toBeGreaterThan(0.7)
-      console.log('Deletion - Token reuse:', (stats.tokenReuseRate * 100).toFixed(1) + '%')
+      console.log('Deletion - Token reuse:', `${(stats.tokenReuseRate * 100).toFixed(1)}%`)
     })
   })
 

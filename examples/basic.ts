@@ -2,8 +2,8 @@
  * Basic usage examples
  */
 
-import { flux } from '../src/index.js'
 import { markdown } from '../src/adapters/index.js'
+import { flux } from '../src/index.js'
 
 async function basicExample() {
   console.log('=== Basic Markdown Parsing ===\n')
@@ -49,7 +49,7 @@ async function transformExample() {
   await chain.transform((tree) => {
     for (const node of tree.nodes) {
       if (node.type === 'heading') {
-        const depth = (node.data?.['depth'] as number) ?? 1
+        const depth = (node.data?.depth as number) ?? 1
         if (depth < 6) {
           node.data = { ...node.data, depth: (depth + 1) as 1 | 2 | 3 | 4 | 5 | 6 }
         }
@@ -83,7 +83,6 @@ Paragraph text`
     console.log('After moving down:', getFocus(moved)?.type)
   }
 }
-
 // Run examples
 ;(async () => {
   try {

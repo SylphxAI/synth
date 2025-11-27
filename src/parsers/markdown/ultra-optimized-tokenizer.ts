@@ -11,17 +11,17 @@
  */
 
 import type {
-  BlockToken,
-  HeadingToken,
-  ParagraphToken,
-  CodeBlockToken,
-  ListItemToken,
-  BlockquoteToken,
-  HorizontalRuleToken,
   BlankLineToken,
-  TableToken,
+  BlockToken,
+  BlockquoteToken,
+  CodeBlockToken,
   HTMLBlockToken,
+  HeadingToken,
+  HorizontalRuleToken,
   LinkReferenceToken,
+  ListItemToken,
+  ParagraphToken,
+  TableToken,
 } from './tokens.js'
 import { createPosition, createTokenPosition } from './tokens.js'
 
@@ -64,7 +64,14 @@ export class UltraOptimizedTokenizer {
 
       // Indented code block detection (4 spaces or tab)
       if (firstChar === ' ' || firstChar === '\t') {
-        const result = this.tryIndentedCodeBlock(text, lineStart, lineEnd, lineIndex, offset, length)
+        const result = this.tryIndentedCodeBlock(
+          text,
+          lineStart,
+          lineEnd,
+          lineIndex,
+          offset,
+          length
+        )
         if (result) {
           tokens.push(result.token)
           offset = result.nextOffset
@@ -172,7 +179,14 @@ export class UltraOptimizedTokenizer {
       }
 
       // Setext heading detection (lookahead to next line)
-      const setextResult = this.trySetextHeading(text, lineStart, lineEnd, lineIndex, offset, length)
+      const setextResult = this.trySetextHeading(
+        text,
+        lineStart,
+        lineEnd,
+        lineIndex,
+        offset,
+        length
+      )
       if (setextResult) {
         tokens.push(setextResult.token)
         offset = setextResult.nextOffset
@@ -441,9 +455,7 @@ export class UltraOptimizedTokenizer {
         text[fenceLineStart + 2] === '`'
       ) {
         // Found closing fence
-        const code = codeStart < fenceLineStart - 1
-          ? text.slice(codeStart, fenceLineStart - 1)
-          : ''
+        const code = codeStart < fenceLineStart - 1 ? text.slice(codeStart, fenceLineStart - 1) : ''
 
         return {
           token: {
@@ -726,7 +738,7 @@ export class UltraOptimizedTokenizer {
     if (!headerRow || headerRow.length === 0) return null
 
     // Lookahead to next line for separator
-    let separatorStart = headerEnd + 1
+    const separatorStart = headerEnd + 1
     if (separatorStart >= textLength) return null
 
     // Find separator line boundaries
@@ -924,19 +936,79 @@ export class UltraOptimizedTokenizer {
 
     // Type 6: Block-level tags
     const blockTags = [
-      'address', 'article', 'aside', 'base', 'basefont', 'blockquote', 'body',
-      'caption', 'center', 'col', 'colgroup', 'dd', 'details', 'dialog', 'dir',
-      'div', 'dl', 'dt', 'fieldset', 'figcaption', 'figure', 'footer', 'form',
-      'frame', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header',
-      'hr', 'html', 'iframe', 'legend', 'li', 'link', 'main', 'menu', 'menuitem',
-      'nav', 'noframes', 'ol', 'optgroup', 'option', 'p', 'param', 'section',
-      'source', 'summary', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead',
-      'title', 'tr', 'track', 'ul'
+      'address',
+      'article',
+      'aside',
+      'base',
+      'basefont',
+      'blockquote',
+      'body',
+      'caption',
+      'center',
+      'col',
+      'colgroup',
+      'dd',
+      'details',
+      'dialog',
+      'dir',
+      'div',
+      'dl',
+      'dt',
+      'fieldset',
+      'figcaption',
+      'figure',
+      'footer',
+      'form',
+      'frame',
+      'frameset',
+      'h1',
+      'h2',
+      'h3',
+      'h4',
+      'h5',
+      'h6',
+      'head',
+      'header',
+      'hr',
+      'html',
+      'iframe',
+      'legend',
+      'li',
+      'link',
+      'main',
+      'menu',
+      'menuitem',
+      'nav',
+      'noframes',
+      'ol',
+      'optgroup',
+      'option',
+      'p',
+      'param',
+      'section',
+      'source',
+      'summary',
+      'table',
+      'tbody',
+      'td',
+      'tfoot',
+      'th',
+      'thead',
+      'title',
+      'tr',
+      'track',
+      'ul',
     ]
 
     for (const tag of blockTags) {
       if (this.startsWithTag(text, lineStart, lineEnd, tag)) {
-        return this.parseHTMLBlockUntilBlankLine(text, lineStart, startLine, startOffset, textLength)
+        return this.parseHTMLBlockUntilBlankLine(
+          text,
+          lineStart,
+          startLine,
+          startOffset,
+          textLength
+        )
       }
     }
 
@@ -965,12 +1037,7 @@ export class UltraOptimizedTokenizer {
   /**
    * Check if text starts with a specific string
    */
-  private startsWith(
-    text: string,
-    lineStart: number,
-    lineEnd: number,
-    prefix: string
-  ): boolean {
+  private startsWith(text: string, lineStart: number, lineEnd: number, prefix: string): boolean {
     if (lineStart + prefix.length > lineEnd) return false
 
     for (let i = 0; i < prefix.length; i++) {
@@ -989,14 +1056,20 @@ export class UltraOptimizedTokenizer {
     lineEnd: number,
     tagName: string
   ): boolean {
-    if (!this.startsWith(text, lineStart, lineEnd, '<' + tagName)) return false
+    if (!this.startsWith(text, lineStart, lineEnd, `<${tagName}`)) return false
 
     const afterTag = lineStart + tagName.length + 1
     if (afterTag >= lineEnd) return true
 
     const nextChar = text[afterTag]!
     // Tag must be followed by space, >, or /
-    return nextChar === ' ' || nextChar === '>' || nextChar === '/' || nextChar === '\t' || nextChar === '\n'
+    return (
+      nextChar === ' ' ||
+      nextChar === '>' ||
+      nextChar === '/' ||
+      nextChar === '\t' ||
+      nextChar === '\n'
+    )
   }
 
   /**
@@ -1010,7 +1083,7 @@ export class UltraOptimizedTokenizer {
     textLength: number,
     tagName: string
   ): { token: HTMLBlockToken; nextOffset: number; nextLine: number } | null {
-    const closingTag = '</' + tagName + '>'
+    const closingTag = `</${tagName}>`
     let currentOffset = lineStart
     let currentLine = startLine
 
@@ -1213,7 +1286,10 @@ export class UltraOptimizedTokenizer {
 
     if (i >= lineEnd) return null
 
-    const label = text.slice(lineStart + 1, i).toLowerCase().trim()
+    const label = text
+      .slice(lineStart + 1, i)
+      .toLowerCase()
+      .trim()
     if (label.length === 0) return null
 
     i++ // Skip ]

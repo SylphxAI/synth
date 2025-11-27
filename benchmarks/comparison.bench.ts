@@ -2,10 +2,10 @@
  * Comprehensive benchmark comparison
  */
 
-import { describe, bench } from 'vitest'
-import { flux } from '../src/index.js'
+import { bench, describe } from 'vitest'
 import { markdown } from '../src/adapters/index.js'
-import { mediumMarkdown, largeMarkdown } from './test-data.js'
+import { flux } from '../src/index.js'
+import { largeMarkdown, mediumMarkdown } from './test-data.js'
 
 // Setup flux
 const processor = flux().adapter('markdown', markdown())
@@ -20,11 +20,11 @@ describe('Core Operations Benchmark', () => {
   bench('flux: full pipeline (parse + transform + compile)', async () => {
     const chain = await processor.parse(mediumMarkdown, 'markdown')
 
-    await chain.transform(tree => {
+    await chain.transform((tree) => {
       // Simple transform
       for (const node of tree.nodes) {
         if (node.type === 'heading') {
-          const depth = (node.data?.['depth'] as number) ?? 1
+          const depth = (node.data?.depth as number) ?? 1
           if (depth < 6) {
             node.data = { ...node.data, depth: depth + 1 }
           }
@@ -54,8 +54,8 @@ describe('Tree Operations', () => {
     for (const node of tree.nodes) {
       count++
       // Simulate some work
-      const type = node.type
-      const hasChildren = node.children.length > 0
+      const _type = node.type
+      const _hasChildren = node.children.length > 0
     }
 
     return count
@@ -65,7 +65,7 @@ describe('Tree Operations', () => {
     const chain = await processor.parse(largeMarkdown, 'markdown')
     const tree = chain.getTree()
 
-    const headings = tree.nodes.filter(n => n.type === 'heading')
+    const headings = tree.nodes.filter((n) => n.type === 'heading')
     return headings.length
   })
 
@@ -73,7 +73,7 @@ describe('Tree Operations', () => {
     const chain = await processor.parse(mediumMarkdown, 'markdown')
     const tree = chain.getTree()
 
-    const types = tree.nodes.map(n => n.type)
+    const types = tree.nodes.map((n) => n.type)
     return types.length
   })
 })
@@ -82,10 +82,10 @@ describe('Transform Operations', () => {
   bench('simple transform (increment depth)', async () => {
     const chain = await processor.parse(mediumMarkdown, 'markdown')
 
-    await chain.transform(tree => {
+    await chain.transform((tree) => {
       for (const node of tree.nodes) {
         if (node.type === 'heading') {
-          const depth = (node.data?.['depth'] as number) ?? 1
+          const depth = (node.data?.depth as number) ?? 1
           if (depth < 6) {
             node.data = { ...node.data, depth: depth + 1 }
           }
@@ -98,16 +98,16 @@ describe('Transform Operations', () => {
   bench('complex transform (multiple operations)', async () => {
     const chain = await processor.parse(mediumMarkdown, 'markdown')
 
-    await chain.transform(tree => {
+    await chain.transform((tree) => {
       for (const node of tree.nodes) {
         // Multiple checks
         if (node.type === 'heading') {
-          const depth = (node.data?.['depth'] as number) ?? 1
+          const depth = (node.data?.depth as number) ?? 1
           node.data = { ...node.data, depth: Math.min(depth + 1, 6), processed: true }
         } else if (node.type === 'paragraph') {
           node.data = { ...node.data, type: 'processed-paragraph' }
         } else if (node.type === 'text') {
-          const value = node.data?.['value'] as string
+          const value = node.data?.value as string
           if (value) {
             node.data = { ...node.data, length: value.length }
           }
@@ -121,7 +121,7 @@ describe('Transform Operations', () => {
     const chain = await processor.parse(mediumMarkdown, 'markdown')
 
     await chain
-      .transform(tree => {
+      .transform((tree) => {
         for (const node of tree.nodes) {
           if (node.type === 'heading') {
             node.data = { ...node.data, pass: 1 }
@@ -129,7 +129,7 @@ describe('Transform Operations', () => {
         }
         return tree
       })
-      .transform(tree => {
+      .transform((tree) => {
         for (const node of tree.nodes) {
           if (node.type === 'paragraph') {
             node.data = { ...node.data, pass: 2 }
@@ -137,7 +137,7 @@ describe('Transform Operations', () => {
         }
         return tree
       })
-      .transform(tree => {
+      .transform((tree) => {
         for (const node of tree.nodes) {
           node.data = { ...node.data, final: true }
         }
@@ -167,9 +167,7 @@ describe('Stress Test', () => {
   })
 
   bench('parse 100 documents (parallel)', async () => {
-    const promises = Array.from({ length: 100 }, () =>
-      processor.parse(mediumMarkdown, 'markdown')
-    )
+    const promises = Array.from({ length: 100 }, () => processor.parse(mediumMarkdown, 'markdown'))
     await Promise.all(promises)
   })
 })

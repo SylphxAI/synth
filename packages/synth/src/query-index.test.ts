@@ -1,6 +1,6 @@
-import { describe, it, expect, beforeEach } from 'bun:test'
-import { createTree, addNode } from './types/tree.js'
-import { createIndex, ASTIndex } from './query-index.js'
+import { beforeEach, describe, expect, it } from 'bun:test'
+import { ASTIndex, createIndex } from './query-index.js'
+import { addNode, createTree } from './types/tree.js'
 
 describe('Query Index', () => {
   let tree: ReturnType<typeof createTree>

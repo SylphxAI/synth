@@ -107,10 +107,7 @@ export function isExportDeclaration(node?: BaseNode): node is BaseNode {
 
 export function isStatement(node?: BaseNode): node is BaseNode {
   if (!node) return false
-  return (
-    node.type.endsWith('Statement') ||
-    node.type.endsWith('Declaration')
-  )
+  return node.type.endsWith('Statement') || node.type.endsWith('Declaration')
 }
 
 export function isExpression(node?: BaseNode): node is BaseNode {
@@ -200,5 +197,5 @@ export function findClasses(tree: { nodes: BaseNode[] }): BaseNode[] {
 
 // Utility: Find identifiers by name
 export function findIdentifiersByName(tree: { nodes: BaseNode[] }, name: string): BaseNode[] {
-  return tree.nodes.filter(n => isIdentifier(n) && getIdentifierName(n) === name)
+  return tree.nodes.filter((n) => isIdentifier(n) && getIdentifierName(n) === name)
 }

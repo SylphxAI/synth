@@ -14,7 +14,7 @@
 
 import { IncrementalTokenizer } from '@sylphx/synth'
 import type { Token, TokenRange } from '@sylphx/synth'
-import { TokenKind, TokenFlags, createToken } from '@sylphx/synth'
+import { TokenFlags, TokenKind, createToken } from '@sylphx/synth'
 import type { Edit } from '@sylphx/synth'
 
 /**
@@ -46,11 +46,7 @@ export class IncrementalMarkdownTokenizer extends IncrementalTokenizer {
    * 3. Create block-level tokens
    * 4. Track inline markers (but don't fully parse)
    */
-  protected tokenizeImpl(
-    source: string,
-    startOffset: number,
-    endOffset: number
-  ): Token[] {
+  protected tokenizeImpl(source: string, startOffset: number, endOffset: number): Token[] {
     const tokens: Token[] = []
     const region = source.slice(startOffset, endOffset)
     const lines = region.split('\n')
@@ -147,7 +143,9 @@ export class IncrementalMarkdownTokenizer extends IncrementalTokenizer {
     }
 
     // HTML block
-    if (trimmed.match(/^<(?:div|p|section|article|aside|header|footer|nav|main|figure|table|form)/i)) {
+    if (
+      trimmed.match(/^<(?:div|p|section|article|aside|header|footer|nav|main|figure|table|form)/i)
+    ) {
       return MarkdownBlockType.HTML_BLOCK
     }
 
@@ -193,7 +191,7 @@ export class IncrementalMarkdownTokenizer extends IncrementalTokenizer {
     if (blockType === MarkdownBlockType.HEADING) {
       const match = content.match(/^(#{1,6})/)
       if (match) {
-        metadata.headingLevel = match[1]!.length
+        metadata.headingLevel = match[1]?.length
       }
     } else if (blockType === MarkdownBlockType.LIST_ITEM) {
       const match = content.match(/^(\s*)([-*+]|\d+\.)\s/)
@@ -203,14 +201,7 @@ export class IncrementalMarkdownTokenizer extends IncrementalTokenizer {
       }
     }
 
-    return createToken(
-      kind,
-      content,
-      { start: startPos, end: endPos },
-      index,
-      flags,
-      metadata
-    )
+    return createToken(kind, content, { start: startPos, end: endPos }, index, flags, metadata)
   }
 
   /**
@@ -232,7 +223,6 @@ export class IncrementalMarkdownTokenizer extends IncrementalTokenizer {
         return TokenKind.HORIZONTAL_RULE
       case MarkdownBlockType.HTML_BLOCK:
         return TokenKind.TAG_OPEN
-      case MarkdownBlockType.PARAGRAPH:
       default:
         return TokenKind.TEXT
     }
@@ -287,8 +277,8 @@ export class IncrementalMarkdownTokenizer extends IncrementalTokenizer {
           startIndex,
           endIndex,
           byteRange: {
-            start: tokens[startIndex]!.span.start.offset,
-            end: tokens[endIndex]!.span.end.offset,
+            start: tokens[startIndex]?.span.start.offset,
+            end: tokens[endIndex]?.span.end.offset,
           },
         }
       }
@@ -337,8 +327,8 @@ export class IncrementalMarkdownTokenizer extends IncrementalTokenizer {
       startIndex,
       endIndex,
       byteRange: {
-        start: tokens[startIndex]!.span.start.offset,
-        end: tokens[endIndex]!.span.end.offset,
+        start: tokens[startIndex]?.span.start.offset,
+        end: tokens[endIndex]?.span.end.offset,
       },
     }
   }
@@ -352,7 +342,7 @@ export class IncrementalMarkdownTokenizer extends IncrementalTokenizer {
     // If we're in a list item, include all consecutive list items at same level
     const startToken = tokens[startIndex]
     if (startToken?.kind === TokenKind.LIST_MARKER) {
-      const startIndent = startToken.metadata?.indentLevel as number || 0
+      const startIndent = (startToken.metadata?.indentLevel as number) || 0
 
       while (index > 0) {
         const prevToken = tokens[index - 1]
@@ -360,7 +350,7 @@ export class IncrementalMarkdownTokenizer extends IncrementalTokenizer {
 
         // Include previous list items at same or greater indent
         if (prevToken.kind === TokenKind.LIST_MARKER) {
-          const prevIndent = prevToken.metadata?.indentLevel as number || 0
+          const prevIndent = (prevToken.metadata?.indentLevel as number) || 0
           if (prevIndent >= startIndent) {
             index--
           } else {
@@ -387,7 +377,7 @@ export class IncrementalMarkdownTokenizer extends IncrementalTokenizer {
     // If we're in a list item, include all consecutive list items at same level
     const endToken = tokens[endIndex]
     if (endToken?.kind === TokenKind.LIST_MARKER) {
-      const endIndent = endToken.metadata?.indentLevel as number || 0
+      const endIndent = (endToken.metadata?.indentLevel as number) || 0
 
       while (index < tokens.length - 1) {
         const nextToken = tokens[index + 1]
@@ -395,7 +385,7 @@ export class IncrementalMarkdownTokenizer extends IncrementalTokenizer {
 
         // Include next list items at same or greater indent
         if (nextToken.kind === TokenKind.LIST_MARKER) {
-          const nextIndent = nextToken.metadata?.indentLevel as number || 0
+          const nextIndent = (nextToken.metadata?.indentLevel as number) || 0
           if (nextIndent >= endIndent) {
             index++
           } else {
