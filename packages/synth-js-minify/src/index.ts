@@ -2,6 +2,8 @@
  * @sylphx/synth-js-minify
  *
  * JavaScript minifier using Synth's universal AST
+ *
+ * @packageDocumentation
  */
 
 export { Compressor } from './compressor.js'

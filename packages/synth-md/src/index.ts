@@ -11,6 +11,8 @@
  * - Streaming support
  * - Full GFM support
  * - Plugin system
+ *
+ * @packageDocumentation
  */
 
 export { BatchTokenizer } from './batch-tokenizer.js'

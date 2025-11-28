@@ -3,6 +3,8 @@
  *
  * INI parser using Synth's universal AST
  * Hand-written, zero dependencies
+ *
+ * @packageDocumentation
  */
 
 export type { INIParseOptions } from './parser.js'

@@ -2,6 +2,8 @@
  * @sylphx/synth-lint
  *
  * Universal linter framework for Synth AST
+ *
+ * @packageDocumentation
  */
 
 export { createLinter, Linter } from './linter.js'

@@ -2,6 +2,8 @@
  * @sylphx/synth-js
  *
  * High-performance JavaScript/TypeScript parser for Synth
+ *
+ * @packageDocumentation
  */
 
 // Incremental tokenizer

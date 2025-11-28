@@ -36,7 +36,7 @@ console.log()
 
 // Import parsers
 const { initWasm } = await import('../src/index.js')
-const { fastTokenize, fastParseBinary, turboParseBinary, turboParseCount } = await import(
+const { fastParseBinary, turboParseBinary, turboParseCount } = await import(
   '../wasm/synth_wasm_md.js'
 )
 const { parse: jsParse } = await import('@sylphx/synth-md')

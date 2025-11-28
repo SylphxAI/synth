@@ -3,6 +3,8 @@
  *
  * Rust parser using Synth's universal AST
  * Conversion layer over tree-sitter-rust
+ *
+ * @packageDocumentation
  */
 
 export type { RustParseOptions } from './parser.js'

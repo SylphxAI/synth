@@ -8,6 +8,8 @@
  * graph TD
  *   A --> B
  * ```
+ *
+ * @packageDocumentation
  */
 
 import type { BaseNode } from '@sylphx/synth'
@@ -52,6 +54,8 @@ export interface MermaidPluginOptions {
  *
  * const tree = parse(markdown, { plugins: [mermaidPlugin()] })
  * ```
+ *
+ * @packageDocumentation
  */
 export function mermaidPlugin(_options: MermaidPluginOptions = {}): TransformPlugin {
   return createTransformPlugin(

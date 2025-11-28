@@ -8,6 +8,8 @@
  * - parse(): Returns structured AST with decoded nodes
  * - parseBinary(): Maximum performance (returns raw Uint8Array)
  * - parseCount(): Node count only (for benchmarking)
+ *
+ * @packageDocumentation
  */
 
 // Initialization

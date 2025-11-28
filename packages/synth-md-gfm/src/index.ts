@@ -8,6 +8,8 @@
  * - Strikethrough (~~text~~)
  * - Autolinks (URLs and email)
  * - Task lists ([x] and [ ])
+ *
+ * @packageDocumentation
  */
 
 import { createTransformPlugin, type TransformPlugin } from '@sylphx/synth'
@@ -49,6 +51,8 @@ export interface GFMPluginOptions {
  *
  * const tree = parse(markdown, { plugins: [gfmPlugin()] })
  * ```
+ *
+ * @packageDocumentation
  */
 export function gfmPlugin(options: GFMPluginOptions = {}): TransformPlugin {
   const { tables = true, strikethrough = true, autolinks = true, taskLists = true } = options

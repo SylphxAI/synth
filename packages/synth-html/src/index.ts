@@ -2,6 +2,8 @@
  * @sylphx/synth-html
  *
  * High-performance HTML5 parser for Synth
+ *
+ * @packageDocumentation
  */
 
 // Incremental tokenizer

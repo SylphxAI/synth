@@ -2,6 +2,8 @@
  * @sylphx/synth-js-format
  *
  * Prettier-style code formatter for JavaScript/TypeScript
+ *
+ * @packageDocumentation
  */
 
 export { check, Formatter, format } from './formatter.js'

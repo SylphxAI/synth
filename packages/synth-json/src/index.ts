@@ -2,6 +2,8 @@
  * @sylphx/synth-json
  *
  * JSON parser using Synth's universal AST
+ *
+ * @packageDocumentation
  */
 
 // Incremental tokenizer

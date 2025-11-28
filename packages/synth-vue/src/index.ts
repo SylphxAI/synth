@@ -3,6 +3,8 @@
  *
  * Vue SFC parser using Synth's universal AST
  * Conversion layer over @vue/compiler-sfc
+ *
+ * @packageDocumentation
  */
 
 export type { VueParseOptions } from './parser.js'

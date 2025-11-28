@@ -2,6 +2,8 @@
  * @sylphx/synth-protobuf
  *
  * Protocol Buffers parser using Synth's universal AST
+ *
+ * @packageDocumentation
  */
 
 export type { Node, Plugin, Tree } from '@sylphx/synth'

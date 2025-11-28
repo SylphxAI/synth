@@ -8,6 +8,8 @@
  * $$
  * \frac{-b \pm \sqrt{b^2-4ac}}{2a}
  * $$
+ *
+ * @packageDocumentation
  */
 
 import type { BaseNode } from '@sylphx/synth'
@@ -59,6 +61,8 @@ export interface KatexPluginOptions {
  *
  * const tree = parse(markdown, { plugins: [katexPlugin()] })
  * ```
+ *
+ * @packageDocumentation
  */
 export function katexPlugin(options: KatexPluginOptions = {}): TransformPlugin {
   const { inlineMath = true, blockMath = true } = options

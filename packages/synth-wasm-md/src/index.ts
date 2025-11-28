@@ -6,6 +6,8 @@
  * Performance vs JavaScript:
  * - parse(): 2-4x faster (returns JSON object)
  * - parseBinary(): 10-18x faster (returns Uint8Array)
+ *
+ * @packageDocumentation
  */
 
 // Initialization

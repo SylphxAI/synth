@@ -3,6 +3,8 @@
  *
  * GraphQL parser using Synth's universal AST
  * Conversion layer over graphql-js
+ *
+ * @packageDocumentation
  */
 
 export type { GraphQLParseOptions } from './parser.js'
