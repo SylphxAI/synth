@@ -41,6 +41,7 @@
 	},
 	"devDependencies": {
 		"@sylphx/synth-md": "workspace:*",
+		"bunup": "^0.16.10",
 		"mitata": "^1.0.0",
 		"typescript": "^5.6.0"
 	},
