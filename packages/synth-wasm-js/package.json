@@ -16,7 +16,7 @@
 		"build": "bun run build:wasm && bun run build:js",
 		"build:js": "bunup",
 		"test": "bun test",
-		"prepack": "bun run build"
+		"prepack": "bun run build:js"
 	},
 	"keywords": [
 		"javascript",

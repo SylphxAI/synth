@@ -17,7 +17,7 @@
 		"build:js": "bunup",
 		"test": "bun test",
 		"bench": "bun bench/unified.bench.ts",
-		"prepack": "bun run build"
+		"prepack": "bun run build:js"
 	},
 	"keywords": [
 		"markdown",
