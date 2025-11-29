@@ -16,8 +16,7 @@
 		"build": "bun run build:wasm && bun run build:js",
 		"build:js": "bunup",
 		"test": "bun test",
-		"bench": "bun bench/unified.bench.ts",
-		"prepack": "bun run build:js"
+		"bench": "bun bench/unified.bench.ts"
 	},
 	"keywords": [
 		"markdown",

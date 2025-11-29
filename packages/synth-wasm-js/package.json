@@ -15,8 +15,7 @@
 		"build:wasm": "cd ../../crates/wasm-js && wasm-pack build --target web --release && cp pkg/* ../../packages/synth-wasm-js/wasm/",
 		"build": "bun run build:wasm && bun run build:js",
 		"build:js": "bunup",
-		"test": "bun test",
-		"prepack": "bun run build:js"
+		"test": "bun test"
 	},
 	"keywords": [
 		"javascript",
