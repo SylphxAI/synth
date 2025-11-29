@@ -1,6 +1,6 @@
 {
 	"name": "@sylphx/synth-php",
-	"version": "0.2.1",
+	"version": "0.2.2",
 	"description": "PHP parser using Synth's universal AST - conversion layer over tree-sitter-php",
 	"type": "module",
 	"main": "./dist/index.js",

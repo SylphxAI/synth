@@ -1,6 +1,6 @@
 {
 	"name": "@sylphx/synth-msgpack",
-	"version": "0.2.1",
+	"version": "0.2.2",
 	"description": "MessagePack parser using Synth's universal AST",
 	"type": "module",
 	"main": "./dist/index.js",

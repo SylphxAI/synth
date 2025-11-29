@@ -1,49 +1,49 @@
 {
-  "name": "@sylphx/synth-wasm-js",
-  "version": "0.1.0",
-  "description": "High-performance JavaScript/TypeScript parser compiled to WebAssembly (ES2024)",
-  "type": "module",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    }
-  },
-  "scripts": {
-    "build:wasm": "cd ../../crates/wasm-js && wasm-pack build --target web --release && cp pkg/* ../../packages/synth-wasm-js/wasm/",
-    "build": "bun run build:wasm && bun run build:js",
-    "build:js": "bunup",
-    "test": "bun test",
-    "prepack": "bun run build"
-  },
-  "keywords": [
-    "javascript",
-    "typescript",
-    "parser",
-    "wasm",
-    "webassembly",
-    "ast",
-    "es2024",
-    "fast",
-    "performance",
-    "synth"
-  ],
-  "author": "",
-  "license": "MIT",
-  "files": [
-    "dist",
-    "wasm",
-    "README.md"
-  ],
-  "dependencies": {
-    "@sylphx/synth": "workspace:*"
-  },
-  "devDependencies": {
-    "typescript": "^5.6.0"
-  },
-  "publishConfig": {
-    "access": "public"
-  }
+	"name": "@sylphx/synth-wasm-js",
+	"version": "0.1.0",
+	"description": "High-performance JavaScript/TypeScript parser compiled to WebAssembly (ES2024)",
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js"
+		}
+	},
+	"scripts": {
+		"build:wasm": "cd ../../crates/wasm-js && wasm-pack build --target web --release && cp pkg/* ../../packages/synth-wasm-js/wasm/",
+		"build": "bun run build:wasm && bun run build:js",
+		"build:js": "bunup",
+		"test": "bun test",
+		"prepack": "bun run build"
+	},
+	"keywords": [
+		"javascript",
+		"typescript",
+		"parser",
+		"wasm",
+		"webassembly",
+		"ast",
+		"es2024",
+		"fast",
+		"performance",
+		"synth"
+	],
+	"author": "",
+	"license": "MIT",
+	"files": [
+		"dist",
+		"wasm",
+		"README.md"
+	],
+	"dependencies": {
+		"@sylphx/synth": "workspace:*"
+	},
+	"devDependencies": {
+		"typescript": "^5.6.0"
+	},
+	"publishConfig": {
+		"access": "public"
+	}
 }

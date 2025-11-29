@@ -1,6 +1,6 @@
 {
 	"name": "@sylphx/synth-md-mermaid",
-	"version": "0.2.1",
+	"version": "0.2.2",
 	"description": "Mermaid diagram support for Synth Markdown parser",
 	"type": "module",
 	"main": "./dist/index.js",

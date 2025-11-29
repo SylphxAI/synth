@@ -1,5 +1,15 @@
 # @sylphx/synth-c
 
+## 0.2.2 (2025-11-29)
+
+### 🐛 Bug Fixes
+
+- add @module JSDoc tag for proper TypeDoc generation ([9e660b8](https://github.com/SylphxAI/synth/commit/9e660b8ac886db7d0697d70a1b8ecaae1aeb1a10))
+
+### 📚 Documentation
+
+- add @packageDocumentation tag to all packages ([8f3070a](https://github.com/SylphxAI/synth/commit/8f3070a4011661b76632b3ec6ee6c967484f849c))
+
 ## 0.2.1 (2025-11-27)
 
 ### 📦 Dependencies
