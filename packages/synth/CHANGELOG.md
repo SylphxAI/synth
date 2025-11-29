@@ -12,6 +12,12 @@
 
 - add @module JSDoc tag for proper TypeDoc generation ([9e660b8](https://github.com/SylphxAI/synth/commit/9e660b8ac886db7d0697d70a1b8ecaae1aeb1a10))
 
+## 0.3.1 (2025-11-29)
+
+### 🐛 Bug Fixes
+
+- add @module JSDoc tag for proper TypeDoc generation ([9e660b8](https://github.com/SylphxAI/synth/commit/9e660b8ac886db7d0697d70a1b8ecaae1aeb1a10))
+
 ## 0.3.0 (2025-11-27)
 
 ### ✨ Features
