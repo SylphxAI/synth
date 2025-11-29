@@ -1,6 +1,6 @@
 {
 	"name": "@sylphx/synth-graphql",
-	"version": "0.2.1",
+	"version": "0.2.2",
 	"description": "GraphQL parser using Synth's universal AST",
 	"type": "module",
 	"main": "./dist/index.js",
