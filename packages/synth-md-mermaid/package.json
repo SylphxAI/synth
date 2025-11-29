@@ -1,45 +1,45 @@
 {
-  "name": "@sylphx/synth-md-mermaid",
-  "version": "0.2.2",
-  "description": "Mermaid diagram support for Synth Markdown parser",
-  "type": "module",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    }
-  },
-  "scripts": {
-    "dev": "bun build src/index.ts --outdir dist --target node --format esm --watch",
-    "test": "bun test",
-    "build": "bunup",
-    "prepack": "bun run build"
-  },
-  "keywords": [
-    "markdown",
-    "mermaid",
-    "diagram",
-    "plugin",
-    "synth"
-  ],
-  "author": "",
-  "license": "MIT",
-  "dependencies": {
-    "@sylphx/synth": "workspace:*",
-    "@sylphx/synth-md": "workspace:*"
-  },
-  "devDependencies": {
-    "@types/node": "^22.0.0",
-    "typescript": "^5.6.0"
-  },
-  "files": [
-    "dist",
-    "src",
-    "README.md"
-  ],
-  "publishConfig": {
-    "access": "public"
-  }
+	"name": "@sylphx/synth-md-mermaid",
+	"version": "0.2.3",
+	"description": "Mermaid diagram support for Synth Markdown parser",
+	"type": "module",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js"
+		}
+	},
+	"scripts": {
+		"dev": "bun build src/index.ts --outdir dist --target node --format esm --watch",
+		"test": "bun test",
+		"build": "bunup",
+		"prepack": "bun run build"
+	},
+	"keywords": [
+		"markdown",
+		"mermaid",
+		"diagram",
+		"plugin",
+		"synth"
+	],
+	"author": "",
+	"license": "MIT",
+	"dependencies": {
+		"@sylphx/synth": "workspace:*",
+		"@sylphx/synth-md": "workspace:*"
+	},
+	"devDependencies": {
+		"@types/node": "^22.0.0",
+		"typescript": "^5.6.0"
+	},
+	"files": [
+		"dist",
+		"src",
+		"README.md"
+	],
+	"publishConfig": {
+		"access": "public"
+	}
 }
