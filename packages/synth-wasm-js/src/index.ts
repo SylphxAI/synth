@@ -9,6 +9,7 @@
  * - parseBinary(): Maximum performance (returns raw Uint8Array)
  * - parseCount(): Node count only (for benchmarking)
  *
+ * @since 0.1.0
  * @packageDocumentation
  */
 

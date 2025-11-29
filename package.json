@@ -1,5 +1,5 @@
 {
-  "name": "@sylphx/synth",
+  "name": "synth-monorepo",
   "version": "0.0.0",
   "description": "Synth - The world's fastest AST processor with zero dependencies",
   "type": "module",

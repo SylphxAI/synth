@@ -3,6 +3,7 @@
  *
  * Universal linter framework for Synth AST
  *
+ * @since 0.1.0
  * @packageDocumentation
  */
 

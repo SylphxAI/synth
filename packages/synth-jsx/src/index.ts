@@ -4,6 +4,7 @@
  * JSX/TSX parser using Synth's universal AST
  * Conversion layer over Acorn + acorn-jsx
  *
+ * @since 0.1.0
  * @packageDocumentation
  */
 

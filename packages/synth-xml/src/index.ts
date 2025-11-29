@@ -4,6 +4,7 @@
  * XML parser using Synth's universal AST
  * Conversion layer over fast-xml-parser
  *
+ * @since 0.1.0
  * @packageDocumentation
  */
 

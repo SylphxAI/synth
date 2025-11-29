@@ -9,6 +9,7 @@
  * - Autolinks (URLs and email)
  * - Task lists ([x] and [ ])
  *
+ * @since 0.1.0
  * @packageDocumentation
  */
 

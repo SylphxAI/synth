@@ -9,6 +9,7 @@
  * \frac{-b \pm \sqrt{b^2-4ac}}{2a}
  * $$
  *
+ * @since 0.1.0
  * @packageDocumentation
  */
 

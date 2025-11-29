@@ -9,6 +9,7 @@
  *   A --> B
  * ```
  *
+ * @since 0.1.0
  * @packageDocumentation
  */
 

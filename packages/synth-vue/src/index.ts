@@ -4,6 +4,7 @@
  * Vue SFC parser using Synth's universal AST
  * Conversion layer over @vue/compiler-sfc
  *
+ * @since 0.1.0
  * @packageDocumentation
  */
 

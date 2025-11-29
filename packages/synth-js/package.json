@@ -1,52 +1,52 @@
 {
-	"name": "@sylphx/synth-js",
-	"version": "0.3.2",
-	"description": "High-performance JavaScript/TypeScript parser for Synth - universal AST for JS tooling",
-	"type": "module",
-	"main": "./dist/index.js",
-	"types": "./dist/index.d.ts",
-	"exports": {
-		".": {
-			"types": "./dist/index.d.ts",
-			"import": "./dist/index.js"
-		}
-	},
-	"scripts": {
-		"dev": "bun build src/index.ts --outdir dist --target node --format esm --watch",
-		"test": "bun test",
-		"test:watch": "bun test --watch",
-		"bench": "bun bench",
-		"build": "bunup",
-		"prepack": "bun run build"
-	},
-	"keywords": [
-		"javascript",
-		"typescript",
-		"parser",
-		"ast",
-		"babel",
-		"acorn",
-		"fast",
-		"performance",
-		"synth"
-	],
-	"author": "",
-	"license": "MIT",
-	"dependencies": {
-		"@sylphx/synth": "workspace:*",
-		"acorn": "^8.12.1",
-		"acorn-typescript": "^1.4.13"
-	},
-	"devDependencies": {
-		"@types/node": "^22.0.0",
-		"typescript": "^5.6.0"
-	},
-	"files": [
-		"dist",
-		"src",
-		"README.md"
-	],
-	"publishConfig": {
-		"access": "public"
-	}
+  "name": "@sylphx/synth-js",
+  "version": "0.3.2",
+  "description": "High-performance JavaScript/TypeScript parser for Synth - universal AST for JS tooling",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "dev": "bun build src/index.ts --outdir dist --target node --format esm --watch",
+    "test": "bun test",
+    "test:watch": "bun test --watch",
+    "bench": "bun bench",
+    "build": "bunup",
+    "prepack": "bun run build"
+  },
+  "keywords": [
+    "javascript",
+    "typescript",
+    "parser",
+    "ast",
+    "babel",
+    "acorn",
+    "fast",
+    "performance",
+    "synth"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@sylphx/synth": "workspace:*",
+    "acorn": "^8.12.1",
+    "acorn-typescript": "^1.4.13"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0"
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }

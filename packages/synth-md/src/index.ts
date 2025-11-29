@@ -12,6 +12,7 @@
  * - Full GFM support
  * - Plugin system
  *
+ * @since 0.1.0
  * @packageDocumentation
  */
 

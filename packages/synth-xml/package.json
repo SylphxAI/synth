@@ -1,42 +1,42 @@
 {
-	"name": "@sylphx/synth-xml",
-	"version": "0.2.2",
-	"description": "XML parser using Synth's universal AST",
-	"type": "module",
-	"main": "./dist/index.js",
-	"types": "./dist/index.d.ts",
-	"exports": {
-		".": {
-			"types": "./dist/index.d.ts",
-			"import": "./dist/index.js"
-		}
-	},
-	"files": [
-		"dist",
-		"src",
-		"README.md"
-	],
-	"scripts": {
-		"test": "bun test",
-		"typecheck": "tsc --noEmit",
-		"build": "bunup",
-		"prepack": "bun run build"
-	},
-	"keywords": [
-		"xml",
-		"parser",
-		"ast",
-		"synth",
-		"markup"
-	],
-	"author": "Synth",
-	"license": "MIT",
-	"dependencies": {
-		"@sylphx/synth": "workspace:*",
-		"fast-xml-parser": "^4.5.0"
-	},
-	"devDependencies": {
-		"@types/bun": "latest",
-		"typescript": "^5.6.0"
-	}
+  "name": "@sylphx/synth-xml",
+  "version": "0.2.2",
+  "description": "XML parser using Synth's universal AST",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "bun test",
+    "typecheck": "tsc --noEmit",
+    "build": "bunup",
+    "prepack": "bun run build"
+  },
+  "keywords": [
+    "xml",
+    "parser",
+    "ast",
+    "synth",
+    "markup"
+  ],
+  "author": "Synth",
+  "license": "MIT",
+  "dependencies": {
+    "@sylphx/synth": "workspace:*",
+    "fast-xml-parser": "^4.5.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.6.0"
+  }
 }

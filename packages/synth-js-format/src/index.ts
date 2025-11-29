@@ -3,6 +3,7 @@
  *
  * Prettier-style code formatter for JavaScript/TypeScript
  *
+ * @since 0.1.0
  * @packageDocumentation
  */
 

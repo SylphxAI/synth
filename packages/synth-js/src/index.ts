@@ -3,6 +3,7 @@
  *
  * High-performance JavaScript/TypeScript parser for Synth
  *
+ * @since 0.1.0
  * @packageDocumentation
  */
 

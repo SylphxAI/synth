@@ -4,6 +4,7 @@
  * TOML parser using Synth's universal AST
  * Hand-written, zero dependencies
  *
+ * @since 0.1.0
  * @packageDocumentation
  */
 

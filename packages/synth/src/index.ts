@@ -4,6 +4,7 @@
  * Main entry point for the Synth library.
  * Exports core types, utilities, optimizations, and plugin system.
  *
+ * @since 0.1.0
  * @packageDocumentation
  */
 
