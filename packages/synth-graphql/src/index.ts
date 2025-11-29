@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth-graphql
+ * @module @sylphx/synth-graphql
  *
  * GraphQL parser using Synth's universal AST
  * Conversion layer over graphql-js

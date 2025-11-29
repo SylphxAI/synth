@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth-lint
+ * @module @sylphx/synth-lint
  *
  * Universal linter framework for Synth AST
  *

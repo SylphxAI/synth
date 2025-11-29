@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth-md-katex
+ * @module @sylphx/synth-md-katex
  *
  * KaTeX math rendering support for Synth Markdown parser
  *

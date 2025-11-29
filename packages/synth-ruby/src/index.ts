@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth-ruby
+ * @module @sylphx/synth-ruby
  *
  * Ruby parser for Synth's universal AST
  *

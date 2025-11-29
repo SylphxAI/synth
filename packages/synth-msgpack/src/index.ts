@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth-msgpack
+ * @module @sylphx/synth-msgpack
  *
  * MessagePack parser using Synth's universal AST
  *

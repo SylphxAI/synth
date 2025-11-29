@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth-php
+ * @module @sylphx/synth-php
  *
  * PHP parser for Synth's universal AST
  *

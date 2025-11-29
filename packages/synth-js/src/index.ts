@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth-js
+ * @module @sylphx/synth-js
  *
  * High-performance JavaScript/TypeScript parser for Synth
  *

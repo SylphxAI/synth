@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth-yaml
+ * @module @sylphx/synth-yaml
  *
  * YAML parser using Synth's universal AST
  *

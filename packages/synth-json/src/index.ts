@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth-json
+ * @module @sylphx/synth-json
  *
  * JSON parser using Synth's universal AST
  *

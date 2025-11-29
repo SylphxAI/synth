@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth-sql
+ * @module @sylphx/synth-sql
  *
  * SQL parser using Synth's universal AST
  * Conversion layer over node-sql-parser

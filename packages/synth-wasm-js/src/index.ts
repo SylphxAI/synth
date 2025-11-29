@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth-wasm-js
+ * @module @sylphx/synth-wasm-js
  *
  * High-performance JavaScript/TypeScript parser compiled to WebAssembly.
  * Supports ES2024 syntax.

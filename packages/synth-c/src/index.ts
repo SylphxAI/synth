@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth-c
+ * @module @sylphx/synth-c
  *
  * C parser for Synth's universal AST
  *

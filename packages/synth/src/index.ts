@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth - The world's fastest AST processor
+ * @module @sylphx/synth - The world's fastest AST processor
  *
  * Main entry point for the Synth library.
  * Exports core types, utilities, optimizations, and plugin system.

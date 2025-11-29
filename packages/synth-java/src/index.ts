@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth-java
+ * @module @sylphx/synth-java
  *
  * Java parser for Synth's universal AST
  *

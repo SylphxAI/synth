@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth-vue
+ * @module @sylphx/synth-vue
  *
  * Vue SFC parser using Synth's universal AST
  * Conversion layer over @vue/compiler-sfc

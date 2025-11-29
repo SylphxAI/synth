@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth-html
+ * @module @sylphx/synth-html
  *
  * High-performance HTML5 parser for Synth
  *

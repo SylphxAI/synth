@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth-typecheck
+ * @module @sylphx/synth-typecheck
  *
  * Type checker for Synth AST
  *

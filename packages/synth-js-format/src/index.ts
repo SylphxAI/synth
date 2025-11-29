@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth-js-format
+ * @module @sylphx/synth-js-format
  *
  * Prettier-style code formatter for JavaScript/TypeScript
  *

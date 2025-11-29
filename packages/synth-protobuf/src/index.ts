@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth-protobuf
+ * @module @sylphx/synth-protobuf
  *
  * Protocol Buffers parser using Synth's universal AST
  *

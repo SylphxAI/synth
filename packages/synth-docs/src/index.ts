@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth-docs
+ * @module @sylphx/synth-docs
  *
  * Documentation generator for Synth AST
  *

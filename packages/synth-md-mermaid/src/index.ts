@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth-md-mermaid
+ * @module @sylphx/synth-md-mermaid
  *
  * Mermaid diagram support for Synth Markdown parser
  *

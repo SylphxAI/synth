@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth-toml
+ * @module @sylphx/synth-toml
  *
  * TOML parser using Synth's universal AST
  * Hand-written, zero dependencies

@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth-xml
+ * @module @sylphx/synth-xml
  *
  * XML parser using Synth's universal AST
  * Conversion layer over fast-xml-parser

@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth-python
+ * @module @sylphx/synth-python
  *
  * Python parser using Synth's universal AST
  * Conversion layer over tree-sitter-python

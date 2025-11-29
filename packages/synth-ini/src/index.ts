@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth-ini
+ * @module @sylphx/synth-ini
  *
  * INI parser using Synth's universal AST
  * Hand-written, zero dependencies

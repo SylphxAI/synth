@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth-js-minify
+ * @module @sylphx/synth-js-minify
  *
  * JavaScript minifier using Synth's universal AST
  *

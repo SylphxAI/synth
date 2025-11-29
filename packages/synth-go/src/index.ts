@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth-go
+ * @module @sylphx/synth-go
  *
  * Go parser using Synth's universal AST
  * Conversion layer over tree-sitter-go

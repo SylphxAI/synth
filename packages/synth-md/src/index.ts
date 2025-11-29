@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth-md
+ * @module @sylphx/synth-md
  *
  * High-performance Markdown parser - 26-42x faster than remark
  *

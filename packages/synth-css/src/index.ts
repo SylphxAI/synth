@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth-css
+ * @module @sylphx/synth-css
  *
  * CSS3 parser using Synth's universal AST
  * Hand-written, zero dependencies

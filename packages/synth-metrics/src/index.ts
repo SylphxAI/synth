@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth-metrics
+ * @module @sylphx/synth-metrics
  *
  * Code metrics and complexity analysis for Synth AST
  *

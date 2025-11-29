@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth-wasm-md
+ * @module @sylphx/synth-wasm-md
  *
  * High-performance Markdown parser compiled to WebAssembly.
  *

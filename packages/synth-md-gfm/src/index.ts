@@ -1,5 +1,5 @@
 /**
- * @sylphx/synth-md-gfm
+ * @module @sylphx/synth-md-gfm
  *
  * GitHub Flavored Markdown (GFM) extensions for Synth
  *
