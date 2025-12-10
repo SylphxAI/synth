@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.2 (2025-12-10)
+
+### 🐛 Bug Fixes
+
+- **synth-wasm-js:** add type annotation for NodeFlags bitwise operations ([91a6bfd](https://github.com/SylphxAI/synth/commit/91a6bfd9bbb9d13ef6a072e76b6a9e8bc75a10fd))
+
+### 💅 Styles
+
+- format package.json files with biome ([1902eba](https://github.com/SylphxAI/synth/commit/1902eba58d0b473d31b04c35db0fa0e14adfc2f5))
+
 ## 0.1.1 (2025-11-29)
 
 ### 🐛 Bug Fixes
