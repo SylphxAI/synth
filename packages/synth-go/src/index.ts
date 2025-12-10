@@ -9,4 +9,4 @@
  */
 
 export type { GoParseOptions } from './parser.js'
-export { createParser, GoParser, parse, parseAsync, init } from './parser.js'
+export { createParser, GoParser, init, parse, parseAsync } from './parser.js'
