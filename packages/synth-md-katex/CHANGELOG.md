@@ -1,5 +1,11 @@
 # @sylphx/synth-md-katex
 
+## 0.2.3 (2025-11-29)
+
+### 🐛 Bug Fixes
+
+- resolve workspace dependency version conflict ([4f75ab5](https://github.com/SylphxAI/synth/commit/4f75ab507ede47fec60d5a82d7a567343016130e))
+
 ## 0.2.2 (2025-11-29)
 
 ### 🐛 Bug Fixes
