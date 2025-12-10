@@ -1,50 +1,50 @@
 {
-	"name": "@sylphx/synth-html",
-	"version": "0.2.3",
-	"description": "High-performance HTML5 parser for Synth - streaming-capable with language-agnostic AST",
-	"type": "module",
-	"main": "./dist/index.js",
-	"types": "./dist/index.d.ts",
-	"exports": {
-		".": {
-			"types": "./dist/index.d.ts",
-			"import": "./dist/index.js"
-		}
-	},
-	"scripts": {
-		"dev": "bun build src/index.ts --outdir dist --target node --format esm --watch",
-		"test": "bun test",
-		"test:watch": "bun test --watch",
-		"bench": "bun bench",
-		"build": "bunup",
-		"prepack": "bun run build"
-	},
-	"keywords": [
-		"html",
-		"html5",
-		"parser",
-		"ast",
-		"dom",
-		"fast",
-		"performance",
-		"streaming",
-		"synth"
-	],
-	"author": "",
-	"license": "MIT",
-	"dependencies": {
-		"@sylphx/synth": "workspace:*"
-	},
-	"devDependencies": {
-		"@types/node": "^22.0.0",
-		"typescript": "^5.6.0"
-	},
-	"files": [
-		"dist",
-		"src",
-		"README.md"
-	],
-	"publishConfig": {
-		"access": "public"
-	}
+  "name": "@sylphx/synth-html",
+  "version": "0.2.3",
+  "description": "High-performance HTML5 parser for Synth - streaming-capable with language-agnostic AST",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "dev": "bun build src/index.ts --outdir dist --target node --format esm --watch",
+    "test": "bun test",
+    "test:watch": "bun test --watch",
+    "bench": "bun bench",
+    "build": "bunup",
+    "prepack": "bun run build"
+  },
+  "keywords": [
+    "html",
+    "html5",
+    "parser",
+    "ast",
+    "dom",
+    "fast",
+    "performance",
+    "streaming",
+    "synth"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@sylphx/synth": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0"
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }
