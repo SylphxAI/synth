@@ -1,14 +1,13 @@
 /**
- * Rust Parser
+ * Rust Parser (WASM-based)
  *
  * Converts Rust source to Synth's universal AST
- * Uses tree-sitter-rust for parsing, then converts to Synth format
+ * Uses web-tree-sitter (WASM) for cross-platform compatibility
  */
 
 import type { NodeId, Plugin, Tree } from '@sylphx/synth'
 import { addNode, createTree, SynthError } from '@sylphx/synth'
-import Parser from 'tree-sitter'
-import Rust from 'tree-sitter-rust'
+import Parser, { type Language, type SyntaxNode } from 'web-tree-sitter'
 
 export interface RustParseOptions {
   /** Build query index for AST */
@@ -18,15 +17,59 @@ export interface RustParseOptions {
   plugins?: Plugin[]
 }
 
+// Singleton parser instance (reused across calls)
+let parserPromise: Promise<Parser> | null = null
+let _rustLanguage: Language | null = null
+
+/**
+ * Initialize the WASM parser (called automatically, cached)
+ */
+async function initParser(): Promise<Parser> {
+  if (parserPromise) {
+    return parserPromise
+  }
+
+  parserPromise = (async () => {
+    await Parser.init()
+    const parser = new Parser()
+
+    // Load Rust language from tree-sitter-wasms
+    const wasmPath = new URL(
+      '../../node_modules/tree-sitter-wasms/out/tree-sitter-rust.wasm',
+      import.meta.url
+    )
+
+    // Try multiple paths for the WASM file
+    let language: Language
+    try {
+      // Try direct path first (works in most bundlers)
+      language = await Parser.Language.load(wasmPath.pathname)
+    } catch {
+      try {
+        // Try relative path (works in Node.js)
+        const { createRequire } = await import('node:module')
+        const require = createRequire(import.meta.url)
+        const wasmFile = require.resolve('tree-sitter-wasms/out/tree-sitter-rust.wasm')
+        language = await Parser.Language.load(wasmFile)
+      } catch {
+        // Fallback: try import from package directly
+        const { default: rustWasm } = await import('tree-sitter-wasms/out/tree-sitter-rust.wasm')
+        language = await Parser.Language.load(rustWasm)
+      }
+    }
+
+    _rustLanguage = language
+    parser.setLanguage(language)
+    return parser
+  })()
+
+  return parserPromise
+}
+
 export class RustParser {
   private plugins: Plugin[] = []
   private tree: Tree | null = null
-  private parser: Parser
-
-  constructor() {
-    this.parser = new Parser()
-    this.parser.setLanguage(Rust)
-  }
+  private parser: Parser | null = null
 
   /**
    * Register a plugin
@@ -38,54 +81,24 @@ export class RustParser {
 
   /**
    * Parse Rust synchronously
+   * @deprecated Use parseAsync() instead - WASM requires async initialization
    */
-  parse(source: string, options: RustParseOptions = {}): Tree {
-    const tree = createTree('rust', source)
-    this.tree = tree
-
-    try {
-      // Parse with tree-sitter
-      const tsTree = this.parser.parse(source)
-      const rootNode = tsTree.rootNode
-
-      // Convert tree-sitter AST to Synth AST
-      this.convertNode(tree, rootNode, tree.root)
-    } catch (error) {
-      if (error instanceof SynthError) {
-        throw error
-      }
-      throw new SynthError(`Rust parse error: ${error}`, 'PARSE_ERROR')
-    }
-
-    // Apply plugins
-    const allPlugins = [...this.plugins, ...(options.plugins || [])]
-
-    const hasAsyncPlugin = allPlugins.some(
-      (p) => 'transform' in p && p.transform.constructor.name === 'AsyncFunction'
+  parse(_source: string, _options: RustParseOptions = {}): Tree {
+    throw new SynthError(
+      'Synchronous parse() is not supported with WASM. Use parseAsync() instead.',
+      'SYNC_NOT_SUPPORTED'
     )
-
-    if (hasAsyncPlugin) {
-      throw new SynthError(
-        'Detected async plugins. Use parseAsync() instead of parse()',
-        'ASYNC_PLUGIN_IN_SYNC_PARSE'
-      )
-    }
-
-    let result = tree
-    for (const plugin of allPlugins) {
-      if ('transform' in plugin) {
-        result = plugin.transform(result) as Tree
-      }
-    }
-
-    this.tree = result
-    return result
   }
 
   /**
    * Parse Rust asynchronously
    */
   async parseAsync(source: string, options: RustParseOptions = {}): Promise<Tree> {
+    // Initialize parser if needed
+    if (!this.parser) {
+      this.parser = await initParser()
+    }
+
     const tree = createTree('rust', source)
     this.tree = tree
 
@@ -122,7 +135,7 @@ export class RustParser {
     return this.tree
   }
 
-  private convertNode(tree: Tree, tsNode: Parser.SyntaxNode, parentId: NodeId): NodeId {
+  private convertNode(tree: Tree, tsNode: SyntaxNode, parentId: NodeId): NodeId {
     // Create Synth node from tree-sitter node
     const nodeId = addNode(tree, {
       type: this.mapNodeType(tsNode.type),
@@ -176,12 +189,24 @@ export function createParser(): RustParser {
   return new RustParser()
 }
 
-export function parse(source: string, options?: RustParseOptions): Tree {
-  const parser = new RustParser()
-  return parser.parse(source, options)
+/**
+ * @deprecated Use parseAsync() instead - WASM requires async initialization
+ */
+export function parse(_source: string, _options?: RustParseOptions): Tree {
+  throw new SynthError(
+    'Synchronous parse() is not supported with WASM. Use parseAsync() instead.',
+    'SYNC_NOT_SUPPORTED'
+  )
 }
 
 export async function parseAsync(source: string, options?: RustParseOptions): Promise<Tree> {
   const parser = new RustParser()
   return parser.parseAsync(source, options)
+}
+
+/**
+ * Pre-initialize the parser (optional, for faster first parse)
+ */
+export async function init(): Promise<void> {
+  await initParser()
 }

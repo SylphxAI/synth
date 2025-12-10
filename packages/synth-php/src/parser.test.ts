@@ -1,23 +1,23 @@
 /**
- * PHP Parser Tests
+ * PHP Parser Tests (WASM-based)
  */
 
 import { describe, expect, it } from 'bun:test'
-import { createParser, PhpParser, parse, parseAsync } from './parser.js'
+import { createParser, init, PhpParser, parse, parseAsync } from './parser.js'
 
 describe('PhpParser', () => {
   describe('Basic Parsing', () => {
-    it('should parse empty PHP', () => {
-      const tree = parse('<?php ?>')
+    it('should parse empty PHP', async () => {
+      const tree = await parseAsync('<?php ?>')
       expect(tree.meta.language).toBe('php')
       expect(tree.nodes[tree.root]).toBeDefined()
     })
 
-    it('should parse simple echo', () => {
+    it('should parse simple echo', async () => {
       const php = `<?php
 echo "Hello, World!";
 ?>`
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
       expect(tree.nodes[tree.root]).toBeDefined()
@@ -27,9 +27,9 @@ echo "Hello, World!";
       expect(rootChildren.length).toBeGreaterThan(0)
     })
 
-    it('should parse variable assignment', () => {
+    it('should parse variable assignment', async () => {
       const php = '<?php $x = 42; ?>'
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -38,13 +38,13 @@ echo "Hello, World!";
       expect(varNode).toBeDefined()
     })
 
-    it('should parse function definition', () => {
+    it('should parse function definition', async () => {
       const php = `<?php
 function greet($name) {
     return "Hello, " . $name;
 }
 ?>`
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -53,7 +53,7 @@ function greet($name) {
       expect(funcNode).toBeDefined()
     })
 
-    it('should parse class definition', () => {
+    it('should parse class definition', async () => {
       const php = `<?php
 class Person {
     private $name;
@@ -63,7 +63,7 @@ class Person {
     }
 }
 ?>`
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -74,9 +74,9 @@ class Person {
   })
 
   describe('Variables', () => {
-    it('should parse variable names', () => {
+    it('should parse variable names', async () => {
       const php = '<?php $name = "John"; ?>'
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -85,9 +85,9 @@ class Person {
       expect(varNode).toBeDefined()
     })
 
-    it('should parse superglobals', () => {
+    it('should parse superglobals', async () => {
       const php = '<?php $data = $_POST["name"]; ?>'
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -96,9 +96,9 @@ class Person {
       expect(varNode).toBeDefined()
     })
 
-    it('should parse variable variables', () => {
+    it('should parse variable variables', async () => {
       const php = '<?php $name = "foo"; $$name = "bar"; ?>'
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -108,9 +108,9 @@ class Person {
   })
 
   describe('Data Types', () => {
-    it('should parse string literals', () => {
+    it('should parse string literals', async () => {
       const php = '<?php $text = "Hello, World!"; ?>'
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -119,9 +119,9 @@ class Person {
       expect(stringNode).toBeDefined()
     })
 
-    it('should parse single quoted strings', () => {
+    it('should parse single quoted strings', async () => {
       const php = "<?php $text = 'Hello'; ?>"
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -130,9 +130,9 @@ class Person {
       expect(stringNode).toBeDefined()
     })
 
-    it('should parse integer literals', () => {
+    it('should parse integer literals', async () => {
       const php = '<?php $num = 42; ?>'
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -141,9 +141,9 @@ class Person {
       expect(intNode).toBeDefined()
     })
 
-    it('should parse float literals', () => {
+    it('should parse float literals', async () => {
       const php = '<?php $pi = 3.14159; ?>'
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -152,12 +152,12 @@ class Person {
       expect(floatNode).toBeDefined()
     })
 
-    it('should parse boolean literals', () => {
+    it('should parse boolean literals', async () => {
       const php = `<?php
 $flag1 = true;
 $flag2 = false;
 ?>`
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -168,9 +168,9 @@ $flag2 = false;
       expect(boolNodes.length).toBeGreaterThanOrEqual(2)
     })
 
-    it('should parse arrays', () => {
+    it('should parse arrays', async () => {
       const php = '<?php $numbers = array(1, 2, 3, 4, 5); ?>'
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -179,9 +179,9 @@ $flag2 = false;
       expect(arrayNode).toBeDefined()
     })
 
-    it('should parse short array syntax', () => {
+    it('should parse short array syntax', async () => {
       const php = '<?php $numbers = [1, 2, 3, 4, 5]; ?>'
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -190,9 +190,9 @@ $flag2 = false;
       expect(arrayNode).toBeDefined()
     })
 
-    it('should parse null', () => {
+    it('should parse null', async () => {
       const php = '<?php $value = null; ?>'
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -203,7 +203,7 @@ $flag2 = false;
   })
 
   describe('Control Flow', () => {
-    it('should parse if statement', () => {
+    it('should parse if statement', async () => {
       const php = `<?php
 if ($x > 0) {
     echo "positive";
@@ -213,7 +213,7 @@ if ($x > 0) {
     echo "zero";
 }
 ?>`
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -222,13 +222,13 @@ if ($x > 0) {
       expect(ifNode).toBeDefined()
     })
 
-    it('should parse for loop', () => {
+    it('should parse for loop', async () => {
       const php = `<?php
 for ($i = 0; $i < 10; $i++) {
     echo $i;
 }
 ?>`
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -237,13 +237,13 @@ for ($i = 0; $i < 10; $i++) {
       expect(forNode).toBeDefined()
     })
 
-    it('should parse foreach loop', () => {
+    it('should parse foreach loop', async () => {
       const php = `<?php
 foreach ($items as $item) {
     echo $item;
 }
 ?>`
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -252,13 +252,13 @@ foreach ($items as $item) {
       expect(foreachNode).toBeDefined()
     })
 
-    it('should parse foreach with key and value', () => {
+    it('should parse foreach with key and value', async () => {
       const php = `<?php
 foreach ($array as $key => $value) {
     echo "$key: $value";
 }
 ?>`
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -267,13 +267,13 @@ foreach ($array as $key => $value) {
       expect(foreachNode).toBeDefined()
     })
 
-    it('should parse while loop', () => {
+    it('should parse while loop', async () => {
       const php = `<?php
 while ($x < 10) {
     $x++;
 }
 ?>`
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -282,13 +282,13 @@ while ($x < 10) {
       expect(whileNode).toBeDefined()
     })
 
-    it('should parse do-while loop', () => {
+    it('should parse do-while loop', async () => {
       const php = `<?php
 do {
     $x++;
 } while ($x < 10);
 ?>`
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -297,7 +297,7 @@ do {
       expect(doNode).toBeDefined()
     })
 
-    it('should parse switch statement', () => {
+    it('should parse switch statement', async () => {
       const php = `<?php
 switch ($day) {
     case "Monday":
@@ -310,7 +310,7 @@ switch ($day) {
         echo "Midweek";
 }
 ?>`
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -319,7 +319,7 @@ switch ($day) {
       expect(switchNode).toBeDefined()
     })
 
-    it('should parse try-catch', () => {
+    it('should parse try-catch', async () => {
       const php = `<?php
 try {
     riskyOperation();
@@ -329,7 +329,7 @@ try {
     cleanup();
 }
 ?>`
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -340,13 +340,13 @@ try {
   })
 
   describe('Functions', () => {
-    it('should parse function with parameters', () => {
+    it('should parse function with parameters', async () => {
       const php = `<?php
 function add($a, $b) {
     return $a + $b;
 }
 ?>`
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -355,13 +355,13 @@ function add($a, $b) {
       expect(funcNode).toBeDefined()
     })
 
-    it('should parse function with default parameters', () => {
+    it('should parse function with default parameters', async () => {
       const php = `<?php
 function greet($name = "World") {
     return "Hello, $name!";
 }
 ?>`
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -370,13 +370,13 @@ function greet($name = "World") {
       expect(funcNode).toBeDefined()
     })
 
-    it('should parse function with type hints', () => {
+    it('should parse function with type hints', async () => {
       const php = `<?php
 function add(int $a, int $b): int {
     return $a + $b;
 }
 ?>`
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -385,13 +385,13 @@ function add(int $a, int $b): int {
       expect(funcNode).toBeDefined()
     })
 
-    it('should parse anonymous function', () => {
+    it('should parse anonymous function', async () => {
       const php = `<?php
 $square = function($x) {
     return $x * $x;
 };
 ?>`
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -400,9 +400,9 @@ $square = function($x) {
       expect(funcNode).toBeDefined()
     })
 
-    it('should parse arrow function', () => {
+    it('should parse arrow function', async () => {
       const php = '<?php $square = fn($x) => $x * $x; ?>'
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -413,7 +413,7 @@ $square = function($x) {
   })
 
   describe('Classes', () => {
-    it('should parse class with properties', () => {
+    it('should parse class with properties', async () => {
       const php = `<?php
 class Person {
     public $name;
@@ -421,7 +421,7 @@ class Person {
     protected $email;
 }
 ?>`
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -434,7 +434,7 @@ class Person {
       expect(propNodes.length).toBeGreaterThanOrEqual(1)
     })
 
-    it('should parse constructor', () => {
+    it('should parse constructor', async () => {
       const php = `<?php
 class Person {
     public function __construct($name) {
@@ -442,7 +442,7 @@ class Person {
     }
 }
 ?>`
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -451,7 +451,7 @@ class Person {
       expect(constructorNode).toBeDefined()
     })
 
-    it('should parse class methods', () => {
+    it('should parse class methods', async () => {
       const php = `<?php
 class Calculator {
     public function add($a, $b) {
@@ -463,7 +463,7 @@ class Calculator {
     }
 }
 ?>`
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -472,7 +472,7 @@ class Calculator {
       expect(methodNodes.length).toBeGreaterThanOrEqual(1)
     })
 
-    it('should parse static methods', () => {
+    it('should parse static methods', async () => {
       const php = `<?php
 class Math {
     public static function square($x) {
@@ -480,7 +480,7 @@ class Math {
     }
 }
 ?>`
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -489,12 +489,12 @@ class Math {
       expect(staticNode).toBeDefined()
     })
 
-    it('should parse class inheritance', () => {
+    it('should parse class inheritance', async () => {
       const php = `<?php
 class Dog extends Animal {
 }
 ?>`
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -503,13 +503,13 @@ class Dog extends Animal {
       expect(classNode).toBeDefined()
     })
 
-    it('should parse interface', () => {
+    it('should parse interface', async () => {
       const php = `<?php
 interface Drawable {
     public function draw();
 }
 ?>`
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -518,7 +518,7 @@ interface Drawable {
       expect(interfaceNode).toBeDefined()
     })
 
-    it('should parse trait', () => {
+    it('should parse trait', async () => {
       const php = `<?php
 trait Loggable {
     public function log($message) {
@@ -526,7 +526,7 @@ trait Loggable {
     }
 }
 ?>`
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -537,12 +537,12 @@ trait Loggable {
   })
 
   describe('Comments', () => {
-    it('should parse line comments', () => {
+    it('should parse line comments', async () => {
       const php = `<?php
 // This is a comment
 $x = 42;
 ?>`
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -551,13 +551,13 @@ $x = 42;
       expect(commentNode).toBeDefined()
     })
 
-    it('should parse block comments', () => {
+    it('should parse block comments', async () => {
       const php = `<?php
 /* This is a
    multi-line comment */
 $x = 42;
 ?>`
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -565,12 +565,12 @@ $x = 42;
       expect(tree.nodes[tree.root]).toBeDefined()
     })
 
-    it('should parse hash comments', () => {
+    it('should parse hash comments', async () => {
       const php = `<?php
 # This is a hash comment
 $x = 42;
 ?>`
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -578,7 +578,7 @@ $x = 42;
       expect(tree.nodes[tree.root]).toBeDefined()
     })
 
-    it('should parse doc comments', () => {
+    it('should parse doc comments', async () => {
       const php = `<?php
 /**
  * Adds two numbers
@@ -590,7 +590,7 @@ function add($a, $b) {
     return $a + $b;
 }
 ?>`
-      const tree = parse(php)
+      const tree = await parseAsync(php)
 
       expect(tree.meta.language).toBe('php')
 
@@ -600,71 +600,94 @@ function add($a, $b) {
   })
 
   describe('API', () => {
-    it('should create parser with factory', () => {
+    it('should work with createParser factory', async () => {
       const parser = createParser()
-      expect(parser).toBeInstanceOf(PhpParser)
-    })
+      const tree = await parser.parseAsync('<?php $x = 42; ?>')
 
-    it('should parse with standalone function', () => {
-      const tree = parse('<?php $x = 42; ?>')
       expect(tree.meta.language).toBe('php')
+      expect(tree.nodes[tree.root]).toBeDefined()
     })
 
-    it('should parse async', async () => {
+    it('should work with PhpParser class', async () => {
+      const parser = new PhpParser()
+      const tree = await parser.parseAsync('<?php $x = 42; ?>')
+
+      expect(tree.meta.language).toBe('php')
+      expect(tree.nodes[tree.root]).toBeDefined()
+    })
+
+    it('should work with standalone parseAsync function', async () => {
       const tree = await parseAsync('<?php $x = 42; ?>')
+
       expect(tree.meta.language).toBe('php')
+      expect(tree.nodes[tree.root]).toBeDefined()
     })
 
-    it('should support plugins', () => {
-      let called = false
+    it('should throw error for synchronous parse()', () => {
+      expect(() => {
+        parse('<?php $x = 42; ?>')
+      }).toThrow(/WASM/)
+    })
+
+    it('should support getTree method', async () => {
+      const parser = new PhpParser()
+      const tree1 = await parser.parseAsync('<?php $x = 42; ?>')
+      const tree2 = parser.getTree()
+
+      expect(tree2).toBe(tree1)
+    })
+
+    it('should support plugin system with use()', async () => {
+      const parser = new PhpParser()
+
       const plugin = {
+        name: 'test-plugin',
         transform: (tree: any) => {
-          called = true
+          tree.metadata = { processed: true }
           return tree
         },
       }
 
-      const parser = createParser()
       parser.use(plugin)
-      parser.parse('<?php $x = 42; ?>')
+      const tree = await parser.parseAsync('<?php $x = 42; ?>')
 
-      expect(called).toBe(true)
+      expect(tree.metadata).toEqual({ processed: true })
     })
 
-    it('should support async plugins', async () => {
-      let called = false
+    it('should apply plugins from options', async () => {
       const plugin = {
+        name: 'options-plugin',
+        transform: (tree: any) => {
+          tree.metadata = { fromOptions: true }
+          return tree
+        },
+      }
+
+      const tree = await parseAsync('<?php $x = 42; ?>', { plugins: [plugin] })
+
+      expect(tree.metadata).toEqual({ fromOptions: true })
+    })
+
+    it('should support async plugins with parseAsync', async () => {
+      const asyncPlugin = {
+        name: 'async-plugin',
         transform: async (tree: any) => {
-          called = true
+          await new Promise((resolve) => setTimeout(resolve, 1))
+          tree.metadata = { async: true }
           return tree
         },
       }
 
-      const parser = createParser()
-      parser.use(plugin)
-      await parser.parseAsync('<?php $x = 42; ?>')
+      const tree = await parseAsync('<?php $x = 42; ?>', { plugins: [asyncPlugin] })
 
-      expect(called).toBe(true)
+      expect(tree.metadata).toEqual({ async: true })
     })
 
-    it('should throw error for async plugin in sync parse', () => {
-      const plugin = {
-        transform: async (tree: any) => tree,
-      }
-
-      const parser = createParser()
-      parser.use(plugin)
-
-      expect(() => parser.parse('<?php $x = 42; ?>')).toThrow('async')
-    })
-
-    it('should get last parsed tree', () => {
-      const parser = createParser()
-      parser.parse('<?php $x = 42; ?>')
-      const tree = parser.getTree()
-
-      expect(tree).toBeDefined()
-      expect(tree?.meta.language).toBe('php')
+    it('should support init() for pre-initialization', async () => {
+      // init() should not throw
+      await init()
+      // Second call should be instant (cached)
+      await init()
     })
   })
 })

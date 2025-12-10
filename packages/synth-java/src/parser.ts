@@ -1,25 +1,68 @@
 /**
- * Java Parser
+ * Java Parser (WASM-based)
  *
  * Converts Java source to Synth's universal AST
- * Uses tree-sitter-java for parsing, then converts to Synth format
+ * Uses web-tree-sitter (WASM) for cross-platform compatibility
  */
 
 import type { NodeId, Plugin, Tree } from '@sylphx/synth'
 import { addNode, createTree, SynthError } from '@sylphx/synth'
-import Parser from 'tree-sitter'
-import Java from 'tree-sitter-java'
+import Parser, { type Language, type SyntaxNode } from 'web-tree-sitter'
 import type { JavaParseOptions } from './types.js'
+
+// Singleton parser instance (reused across calls)
+let parserPromise: Promise<Parser> | null = null
+let _javaLanguage: Language | null = null
+
+/**
+ * Initialize the WASM parser (called automatically, cached)
+ */
+async function initParser(): Promise<Parser> {
+  if (parserPromise) {
+    return parserPromise
+  }
+
+  parserPromise = (async () => {
+    await Parser.init()
+    const parser = new Parser()
+
+    // Load Java language from tree-sitter-wasms
+    const wasmPath = new URL(
+      '../../node_modules/tree-sitter-wasms/out/tree-sitter-java.wasm',
+      import.meta.url
+    )
+
+    // Try multiple paths for the WASM file
+    let language: Language
+    try {
+      // Try direct path first (works in most bundlers)
+      language = await Parser.Language.load(wasmPath.pathname)
+    } catch {
+      try {
+        // Try relative path (works in Node.js)
+        const { createRequire } = await import('node:module')
+        const require = createRequire(import.meta.url)
+        const wasmFile = require.resolve('tree-sitter-wasms/out/tree-sitter-java.wasm')
+        language = await Parser.Language.load(wasmFile)
+      } catch {
+        // Fallback: try import from package directly
+        const { default: javaWasm } = await import('tree-sitter-wasms/out/tree-sitter-java.wasm')
+        language = await Parser.Language.load(javaWasm)
+      }
+    }
+
+    _javaLanguage = language
+    parser.setLanguage(language)
+    return parser
+  })()
+
+  return parserPromise
+}
 
 export class JavaParser {
   private plugins: Plugin[] = []
   private tree: Tree | null = null
-  private parser: Parser
-
-  constructor() {
-    this.parser = new Parser()
-    this.parser.setLanguage(Java)
-  }
+  private parser: Parser | null = null
 
   /**
    * Register a plugin
@@ -31,54 +74,24 @@ export class JavaParser {
 
   /**
    * Parse Java synchronously
+   * @deprecated Use parseAsync() instead - WASM requires async initialization
    */
-  parse(source: string, options: JavaParseOptions = {}): Tree {
-    const tree = createTree('java', source)
-    this.tree = tree
-
-    try {
-      // Parse with tree-sitter
-      const tsTree = this.parser.parse(source)
-      const rootNode = tsTree.rootNode
-
-      // Convert tree-sitter AST to Synth AST
-      this.convertNode(tree, rootNode, tree.root)
-    } catch (error) {
-      if (error instanceof SynthError) {
-        throw error
-      }
-      throw new SynthError(`Java parse error: ${error}`, 'PARSE_ERROR')
-    }
-
-    // Apply plugins
-    const allPlugins = [...this.plugins, ...(options.plugins || [])]
-
-    const hasAsyncPlugin = allPlugins.some(
-      (p) => 'transform' in p && p.transform.constructor.name === 'AsyncFunction'
+  parse(_source: string, _options: JavaParseOptions = {}): Tree {
+    throw new SynthError(
+      'Synchronous parse() is not supported with WASM. Use parseAsync() instead.',
+      'SYNC_NOT_SUPPORTED'
     )
-
-    if (hasAsyncPlugin) {
-      throw new SynthError(
-        'Detected async plugins. Use parseAsync() instead of parse()',
-        'ASYNC_PLUGIN_IN_SYNC_PARSE'
-      )
-    }
-
-    let result = tree
-    for (const plugin of allPlugins) {
-      if ('transform' in plugin) {
-        result = plugin.transform(result) as Tree
-      }
-    }
-
-    this.tree = result
-    return result
   }
 
   /**
    * Parse Java asynchronously
    */
   async parseAsync(source: string, options: JavaParseOptions = {}): Promise<Tree> {
+    // Initialize parser if needed
+    if (!this.parser) {
+      this.parser = await initParser()
+    }
+
     const tree = createTree('java', source)
     this.tree = tree
 
@@ -115,7 +128,7 @@ export class JavaParser {
     return this.tree
   }
 
-  private convertNode(tree: Tree, tsNode: Parser.SyntaxNode, parentId: NodeId): NodeId {
+  private convertNode(tree: Tree, tsNode: SyntaxNode, parentId: NodeId): NodeId {
     // Create Synth node from tree-sitter node
     const nodeId = addNode(tree, {
       type: this.mapNodeType(tsNode.type),
@@ -169,12 +182,24 @@ export function createParser(): JavaParser {
   return new JavaParser()
 }
 
-export function parse(source: string, options?: JavaParseOptions): Tree {
-  const parser = new JavaParser()
-  return parser.parse(source, options)
+/**
+ * @deprecated Use parseAsync() instead - WASM requires async initialization
+ */
+export function parse(_source: string, _options?: JavaParseOptions): Tree {
+  throw new SynthError(
+    'Synchronous parse() is not supported with WASM. Use parseAsync() instead.',
+    'SYNC_NOT_SUPPORTED'
+  )
 }
 
 export async function parseAsync(source: string, options?: JavaParseOptions): Promise<Tree> {
   const parser = new JavaParser()
   return parser.parseAsync(source, options)
+}
+
+/**
+ * Pre-initialize the parser (optional, for faster first parse)
+ */
+export async function init(): Promise<void> {
+  await initParser()
 }

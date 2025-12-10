@@ -1,7 +1,7 @@
 {
   "name": "@sylphx/synth-php",
-  "version": "0.2.2",
-  "description": "PHP parser using Synth's universal AST - conversion layer over tree-sitter-php",
+  "version": "0.3.0",
+  "description": "PHP parser using Synth's universal AST - WASM-based, works everywhere",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -23,6 +23,8 @@
     "ast",
     "synth",
     "tree-sitter",
+    "wasm",
+    "webassembly",
     "php7",
     "php8"
   ],
@@ -30,8 +32,8 @@
   "license": "MIT",
   "dependencies": {
     "@sylphx/synth": "workspace:*",
-    "tree-sitter": "^0.21.1",
-    "tree-sitter-php": "^0.23.8"
+    "tree-sitter-wasms": "^0.1.11",
+    "web-tree-sitter": "^0.24.3"
   },
   "devDependencies": {
     "typescript": "^5.6.0"

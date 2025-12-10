@@ -1,67 +1,67 @@
 import { describe, expect, it } from 'bun:test'
 import type { Tree } from '@sylphx/synth'
-import { createParser, parse, parseAsync, RustParser } from './parser.js'
+import { createParser, init, parse, parseAsync, RustParser } from './parser.js'
 
 describe('RustParser', () => {
   describe('Basic Parsing', () => {
-    it('should parse a simple function', () => {
+    it('should parse a simple function', async () => {
       const rust = `fn main() {
     println!("Hello, World!");
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
       expect(tree.meta.language).toBe('rust')
       expect(tree.meta.source).toBe(rust)
       expect(Object.keys(tree.nodes).length).toBeGreaterThan(1)
     })
 
-    it('should parse struct definition', () => {
+    it('should parse struct definition', async () => {
       const rust = `struct Point {
     x: i32,
     y: i32,
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       const root = tree.nodes[tree.root]!
       expect(root.children.length).toBeGreaterThan(0)
     })
 
-    it('should parse variable declarations', () => {
+    it('should parse variable declarations', async () => {
       const rust = `fn main() {
     let x = 5;
     let mut y = 10;
     const MAX: i32 = 100;
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
 
-    it('should parse enum definition', () => {
+    it('should parse enum definition', async () => {
       const rust = `enum Color {
     Red,
     Green,
     Blue,
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
   })
 
   describe('Data Types', () => {
-    it('should parse string literals', () => {
+    it('should parse string literals', async () => {
       const rust = `fn main() {
     let s = "Hello, Rust!";
     let raw = r"C:\\Users\\Name";
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
 
-    it('should parse integer types', () => {
+    it('should parse integer types', async () => {
       const rust = `fn main() {
     let a: i8 = 127;
     let b: i16 = 32767;
@@ -70,54 +70,54 @@ describe('RustParser', () => {
     let e: u8 = 255;
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
 
-    it('should parse float types', () => {
+    it('should parse float types', async () => {
       const rust = `fn main() {
     let x: f32 = 3.14;
     let y: f64 = 2.718281828;
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
 
-    it('should parse boolean values', () => {
+    it('should parse boolean values', async () => {
       const rust = `fn main() {
     let t = true;
     let f = false;
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
 
-    it('should parse arrays and vectors', () => {
+    it('should parse arrays and vectors', async () => {
       const rust = `fn main() {
     let arr = [1, 2, 3, 4, 5];
     let vec = vec![1, 2, 3];
     let typed: Vec<i32> = Vec::new();
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
 
-    it('should parse tuples', () => {
+    it('should parse tuples', async () => {
       const rust = `fn main() {
     let tup: (i32, f64, u8) = (500, 6.4, 1);
     let (x, y, z) = tup;
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
   })
 
   describe('Control Flow', () => {
-    it('should parse if/else statements', () => {
+    it('should parse if/else statements', async () => {
       const rust = `fn main() {
     let number = 6;
     if number % 4 == 0 {
@@ -129,11 +129,11 @@ describe('RustParser', () => {
     }
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
 
-    it('should parse match expressions', () => {
+    it('should parse match expressions', async () => {
       const rust = `fn main() {
     let number = 13;
     match number {
@@ -144,11 +144,11 @@ describe('RustParser', () => {
     }
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
 
-    it('should parse for loops', () => {
+    it('should parse for loops', async () => {
       const rust = `fn main() {
     for i in 0..5 {
         println!("{}", i);
@@ -159,11 +159,11 @@ describe('RustParser', () => {
     }
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
 
-    it('should parse while loops', () => {
+    it('should parse while loops', async () => {
       const rust = `fn main() {
     let mut number = 3;
     while number != 0 {
@@ -172,11 +172,11 @@ describe('RustParser', () => {
     }
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
 
-    it('should parse loop with break/continue', () => {
+    it('should parse loop with break/continue', async () => {
       const rust = `fn main() {
     let mut count = 0;
     loop {
@@ -190,31 +190,31 @@ describe('RustParser', () => {
     }
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
   })
 
   describe('Functions', () => {
-    it('should parse function with parameters', () => {
+    it('should parse function with parameters', async () => {
       const rust = `fn add(x: i32, y: i32) -> i32 {
     x + y
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
 
-    it('should parse function with multiple return values', () => {
+    it('should parse function with multiple return values', async () => {
       const rust = `fn swap(x: i32, y: i32) -> (i32, i32) {
     (y, x)
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
 
-    it('should parse generic functions', () => {
+    it('should parse generic functions', async () => {
       const rust = `fn largest<T: PartialOrd>(list: &[T]) -> &T {
     let mut largest = &list[0];
     for item in list {
@@ -225,24 +225,24 @@ describe('RustParser', () => {
     largest
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
 
-    it('should parse closures', () => {
+    it('should parse closures', async () => {
       const rust = `fn main() {
     let add_one = |x| x + 1;
     let sum = |x, y| x + y;
     let multiply = |x: i32, y: i32| -> i32 { x * y };
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
   })
 
   describe('Structs and Implementations', () => {
-    it('should parse struct with methods', () => {
+    it('should parse struct with methods', async () => {
       const rust = `struct Rectangle {
     width: u32,
     height: u32,
@@ -258,11 +258,11 @@ impl Rectangle {
     }
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
 
-    it('should parse associated functions', () => {
+    it('should parse associated functions', async () => {
       const rust = `impl Rectangle {
     fn square(size: u32) -> Rectangle {
         Rectangle {
@@ -272,11 +272,11 @@ impl Rectangle {
     }
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
 
-    it('should parse tuple structs', () => {
+    it('should parse tuple structs', async () => {
       const rust = `struct Color(i32, i32, i32);
 struct Point(i32, i32, i32);
 
@@ -285,13 +285,13 @@ fn main() {
     let origin = Point(0, 0, 0);
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
   })
 
   describe('Traits', () => {
-    it('should parse trait definitions', () => {
+    it('should parse trait definitions', async () => {
       const rust = `trait Summary {
     fn summarize(&self) -> String;
 
@@ -300,11 +300,11 @@ fn main() {
     }
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
 
-    it('should parse trait implementations', () => {
+    it('should parse trait implementations', async () => {
       const rust = `trait Summary {
     fn summarize(&self) -> String;
 }
@@ -320,13 +320,13 @@ impl Summary for Article {
     }
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
   })
 
   describe('Ownership and Borrowing', () => {
-    it('should parse references', () => {
+    it('should parse references', async () => {
       const rust = `fn main() {
     let s1 = String::from("hello");
     let len = calculate_length(&s1);
@@ -336,11 +336,11 @@ fn calculate_length(s: &String) -> usize {
     s.len()
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
 
-    it('should parse mutable references', () => {
+    it('should parse mutable references', async () => {
       const rust = `fn main() {
     let mut s = String::from("hello");
     change(&mut s);
@@ -350,11 +350,11 @@ fn change(s: &mut String) {
     s.push_str(", world");
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
 
-    it('should parse lifetimes', () => {
+    it('should parse lifetimes', async () => {
       const rust = `fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
     if x.len() > y.len() {
         x
@@ -363,13 +363,13 @@ fn change(s: &mut String) {
     }
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
   })
 
   describe('Pattern Matching', () => {
-    it('should parse destructuring patterns', () => {
+    it('should parse destructuring patterns', async () => {
       const rust = `fn main() {
     let (x, y, z) = (1, 2, 3);
 
@@ -378,11 +378,11 @@ fn change(s: &mut String) {
     let Point { x: a, y: b } = p;
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
 
-    it('should parse enum pattern matching', () => {
+    it('should parse enum pattern matching', async () => {
       const rust = `enum Message {
     Quit,
     Move { x: i32, y: i32 },
@@ -397,13 +397,13 @@ fn process(msg: Message) {
     }
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
   })
 
   describe('Error Handling', () => {
-    it('should parse Result type', () => {
+    it('should parse Result type', async () => {
       const rust = `use std::fs::File;
 use std::io::ErrorKind;
 
@@ -419,11 +419,11 @@ fn main() {
     };
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
 
-    it('should parse question mark operator', () => {
+    it('should parse question mark operator', async () => {
       const rust = `use std::fs::File;
 use std::io::Read;
 
@@ -434,11 +434,11 @@ fn read_file() -> Result<String, std::io::Error> {
     Ok(s)
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
 
-    it('should parse Option type', () => {
+    it('should parse Option type', async () => {
       const rust = `fn main() {
     let some_number = Some(5);
     let some_string = Some("a string");
@@ -450,37 +450,37 @@ fn read_file() -> Result<String, std::io::Error> {
     }
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
   })
 
   describe('Macros', () => {
-    it('should parse macro invocations', () => {
+    it('should parse macro invocations', async () => {
       const rust = `fn main() {
     println!("Hello, {}!", "world");
     vec![1, 2, 3, 4, 5];
     assert_eq!(2 + 2, 4);
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
 
-    it('should parse macro definitions', () => {
+    it('should parse macro definitions', async () => {
       const rust = `macro_rules! say_hello {
     () => {
         println!("Hello!");
     };
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
   })
 
   describe('Modules and Crates', () => {
-    it('should parse module declarations', () => {
+    it('should parse module declarations', async () => {
       const rust = `mod garden {
     pub struct Vegetable {
         pub name: String,
@@ -492,11 +492,11 @@ fn read_file() -> Result<String, std::io::Error> {
     }
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
 
-    it('should parse use statements', () => {
+    it('should parse use statements', async () => {
       const rust = `use std::collections::HashMap;
 use std::io::{self, Write};
 use std::fmt::Result as FmtResult;
@@ -506,13 +506,13 @@ fn main() {
     map.insert(1, 2);
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
   })
 
   describe('Generics', () => {
-    it('should parse generic structs', () => {
+    it('should parse generic structs', async () => {
       const rust = `struct Point<T> {
     x: T,
     y: T,
@@ -524,11 +524,11 @@ impl<T> Point<T> {
     }
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
 
-    it('should parse generic enums', () => {
+    it('should parse generic enums', async () => {
       const rust = `enum Option<T> {
     Some(T),
     None,
@@ -539,13 +539,13 @@ enum Result<T, E> {
     Err(E),
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
   })
 
   describe('Real-World Examples', () => {
-    it('should parse a simple web server (Actix)', () => {
+    it('should parse a simple web server (Actix)', async () => {
       const rust = `use actix_web::{web, App, HttpResponse, HttpServer, Responder};
 
 async fn greet(name: web::Path<String>) -> impl Responder {
@@ -564,11 +564,11 @@ async fn main() -> std::io::Result<()> {
     .await
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
 
-    it('should parse a CLI application', () => {
+    it('should parse a CLI application', async () => {
       const rust = `use std::env;
 use std::process;
 
@@ -602,11 +602,11 @@ fn main() {
     println!("In file {}", config.filename);
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
 
-    it('should parse async/await code', () => {
+    it('should parse async/await code', async () => {
       const rust = `use tokio::time::{sleep, Duration};
 
 async fn say_hello() {
@@ -620,11 +620,11 @@ async fn main() {
     say_hello().await;
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
 
-    it('should parse JSON serialization with serde', () => {
+    it('should parse JSON serialization with serde', async () => {
       const rust = `use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -648,13 +648,13 @@ fn main() {
     println!("{:?}", parsed);
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
   })
 
   describe('Edge Cases', () => {
-    it('should parse comments', () => {
+    it('should parse comments', async () => {
       const rust = `// This is a line comment
 fn main() {
     /* This is a
@@ -665,11 +665,11 @@ fn main() {
 /// Documentation comment
 fn documented() {}`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
 
-    it('should parse attributes', () => {
+    it('should parse attributes', async () => {
       const rust = `#[derive(Debug, Clone)]
 struct Point {
     x: i32,
@@ -684,11 +684,11 @@ mod tests {
     }
 }`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
 
-    it('should parse visibility modifiers', () => {
+    it('should parse visibility modifiers', async () => {
       const rust = `pub struct Public {
     pub field: i32,
     private_field: String,
@@ -698,14 +698,14 @@ pub(crate) fn crate_visible() {}
 pub(super) fn parent_visible() {}
 fn private() {}`
 
-      const tree = parse(rust)
+      const tree = await parseAsync(rust)
       expect(tree).toBeDefined()
     })
   })
 
   describe('API', () => {
-    it('should support standalone parse function', () => {
-      const tree = parse('fn main() {}')
+    it('should support standalone parse function', async () => {
+      const tree = await parseAsync('fn main() {}')
       expect(tree).toBeDefined()
       expect(tree.meta.language).toBe('rust')
     })
@@ -716,24 +716,24 @@ fn private() {}`
       expect(tree.meta.language).toBe('rust')
     })
 
-    it('should support createParser factory', () => {
+    it('should support createParser factory', async () => {
       const parser = createParser()
       expect(parser).toBeInstanceOf(RustParser)
 
-      const tree = parser.parse('fn main() {}')
+      const tree = await parser.parseAsync('fn main() {}')
       expect(tree).toBeDefined()
     })
 
-    it('should support RustParser class', () => {
+    it('should support RustParser class', async () => {
       const parser = new RustParser()
-      const tree = parser.parse('fn main() {}')
+      const tree = await parser.parseAsync('fn main() {}')
       expect(tree).toBeDefined()
 
       const retrieved = parser.getTree()
       expect(retrieved).toBe(tree)
     })
 
-    it('should support plugins', () => {
+    it('should support plugins', async () => {
       let transformed = false
 
       const plugin = {
@@ -744,7 +744,7 @@ fn private() {}`
         },
       }
 
-      parse('fn main() {}', { plugins: [plugin] })
+      await parseAsync('fn main() {}', { plugins: [plugin] })
       expect(transformed).toBe(true)
     })
 
@@ -764,20 +764,20 @@ fn private() {}`
       expect(transformed).toBe(true)
     })
 
-    it('should throw error when using async plugin with sync parse', () => {
-      const asyncPlugin = {
-        name: 'async-plugin',
-        async transform(tree: Tree) {
-          return tree
-        },
-      }
-
+    it('should throw error for synchronous parse()', () => {
       expect(() => {
-        parse('fn main() {}', { plugins: [asyncPlugin] })
-      }).toThrow('Detected async plugins')
+        parse('fn main() {}')
+      }).toThrow(/WASM/)
     })
 
-    it('should support use() method for plugins', () => {
+    it('should support init() for pre-initialization', async () => {
+      // init() should not throw
+      await init()
+      // Second call should be instant (cached)
+      await init()
+    })
+
+    it('should support use() method for plugins', async () => {
       let count = 0
 
       const plugin1 = {
@@ -798,7 +798,7 @@ fn private() {}`
 
       const parser = new RustParser()
       parser.use(plugin1).use(plugin2)
-      parser.parse('fn main() {}')
+      await parser.parseAsync('fn main() {}')
 
       expect(count).toBe(2)
     })

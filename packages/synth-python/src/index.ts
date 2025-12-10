@@ -9,4 +9,4 @@
  */
 
 export type { PythonParseOptions } from './parser.js'
-export { createParser, PythonParser, parse, parseAsync } from './parser.js'
+export { createParser, init, PythonParser, parse, parseAsync } from './parser.js'

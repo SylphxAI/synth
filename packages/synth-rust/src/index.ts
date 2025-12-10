@@ -9,4 +9,4 @@
  */
 
 export type { RustParseOptions } from './parser.js'
-export { createParser, parse, parseAsync, RustParser } from './parser.js'
+export { createParser, init, parse, parseAsync, RustParser } from './parser.js'
