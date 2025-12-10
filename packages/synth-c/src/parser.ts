@@ -12,7 +12,6 @@ import type { CParseOptions } from './types.js'
 
 // Singleton parser instance (reused across calls)
 let parserPromise: Promise<Parser> | null = null
-let _cLanguage: Language | null = null
 
 /**
  * Initialize the WASM parser (called automatically, cached)
@@ -51,7 +50,6 @@ async function initParser(): Promise<Parser> {
       }
     }
 
-    _cLanguage = language
     parser.setLanguage(language)
     return parser
   })()
