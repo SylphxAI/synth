@@ -1,21 +1,25 @@
 /* tslint:disable */
 /* eslint-disable */
-/**
- * Parse JavaScript and return node count (for benchmarking)
- */
-export function parseCount(source: string): number;
+
 /**
  * Parse JavaScript and return binary AST
  */
 export function parseBinary(source: string): Uint8Array;
+
 /**
- * Get the version of the JavaScript parser
+ * Parse JavaScript and return node count (for benchmarking)
  */
-export function version(): string;
+export function parseCount(source: string): number;
+
 /**
  * Count tokens (for benchmarking)
  */
 export function tokenize(source: string): number;
+
+/**
+ * Get the version of the JavaScript parser
+ */
+export function version(): string;
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
@@ -26,13 +30,14 @@ export interface InitOutput {
   readonly tokenize: (a: number, b: number) => number;
   readonly version: () => [number, number];
   readonly __wbindgen_externrefs: WebAssembly.Table;
+  readonly __wbindgen_free: (a: number, b: number, c: number) => void;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
-  readonly __wbindgen_free: (a: number, b: number, c: number) => void;
   readonly __wbindgen_start: () => void;
 }
 
 export type SyncInitInput = BufferSource | WebAssembly.Module;
+
 /**
 * Instantiates the given `module`, which can either be bytes or
 * a precompiled `WebAssembly.Module`.

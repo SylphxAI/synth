@@ -1,81 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-/**
- * Parse Markdown text directly to JSON string
- *
- * This is faster than `parse().toJSON()` because it avoids
- * the intermediate JsValue conversion.
- *
- * # Example (JavaScript)
- * ```javascript
- * import { parseToJson } from '@sylphx/synth-wasm-md';
- *
- * const json = parseToJson('# Hello World');
- * const tree = JSON.parse(json);
- * ```
- */
-export function parseToJson(markdown: string): string;
-/**
- * Parse Markdown to compact binary format (maximum performance)
- *
- * Returns a Uint8Array containing the binary tree structure.
- * This is the fastest parsing option - no JSON, no string copies.
- *
- * Binary format:
- * - Header: [node_count: u32, source_len: u32]
- * - Nodes: 24 bytes each
- *   - node_type: u8 (1=heading, 2=para, 3=code, 4=hr, 5=quote, 6=list)
- *   - flags: u8 (depth for heading, ordered/checked for list)
- *   - _pad: [u8; 2]
- *   - parent: u32
- *   - text_start: u32
- *   - text_len: u32
- *   - span_start: u32
- *   - span_end: u32
- *
- * # Example (JavaScript)
- * ```javascript
- * import { parseBinary } from '@sylphx/synth-wasm-md';
- *
- * const buffer = parseBinary('# Hello World');
- * const view = new DataView(buffer.buffer);
- * const nodeCount = view.getUint32(0, true);
- * ```
- */
-export function parseBinary(markdown: string): Uint8Array;
-/**
- * Count nodes in parsed markdown (for benchmarking)
- *
- * This measures pure parsing performance without any serialization overhead.
- */
-export function parseCount(markdown: string): number;
-/**
- * Parse Markdown text into an AST Tree
- *
- * # Example (JavaScript)
- * ```javascript
- * import { parse } from '@sylphx/synth-wasm-md';
- *
- * const tree = parse('# Hello World');
- * console.log(tree.toJSON());
- * ```
- */
-export function parse(markdown: string): Tree;
-/**
- * Get the version of the Markdown parser
- */
-export function version(): string;
-/**
- * Get the version of the WASM core
- */
-export function coreVersion(): string;
-/**
- * Initialize the WASM module (called automatically)
- */
-export function init(): void;
-/**
- * A position in the source text
- */
+
 export class Position {
   free(): void;
   [Symbol.dispose](): void;
@@ -93,14 +18,7 @@ export class Position {
    */
   offset: number;
 }
-/**
- * AST Tree structure
- *
- * Uses arena-based storage for efficient memory layout:
- * - All nodes stored in a flat Vec
- * - Node IDs are array indices
- * - Cache-friendly iteration
- */
+
 export class Tree {
   free(): void;
   [Symbol.dispose](): void;
@@ -137,6 +55,86 @@ export class Tree {
   readonly language: string;
 }
 
+/**
+ * Get the version of the WASM core
+ */
+export function coreVersion(): string;
+
+/**
+ * Initialize the WASM module (called automatically)
+ */
+export function init(): void;
+
+/**
+ * Parse Markdown text into an AST Tree
+ *
+ * # Example (JavaScript)
+ * ```javascript
+ * import { parse } from '@sylphx/synth-wasm-md';
+ *
+ * const tree = parse('# Hello World');
+ * console.log(tree.toJSON());
+ * ```
+ */
+export function parse(markdown: string): Tree;
+
+/**
+ * Parse Markdown to compact binary format (maximum performance)
+ *
+ * Returns a Uint8Array containing the binary tree structure.
+ * This is the fastest parsing option - no JSON, no string copies.
+ *
+ * Binary format:
+ * - Header: [node_count: u32, source_len: u32]
+ * - Nodes: 24 bytes each
+ *   - node_type: u8 (1=heading, 2=para, 3=code, 4=hr, 5=quote, 6=list)
+ *   - flags: u8 (depth for heading, ordered/checked for list)
+ *   - _pad: [u8; 2]
+ *   - parent: u32
+ *   - text_start: u32
+ *   - text_len: u32
+ *   - span_start: u32
+ *   - span_end: u32
+ *
+ * # Example (JavaScript)
+ * ```javascript
+ * import { parseBinary } from '@sylphx/synth-wasm-md';
+ *
+ * const buffer = parseBinary('# Hello World');
+ * const view = new DataView(buffer.buffer);
+ * const nodeCount = view.getUint32(0, true);
+ * ```
+ */
+export function parseBinary(markdown: string): Uint8Array;
+
+/**
+ * Count nodes in parsed markdown (for benchmarking)
+ *
+ * This measures pure parsing performance without any serialization overhead.
+ */
+export function parseCount(markdown: string): number;
+
+/**
+ * Parse Markdown text directly to JSON string
+ *
+ * This is faster than `parse().toJSON()` because it avoids
+ * the intermediate JsValue conversion.
+ *
+ * # Example (JavaScript)
+ * ```javascript
+ * import { parseToJson } from '@sylphx/synth-wasm-md';
+ *
+ * const json = parseToJson('# Hello World');
+ * const tree = JSON.parse(json);
+ * ```
+ */
+export function parseToJson(markdown: string): string;
+
+/**
+ * Get the version of the Markdown parser
+ */
+export function version(): string;
+
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
 
 export interface InitOutput {
@@ -169,12 +167,13 @@ export interface InitOutput {
   readonly __wbindgen_exn_store: (a: number) => void;
   readonly __externref_table_alloc: () => number;
   readonly __wbindgen_externrefs: WebAssembly.Table;
-  readonly __externref_table_dealloc: (a: number) => void;
   readonly __wbindgen_free: (a: number, b: number, c: number) => void;
+  readonly __externref_table_dealloc: (a: number) => void;
   readonly __wbindgen_start: () => void;
 }
 
 export type SyncInitInput = BufferSource | WebAssembly.Module;
+
 /**
 * Instantiates the given `module`, which can either be bytes or
 * a precompiled `WebAssembly.Module`.

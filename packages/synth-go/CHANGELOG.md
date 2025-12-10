@@ -1,5 +1,19 @@
 # @sylphx/synth-go
 
+## 0.3.1 (2025-12-10)
+
+### ✨ Features
+
+- migrate tree-sitter parsers to WASM (web-tree-sitter) (#15) ([afe1424](https://github.com/SylphxAI/synth/commit/afe1424359f89cdf3e57ea13a98162dee768e2c5))
+
+### 🐛 Bug Fixes
+
+- **types:** add WASM module type declarations to each package ([788e5cb](https://github.com/SylphxAI/synth/commit/788e5cbe2389951bf4777356df45469189d3c633))
+
+### 💅 Styles
+
+- **synth-go:** fix import order ([ce5a8ef](https://github.com/SylphxAI/synth/commit/ce5a8ef6673b4c2f3edefeb3768fa31c119551ae))
+
 ## 0.2.3 (2025-11-29)
 
 ### 🐛 Bug Fixes
