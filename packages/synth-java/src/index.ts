@@ -7,5 +7,5 @@
  * @packageDocumentation
  */
 
-export { createParser, JavaParser, parse, parseAsync } from './parser.js'
+export { createParser, init, JavaParser, parse, parseAsync } from './parser.js'
 export * from './types.js'

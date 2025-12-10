@@ -1,43 +1,45 @@
 {
-	"name": "@sylphx/synth-rust",
-	"version": "0.2.3",
-	"description": "Rust parser using Synth's universal AST",
-	"type": "module",
-	"main": "./dist/index.js",
-	"types": "./dist/index.d.ts",
-	"exports": {
-		".": {
-			"types": "./dist/index.d.ts",
-			"import": "./dist/index.js"
-		}
-	},
-	"files": [
-		"dist",
-		"src",
-		"README.md"
-	],
-	"scripts": {
-		"test": "bun test",
-		"typecheck": "tsc --noEmit",
-		"build": "bunup",
-		"prepack": "bun run build"
-	},
-	"keywords": [
-		"rust",
-		"parser",
-		"ast",
-		"synth",
-		"tree-sitter"
-	],
-	"author": "Synth",
-	"license": "MIT",
-	"dependencies": {
-		"@sylphx/synth": "workspace:*",
-		"tree-sitter": "^0.21.1",
-		"tree-sitter-rust": "^0.23.2"
-	},
-	"devDependencies": {
-		"@types/bun": "latest",
-		"typescript": "^5.6.0"
-	}
+  "name": "@sylphx/synth-rust",
+  "version": "0.3.0",
+  "description": "Rust parser using Synth's universal AST - WASM-based, works everywhere",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "bun test",
+    "typecheck": "tsc --noEmit",
+    "build": "bunup",
+    "prepack": "bun run build"
+  },
+  "keywords": [
+    "rust",
+    "parser",
+    "ast",
+    "synth",
+    "tree-sitter",
+    "wasm",
+    "webassembly"
+  ],
+  "author": "Synth",
+  "license": "MIT",
+  "dependencies": {
+    "@sylphx/synth": "workspace:*",
+    "tree-sitter-wasms": "^0.1.11",
+    "web-tree-sitter": "^0.24.3"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.6.0"
+  }
 }

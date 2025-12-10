@@ -1,26 +1,26 @@
 /**
- * C Parser Tests
+ * C Parser Tests (WASM-based)
  */
 
 import { describe, expect, it } from 'bun:test'
-import { CParser, createParser, parse, parseAsync } from './parser.js'
+import { CParser, createParser, init, parse, parseAsync } from './parser.js'
 
 describe('CParser', () => {
   describe('Basic Parsing', () => {
-    it('should parse empty C', () => {
-      const tree = parse('')
+    it('should parse empty C', async () => {
+      const tree = await parseAsync('')
       expect(tree.meta.language).toBe('c')
       expect(tree.nodes[tree.root]).toBeDefined()
     })
 
-    it('should parse simple main function', () => {
+    it('should parse simple main function', async () => {
       const c = `
 int main() {
     printf("Hello, World!\\n");
     return 0;
 }
       `
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
       expect(tree.nodes[tree.root]).toBeDefined()
@@ -30,9 +30,9 @@ int main() {
       expect(rootChildren.length).toBeGreaterThan(0)
     })
 
-    it('should parse variable declaration', () => {
+    it('should parse variable declaration', async () => {
       const c = 'int x = 42;'
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -41,13 +41,13 @@ int main() {
       expect(declNode).toBeDefined()
     })
 
-    it('should parse function definition', () => {
+    it('should parse function definition', async () => {
       const c = `
 int add(int a, int b) {
     return a + b;
 }
       `
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -58,14 +58,14 @@ int add(int a, int b) {
   })
 
   describe('Data Types', () => {
-    it('should parse integer types', () => {
+    it('should parse integer types', async () => {
       const c = `
 int x = 42;
 long y = 100L;
 short z = 10;
 unsigned int w = 42U;
       `
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -74,12 +74,12 @@ unsigned int w = 42U;
       expect(typeNodes.length).toBeGreaterThanOrEqual(1)
     })
 
-    it('should parse floating point types', () => {
+    it('should parse floating point types', async () => {
       const c = `
 float x = 3.14f;
 double y = 3.14159;
       `
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -88,12 +88,12 @@ double y = 3.14159;
       expect(floatNodes.length).toBeGreaterThanOrEqual(1)
     })
 
-    it('should parse character types', () => {
+    it('should parse character types', async () => {
       const c = `
 char c = 'A';
 char *str = "Hello";
       `
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -102,12 +102,12 @@ char *str = "Hello";
       expect(charNodes.length).toBeGreaterThanOrEqual(1)
     })
 
-    it('should parse boolean type (C99)', () => {
+    it('should parse boolean type (C99)', async () => {
       const c = `
 #include <stdbool.h>
 bool flag = true;
       `
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -115,9 +115,9 @@ bool flag = true;
       expect(tree.nodes[tree.root]).toBeDefined()
     })
 
-    it('should parse void type', () => {
+    it('should parse void type', async () => {
       const c = 'void func() {}'
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -128,9 +128,9 @@ bool flag = true;
   })
 
   describe('Pointers', () => {
-    it('should parse pointer declaration', () => {
+    it('should parse pointer declaration', async () => {
       const c = 'int *ptr;'
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -139,9 +139,9 @@ bool flag = true;
       expect(ptrNode).toBeDefined()
     })
 
-    it('should parse pointer dereference', () => {
+    it('should parse pointer dereference', async () => {
       const c = 'int x = *ptr;'
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -150,9 +150,9 @@ bool flag = true;
       expect(derefNode).toBeDefined()
     })
 
-    it('should parse address-of operator', () => {
+    it('should parse address-of operator', async () => {
       const c = 'int *ptr = &x;'
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -161,9 +161,9 @@ bool flag = true;
       expect(addrNode).toBeDefined()
     })
 
-    it('should parse double pointer', () => {
+    it('should parse double pointer', async () => {
       const c = 'int **ptr;'
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -174,9 +174,9 @@ bool flag = true;
   })
 
   describe('Arrays', () => {
-    it('should parse array declaration', () => {
+    it('should parse array declaration', async () => {
       const c = 'int arr[10];'
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -185,9 +185,9 @@ bool flag = true;
       expect(arrNode).toBeDefined()
     })
 
-    it('should parse array initialization', () => {
+    it('should parse array initialization', async () => {
       const c = 'int arr[] = {1, 2, 3, 4, 5};'
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -196,9 +196,9 @@ bool flag = true;
       expect(initNode).toBeDefined()
     })
 
-    it('should parse multidimensional array', () => {
+    it('should parse multidimensional array', async () => {
       const c = 'int matrix[3][3];'
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -207,9 +207,9 @@ bool flag = true;
       expect(arrNode).toBeDefined()
     })
 
-    it('should parse array access', () => {
+    it('should parse array access', async () => {
       const c = 'int x = arr[0];'
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -220,14 +220,14 @@ bool flag = true;
   })
 
   describe('Structs and Unions', () => {
-    it('should parse struct definition', () => {
+    it('should parse struct definition', async () => {
       const c = `
 struct Point {
     int x;
     int y;
 };
       `
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -236,11 +236,11 @@ struct Point {
       expect(structNode).toBeDefined()
     })
 
-    it('should parse struct declaration and initialization', () => {
+    it('should parse struct declaration and initialization', async () => {
       const c = `
 struct Point p = {10, 20};
       `
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -249,7 +249,7 @@ struct Point p = {10, 20};
       expect(structNode).toBeDefined()
     })
 
-    it('should parse union', () => {
+    it('should parse union', async () => {
       const c = `
 union Data {
     int i;
@@ -257,7 +257,7 @@ union Data {
     char str[20];
 };
       `
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -266,9 +266,9 @@ union Data {
       expect(unionNode).toBeDefined()
     })
 
-    it('should parse member access', () => {
+    it('should parse member access', async () => {
       const c = 'int x = point.x;'
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -277,9 +277,9 @@ union Data {
       expect(fieldNode).toBeDefined()
     })
 
-    it('should parse arrow operator', () => {
+    it('should parse arrow operator', async () => {
       const c = 'int x = ptr->x;'
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -290,7 +290,7 @@ union Data {
   })
 
   describe('Control Flow', () => {
-    it('should parse if statement', () => {
+    it('should parse if statement', async () => {
       const c = `
 if (x > 0) {
     printf("positive");
@@ -300,7 +300,7 @@ if (x > 0) {
     printf("zero");
 }
       `
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -309,13 +309,13 @@ if (x > 0) {
       expect(ifNode).toBeDefined()
     })
 
-    it('should parse for loop', () => {
+    it('should parse for loop', async () => {
       const c = `
 for (int i = 0; i < 10; i++) {
     printf("%d\\n", i);
 }
       `
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -324,13 +324,13 @@ for (int i = 0; i < 10; i++) {
       expect(forNode).toBeDefined()
     })
 
-    it('should parse while loop', () => {
+    it('should parse while loop', async () => {
       const c = `
 while (x < 10) {
     x++;
 }
       `
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -339,13 +339,13 @@ while (x < 10) {
       expect(whileNode).toBeDefined()
     })
 
-    it('should parse do-while loop', () => {
+    it('should parse do-while loop', async () => {
       const c = `
 do {
     x++;
 } while (x < 10);
       `
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -354,7 +354,7 @@ do {
       expect(doNode).toBeDefined()
     })
 
-    it('should parse switch statement', () => {
+    it('should parse switch statement', async () => {
       const c = `
 switch (day) {
     case 0:
@@ -367,7 +367,7 @@ switch (day) {
         printf("Other");
 }
       `
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -376,14 +376,14 @@ switch (day) {
       expect(switchNode).toBeDefined()
     })
 
-    it('should parse break and continue', () => {
+    it('should parse break and continue', async () => {
       const c = `
 for (int i = 0; i < 10; i++) {
     if (i == 5) break;
     if (i % 2 == 0) continue;
 }
       `
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -394,14 +394,14 @@ for (int i = 0; i < 10; i++) {
       expect(contNode).toBeDefined()
     })
 
-    it('should parse goto and labels', () => {
+    it('should parse goto and labels', async () => {
       const c = `
     if (error) goto cleanup;
     // do work
 cleanup:
     free(ptr);
       `
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -412,9 +412,9 @@ cleanup:
   })
 
   describe('Functions', () => {
-    it('should parse function declaration', () => {
+    it('should parse function declaration', async () => {
       const c = 'int add(int a, int b);'
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -423,13 +423,13 @@ cleanup:
       expect(declNode).toBeDefined()
     })
 
-    it('should parse function definition', () => {
+    it('should parse function definition', async () => {
       const c = `
 int add(int a, int b) {
     return a + b;
 }
       `
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -438,9 +438,9 @@ int add(int a, int b) {
       expect(funcNode).toBeDefined()
     })
 
-    it('should parse function call', () => {
+    it('should parse function call', async () => {
       const c = 'int result = add(1, 2);'
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -449,9 +449,9 @@ int add(int a, int b) {
       expect(callNode).toBeDefined()
     })
 
-    it('should parse variadic function', () => {
+    it('should parse variadic function', async () => {
       const c = 'int printf(const char *format, ...);'
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -459,9 +459,9 @@ int add(int a, int b) {
       expect(tree.nodes[tree.root]).toBeDefined()
     })
 
-    it('should parse function pointers', () => {
+    it('should parse function pointers', async () => {
       const c = 'int (*func_ptr)(int, int);'
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -472,9 +472,9 @@ int add(int a, int b) {
   })
 
   describe('Preprocessor', () => {
-    it('should parse #include', () => {
+    it('should parse #include', async () => {
       const c = '#include <stdio.h>'
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -483,9 +483,9 @@ int add(int a, int b) {
       expect(includeNode).toBeDefined()
     })
 
-    it('should parse #define', () => {
+    it('should parse #define', async () => {
       const c = '#define PI 3.14159'
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -494,13 +494,13 @@ int add(int a, int b) {
       expect(defineNode).toBeDefined()
     })
 
-    it('should parse #ifdef', () => {
+    it('should parse #ifdef', async () => {
       const c = `
 #ifdef DEBUG
     printf("Debug mode\\n");
 #endif
       `
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -509,13 +509,13 @@ int add(int a, int b) {
       expect(ifdefNode).toBeDefined()
     })
 
-    it('should parse #ifndef', () => {
+    it('should parse #ifndef', async () => {
       const c = `
 #ifndef HEADER_H
 #define HEADER_H
 #endif
       `
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -524,9 +524,9 @@ int add(int a, int b) {
       expect(ifndefNode).toBeDefined()
     })
 
-    it('should parse macro function', () => {
+    it('should parse macro function', async () => {
       const c = '#define MAX(a, b) ((a) > (b) ? (a) : (b))'
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -537,9 +537,9 @@ int add(int a, int b) {
   })
 
   describe('Operators', () => {
-    it('should parse arithmetic operators', () => {
+    it('should parse arithmetic operators', async () => {
       const c = 'int x = a + b - c * d / e % f;'
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -548,14 +548,14 @@ int add(int a, int b) {
       expect(binNodes.length).toBeGreaterThanOrEqual(1)
     })
 
-    it('should parse increment and decrement', () => {
+    it('should parse increment and decrement', async () => {
       const c = `
 x++;
 ++x;
 y--;
 --y;
       `
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -564,9 +564,9 @@ y--;
       expect(updateNodes.length).toBeGreaterThanOrEqual(1)
     })
 
-    it('should parse bitwise operators', () => {
+    it('should parse bitwise operators', async () => {
       const c = 'int x = a & b | c ^ d << e >> f;'
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -575,9 +575,9 @@ y--;
       expect(binNodes.length).toBeGreaterThanOrEqual(1)
     })
 
-    it('should parse logical operators', () => {
+    it('should parse logical operators', async () => {
       const c = 'int x = a && b || !c;'
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -586,9 +586,9 @@ y--;
       expect(logicNodes.length).toBeGreaterThanOrEqual(1)
     })
 
-    it('should parse ternary operator', () => {
+    it('should parse ternary operator', async () => {
       const c = 'int x = (a > b) ? a : b;'
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -597,9 +597,9 @@ y--;
       expect(ternaryNode).toBeDefined()
     })
 
-    it('should parse sizeof', () => {
+    it('should parse sizeof', async () => {
       const c = 'int size = sizeof(int);'
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -610,12 +610,12 @@ y--;
   })
 
   describe('Comments', () => {
-    it('should parse line comments', () => {
+    it('should parse line comments', async () => {
       const c = `
 // This is a comment
 int x = 42;
       `
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -624,13 +624,13 @@ int x = 42;
       expect(commentNode).toBeDefined()
     })
 
-    it('should parse block comments', () => {
+    it('should parse block comments', async () => {
       const c = `
 /* This is a
    multi-line comment */
 int x = 42;
       `
-      const tree = parse(c)
+      const tree = await parseAsync(c)
 
       expect(tree.meta.language).toBe('c')
 
@@ -645,8 +645,8 @@ int x = 42;
       expect(parser).toBeInstanceOf(CParser)
     })
 
-    it('should parse with standalone function', () => {
-      const tree = parse('int x = 42;')
+    it('should parse with standalone function', async () => {
+      const tree = await parseAsync('int x = 42;')
       expect(tree.meta.language).toBe('c')
     })
 
@@ -655,7 +655,7 @@ int x = 42;
       expect(tree.meta.language).toBe('c')
     })
 
-    it('should support plugins', () => {
+    it('should support plugins', async () => {
       let called = false
       const plugin = {
         transform: (tree: any) => {
@@ -666,7 +666,7 @@ int x = 42;
 
       const parser = createParser()
       parser.use(plugin)
-      parser.parse('int x = 42;')
+      await parser.parseAsync('int x = 42;')
 
       expect(called).toBe(true)
     })
@@ -687,24 +687,26 @@ int x = 42;
       expect(called).toBe(true)
     })
 
-    it('should throw error for async plugin in sync parse', () => {
-      const plugin = {
-        transform: async (tree: any) => tree,
-      }
-
-      const parser = createParser()
-      parser.use(plugin)
-
-      expect(() => parser.parse('int x = 42;')).toThrow('async')
+    it('should throw error for synchronous parse()', () => {
+      expect(() => {
+        parse('int x = 42;')
+      }).toThrow(/WASM/)
     })
 
-    it('should get last parsed tree', () => {
+    it('should get last parsed tree', async () => {
       const parser = createParser()
-      parser.parse('int x = 42;')
+      await parser.parseAsync('int x = 42;')
       const tree = parser.getTree()
 
       expect(tree).toBeDefined()
       expect(tree?.meta.language).toBe('c')
+    })
+
+    it('should support init() for pre-initialization', async () => {
+      // init() should not throw
+      await init()
+      // Second call should be instant (cached)
+      await init()
     })
   })
 })

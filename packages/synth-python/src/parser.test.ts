@@ -1,21 +1,21 @@
 /**
- * Python Parser Tests
+ * Python Parser Tests (WASM-based)
  */
 
 import { describe, expect, it } from 'bun:test'
-import { createParser, PythonParser, parse, parseAsync } from './parser.js'
+import { createParser, init, PythonParser, parse, parseAsync } from './parser.js'
 
 describe('PythonParser', () => {
   describe('Basic Parsing', () => {
-    it('should parse empty Python', () => {
-      const tree = parse('')
+    it('should parse empty Python', async () => {
+      const tree = await parseAsync('')
       expect(tree.meta.language).toBe('python')
       expect(tree.nodes[tree.root]).toBeDefined()
     })
 
-    it('should parse simple variable assignment', () => {
+    it('should parse simple variable assignment', async () => {
       const python = 'x = 42'
-      const tree = parse(python)
+      const tree = await parseAsync(python)
 
       expect(tree.meta.language).toBe('python')
       expect(tree.nodes[tree.root]).toBeDefined()
@@ -25,12 +25,12 @@ describe('PythonParser', () => {
       expect(rootChildren.length).toBeGreaterThan(0)
     })
 
-    it('should parse function definition', () => {
+    it('should parse function definition', async () => {
       const python = `
 def hello():
     return "Hello, World!"
       `
-      const tree = parse(python)
+      const tree = await parseAsync(python)
 
       expect(tree.meta.language).toBe('python')
 
@@ -39,13 +39,13 @@ def hello():
       expect(funcNode).toBeDefined()
     })
 
-    it('should parse class definition', () => {
+    it('should parse class definition', async () => {
       const python = `
 class MyClass:
     def __init__(self):
         self.value = 0
       `
-      const tree = parse(python)
+      const tree = await parseAsync(python)
 
       expect(tree.meta.language).toBe('python')
 
@@ -56,9 +56,9 @@ class MyClass:
   })
 
   describe('Data Types', () => {
-    it('should parse string literals', () => {
+    it('should parse string literals', async () => {
       const python = 'text = "Hello, World!"'
-      const tree = parse(python)
+      const tree = await parseAsync(python)
 
       expect(tree.meta.language).toBe('python')
 
@@ -67,9 +67,9 @@ class MyClass:
       expect(stringNode).toBeDefined()
     })
 
-    it('should parse integer literals', () => {
+    it('should parse integer literals', async () => {
       const python = 'num = 42'
-      const tree = parse(python)
+      const tree = await parseAsync(python)
 
       expect(tree.meta.language).toBe('python')
 
@@ -78,9 +78,9 @@ class MyClass:
       expect(intNode).toBeDefined()
     })
 
-    it('should parse float literals', () => {
+    it('should parse float literals', async () => {
       const python = 'pi = 3.14159'
-      const tree = parse(python)
+      const tree = await parseAsync(python)
 
       expect(tree.meta.language).toBe('python')
 
@@ -89,12 +89,12 @@ class MyClass:
       expect(floatNode).toBeDefined()
     })
 
-    it('should parse boolean literals', () => {
+    it('should parse boolean literals', async () => {
       const python = `
 flag1 = True
 flag2 = False
       `
-      const tree = parse(python)
+      const tree = await parseAsync(python)
 
       expect(tree.meta.language).toBe('python')
 
@@ -103,9 +103,9 @@ flag2 = False
       expect(boolNodes.length).toBeGreaterThanOrEqual(2)
     })
 
-    it('should parse list literals', () => {
+    it('should parse list literals', async () => {
       const python = 'items = [1, 2, 3, 4, 5]'
-      const tree = parse(python)
+      const tree = await parseAsync(python)
 
       expect(tree.meta.language).toBe('python')
 
@@ -114,9 +114,9 @@ flag2 = False
       expect(listNode).toBeDefined()
     })
 
-    it('should parse dict literals', () => {
+    it('should parse dict literals', async () => {
       const python = 'data = {"key": "value", "number": 42}'
-      const tree = parse(python)
+      const tree = await parseAsync(python)
 
       expect(tree.meta.language).toBe('python')
 
@@ -127,7 +127,7 @@ flag2 = False
   })
 
   describe('Control Flow', () => {
-    it('should parse if statement', () => {
+    it('should parse if statement', async () => {
       const python = `
 if x > 0:
     print("positive")
@@ -136,7 +136,7 @@ elif x < 0:
 else:
     print("zero")
       `
-      const tree = parse(python)
+      const tree = await parseAsync(python)
 
       expect(tree.meta.language).toBe('python')
 
@@ -145,12 +145,12 @@ else:
       expect(ifNode).toBeDefined()
     })
 
-    it('should parse for loop', () => {
+    it('should parse for loop', async () => {
       const python = `
 for i in range(10):
     print(i)
       `
-      const tree = parse(python)
+      const tree = await parseAsync(python)
 
       expect(tree.meta.language).toBe('python')
 
@@ -159,12 +159,12 @@ for i in range(10):
       expect(forNode).toBeDefined()
     })
 
-    it('should parse while loop', () => {
+    it('should parse while loop', async () => {
       const python = `
 while x < 10:
     x += 1
       `
-      const tree = parse(python)
+      const tree = await parseAsync(python)
 
       expect(tree.meta.language).toBe('python')
 
@@ -173,7 +173,7 @@ while x < 10:
       expect(whileNode).toBeDefined()
     })
 
-    it('should parse try-except', () => {
+    it('should parse try-except', async () => {
       const python = `
 try:
     risky_operation()
@@ -182,7 +182,7 @@ except ValueError:
 finally:
     cleanup()
       `
-      const tree = parse(python)
+      const tree = await parseAsync(python)
 
       expect(tree.meta.language).toBe('python')
 
@@ -193,12 +193,12 @@ finally:
   })
 
   describe('Functions', () => {
-    it('should parse function with parameters', () => {
+    it('should parse function with parameters', async () => {
       const python = `
 def greet(name, greeting="Hello"):
     return f"{greeting}, {name}!"
       `
-      const tree = parse(python)
+      const tree = await parseAsync(python)
 
       expect(tree.meta.language).toBe('python')
 
@@ -206,12 +206,12 @@ def greet(name, greeting="Hello"):
       expect(funcNode).toBeDefined()
     })
 
-    it('should parse function with type hints', () => {
+    it('should parse function with type hints', async () => {
       const python = `
 def add(a: int, b: int) -> int:
     return a + b
       `
-      const tree = parse(python)
+      const tree = await parseAsync(python)
 
       expect(tree.meta.language).toBe('python')
 
@@ -219,9 +219,9 @@ def add(a: int, b: int) -> int:
       expect(funcNode).toBeDefined()
     })
 
-    it('should parse lambda functions', () => {
+    it('should parse lambda functions', async () => {
       const python = 'square = lambda x: x ** 2'
-      const tree = parse(python)
+      const tree = await parseAsync(python)
 
       expect(tree.meta.language).toBe('python')
 
@@ -229,13 +229,13 @@ def add(a: int, b: int) -> int:
       expect(lambdaNode).toBeDefined()
     })
 
-    it('should parse decorators', () => {
+    it('should parse decorators', async () => {
       const python = `
 @staticmethod
 def utility_function():
     pass
       `
-      const tree = parse(python)
+      const tree = await parseAsync(python)
 
       expect(tree.meta.language).toBe('python')
 
@@ -245,7 +245,7 @@ def utility_function():
   })
 
   describe('Classes', () => {
-    it('should parse class with methods', () => {
+    it('should parse class with methods', async () => {
       const python = `
 class Calculator:
     def add(self, a, b):
@@ -254,7 +254,7 @@ class Calculator:
     def multiply(self, a, b):
         return a * b
       `
-      const tree = parse(python)
+      const tree = await parseAsync(python)
 
       expect(tree.meta.language).toBe('python')
 
@@ -262,7 +262,7 @@ class Calculator:
       expect(classNode).toBeDefined()
     })
 
-    it('should parse class inheritance', () => {
+    it('should parse class inheritance', async () => {
       const python = `
 class Animal:
     pass
@@ -270,7 +270,7 @@ class Animal:
 class Dog(Animal):
     pass
       `
-      const tree = parse(python)
+      const tree = await parseAsync(python)
 
       expect(tree.meta.language).toBe('python')
 
@@ -278,14 +278,14 @@ class Dog(Animal):
       expect(classNodes.length).toBeGreaterThanOrEqual(2)
     })
 
-    it('should parse class with __init__', () => {
+    it('should parse class with __init__', async () => {
       const python = `
 class Person:
     def __init__(self, name, age):
         self.name = name
         self.age = age
       `
-      const tree = parse(python)
+      const tree = await parseAsync(python)
 
       expect(tree.meta.language).toBe('python')
 
@@ -295,9 +295,9 @@ class Person:
   })
 
   describe('Imports', () => {
-    it('should parse import statement', () => {
+    it('should parse import statement', async () => {
       const python = 'import os'
-      const tree = parse(python)
+      const tree = await parseAsync(python)
 
       expect(tree.meta.language).toBe('python')
 
@@ -305,9 +305,9 @@ class Person:
       expect(importNode).toBeDefined()
     })
 
-    it('should parse from import statement', () => {
+    it('should parse from import statement', async () => {
       const python = 'from os import path'
-      const tree = parse(python)
+      const tree = await parseAsync(python)
 
       expect(tree.meta.language).toBe('python')
 
@@ -315,9 +315,9 @@ class Person:
       expect(fromImportNode).toBeDefined()
     })
 
-    it('should parse import with alias', () => {
+    it('should parse import with alias', async () => {
       const python = 'import numpy as np'
-      const tree = parse(python)
+      const tree = await parseAsync(python)
 
       expect(tree.meta.language).toBe('python')
 
@@ -327,7 +327,7 @@ class Person:
   })
 
   describe('Real-World Examples', () => {
-    it('should parse Flask application', () => {
+    it('should parse Flask application', async () => {
       const python = `
 from flask import Flask, request
 
@@ -346,13 +346,13 @@ def users():
 if __name__ == '__main__':
     app.run(debug=True)
       `
-      const tree = parse(python)
+      const tree = await parseAsync(python)
 
       expect(tree.meta.language).toBe('python')
       expect(tree.nodes.length).toBeGreaterThan(10)
     })
 
-    it('should parse data processing script', () => {
+    it('should parse data processing script', async () => {
       const python = `
 import pandas as pd
 import numpy as np
@@ -366,13 +366,13 @@ if __name__ == '__main__':
     result = process_data('data.csv')
     print(result)
       `
-      const tree = parse(python)
+      const tree = await parseAsync(python)
 
       expect(tree.meta.language).toBe('python')
       expect(tree.nodes.length).toBeGreaterThan(10)
     })
 
-    it('should parse class-based program', () => {
+    it('should parse class-based program', async () => {
       const python = `
 class BankAccount:
     def __init__(self, balance=0):
@@ -398,7 +398,7 @@ account = BankAccount(1000)
 account.deposit(500)
 print(account.balance)
       `
-      const tree = parse(python)
+      const tree = await parseAsync(python)
 
       expect(tree.meta.language).toBe('python')
       expect(tree.nodes.length).toBeGreaterThan(20)
@@ -406,45 +406,44 @@ print(account.balance)
   })
 
   describe('API', () => {
-    it('should work with createParser factory', () => {
+    it('should work with createParser factory', async () => {
       const parser = createParser()
-      const tree = parser.parse('x = 42')
+      const tree = await parser.parseAsync('x = 42')
 
       expect(tree.meta.language).toBe('python')
       expect(tree.nodes[tree.root]).toBeDefined()
     })
 
-    it('should work with PythonParser class', () => {
+    it('should work with PythonParser class', async () => {
       const parser = new PythonParser()
-      const tree = parser.parse('x = 42')
+      const tree = await parser.parseAsync('x = 42')
 
       expect(tree.meta.language).toBe('python')
       expect(tree.nodes[tree.root]).toBeDefined()
     })
 
-    it('should work with standalone parse function', () => {
-      const tree = parse('x = 42')
-
-      expect(tree.meta.language).toBe('python')
-      expect(tree.nodes[tree.root]).toBeDefined()
-    })
-
-    it('should work with parseAsync function', async () => {
+    it('should work with standalone parseAsync function', async () => {
       const tree = await parseAsync('x = 42')
 
       expect(tree.meta.language).toBe('python')
       expect(tree.nodes[tree.root]).toBeDefined()
     })
 
-    it('should support getTree method', () => {
+    it('should throw error for synchronous parse()', () => {
+      expect(() => {
+        parse('x = 42')
+      }).toThrow(/WASM/)
+    })
+
+    it('should support getTree method', async () => {
       const parser = new PythonParser()
-      const tree1 = parser.parse('x = 42')
+      const tree1 = await parser.parseAsync('x = 42')
       const tree2 = parser.getTree()
 
       expect(tree2).toBe(tree1)
     })
 
-    it('should support plugin system with use()', () => {
+    it('should support plugin system with use()', async () => {
       const parser = new PythonParser()
 
       const plugin = {
@@ -456,12 +455,12 @@ print(account.balance)
       }
 
       parser.use(plugin)
-      const tree = parser.parse('x = 42')
+      const tree = await parser.parseAsync('x = 42')
 
       expect(tree.metadata).toEqual({ processed: true })
     })
 
-    it('should apply plugins from options', () => {
+    it('should apply plugins from options', async () => {
       const plugin = {
         name: 'options-plugin',
         transform: (tree: any) => {
@@ -470,7 +469,7 @@ print(account.balance)
         },
       }
 
-      const tree = parse('x = 42', { plugins: [plugin] })
+      const tree = await parseAsync('x = 42', { plugins: [plugin] })
 
       expect(tree.metadata).toEqual({ fromOptions: true })
     })
@@ -490,20 +489,16 @@ print(account.balance)
       expect(tree.metadata).toEqual({ async: true })
     })
 
-    it('should throw error if async plugin used in sync parse', () => {
-      const asyncPlugin = {
-        name: 'async-plugin',
-        transform: async (tree: any) => tree,
-      }
-
-      expect(() => {
-        parse('x = 42', { plugins: [asyncPlugin] })
-      }).toThrow(/async plugins/i)
+    it('should support init() for pre-initialization', async () => {
+      // init() should not throw
+      await init()
+      // Second call should be instant (cached)
+      await init()
     })
   })
 
   describe('Edge Cases', () => {
-    it('should handle comments', () => {
+    it('should handle comments', async () => {
       const python = `
 # This is a comment
 x = 42  # Inline comment
@@ -512,13 +507,13 @@ Multi-line
 comment
 """
       `
-      const tree = parse(python)
+      const tree = await parseAsync(python)
 
       expect(tree.meta.language).toBe('python')
       expect(tree.nodes.length).toBeGreaterThan(0)
     })
 
-    it('should handle multiline strings', () => {
+    it('should handle multiline strings', async () => {
       const python = `
 text = """
 This is a
@@ -526,19 +521,19 @@ multi-line
 string
 """
       `
-      const tree = parse(python)
+      const tree = await parseAsync(python)
 
       expect(tree.meta.language).toBe('python')
     })
 
-    it('should handle indentation', () => {
+    it('should handle indentation', async () => {
       const python = `
 def outer():
     def inner():
         return 42
     return inner()
       `
-      const tree = parse(python)
+      const tree = await parseAsync(python)
 
       expect(tree.meta.language).toBe('python')
     })

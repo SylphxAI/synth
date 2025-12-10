@@ -1,19 +1,19 @@
 /**
- * Java Parser Tests
+ * Java Parser Tests (WASM-based)
  */
 
 import { describe, expect, it } from 'bun:test'
-import { createParser, JavaParser, parse, parseAsync } from './parser.js'
+import { createParser, init, JavaParser, parse, parseAsync } from './parser.js'
 
 describe('JavaParser', () => {
   describe('Basic Parsing', () => {
-    it('should parse empty Java', () => {
-      const tree = parse('')
+    it('should parse empty Java', async () => {
+      const tree = await parseAsync('')
       expect(tree.meta.language).toBe('java')
       expect(tree.nodes[tree.root]).toBeDefined()
     })
 
-    it('should parse simple class', () => {
+    it('should parse simple class', async () => {
       const java = `
 public class HelloWorld {
     public static void main(String[] args) {
@@ -21,7 +21,7 @@ public class HelloWorld {
     }
 }
       `
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
       expect(tree.nodes[tree.root]).toBeDefined()
@@ -31,9 +31,9 @@ public class HelloWorld {
       expect(rootChildren.length).toBeGreaterThan(0)
     })
 
-    it('should parse variable declaration', () => {
+    it('should parse variable declaration', async () => {
       const java = 'int x = 42;'
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -42,13 +42,13 @@ public class HelloWorld {
       expect(varNode).toBeDefined()
     })
 
-    it('should parse method definition', () => {
+    it('should parse method definition', async () => {
       const java = `
 public int add(int a, int b) {
     return a + b;
 }
       `
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -59,9 +59,9 @@ public int add(int a, int b) {
   })
 
   describe('Data Types', () => {
-    it('should parse string literals', () => {
+    it('should parse string literals', async () => {
       const java = 'String text = "Hello, World!";'
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -70,9 +70,9 @@ public int add(int a, int b) {
       expect(stringNode).toBeDefined()
     })
 
-    it('should parse integer literals', () => {
+    it('should parse integer literals', async () => {
       const java = 'int num = 42;'
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -81,9 +81,9 @@ public int add(int a, int b) {
       expect(intNode).toBeDefined()
     })
 
-    it('should parse floating point literals', () => {
+    it('should parse floating point literals', async () => {
       const java = 'double pi = 3.14159;'
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -92,12 +92,12 @@ public int add(int a, int b) {
       expect(floatNode).toBeDefined()
     })
 
-    it('should parse boolean literals', () => {
+    it('should parse boolean literals', async () => {
       const java = `
 boolean flag1 = true;
 boolean flag2 = false;
       `
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -108,9 +108,9 @@ boolean flag2 = false;
       expect(boolNodes.length).toBeGreaterThanOrEqual(2)
     })
 
-    it('should parse arrays', () => {
+    it('should parse arrays', async () => {
       const java = 'int[] numbers = {1, 2, 3, 4, 5};'
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -119,9 +119,9 @@ boolean flag2 = false;
       expect(arrayNode).toBeDefined()
     })
 
-    it('should parse null literal', () => {
+    it('should parse null literal', async () => {
       const java = 'String value = null;'
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -132,7 +132,7 @@ boolean flag2 = false;
   })
 
   describe('Control Flow', () => {
-    it('should parse if statement', () => {
+    it('should parse if statement', async () => {
       const java = `
 if (x > 0) {
     System.out.println("positive");
@@ -142,7 +142,7 @@ if (x > 0) {
     System.out.println("zero");
 }
       `
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -151,13 +151,13 @@ if (x > 0) {
       expect(ifNode).toBeDefined()
     })
 
-    it('should parse for loop', () => {
+    it('should parse for loop', async () => {
       const java = `
 for (int i = 0; i < 10; i++) {
     System.out.println(i);
 }
       `
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -166,13 +166,13 @@ for (int i = 0; i < 10; i++) {
       expect(forNode).toBeDefined()
     })
 
-    it('should parse enhanced for loop', () => {
+    it('should parse enhanced for loop', async () => {
       const java = `
 for (String item : items) {
     System.out.println(item);
 }
       `
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -181,13 +181,13 @@ for (String item : items) {
       expect(forNode).toBeDefined()
     })
 
-    it('should parse while loop', () => {
+    it('should parse while loop', async () => {
       const java = `
 while (x < 10) {
     x++;
 }
       `
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -196,13 +196,13 @@ while (x < 10) {
       expect(whileNode).toBeDefined()
     })
 
-    it('should parse do-while loop', () => {
+    it('should parse do-while loop', async () => {
       const java = `
 do {
     x++;
 } while (x < 10);
       `
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -211,7 +211,7 @@ do {
       expect(doNode).toBeDefined()
     })
 
-    it('should parse switch statement', () => {
+    it('should parse switch statement', async () => {
       const java = `
 switch (day) {
     case MONDAY:
@@ -224,7 +224,7 @@ switch (day) {
         System.out.println("Other day");
 }
       `
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -233,7 +233,7 @@ switch (day) {
       expect(switchNode).toBeDefined()
     })
 
-    it('should parse try-catch', () => {
+    it('should parse try-catch', async () => {
       const java = `
 try {
     riskyOperation();
@@ -243,7 +243,7 @@ try {
     cleanup();
 }
       `
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -254,14 +254,14 @@ try {
   })
 
   describe('Classes and Objects', () => {
-    it('should parse class with fields', () => {
+    it('should parse class with fields', async () => {
       const java = `
 public class Person {
     private String name;
     private int age;
 }
       `
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -274,7 +274,7 @@ public class Person {
       expect(fieldNodes.length).toBeGreaterThanOrEqual(2)
     })
 
-    it('should parse constructor', () => {
+    it('should parse constructor', async () => {
       const java = `
 public class Person {
     public Person(String name) {
@@ -282,7 +282,7 @@ public class Person {
     }
 }
       `
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -291,14 +291,14 @@ public class Person {
       expect(constructorNode).toBeDefined()
     })
 
-    it('should parse interface', () => {
+    it('should parse interface', async () => {
       const java = `
 public interface Drawable {
     void draw();
     int getSize();
 }
       `
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -307,13 +307,13 @@ public interface Drawable {
       expect(interfaceNode).toBeDefined()
     })
 
-    it('should parse enum', () => {
+    it('should parse enum', async () => {
       const java = `
 public enum Day {
     MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
 }
       `
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -322,12 +322,12 @@ public enum Day {
       expect(enumNode).toBeDefined()
     })
 
-    it('should parse class inheritance', () => {
+    it('should parse class inheritance', async () => {
       const java = `
 public class Dog extends Animal implements Pet {
 }
       `
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -342,13 +342,13 @@ public class Dog extends Animal implements Pet {
   })
 
   describe('Methods', () => {
-    it('should parse method with parameters', () => {
+    it('should parse method with parameters', async () => {
       const java = `
 public int add(int a, int b) {
     return a + b;
 }
       `
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -361,13 +361,13 @@ public int add(int a, int b) {
       expect(paramsNode).toBeDefined()
     })
 
-    it('should parse static method', () => {
+    it('should parse static method', async () => {
       const java = `
 public static void main(String[] args) {
     System.out.println("Hello");
 }
       `
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -376,11 +376,11 @@ public static void main(String[] args) {
       expect(methodNode).toBeDefined()
     })
 
-    it('should parse abstract method', () => {
+    it('should parse abstract method', async () => {
       const java = `
 public abstract void draw();
       `
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -389,13 +389,13 @@ public abstract void draw();
       expect(methodNode).toBeDefined()
     })
 
-    it('should parse method with throws', () => {
+    it('should parse method with throws', async () => {
       const java = `
 public void readFile() throws IOException {
     // Read file
 }
       `
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -406,13 +406,13 @@ public void readFile() throws IOException {
   })
 
   describe('Generics', () => {
-    it('should parse generic class', () => {
+    it('should parse generic class', async () => {
       const java = `
 public class Box<T> {
     private T value;
 }
       `
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -421,13 +421,13 @@ public class Box<T> {
       expect(typeParamsNode).toBeDefined()
     })
 
-    it('should parse generic method', () => {
+    it('should parse generic method', async () => {
       const java = `
 public <T> T getValue(T input) {
     return input;
 }
       `
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -436,9 +436,9 @@ public <T> T getValue(T input) {
       expect(typeParamsNode).toBeDefined()
     })
 
-    it('should parse generic type usage', () => {
+    it('should parse generic type usage', async () => {
       const java = 'List<String> names = new ArrayList<String>();'
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -449,14 +449,14 @@ public <T> T getValue(T input) {
   })
 
   describe('Annotations', () => {
-    it('should parse class annotation', () => {
+    it('should parse class annotation', async () => {
       const java = `
 @Entity
 @Table(name = "users")
 public class User {
 }
       `
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -465,14 +465,14 @@ public class User {
       expect(annotationNodes.length).toBeGreaterThanOrEqual(2)
     })
 
-    it('should parse method annotation', () => {
+    it('should parse method annotation', async () => {
       const java = `
 @Override
 public String toString() {
     return "object";
 }
       `
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -483,9 +483,9 @@ public String toString() {
   })
 
   describe('Lambda Expressions', () => {
-    it('should parse simple lambda', () => {
+    it('should parse simple lambda', async () => {
       const java = 'Function<Integer, Integer> square = x -> x * x;'
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -494,13 +494,13 @@ public String toString() {
       expect(lambdaNode).toBeDefined()
     })
 
-    it('should parse lambda with block', () => {
+    it('should parse lambda with block', async () => {
       const java = `
 Consumer<String> printer = s -> {
     System.out.println(s);
 };
       `
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -511,12 +511,12 @@ Consumer<String> printer = s -> {
   })
 
   describe('Comments', () => {
-    it('should parse line comments', () => {
+    it('should parse line comments', async () => {
       const java = `
 // This is a comment
 int x = 42;
       `
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -525,13 +525,13 @@ int x = 42;
       expect(commentNode).toBeDefined()
     })
 
-    it('should parse block comments', () => {
+    it('should parse block comments', async () => {
       const java = `
 /* This is a
    multi-line comment */
 int x = 42;
       `
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -539,7 +539,7 @@ int x = 42;
       expect(tree.nodes[tree.root]).toBeDefined()
     })
 
-    it('should parse javadoc comments', () => {
+    it('should parse javadoc comments', async () => {
       const java = `
 /**
  * Adds two numbers
@@ -551,7 +551,7 @@ public int add(int a, int b) {
     return a + b;
 }
       `
-      const tree = parse(java)
+      const tree = await parseAsync(java)
 
       expect(tree.meta.language).toBe('java')
 
@@ -561,13 +561,13 @@ public int add(int a, int b) {
   })
 
   describe('API', () => {
-    it('should create parser with factory', () => {
+    it('should create parser with factory', async () => {
       const parser = createParser()
       expect(parser).toBeInstanceOf(JavaParser)
     })
 
-    it('should parse with standalone function', () => {
-      const tree = parse('int x = 42;')
+    it('should parse with standalone function', async () => {
+      const tree = await parseAsync('int x = 42;')
       expect(tree.meta.language).toBe('java')
     })
 
@@ -576,7 +576,7 @@ public int add(int a, int b) {
       expect(tree.meta.language).toBe('java')
     })
 
-    it('should support plugins', () => {
+    it('should support plugins', async () => {
       let called = false
       const plugin = {
         transform: (tree: any) => {
@@ -587,7 +587,7 @@ public int add(int a, int b) {
 
       const parser = createParser()
       parser.use(plugin)
-      parser.parse('int x = 42;')
+      await parser.parseAsync('int x = 42;')
 
       expect(called).toBe(true)
     })
@@ -608,24 +608,26 @@ public int add(int a, int b) {
       expect(called).toBe(true)
     })
 
-    it('should throw error for async plugin in sync parse', () => {
-      const plugin = {
-        transform: async (tree: any) => tree,
-      }
-
-      const parser = createParser()
-      parser.use(plugin)
-
-      expect(() => parser.parse('int x = 42;')).toThrow('async')
+    it('should throw error for synchronous parse()', () => {
+      expect(() => {
+        parse('int x = 42;')
+      }).toThrow(/WASM/)
     })
 
-    it('should get last parsed tree', () => {
+    it('should get last parsed tree', async () => {
       const parser = createParser()
-      parser.parse('int x = 42;')
+      await parser.parseAsync('int x = 42;')
       const tree = parser.getTree()
 
       expect(tree).toBeDefined()
       expect(tree?.meta.language).toBe('java')
+    })
+
+    it('should support init() for pre-initialization', async () => {
+      // init() should not throw
+      await init()
+      // Second call should be instant (cached)
+      await init()
     })
   })
 })

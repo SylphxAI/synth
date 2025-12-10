@@ -1,21 +1,21 @@
 /**
- * Ruby Parser Tests
+ * Ruby Parser Tests (WASM-based)
  */
 
 import { describe, expect, it } from 'bun:test'
-import { createParser, parse, parseAsync, RubyParser } from './parser.js'
+import { createParser, init, parse, parseAsync, RubyParser } from './parser.js'
 
 describe('RubyParser', () => {
   describe('Basic Parsing', () => {
-    it('should parse empty Ruby', () => {
-      const tree = parse('')
+    it('should parse empty Ruby', async () => {
+      const tree = await parseAsync('')
       expect(tree.meta.language).toBe('ruby')
       expect(tree.nodes[tree.root]).toBeDefined()
     })
 
-    it('should parse simple puts', () => {
+    it('should parse simple puts', async () => {
       const ruby = 'puts "Hello, World!"'
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
       expect(tree.nodes[tree.root]).toBeDefined()
@@ -25,9 +25,9 @@ describe('RubyParser', () => {
       expect(rootChildren.length).toBeGreaterThan(0)
     })
 
-    it('should parse variable assignment', () => {
+    it('should parse variable assignment', async () => {
       const ruby = 'x = 42'
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -36,13 +36,13 @@ describe('RubyParser', () => {
       expect(assignNode).toBeDefined()
     })
 
-    it('should parse method definition', () => {
+    it('should parse method definition', async () => {
       const ruby = `
 def greet(name)
   "Hello, #{name}!"
 end
       `
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -51,7 +51,7 @@ end
       expect(methodNode).toBeDefined()
     })
 
-    it('should parse class definition', () => {
+    it('should parse class definition', async () => {
       const ruby = `
 class Person
   def initialize(name)
@@ -59,7 +59,7 @@ class Person
   end
 end
       `
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -70,9 +70,9 @@ end
   })
 
   describe('Data Types', () => {
-    it('should parse string literals', () => {
+    it('should parse string literals', async () => {
       const ruby = 'text = "Hello, World!"'
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -81,9 +81,9 @@ end
       expect(stringNode).toBeDefined()
     })
 
-    it('should parse single quoted strings', () => {
+    it('should parse single quoted strings', async () => {
       const ruby = "text = 'Hello'"
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -92,9 +92,9 @@ end
       expect(stringNode).toBeDefined()
     })
 
-    it('should parse string interpolation', () => {
+    it('should parse string interpolation', async () => {
       const ruby = 'name = "World"; greeting = "Hello, #{name}!"'
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -103,9 +103,9 @@ end
       expect(interpolNode).toBeDefined()
     })
 
-    it('should parse symbols', () => {
+    it('should parse symbols', async () => {
       const ruby = 'status = :pending'
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -114,9 +114,9 @@ end
       expect(symbolNode).toBeDefined()
     })
 
-    it('should parse integer literals', () => {
+    it('should parse integer literals', async () => {
       const ruby = 'num = 42'
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -125,9 +125,9 @@ end
       expect(intNode).toBeDefined()
     })
 
-    it('should parse float literals', () => {
+    it('should parse float literals', async () => {
       const ruby = 'pi = 3.14159'
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -136,12 +136,12 @@ end
       expect(floatNode).toBeDefined()
     })
 
-    it('should parse boolean literals', () => {
+    it('should parse boolean literals', async () => {
       const ruby = `
 flag1 = true
 flag2 = false
       `
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -152,9 +152,9 @@ flag2 = false
       expect(boolNodes.length).toBeGreaterThanOrEqual(2)
     })
 
-    it('should parse arrays', () => {
+    it('should parse arrays', async () => {
       const ruby = 'numbers = [1, 2, 3, 4, 5]'
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -163,9 +163,9 @@ flag2 = false
       expect(arrayNode).toBeDefined()
     })
 
-    it('should parse hashes', () => {
+    it('should parse hashes', async () => {
       const ruby = 'person = { name: "John", age: 30 }'
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -174,9 +174,9 @@ flag2 = false
       expect(hashNode).toBeDefined()
     })
 
-    it('should parse ranges', () => {
+    it('should parse ranges', async () => {
       const ruby = 'range = 1..10'
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -185,9 +185,9 @@ flag2 = false
       expect(rangeNode).toBeDefined()
     })
 
-    it('should parse nil', () => {
+    it('should parse nil', async () => {
       const ruby = 'value = nil'
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -198,7 +198,7 @@ flag2 = false
   })
 
   describe('Control Flow', () => {
-    it('should parse if statement', () => {
+    it('should parse if statement', async () => {
       const ruby = `
 if x > 0
   puts "positive"
@@ -208,7 +208,7 @@ else
   puts "zero"
 end
       `
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -217,13 +217,13 @@ end
       expect(ifNode).toBeDefined()
     })
 
-    it('should parse unless statement', () => {
+    it('should parse unless statement', async () => {
       const ruby = `
 unless x.nil?
   puts x
 end
       `
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -232,13 +232,13 @@ end
       expect(unlessNode).toBeDefined()
     })
 
-    it('should parse while loop', () => {
+    it('should parse while loop', async () => {
       const ruby = `
 while x < 10
   x += 1
 end
       `
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -247,13 +247,13 @@ end
       expect(whileNode).toBeDefined()
     })
 
-    it('should parse until loop', () => {
+    it('should parse until loop', async () => {
       const ruby = `
 until x >= 10
   x += 1
 end
       `
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -262,13 +262,13 @@ end
       expect(untilNode).toBeDefined()
     })
 
-    it('should parse for loop', () => {
+    it('should parse for loop', async () => {
       const ruby = `
 for i in 1..10
   puts i
 end
       `
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -277,7 +277,7 @@ end
       expect(forNode).toBeDefined()
     })
 
-    it('should parse case statement', () => {
+    it('should parse case statement', async () => {
       const ruby = `
 case day
 when "Monday"
@@ -288,7 +288,7 @@ else
   puts "Midweek"
 end
       `
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -297,7 +297,7 @@ end
       expect(caseNode).toBeDefined()
     })
 
-    it('should parse begin-rescue-end', () => {
+    it('should parse begin-rescue-end', async () => {
       const ruby = `
 begin
   risky_operation
@@ -307,7 +307,7 @@ ensure
   cleanup
 end
       `
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -318,13 +318,13 @@ end
   })
 
   describe('Methods', () => {
-    it('should parse method with parameters', () => {
+    it('should parse method with parameters', async () => {
       const ruby = `
 def add(a, b)
   a + b
 end
       `
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -333,13 +333,13 @@ end
       expect(methodNode).toBeDefined()
     })
 
-    it('should parse method with default parameters', () => {
+    it('should parse method with default parameters', async () => {
       const ruby = `
 def greet(name = "World")
   "Hello, #{name}!"
 end
       `
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -348,13 +348,13 @@ end
       expect(methodNode).toBeDefined()
     })
 
-    it('should parse method with splat operator', () => {
+    it('should parse method with splat operator', async () => {
       const ruby = `
 def sum(*numbers)
   numbers.reduce(0, :+)
 end
       `
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -363,13 +363,13 @@ end
       expect(methodNode).toBeDefined()
     })
 
-    it('should parse method with keyword arguments', () => {
+    it('should parse method with keyword arguments', async () => {
       const ruby = `
 def greet(name:, greeting: "Hello")
   "#{greeting}, #{name}!"
 end
       `
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -378,13 +378,13 @@ end
       expect(methodNode).toBeDefined()
     })
 
-    it('should parse method with block parameter', () => {
+    it('should parse method with block parameter', async () => {
       const ruby = `
 def apply(&block)
   block.call
 end
       `
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -395,13 +395,13 @@ end
   })
 
   describe('Blocks', () => {
-    it('should parse block with do-end', () => {
+    it('should parse block with do-end', async () => {
       const ruby = `
 [1, 2, 3].each do |n|
   puts n
 end
       `
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -410,9 +410,9 @@ end
       expect(blockNode).toBeDefined()
     })
 
-    it('should parse block with braces', () => {
+    it('should parse block with braces', async () => {
       const ruby = '[1, 2, 3].each { |n| puts n }'
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -421,13 +421,13 @@ end
       expect(blockNode).toBeDefined()
     })
 
-    it('should parse block parameters', () => {
+    it('should parse block parameters', async () => {
       const ruby = `
 hash.each do |key, value|
   puts "#{key}: #{value}"
 end
       `
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -436,9 +436,9 @@ end
       expect(blockNode).toBeDefined()
     })
 
-    it('should parse proc', () => {
+    it('should parse proc', async () => {
       const ruby = 'double = Proc.new { |x| x * 2 }'
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -446,9 +446,9 @@ end
       expect(tree.nodes[tree.root]).toBeDefined()
     })
 
-    it('should parse lambda', () => {
+    it('should parse lambda', async () => {
       const ruby = 'double = lambda { |x| x * 2 }'
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -456,9 +456,9 @@ end
       expect(tree.nodes[tree.root]).toBeDefined()
     })
 
-    it('should parse stabby lambda', () => {
+    it('should parse stabby lambda', async () => {
       const ruby = 'double = ->(x) { x * 2 }'
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -469,7 +469,7 @@ end
   })
 
   describe('Classes', () => {
-    it('should parse class with methods', () => {
+    it('should parse class with methods', async () => {
       const ruby = `
 class Calculator
   def add(a, b)
@@ -481,7 +481,7 @@ class Calculator
   end
 end
       `
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -490,7 +490,7 @@ end
       expect(classNode).toBeDefined()
     })
 
-    it('should parse initialize method', () => {
+    it('should parse initialize method', async () => {
       const ruby = `
 class Person
   def initialize(name)
@@ -498,7 +498,7 @@ class Person
   end
 end
       `
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -507,7 +507,7 @@ end
       expect(initNode).toBeDefined()
     })
 
-    it('should parse instance variables', () => {
+    it('should parse instance variables', async () => {
       const ruby = `
 class Person
   def set_name(name)
@@ -515,7 +515,7 @@ class Person
   end
 end
       `
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -524,13 +524,13 @@ end
       expect(ivarNode).toBeDefined()
     })
 
-    it('should parse class variables', () => {
+    it('should parse class variables', async () => {
       const ruby = `
 class Counter
   @@count = 0
 end
       `
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -539,7 +539,7 @@ end
       expect(cvarNode).toBeDefined()
     })
 
-    it('should parse class methods', () => {
+    it('should parse class methods', async () => {
       const ruby = `
 class Math
   def self.square(x)
@@ -547,7 +547,7 @@ class Math
   end
 end
       `
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -556,12 +556,12 @@ end
       expect(methodNode).toBeDefined()
     })
 
-    it('should parse inheritance', () => {
+    it('should parse inheritance', async () => {
       const ruby = `
 class Dog < Animal
 end
       `
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -570,7 +570,7 @@ end
       expect(classNode).toBeDefined()
     })
 
-    it('should parse module', () => {
+    it('should parse module', async () => {
       const ruby = `
 module Greetable
   def greet
@@ -578,7 +578,7 @@ module Greetable
   end
 end
       `
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -587,13 +587,13 @@ end
       expect(moduleNode).toBeDefined()
     })
 
-    it('should parse attr_accessor', () => {
+    it('should parse attr_accessor', async () => {
       const ruby = `
 class Person
   attr_accessor :name, :age
 end
       `
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -604,12 +604,12 @@ end
   })
 
   describe('Comments', () => {
-    it('should parse line comments', () => {
+    it('should parse line comments', async () => {
       const ruby = `
 # This is a comment
 x = 42
       `
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -618,7 +618,7 @@ x = 42
       expect(commentNode).toBeDefined()
     })
 
-    it('should parse block comments', () => {
+    it('should parse block comments', async () => {
       const ruby = `
 =begin
 This is a
@@ -626,7 +626,7 @@ multi-line comment
 =end
 x = 42
       `
-      const tree = parse(ruby)
+      const tree = await parseAsync(ruby)
 
       expect(tree.meta.language).toBe('ruby')
 
@@ -636,13 +636,13 @@ x = 42
   })
 
   describe('API', () => {
-    it('should create parser with factory', () => {
+    it('should create parser with factory', async () => {
       const parser = createParser()
       expect(parser).toBeInstanceOf(RubyParser)
     })
 
-    it('should parse with standalone function', () => {
-      const tree = parse('x = 42')
+    it('should parse with standalone function', async () => {
+      const tree = await parseAsync('x = 42')
       expect(tree.meta.language).toBe('ruby')
     })
 
@@ -651,56 +651,71 @@ x = 42
       expect(tree.meta.language).toBe('ruby')
     })
 
-    it('should support plugins', () => {
-      let called = false
+    it('should throw error for synchronous parse()', () => {
+      expect(() => {
+        parse('x = 42')
+      }).toThrow(/WASM/)
+    })
+
+    it('should support getTree method', async () => {
+      const parser = new RubyParser()
+      const tree1 = await parser.parseAsync('x = 42')
+      const tree2 = parser.getTree()
+
+      expect(tree2).toBe(tree1)
+    })
+
+    it('should support plugin system with use()', async () => {
+      const parser = new RubyParser()
+
       const plugin = {
+        name: 'test-plugin',
         transform: (tree: any) => {
-          called = true
+          tree.metadata = { processed: true }
           return tree
         },
       }
 
-      const parser = createParser()
       parser.use(plugin)
-      parser.parse('x = 42')
+      const tree = await parser.parseAsync('x = 42')
 
-      expect(called).toBe(true)
+      expect(tree.metadata).toEqual({ processed: true })
     })
 
-    it('should support async plugins', async () => {
-      let called = false
+    it('should apply plugins from options', async () => {
       const plugin = {
+        name: 'options-plugin',
+        transform: (tree: any) => {
+          tree.metadata = { fromOptions: true }
+          return tree
+        },
+      }
+
+      const tree = await parseAsync('x = 42', { plugins: [plugin] })
+
+      expect(tree.metadata).toEqual({ fromOptions: true })
+    })
+
+    it('should support async plugins with parseAsync', async () => {
+      const asyncPlugin = {
+        name: 'async-plugin',
         transform: async (tree: any) => {
-          called = true
+          await new Promise((resolve) => setTimeout(resolve, 1))
+          tree.metadata = { async: true }
           return tree
         },
       }
 
-      const parser = createParser()
-      parser.use(plugin)
-      await parser.parseAsync('x = 42')
+      const tree = await parseAsync('x = 42', { plugins: [asyncPlugin] })
 
-      expect(called).toBe(true)
+      expect(tree.metadata).toEqual({ async: true })
     })
 
-    it('should throw error for async plugin in sync parse', () => {
-      const plugin = {
-        transform: async (tree: any) => tree,
-      }
-
-      const parser = createParser()
-      parser.use(plugin)
-
-      expect(() => parser.parse('x = 42')).toThrow('async')
-    })
-
-    it('should get last parsed tree', () => {
-      const parser = createParser()
-      parser.parse('x = 42')
-      const tree = parser.getTree()
-
-      expect(tree).toBeDefined()
-      expect(tree?.meta.language).toBe('ruby')
+    it('should support init() for pre-initialization', async () => {
+      // init() should not throw
+      await init()
+      // Second call should be instant (cached)
+      await init()
     })
   })
 })

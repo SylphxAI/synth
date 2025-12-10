@@ -1,21 +1,21 @@
 /**
- * Go Parser Tests
+ * Go Parser Tests (WASM-based)
  */
 
 import { describe, expect, it } from 'bun:test'
-import { createParser, GoParser, parse, parseAsync } from './parser.js'
+import { createParser, GoParser, parse, parseAsync, init } from './parser.js'
 
 describe('GoParser', () => {
   describe('Basic Parsing', () => {
-    it('should parse empty Go', () => {
-      const tree = parse('')
+    it('should parse empty Go', async () => {
+      const tree = await parseAsync('')
       expect(tree.meta.language).toBe('go')
       expect(tree.nodes[tree.root]).toBeDefined()
     })
 
-    it('should parse simple variable declaration', () => {
+    it('should parse simple variable declaration', async () => {
       const go = 'package main\n\nvar x = 42'
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
       expect(tree.nodes[tree.root]).toBeDefined()
@@ -24,7 +24,7 @@ describe('GoParser', () => {
       expect(rootChildren.length).toBeGreaterThan(0)
     })
 
-    it('should parse function definition', () => {
+    it('should parse function definition', async () => {
       const go = `
 package main
 
@@ -32,7 +32,7 @@ func main() {
     println("Hello, World!")
 }
       `
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
 
@@ -40,7 +40,7 @@ func main() {
       expect(funcNode).toBeDefined()
     })
 
-    it('should parse struct definition', () => {
+    it('should parse struct definition', async () => {
       const go = `
 package main
 
@@ -49,7 +49,7 @@ type Person struct {
     Age  int
 }
       `
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
 
@@ -59,9 +59,9 @@ type Person struct {
   })
 
   describe('Data Types', () => {
-    it('should parse string literals', () => {
+    it('should parse string literals', async () => {
       const go = 'package main\n\nvar text = "Hello, World!"'
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
 
@@ -69,46 +69,46 @@ type Person struct {
       expect(stringNode).toBeDefined()
     })
 
-    it('should parse integer literals', () => {
+    it('should parse integer literals', async () => {
       const go = 'package main\n\nvar num = 42'
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
       expect(tree.nodes.length).toBeGreaterThan(0)
     })
 
-    it('should parse float literals', () => {
+    it('should parse float literals', async () => {
       const go = 'package main\n\nvar pi = 3.14159'
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
       expect(tree.nodes.length).toBeGreaterThan(0)
     })
 
-    it('should parse boolean literals', () => {
+    it('should parse boolean literals', async () => {
       const go = `
 package main
 
 var flag1 = true
 var flag2 = false
       `
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
       expect(tree.nodes.length).toBeGreaterThan(0)
     })
 
-    it('should parse slice literals', () => {
+    it('should parse slice literals', async () => {
       const go = 'package main\n\nvar items = []int{1, 2, 3, 4, 5}'
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
       expect(tree.nodes.length).toBeGreaterThan(0)
     })
 
-    it('should parse map literals', () => {
+    it('should parse map literals', async () => {
       const go = 'package main\n\nvar data = map[string]int{"one": 1, "two": 2}'
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
       expect(tree.nodes.length).toBeGreaterThan(0)
@@ -116,7 +116,7 @@ var flag2 = false
   })
 
   describe('Control Flow', () => {
-    it('should parse if statement', () => {
+    it('should parse if statement', async () => {
       const go = `
 package main
 
@@ -130,7 +130,7 @@ func main() {
     }
 }
       `
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
 
@@ -138,7 +138,7 @@ func main() {
       expect(ifNode).toBeDefined()
     })
 
-    it('should parse for loop', () => {
+    it('should parse for loop', async () => {
       const go = `
 package main
 
@@ -148,7 +148,7 @@ func main() {
     }
 }
       `
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
 
@@ -156,7 +156,7 @@ func main() {
       expect(forNode).toBeDefined()
     })
 
-    it('should parse range loop', () => {
+    it('should parse range loop', async () => {
       const go = `
 package main
 
@@ -167,7 +167,7 @@ func main() {
     }
 }
       `
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
 
@@ -175,7 +175,7 @@ func main() {
       expect(rangeNode).toBeDefined()
     })
 
-    it('should parse switch statement', () => {
+    it('should parse switch statement', async () => {
       const go = `
 package main
 
@@ -190,7 +190,7 @@ func main() {
     }
 }
       `
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
 
@@ -200,7 +200,7 @@ func main() {
   })
 
   describe('Functions', () => {
-    it('should parse function with parameters', () => {
+    it('should parse function with parameters', async () => {
       const go = `
 package main
 
@@ -208,7 +208,7 @@ func greet(name string, greeting string) string {
     return greeting + ", " + name + "!"
 }
       `
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
 
@@ -216,7 +216,7 @@ func greet(name string, greeting string) string {
       expect(funcNode).toBeDefined()
     })
 
-    it('should parse function with multiple return values', () => {
+    it('should parse function with multiple return values', async () => {
       const go = `
 package main
 
@@ -227,7 +227,7 @@ func divide(a, b int) (int, error) {
     return a / b, nil
 }
       `
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
 
@@ -235,7 +235,7 @@ func divide(a, b int) (int, error) {
       expect(funcNode).toBeDefined()
     })
 
-    it('should parse function with named return values', () => {
+    it('should parse function with named return values', async () => {
       const go = `
 package main
 
@@ -245,7 +245,7 @@ func split(sum int) (x, y int) {
     return
 }
       `
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
 
@@ -253,7 +253,7 @@ func split(sum int) (x, y int) {
       expect(funcNode).toBeDefined()
     })
 
-    it('should parse variadic functions', () => {
+    it('should parse variadic functions', async () => {
       const go = `
 package main
 
@@ -265,7 +265,7 @@ func sum(nums ...int) int {
     return total
 }
       `
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
 
@@ -275,7 +275,7 @@ func sum(nums ...int) int {
   })
 
   describe('Structs and Methods', () => {
-    it('should parse struct with methods', () => {
+    it('should parse struct with methods', async () => {
       const go = `
 package main
 
@@ -288,7 +288,7 @@ func (r Rectangle) Area() float64 {
     return r.Width * r.Height
 }
       `
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
 
@@ -296,7 +296,7 @@ func (r Rectangle) Area() float64 {
       expect(methodNode).toBeDefined()
     })
 
-    it('should parse pointer receivers', () => {
+    it('should parse pointer receivers', async () => {
       const go = `
 package main
 
@@ -308,7 +308,7 @@ func (c *Counter) Increment() {
     c.count++
 }
       `
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
 
@@ -316,7 +316,7 @@ func (c *Counter) Increment() {
       expect(methodNode).toBeDefined()
     })
 
-    it('should parse embedded structs', () => {
+    it('should parse embedded structs', async () => {
       const go = `
 package main
 
@@ -330,7 +330,7 @@ type Employee struct {
     Salary int
 }
       `
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
       expect(tree.nodes.length).toBeGreaterThan(10)
@@ -338,7 +338,7 @@ type Employee struct {
   })
 
   describe('Interfaces', () => {
-    it('should parse interface definition', () => {
+    it('should parse interface definition', async () => {
       const go = `
 package main
 
@@ -347,7 +347,7 @@ type Shape interface {
     Perimeter() float64
 }
       `
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
 
@@ -355,7 +355,7 @@ type Shape interface {
       expect(interfaceNode).toBeDefined()
     })
 
-    it('should parse empty interface', () => {
+    it('should parse empty interface', async () => {
       const go = `
 package main
 
@@ -363,7 +363,7 @@ func printAnything(v interface{}) {
     println(v)
 }
       `
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
       expect(tree.nodes.length).toBeGreaterThan(0)
@@ -371,7 +371,7 @@ func printAnything(v interface{}) {
   })
 
   describe('Goroutines and Channels', () => {
-    it('should parse goroutine', () => {
+    it('should parse goroutine', async () => {
       const go = `
 package main
 
@@ -383,7 +383,7 @@ func doWork() {
     println("Working...")
 }
       `
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
 
@@ -391,7 +391,7 @@ func doWork() {
       expect(goNode).toBeDefined()
     })
 
-    it('should parse channel operations', () => {
+    it('should parse channel operations', async () => {
       const go = `
 package main
 
@@ -401,13 +401,13 @@ func main() {
     value := <-ch
 }
       `
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
       expect(tree.nodes.length).toBeGreaterThan(10)
     })
 
-    it('should parse select statement', () => {
+    it('should parse select statement', async () => {
       const go = `
 package main
 
@@ -422,7 +422,7 @@ func main() {
     }
 }
       `
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
 
@@ -432,9 +432,9 @@ func main() {
   })
 
   describe('Packages and Imports', () => {
-    it('should parse package declaration', () => {
+    it('should parse package declaration', async () => {
       const go = 'package main'
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
 
@@ -442,13 +442,13 @@ func main() {
       expect(packageNode).toBeDefined()
     })
 
-    it('should parse import statement', () => {
+    it('should parse import statement', async () => {
       const go = `
 package main
 
 import "fmt"
       `
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
 
@@ -456,7 +456,7 @@ import "fmt"
       expect(importNode).toBeDefined()
     })
 
-    it('should parse multiple imports', () => {
+    it('should parse multiple imports', async () => {
       const go = `
 package main
 
@@ -466,7 +466,7 @@ import (
     "time"
 )
       `
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
 
@@ -474,7 +474,7 @@ import (
       expect(importNodes.length).toBeGreaterThan(0)
     })
 
-    it('should parse import with alias', () => {
+    it('should parse import with alias', async () => {
       const go = `
 package main
 
@@ -483,7 +483,7 @@ import (
     . "math"
 )
       `
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
       expect(tree.nodes.length).toBeGreaterThan(0)
@@ -491,7 +491,7 @@ import (
   })
 
   describe('Real-World Examples', () => {
-    it('should parse HTTP server', () => {
+    it('should parse HTTP server', async () => {
       const go = `
 package main
 
@@ -509,13 +509,13 @@ func main() {
     http.ListenAndServe(":8080", nil)
 }
       `
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
       expect(tree.nodes.length).toBeGreaterThan(20)
     })
 
-    it('should parse concurrent worker pool', () => {
+    it('should parse concurrent worker pool', async () => {
       const go = `
 package main
 
@@ -551,13 +551,13 @@ func main() {
     close(results)
 }
       `
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
       expect(tree.nodes.length).toBeGreaterThan(30)
     })
 
-    it('should parse JSON handling', () => {
+    it('should parse JSON handling', async () => {
       const go = `
 package main
 
@@ -588,7 +588,7 @@ func main() {
     fmt.Println(string(jsonData))
 }
       `
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
       expect(tree.nodes.length).toBeGreaterThan(25)
@@ -596,24 +596,24 @@ func main() {
   })
 
   describe('API', () => {
-    it('should work with createParser factory', () => {
+    it('should work with createParser factory', async () => {
       const parser = createParser()
-      const tree = parser.parse('package main\n\nvar x = 42')
+      const tree = await parser.parseAsync('package main\n\nvar x = 42')
 
       expect(tree.meta.language).toBe('go')
       expect(tree.nodes[tree.root]).toBeDefined()
     })
 
-    it('should work with GoParser class', () => {
+    it('should work with GoParser class', async () => {
       const parser = new GoParser()
-      const tree = parser.parse('package main\n\nvar x = 42')
+      const tree = await parser.parseAsync('package main\n\nvar x = 42')
 
       expect(tree.meta.language).toBe('go')
       expect(tree.nodes[tree.root]).toBeDefined()
     })
 
-    it('should work with standalone parse function', () => {
-      const tree = parse('package main\n\nvar x = 42')
+    it('should work with standalone parseAsync function', async () => {
+      const tree = await parseAsync('package main\n\nvar x = 42')
 
       expect(tree.meta.language).toBe('go')
       expect(tree.nodes[tree.root]).toBeDefined()
@@ -626,15 +626,15 @@ func main() {
       expect(tree.nodes[tree.root]).toBeDefined()
     })
 
-    it('should support getTree method', () => {
+    it('should support getTree method', async () => {
       const parser = new GoParser()
-      const tree1 = parser.parse('package main\n\nvar x = 42')
+      const tree1 = await parser.parseAsync('package main\n\nvar x = 42')
       const tree2 = parser.getTree()
 
       expect(tree2).toBe(tree1)
     })
 
-    it('should support plugin system with use()', () => {
+    it('should support plugin system with use()', async () => {
       const parser = new GoParser()
 
       const plugin = {
@@ -646,12 +646,12 @@ func main() {
       }
 
       parser.use(plugin)
-      const tree = parser.parse('package main\n\nvar x = 42')
+      const tree = await parser.parseAsync('package main\n\nvar x = 42')
 
       expect(tree.metadata).toEqual({ processed: true })
     })
 
-    it('should apply plugins from options', () => {
+    it('should apply plugins from options', async () => {
       const plugin = {
         name: 'options-plugin',
         transform: (tree: any) => {
@@ -660,7 +660,7 @@ func main() {
         },
       }
 
-      const tree = parse('package main\n\nvar x = 42', { plugins: [plugin] })
+      const tree = await parseAsync('package main\n\nvar x = 42', { plugins: [plugin] })
 
       expect(tree.metadata).toEqual({ fromOptions: true })
     })
@@ -680,20 +680,22 @@ func main() {
       expect(tree.metadata).toEqual({ async: true })
     })
 
-    it('should throw error if async plugin used in sync parse', () => {
-      const asyncPlugin = {
-        name: 'async-plugin',
-        transform: async (tree: any) => tree,
-      }
-
+    it('should throw error for synchronous parse()', () => {
       expect(() => {
-        parse('package main\n\nvar x = 42', { plugins: [asyncPlugin] })
-      }).toThrow(/async plugins/i)
+        parse('package main\n\nvar x = 42')
+      }).toThrow(/WASM/)
+    })
+
+    it('should support init() for pre-initialization', async () => {
+      // init() should not throw
+      await init()
+      // Second call should be instant (cached)
+      await init()
     })
   })
 
   describe('Edge Cases', () => {
-    it('should handle comments', () => {
+    it('should handle comments', async () => {
       const go = `
 package main
 
@@ -705,13 +707,13 @@ Multi-line
 comment
 */
       `
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
       expect(tree.nodes.length).toBeGreaterThan(0)
     })
 
-    it('should handle defer', () => {
+    it('should handle defer', async () => {
       const go = `
 package main
 
@@ -720,7 +722,7 @@ func main() {
     println("immediate")
 }
       `
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
 
@@ -728,7 +730,7 @@ func main() {
       expect(deferNode).toBeDefined()
     })
 
-    it('should handle panic and recover', () => {
+    it('should handle panic and recover', async () => {
       const go = `
 package main
 
@@ -741,7 +743,7 @@ func safeDivide(a, b int) (result int) {
     return a / b
 }
       `
-      const tree = parse(go)
+      const tree = await parseAsync(go)
 
       expect(tree.meta.language).toBe('go')
       expect(tree.nodes.length).toBeGreaterThan(10)
