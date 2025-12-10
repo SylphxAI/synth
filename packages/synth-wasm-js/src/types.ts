@@ -86,7 +86,16 @@ export enum NodeKind {
 /**
  * Flags for AST nodes
  */
-export const NodeFlags = {
+export const NodeFlags: {
+  readonly CONST: number
+  readonly LET: number
+  readonly ASYNC: number
+  readonly GENERATOR: number
+  readonly COMPUTED: number
+  readonly SHORTHAND: number
+  readonly STATIC: number
+  readonly EXPORT_DEFAULT: number
+} = {
   CONST: 1 << 0,
   LET: 1 << 1,
   ASYNC: 1 << 2,
@@ -95,7 +104,7 @@ export const NodeFlags = {
   SHORTHAND: 1 << 5,
   STATIC: 1 << 6,
   EXPORT_DEFAULT: 1 << 7,
-} as const
+}
 
 /**
  * Compact AST node (16 bytes in binary format)
