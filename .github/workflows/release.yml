@@ -6,7 +6,7 @@ on:
 
 jobs:
   release:
-    runs-on: [self-hosted, linux, x64]
+    runs-on: sylphx-linux-standard
     permissions:
       contents: write
       pull-requests: write
