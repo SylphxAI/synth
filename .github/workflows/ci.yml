@@ -48,10 +48,26 @@ jobs:
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
         with:
+          components: rustfmt, clippy
           targets: wasm32-unknown-unknown
 
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+      - name: Pre-fetch Rust dependencies
+        run: |
+          set -euo pipefail
+          for manifest in crates/wasm-js/Cargo.toml crates/wasm-md/Cargo.toml; do
+            for attempt in 1 2 3; do
+              if cargo fetch --manifest-path "$manifest"; then
+                break
+              fi
+              if [ "$attempt" -eq 3 ]; then
+                exit 1
+              fi
+              sleep $((attempt * 10))
+            done
+          done
 
       - name: Install dependencies
         run: bun install
