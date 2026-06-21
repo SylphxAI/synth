@@ -29,8 +29,9 @@ jobs:
   ci:
     runs-on: [self-hosted, sylphx, linux, standard]
     env:
-      CARGO_HOME: /tmp/synth-cargo-${{ github.run_id }}-${{ github.run_attempt }}
-      RUSTUP_HOME: /tmp/synth-rustup-${{ github.run_id }}-${{ github.run_attempt }}
+      SYNTH_RUST_HOME: /tmp/synth-rust-${{ github.run_id }}-${{ github.run_attempt }}
+      CARGO_HOME: /tmp/synth-rust-${{ github.run_id }}-${{ github.run_attempt }}/.cargo
+      RUSTUP_HOME: /tmp/synth-rust-${{ github.run_id }}-${{ github.run_attempt }}/.rustup
     steps:
       - uses: actions/checkout@v4
 
@@ -38,13 +39,16 @@ jobs:
         with:
           bun-version: latest
 
+      - name: Prepare isolated Rust home
+        run: |
+          mkdir -p "$SYNTH_RUST_HOME" "$CARGO_HOME" "$RUSTUP_HOME"
+          echo "HOME=$SYNTH_RUST_HOME" >> "$GITHUB_ENV"
+          echo "$CARGO_HOME/bin" >> "$GITHUB_PATH"
+
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
         with:
           targets: wasm32-unknown-unknown
-
-      - name: Add isolated Cargo bin to PATH
-        run: echo "$CARGO_HOME/bin" >> "$GITHUB_PATH"
 
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
@@ -56,7 +60,7 @@ jobs:
         run: bun run lint
 
       - name: Build
-        run: bun run build
+        run: bunx turbo build --concurrency=1
 
       - name: Type check
         run: bun run typecheck
