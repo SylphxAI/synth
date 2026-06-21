@@ -28,6 +28,9 @@ jobs:
 
   ci:
     runs-on: [self-hosted, sylphx, linux, standard]
+    env:
+      CARGO_HOME: /tmp/synth-cargo-${{ github.run_id }}-${{ github.run_attempt }}
+      RUSTUP_HOME: /tmp/synth-rustup-${{ github.run_id }}-${{ github.run_attempt }}
     steps:
       - uses: actions/checkout@v4
 
@@ -39,6 +42,9 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
         with:
           targets: wasm32-unknown-unknown
+
+      - name: Add isolated Cargo bin to PATH
+        run: echo "$CARGO_HOME/bin" >> "$GITHUB_PATH"
 
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
