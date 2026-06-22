@@ -1,0 +1,156 @@
+{
+  "$schema": "https://github.com/SylphxAI/doctrine/schemas/project-manifest.schema.json",
+  "schemaVersion": 1,
+  "project": {
+    "repo": "SylphxAI/synth",
+    "name": "Synth",
+    "lifecycle": "production",
+    "layer": "foundation",
+    "summary": "Universal AST processing and language-tooling monorepo for the @sylphx/synth package family.",
+    "goals": [
+      "Provide a fast universal AST substrate for parsing, traversal, querying, and language tooling.",
+      "Publish the @sylphx/synth package family for core AST primitives, language parsers, WASM bridges, and AST-based tooling.",
+      "Keep parser and tooling package contracts stable enough for downstream products to consume through public package exports."
+    ],
+    "nonGoals": [
+      "Own application-specific content workflows, user interfaces, billing, auth, or runtime deployment behavior.",
+      "Hardcode consumer-specific syntax behavior or product-only AST semantics into shared parser cores.",
+      "Own Sylphx Platform CI runner, preview, deployment, or production environment control planes."
+    ]
+  },
+  "boundaries": {
+    "owns": [
+      {
+        "name": "universal-ast-core",
+        "description": "Core AST node contracts, traversal helpers, and query primitives exposed by @sylphx/synth."
+      },
+      {
+        "name": "language-parser-packages",
+        "description": "Language-specific parser packages under @sylphx/synth-* for markup, programming, data, and query languages."
+      },
+      {
+        "name": "wasm-parser-bridges",
+        "description": "Rust and WebAssembly parser bridges for high-performance JavaScript, TypeScript, and Markdown parsing."
+      },
+      {
+        "name": "ast-tooling-packages",
+        "description": "Formatter, minifier, lint, metrics, typecheck, and documentation tooling built on Synth AST surfaces."
+      }
+    ],
+    "doesNotOwn": [
+      "Customer or product-specific AST behavior outside the public Synth package contracts.",
+      "Application UI, onboarding, checkout, billing, authentication, or production runtime deployment.",
+      "Sylphx Platform preview, CI runner, release infrastructure, or environment orchestration.",
+      "Downstream product data models that merely consume Synth parser outputs."
+    ],
+    "publicSurfaces": [
+      {
+        "type": "package-export",
+        "name": "@sylphx/synth package family",
+        "location": "packages/*/package.json"
+      },
+      {
+        "type": "documentation",
+        "name": "Synth documentation",
+        "location": "README.md and docs/"
+      },
+      {
+        "type": "workflow",
+        "name": "release",
+        "location": ".github/workflows/release.yml"
+      },
+      {
+        "type": "status-context",
+        "name": "ADR-29 admission",
+        "location": "risk-classification/pass and trunk-admission/pass"
+      },
+      {
+        "type": "status-context",
+        "name": "ADR-29 postsubmit recovery",
+        "location": "postsubmit-proof/pass and recovery-decision/pass"
+      }
+    ],
+    "allowedDependencies": [
+      {
+        "repo": "SylphxAI/.github",
+        "surface": "ADR-29 reusable admission action",
+        "direction": "peer-public"
+      },
+      {
+        "repo": "SylphxAI/configs",
+        "surface": "Shared Biome and TypeScript package configurations",
+        "direction": "peer-public"
+      },
+      {
+        "repo": "SylphxAI/bump",
+        "surface": "Release workflow action",
+        "direction": "peer-public"
+      },
+      {
+        "repo": "dtolnay/rust-toolchain",
+        "surface": "GitHub Action for Rust toolchain setup",
+        "direction": "external"
+      },
+      {
+        "repo": "oven-sh/setup-bun",
+        "surface": "GitHub Action for Bun toolchain setup",
+        "direction": "external"
+      }
+    ],
+    "forbiddenCouplings": [
+      "Do not add product-specific parser behavior for a single downstream repository.",
+      "Do not make Synth packages depend on application repositories or customer runtime state.",
+      "Do not bypass public package exports by having consumers import private workspace internals.",
+      "Do not move Platform preview, deployment, billing, auth, or runner policy into this repository."
+    ]
+  },
+  "documentation": {
+    "adr": {
+      "path": "docs/adr",
+      "status": "planned"
+    },
+    "specs": {
+      "path": "docs/guide",
+      "status": "present"
+    },
+    "catalog": {
+      "path": ".doctrine/project.json",
+      "status": "present"
+    },
+    "runbooks": {
+      "path": "not-applicable",
+      "status": "not-applicable"
+    },
+    "generatedReferences": {
+      "path": "docs/api",
+      "status": "present"
+    }
+  },
+  "delivery": {
+    "ciModel": "adr29-admission",
+    "requiredContexts": [
+      "risk-classification/pass",
+      "trunk-admission/pass"
+    ],
+    "deployPath": "No runtime deployment. Main-branch release workflow publishes package versions through SylphxAI/bump when package changes are releasable.",
+    "productionProof": "PRs pass ADR-29 admission; main pushes run postsubmit-proof/pass and recovery-decision/pass, and package publication is evidenced by GitHub Releases and npm package versions.",
+    "recoveryClass": "source-revertable"
+  },
+  "adoption": {
+    "status": "baseline",
+    "gaps": [
+      {
+        "id": "repo-local-adr-log",
+        "description": "Create repo-local ADRs for future material parser, package, or release-governance decisions using the central ADR numbering convention.",
+        "owner": "SylphxAI/synth",
+        "target": "Before the next material architecture or release-governance decision."
+      },
+      {
+        "id": "generated-package-catalog",
+        "description": "Generate a package capability catalog from packages/*/package.json so current package surfaces are not hand-maintained in prose.",
+        "owner": "SylphxAI/synth",
+        "target": "Before declaring full doctrine adoption."
+      }
+    ]
+  }
+}
