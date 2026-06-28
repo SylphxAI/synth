@@ -4,114 +4,41 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   release:
     runs-on: [self-hosted, sylphx, linux, standard]
-    permissions:
-      contents: write
-      pull-requests: write
-      actions: write
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
+      # The self-hosted runner ships bun but no node; changesets/action is a Node action.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          registry-url: 'https://registry.npmjs.org'
+
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
 
-      - name: Setup Rust
-        uses: dtolnay/rust-toolchain@stable
+      - run: bun install
+
+      # Version-only: pending changesets accumulate into a "Version Packages" PR.
+      # Publishing to npm is intentionally DEFERRED — synth's @sylphx/synth-*
+      # packages have never been published and a first public release is a
+      # deliberate decision. To enable publishing later, add a build step (Rust +
+      # wasm-pack + `bun run build`) and `publish: bunx @changesets/cli publish`
+      # below, plus `NPM_TOKEN`/`NODE_AUTH_TOKEN` env.
+      - uses: changesets/action@v1
+        id: changesets
         with:
-          targets: wasm32-unknown-unknown
-
-      - name: Install wasm-pack
-        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-
-      - name: Install dependencies
-        run: bun install
-
-      - name: Build
-        run: bun run build
-
-      - uses: SylphxAI/bump@main
-        id: bump
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          npm-token: ${{ secrets.NPM_TOKEN }}
-
-      - name: Format release message
-        id: message
-        if: steps.bump.outputs.published == 'true'
-        shell: bash
+          version: bunx @changesets/cli version
+          commit: "chore(release): version packages"
+          title: "chore(release): version packages"
         env:
-          VERSIONS: ${{ steps.bump.outputs.versions }}
-          REPO: ${{ github.repository }}
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        run: |
-          [ -z "$SLACK_WEBHOOK" ] && exit 0
-          REPO_URL="https://github.com/$REPO"
-          REPO_NAME="${REPO#*/}"
-          NL=$'\n'
-
-          if [ -n "$VERSIONS" ] && [ "$VERSIONS" != "{}" ] && [ "$VERSIONS" != "null" ]; then
-            PKG_COUNT=$(echo "$VERSIONS" | jq 'keys | length' 2>/dev/null || echo "0")
-
-            if [ "$PKG_COUNT" = "1" ]; then
-              # Single package
-              pkg=$(echo "$VERSIONS" | jq -r 'keys[0]')
-              ver=$(echo "$VERSIONS" | jq -r --arg p "$pkg" '.[$p]')
-              NPM_URL="https://www.npmjs.com/package/${pkg}/v/${ver}"
-              RELEASE_URL="${REPO_URL}/releases/tag/v${ver}"
-
-              MSG="📦 *${REPO_NAME}* released${NL}${NL}"
-              MSG="${MSG}<${NPM_URL}|\`${pkg}@${ver}\`>${NL}${NL}"
-              MSG="${MSG}<${RELEASE_URL}|GitHub Release> · <${REPO_URL}|Repository>"
-            else
-              # Multiple packages
-              MSG="📦 *${REPO_NAME}* released ${PKG_COUNT} packages${NL}${NL}"
-
-              for pkg in $(echo "$VERSIONS" | jq -r 'keys[]'); do
-                ver=$(echo "$VERSIONS" | jq -r --arg p "$pkg" '.[$p]')
-                NPM_URL="https://www.npmjs.com/package/${pkg}/v/${ver}"
-                RELEASE_URL="${REPO_URL}/releases/tag/${pkg}@${ver}"
-                MSG="${MSG}<${NPM_URL}|\`${pkg}@${ver}\`>  ·  <${RELEASE_URL}|release>${NL}"
-              done
-
-              MSG="${MSG}${NL}<${REPO_URL}|View Repository>"
-            fi
-          else
-            MSG="📦 *${REPO_NAME}* released${NL}${NL}<${REPO_URL}|View Repository>"
-          fi
-
-          echo "text<<EOF" >> $GITHUB_OUTPUT
-          echo "$MSG" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-
-      - name: Send Slack notification on success
-        if: steps.bump.outputs.published == 'true'
-        shell: bash
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          MESSAGE: ${{ steps.message.outputs.text }}
-        run: |
-          [ -z "$SLACK_WEBHOOK" ] && exit 0
-          [ -z "$MESSAGE" ] && exit 0
-          curl -s -X POST "$SLACK_WEBHOOK" \
-            -H "Content-Type: application/json" \
-            -d "$(jq -n --arg text "$MESSAGE" '{text: $text}')"
-
-      - name: Send Slack notification on failure
-        if: failure()
-        shell: bash
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          REPO: ${{ github.repository }}
-          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: |
-          [ -z "$SLACK_WEBHOOK" ] && exit 0
-          NL=$'\n'
-          MESSAGE="❌ *Release failed*${NL}Repository: ${REPO}${NL}<${RUN_URL}|View Workflow>"
-          curl -s -X POST "$SLACK_WEBHOOK" \
-            -H "Content-Type: application/json" \
-            -d "$(jq -n --arg text "$MESSAGE" '{text: $text}')"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
