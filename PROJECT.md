@@ -42,7 +42,7 @@ workspace internals or couple product behavior to private parser modules.
 - Documentation under `README.md` and `docs/`.
 - Required CI contexts: `risk-classification/pass` and `trunk-admission/pass`.
 - Release workflow in `.github/workflows/release.yml` publishing through
-  `SylphxAI/bump`.
+  `Changesets`.
 
 ## Delivery Proof
 

@@ -1,73 +1,72 @@
 {
-  "name": "synth-monorepo",
-  "version": "0.0.0",
-  "description": "Synth - The world's fastest AST processor with zero dependencies",
-  "type": "module",
-  "private": true,
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/SylphxAI/synth.git"
-  },
-  "workspaces": [
-    "packages/*"
-  ],
-  "scripts": {
-    "build": "turbo build",
-    "build:wasm": "bun scripts/build-wasm.ts",
-    "build:watch": "bunx bunup --watch",
-    "dev": "turbo run dev",
-    "test": "turbo run test",
-    "test:watch": "bun test --watch",
-    "bench": "turbo run bench",
-    "bench:all": "bun scripts/bench-all.ts all",
-    "bench:compare": "bun scripts/bench-all.ts compare",
-    "bench:profile": "bun scripts/bench-all.ts profile",
-    "bench:memory": "bun scripts/bench-all.ts memory",
-    "bench:list": "bun scripts/bench-all.ts list",
-    "lint": "biome lint packages/",
-    "format": "biome format --write packages/",
-    "check": "biome check --write packages/",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs",
-    "typecheck": "turbo typecheck"
-  },
-  "keywords": [
-    "ast",
-    "parser",
-    "transformer",
-    "compiler",
-    "markdown",
-    "html",
-    "functional",
-    "composition"
-  ],
-  "author": "",
-  "license": "MIT",
-  "devDependencies": {
-    "@biomejs/biome": "^2.3.8",
-    "@sylphx/biome-config": "^0.4.0",
-    "@sylphx/bump": "^0.14.1",
-    "@sylphx/tsconfig": "^0.3.0",
-    "@types/node": "^22.19.1",
-    "bunup": "^0.16.10",
-    "lefthook": "^1.13.6",
-    "mdast-util-to-string": "^4.0.0",
-    "rehype-stringify": "^10.0.1",
-    "remark": "^15.0.1",
-    "remark-parse": "^11.0.0",
-    "remark-rehype": "^11.1.2",
-    "remark-stringify": "^11.0.0",
-    "turbo": "^2.6.1",
-    "typescript": "^5.9.3",
-    "unified": "^11.0.5",
-    "vitepress": "^1.6.4"
-  },
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "packageManager": "bun@1.1.0",
-  "overrides": {
-    "esbuild": "^0.25.0"
-  }
+	"name": "synth-monorepo",
+	"version": "0.0.0",
+	"description": "Synth - The world's fastest AST processor with zero dependencies",
+	"type": "module",
+	"private": true,
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/SylphxAI/synth.git"
+	},
+	"workspaces": [
+		"packages/*"
+	],
+	"scripts": {
+		"build": "turbo build",
+		"build:wasm": "bun scripts/build-wasm.ts",
+		"build:watch": "bunx bunup --watch",
+		"dev": "turbo run dev",
+		"test": "turbo run test",
+		"test:watch": "bun test --watch",
+		"bench": "turbo run bench",
+		"bench:all": "bun scripts/bench-all.ts all",
+		"bench:compare": "bun scripts/bench-all.ts compare",
+		"bench:profile": "bun scripts/bench-all.ts profile",
+		"bench:memory": "bun scripts/bench-all.ts memory",
+		"bench:list": "bun scripts/bench-all.ts list",
+		"lint": "biome lint packages/",
+		"format": "biome format --write packages/",
+		"check": "biome check --write packages/",
+		"docs:dev": "vitepress dev docs",
+		"docs:build": "vitepress build docs",
+		"docs:preview": "vitepress preview docs",
+		"typecheck": "turbo typecheck"
+	},
+	"keywords": [
+		"ast",
+		"parser",
+		"transformer",
+		"compiler",
+		"markdown",
+		"html",
+		"functional",
+		"composition"
+	],
+	"author": "",
+	"license": "MIT",
+	"devDependencies": {
+		"@biomejs/biome": "^2.3.8",
+		"@sylphx/biome-config": "^0.4.0",
+		"@sylphx/tsconfig": "^0.3.0",
+		"@types/node": "^22.19.1",
+		"bunup": "^0.16.10",
+		"lefthook": "^1.13.6",
+		"mdast-util-to-string": "^4.0.0",
+		"rehype-stringify": "^10.0.1",
+		"remark": "^15.0.1",
+		"remark-parse": "^11.0.0",
+		"remark-rehype": "^11.1.2",
+		"remark-stringify": "^11.0.0",
+		"turbo": "^2.6.1",
+		"typescript": "^5.9.3",
+		"unified": "^11.0.5",
+		"vitepress": "^1.6.4"
+	},
+	"engines": {
+		"node": ">=18.0.0"
+	},
+	"packageManager": "bun@1.1.0",
+	"overrides": {
+		"esbuild": "^0.25.0"
+	}
 }
