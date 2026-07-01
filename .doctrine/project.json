@@ -82,8 +82,8 @@
         "direction": "peer-public"
       },
       {
-        "repo": "SylphxAI/bump",
-        "surface": "Release workflow action",
+        "repo": "SylphxAI/.github",
+        "surface": "Reusable Changesets release workflow and manager-aware npm publisher.",
         "direction": "peer-public"
       },
       {
@@ -128,11 +128,8 @@
   },
   "delivery": {
     "ciModel": "adr29-admission",
-    "requiredContexts": [
-      "risk-classification/pass",
-      "trunk-admission/pass"
-    ],
-    "deployPath": "No runtime deployment. Main-branch release workflow publishes package versions through SylphxAI/bump when package changes are releasable.",
+    "requiredContexts": ["risk-classification/pass", "trunk-admission/pass"],
+    "deployPath": "No runtime deployment. Main-branch release workflow publishes package versions through the SylphxAI/.github reusable Changesets release workflow when package changes are releasable.",
     "productionProof": "PRs pass ADR-29 admission; main pushes run postsubmit-proof/pass and recovery-decision/pass, and package publication is evidenced by GitHub Releases and npm package versions.",
     "recoveryClass": "source-revertable"
   },
