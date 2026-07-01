@@ -4,41 +4,14 @@ on:
   push:
     branches: [main]
 
-permissions:
-  contents: write
-  pull-requests: write
-
 jobs:
   release:
-    runs-on: [self-hosted, sylphx, linux, standard]
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      # The self-hosted runner ships bun but no node; changesets/action is a Node action.
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          registry-url: 'https://registry.npmjs.org'
-
-      - uses: oven-sh/setup-bun@v2
-        with:
-          bun-version: latest
-
-      - run: bun install
-
-      # Version-only: pending changesets accumulate into a "Version Packages" PR.
-      # Publishing to npm is intentionally DEFERRED — synth's @sylphx/synth-*
-      # packages have never been published and a first public release is a
-      # deliberate decision. To enable publishing later, add a build step (Rust +
-      # wasm-pack + `bun run build`) and `publish: bunx @changesets/cli publish`
-      # below, plus `NPM_TOKEN`/`NODE_AUTH_TOKEN` env.
-      - uses: changesets/action@v1
-        id: changesets
-        with:
-          version: bunx @changesets/cli version
-          commit: "chore(release): version packages"
-          title: "chore(release): version packages"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    permissions:
+      actions: write
+      contents: write
+      pull-requests: write
+      id-token: write
+    uses: SylphxAI/.github/.github/workflows/release.yml@main
+    with:
+      build: bunx turbo build --concurrency=1
+    secrets: inherit
