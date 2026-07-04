@@ -17,9 +17,9 @@ turning generated reports into source of truth.
 
 Adopt `project.manifest.json` as Synth's vendor-neutral project control file.
 Keep `.doctrine/project.json` as the Sylphx Doctrine adapter and org-local
-governance catalog. CI MUST run `groundatlas@0.1.2` through the released
-`SylphxAI/groundatlas@v0.1.2` action and assert that generated `.groundatlas*`
-outputs are evidence/navigation only.
+governance catalog. CI MUST run `groundatlas@0.1.3` through the released
+`SylphxAI/groundatlas@v0.1.3` action and assert that generated `.groundatlas*`
+files plus GroundAtlas JSON/Markdown reports are evidence/navigation only.
 
 ## Consequences
 

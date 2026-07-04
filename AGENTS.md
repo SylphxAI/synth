@@ -14,7 +14,8 @@ Local validation ladder:
 bun install --frozen-lockfile
 bun run validate
 node --test test/project-control.node-test.mjs
-npm exec --yes --package groundatlas@0.1.2 -- ga fleet . --out .groundatlas-pilot --require-atlas --strict --json
+npm exec --yes --package groundatlas@0.1.3 -- ga fleet . --out .groundatlas-pilot --require-atlas --strict --json
+npm exec --yes --package groundatlas@0.1.3 -- ga fleet . --out .groundatlas-pilot --require-atlas --strict
 ```
 
 Rust/WASM parser changes also need the Rust toolchain with
@@ -23,4 +24,4 @@ Rust/WASM parser changes also need the Rust toolchain with
 CI is wired through ADR-29 fan-in contexts:
 `risk-classification/pass`, `ci`, and `trunk-admission/pass`.
 
-Generated `.groundatlas*` reports are evidence/navigation only. Do not treat them as source of truth.
+Generated `.groundatlas*` files plus GroundAtlas JSON/Markdown reports are evidence/navigation only. Do not treat them as source of truth.
