@@ -68,6 +68,36 @@
         "type": "status-context",
         "name": "ADR-29 postsubmit recovery",
         "location": "postsubmit-proof/pass and recovery-decision/pass"
+      },
+      {
+        "type": "workflow",
+        "name": "CI workflow",
+        "location": ".github/workflows/ci.yml"
+      },
+      {
+        "type": "manifest",
+        "name": "Vendor-neutral project manifest",
+        "location": "project.manifest.json"
+      },
+      {
+        "type": "test",
+        "name": "Project-control boundary test",
+        "location": "test/project-control.node-test.mjs"
+      },
+      {
+        "type": "documentation",
+        "name": "Project-control ADRs",
+        "location": "docs/adr/"
+      },
+      {
+        "type": "documentation",
+        "name": "Project-control specs",
+        "location": "docs/specs/"
+      },
+      {
+        "type": "documentation",
+        "name": "Security policy",
+        "location": "SECURITY.md"
       }
     ],
     "allowedDependencies": [
@@ -95,6 +125,16 @@
         "repo": "oven-sh/setup-bun",
         "surface": "GitHub Action for Bun toolchain setup",
         "direction": "external"
+      },
+      {
+        "repo": "SylphxAI/groundatlas",
+        "surface": "GroundAtlas GitHub Action, npm package, schemas, and generated evidence reports.",
+        "direction": "peer-public"
+      },
+      {
+        "repo": "actions/setup-node",
+        "surface": "GitHub Action for Node.js setup used by GroundAtlas package execution.",
+        "direction": "external"
       }
     ],
     "forbiddenCouplings": [
@@ -106,35 +146,44 @@
   },
   "documentation": {
     "adr": {
-      "path": "docs/adr",
-      "status": "planned"
+      "path": "docs/adr/",
+      "status": "present"
     },
     "specs": {
-      "path": "docs/guide",
+      "path": "README.md, docs/guide/, docs/api/, and docs/specs/",
       "status": "present"
     },
     "catalog": {
-      "path": ".doctrine/project.json",
+      "path": "PROJECT.md and project.manifest.json",
       "status": "present"
     },
     "runbooks": {
-      "path": "not-applicable",
-      "status": "not-applicable"
+      "path": "AGENTS.md and SECURITY.md",
+      "status": "present"
     },
     "generatedReferences": {
-      "path": "docs/api",
+      "path": "docs/api/",
       "status": "present"
     }
   },
   "delivery": {
-    "ciModel": "adr29-admission",
-    "requiredContexts": ["risk-classification/pass", "trunk-admission/pass"],
-    "deployPath": "No runtime deployment. Main-branch release workflow publishes package versions through the SylphxAI/.github reusable Changesets release workflow when package changes are releasable.",
-    "productionProof": "PRs pass ADR-29 admission; main pushes run postsubmit-proof/pass and recovery-decision/pass, and package publication is evidenced by GitHub Releases and npm package versions.",
-    "recoveryClass": "source-revertable"
+    "ciModel": "adr29-admission-with-groundatlas",
+    "requiredContexts": ["risk-classification/pass", "trunk-admission/pass", "ci"],
+    "deployPath": "Pull requests and merge groups run .github/workflows/ci.yml with ADR-29 admission contexts, isolated Rust setup, bun run validate, project-control boundary tests, and GroundAtlas package dogfood; main pushes run .github/workflows/release.yml to create or publish release changes through the shared Changesets release workflow.",
+    "productionProof": "ADR-29 admission pass, isolated Rust/Bun validation, bun run validate, project-control boundary tests, GroundAtlas package dogfood, Release workflow completion for package changes, GitHub Release evidence, and npm registry readback for changed packages.",
+    "recoveryClass": "forward-fix-only",
+    "packageRelease": {
+      "publishesPackages": true,
+      "ecosystems": ["npm"],
+      "releaseIntent": "Synth publishes public @sylphx/synth package artifacts through the repo-local release workflow when Changesets declare package version changes.",
+      "versionPr": "Changesets creates or updates release PRs on normal main commits and the shared release workflow publishes after version PR merge.",
+      "publisher": ".github/workflows/release.yml using the shared SylphxAI/.github Changesets release workflow with GitHub token permissions and npm trusted publishing or NPM_TOKEN fallback.",
+      "requiredContexts": ["risk-classification/pass", "ci", "trunk-admission/pass"],
+      "publishProof": "npm registry readback for each changed @sylphx/synth package plus CI/admission, GroundAtlas dogfood, and Release workflow evidence."
+    }
   },
   "adoption": {
-    "status": "baseline",
+    "status": "adopted",
     "gaps": [
       {
         "id": "repo-local-adr-log",
@@ -147,6 +196,12 @@
         "description": "Generate a package capability catalog from packages/*/package.json so current package surfaces are not hand-maintained in prose.",
         "owner": "SylphxAI/synth",
         "target": "Before declaring full doctrine adoption."
+      },
+      {
+        "id": "groundatlas-fleet-rollout",
+        "description": "Fleet-wide mandatory GroundAtlas ruleset and organization scorecard enforcement remain outside this repository and must be enabled from the owning control-plane repository, not by Synth.",
+        "owner": "SylphxAI/groundatlas",
+        "target": "fleet control-plane rollout"
       }
     ]
   }
