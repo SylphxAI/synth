@@ -15,7 +15,7 @@
     "humanProjectFile": "PROJECT.md",
     "agentAdapter": "AGENTS.md",
     "specs": ["README.md", "docs/guide/", "docs/api/", "docs/specs/"],
-    "adrs": ["docs/adr/"],
+    "adrs": ["docs/adr/ADR-30-groundatlas-project-control-gate.md"],
     "source": [
       "packages/",
       "crates/",
