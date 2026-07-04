@@ -113,6 +113,6 @@
   ],
   "adoption": {
     "status": "adopted",
-    "notes": "Vendor-neutral GroundAtlas manifest for package/action dogfooding. .doctrine/project.json remains the Sylphx Doctrine adapter and local governance catalog. Generated .groundatlas* reports are evidence/navigation only, not source of truth. The Synth release build installs the Rust WASM target and wasm-pack before building WASM-backed packages."
+    "notes": "Vendor-neutral GroundAtlas manifest for package/action dogfooding. .doctrine/project.json remains the Sylphx Doctrine adapter and local governance catalog. Generated .groundatlas* reports are evidence/navigation only, not source of truth. The Synth release build bootstraps Rust when needed, installs the Rust WASM target and wasm-pack, and then builds WASM-backed packages."
   }
 }
