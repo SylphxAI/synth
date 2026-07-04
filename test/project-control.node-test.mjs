@@ -71,6 +71,7 @@ test('release delegates to the shared trusted publishing workflow', () => {
 	assert.ok(workflow.includes('id-token: write'))
 	assert.ok(workflow.includes('secrets: inherit'))
 	assert.ok(workflow.includes('SylphxAI/.github/.github/workflows/release.yml@main'))
+	assert.ok(workflow.includes('sh.rustup.rs'))
 	assert.ok(workflow.includes('wasm-pack/installer/init.sh'))
 	assert.ok(workflow.includes('sh -s -- -f'))
 	assert.ok(workflow.includes('wasm32-unknown-unknown'))

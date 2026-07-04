@@ -14,6 +14,12 @@ jobs:
     uses: SylphxAI/.github/.github/workflows/release.yml@main
     with:
       build: |
+        if ! command -v rustup >/dev/null 2>&1; then
+          curl https://sh.rustup.rs -sSf | sh -s -- -y --profile minimal
+          . "$HOME/.cargo/env"
+        else
+          export PATH="$HOME/.cargo/bin:$PATH"
+        fi
         rustup target add wasm32-unknown-unknown
         curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh -s -- -f
         export PATH="$HOME/.cargo/bin:$PATH"
