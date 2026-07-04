@@ -120,6 +120,12 @@ bun run test
 bun run docs:dev
 ```
 
+## Project Control and Release Proof
+
+This repository dogfoods [GroundAtlas](https://github.com/SylphxAI/groundatlas) through CI. Vendor-neutral project facts live in `project.manifest.json`; Sylphx-specific governance facts stay in `.doctrine/project.json`; generated `.groundatlas*` reports are evidence/navigation only, not source of truth.
+
+Package releases run through the shared Sylphx release workflow and are complete only after ADR-29 admission, CI, the Release workflow, and npm registry readback for changed Synth packages. Parser, AST, WASM, and tooling behavior changes additionally require package tests and consumer contract evidence.
+
 ## License
 
 MIT

@@ -5,8 +5,9 @@ owns the `@sylphx/synth` package family, language parser packages, AST traversal
 and query primitives, WASM parser bridges, and tooling packages for formatting,
 minification, linting, metrics, and documentation generation.
 
-Machine-readable project identity lives in
-[.doctrine/project.json](./.doctrine/project.json).
+Project identity is split by boundary: vendor-neutral project facts live in
+[`project.manifest.json`](./project.manifest.json), while Sylphx-specific governance facts live in
+[`.doctrine/project.json`](./.doctrine/project.json).
 
 ## Lifecycle And Layer
 
@@ -40,13 +41,12 @@ workspace internals or couple product behavior to private parser modules.
 
 - npm packages under `@sylphx/synth*`, declared in `packages/*/package.json`.
 - Documentation under `README.md` and `docs/`.
-- Required CI contexts: `risk-classification/pass` and `trunk-admission/pass`.
+- Vendor-neutral project manifest at `project.manifest.json`.
+- Required CI contexts: `risk-classification/pass`, `ci`, and `trunk-admission/pass`.
 - Release workflow in `.github/workflows/release.yml` publishing through
   the SylphxAI/.github reusable Changesets release workflow.
 
 ## Delivery Proof
 
 Pull requests target `main` and pass ADR-29 admission contexts before merge.
-Main-branch pushes run postsubmit proof and recovery-decision wiring through
-`.github/workflows/ci.yml`. Package publication is performed by the release
-workflow after `main` changes.
+Pull requests and merge groups run `.github/workflows/ci.yml`, including ADR-29 classification/fan-in contexts, isolated Rust setup, `bun run validate`, project-control boundary tests, and GroundAtlas package dogfooding. Main pushes run postsubmit proof and recovery-decision wiring plus `.github/workflows/release.yml` for Changesets release PRs or package publication. Published package changes require Release workflow evidence and npm registry readback. Generated `.groundatlas*` reports are evidence/navigation only, not source of truth.

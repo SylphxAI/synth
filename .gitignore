@@ -39,3 +39,6 @@ yarn-error.log*
 target/
 Cargo.lock
 crates/*/pkg/
+
+# Generated project-control evidence
+.groundatlas*/
