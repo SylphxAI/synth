@@ -30,6 +30,10 @@ The CI workflow must:
 - require generated atlas evidence and strict fleet status;
 - upload GroundAtlas reports as CI artifacts.
 
+The Release workflow must install the Rust `wasm32-unknown-unknown` target and
+`wasm-pack` before running the shared release build command, because Synth
+publishes WASM-backed packages as part of the package family.
+
 ## Done Evidence
 
 A Synth project-control change is not done until PR CI, merge-group CI, main CI,
