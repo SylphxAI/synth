@@ -13,5 +13,9 @@ jobs:
       id-token: write
     uses: SylphxAI/.github/.github/workflows/release.yml@main
     with:
-      build: bunx turbo build --concurrency=1
+      build: |
+        rustup target add wasm32-unknown-unknown
+        curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh -s -- -f
+        export PATH="$HOME/.cargo/bin:$PATH"
+        bunx turbo build --concurrency=1
     secrets: inherit
