@@ -7,8 +7,8 @@ slug: mcp-family-ast-foundation
 
 ## Context
 
-Synth owns the public AST substrate for Sylphx parser, traversal, query,
-tooling, and WASM parser surfaces. The MCP family now needs a consistent way for
+Synth owns the public `@sylphx/synth*` AST package substrate for Sylphx parser,
+traversal, query, tooling, and WASM parser surfaces. The MCP family now needs a consistent way for
 repository architecture, code retrieval, reader evidence, filesystem, and
 consultation tools to reason about source structure without each product
 inventing its own parser contracts.
@@ -22,7 +22,8 @@ MCP products can consume through public, versioned surfaces.
 
 ## Decision
 
-Synth will serve the MCP family as the AST foundation, not as an MCP runtime.
+Synth will serve the MCP family as the `@sylphx/synth*` universal AST
+foundation, not as an MCP runtime.
 
 Synth owns:
 
@@ -41,14 +42,23 @@ roadmaps. Rust-native MCP servers may use Synth packages, generated schemas,
 fixtures, or Rust/WASM bridge outputs, but must not import Synth workspace
 internals or make Synth aware of product-specific workflows.
 
+## Amendment: AST Repository Boundary
+
+`SylphxAI/ast` owns the separate `@sylphlab/ast-*` ANTLR-backed typed parser
+contract line. Synth must not claim ownership of those packages or their grammar
+fixtures. Downstream MCP products that need parser evidence should evaluate AST
+and Synth through explicit fixtures, benchmarks, source-span conformance, and
+release artifacts rather than importing either workspace's private internals.
+
 TypeScript remains acceptable inside Synth for existing package implementation
 and public JavaScript package delivery. It is not a target MCP adapter layer for
 the Sylphx MCP family.
 
 ## Consequences
 
-- Architecture and code-intelligence products get one shared AST vocabulary
-  without coupling Synth to their runtime decisions.
+- Architecture and code-intelligence products get stable AST vocabularies from
+  public package families without coupling Synth or AST to their runtime
+  decisions.
 - Rust-native MCP products can validate their indexing, chunking, evidence, and
   navigation behavior against Synth fixtures instead of duplicating ad hoc
   parser expectations.

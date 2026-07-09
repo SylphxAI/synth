@@ -4,7 +4,7 @@
   "project": {
     "id": "synth",
     "name": "Synth",
-    "summary": "Universal AST processing and language-tooling monorepo for the @sylphx/synth package family, parser packages, AST tooling, WASM parser bridges, and product-neutral AST contracts for Rust-native MCP consumers.",
+    "summary": "Universal AST processing and language-tooling monorepo for the @sylphx/synth* package family, parser packages, AST tooling, WASM parser bridges, and product-neutral Synth contracts for Rust-native MCP consumers.",
     "lifecycle": "production",
     "visibility": "open-source",
     "repository": "https://github.com/SylphxAI/synth",
@@ -50,7 +50,7 @@
   "surfaces": [
     {
       "type": "package",
-      "name": "@sylphx/synth package family",
+      "name": "@sylphx/synth* package family",
       "path": "packages/*/package.json",
       "description": "Public parser, AST, tooling, documentation, and WASM package surfaces."
     },
@@ -76,7 +76,7 @@
       "type": "docs",
       "name": "MCP family AST foundation roadmap",
       "path": "docs/roadmap/mcp-family-ast-foundation.md",
-      "description": "Roadmap for serving Rust-native MCP products with Synth AST contracts, fixtures, benchmarks, and Rust/WASM bridge criteria."
+      "description": "Roadmap for serving Rust-native MCP products with @sylphx/synth* contracts, fixtures, benchmarks, and Rust/WASM bridge criteria without claiming SylphxAI/ast ownership."
     },
     {
       "type": "workflow",

@@ -2,9 +2,14 @@
 
 Decision record: `docs/adr/ADR-35-mcp-family-ast-foundation.md`
 
-Synth is the AST substrate for the Sylphx MCP family. It should make source
-structure fast, stable, and portable for Rust-native MCP products without
-becoming an MCP server itself.
+Synth is the `@sylphx/synth*` universal AST substrate for the Sylphx MCP family.
+It should make source structure fast, stable, and portable for Rust-native MCP
+products without becoming an MCP server itself.
+
+`SylphxAI/ast` owns the separate `@sylphlab/ast-*` ANTLR-backed typed parser
+contract line. The two foundations must be evaluated through public package
+exports, fixtures, benchmarks, and source-span conformance rather than private
+workspace coupling.
 
 ## Role In The Family
 
@@ -26,6 +31,8 @@ AST contracts they validate against.
 
 - Synth public packages expose stable AST contracts, parser options, traversal
   helpers, query primitives, and fixtures.
+- AST public packages expose ANTLR-backed typed parser contracts and grammar
+  fixtures for the `@sylphlab/ast-*` package line.
 - Generated metadata describes package capability, language coverage, runtime
   requirements, and benchmark status.
 - Rust/WASM bridge outputs are treated as public package surfaces when consumed
@@ -80,9 +87,9 @@ Exit gate: at least one Rust-native consumer path is benchmarked and documented
 ### Phase 4: Portfolio Conformance
 
 - `architecture-reader-mcp` validates evidence graph extraction against Synth
-  fixtures.
+  and AST fixtures where each substrate is selected.
 - `coderag` validates chunking and symbol-neighborhood behavior against Synth
-  fixtures.
+  and AST fixtures where each substrate is selected.
 - reader products validate structured text evidence where Synth owns the parser
   contract.
 - Mission Control tracks consumption proof as Work Items and links PR/CI
@@ -108,3 +115,4 @@ Exit gate: each consuming product has its own tests and ADR/reference to the
 - Encode repository-architecture, search-ranking, filesystem policy, or
   consultation semantics inside Synth core.
 - Let product repos import private Synth workspace modules.
+- Claim ownership of `SylphxAI/ast` `@sylphlab/ast-*` parser contracts.
