@@ -20,6 +20,9 @@ Project identity is split by boundary: vendor-neutral project facts live in
 - Publish the `@sylphx/synth*` npm package family for parsers and AST tooling.
 - Keep parser/tooling package boundaries clean so downstream applications can
   consume public package exports without repo-internal knowledge.
+- Serve the Rust-native MCP family as a product-neutral AST foundation through
+  public packages, generated contracts, fixtures, benchmarks, and Rust/WASM
+  bridge outputs.
 
 ## Non-Goals
 
@@ -27,6 +30,8 @@ Project identity is split by boundary: vendor-neutral project facts live in
   deployment belong outside this repository.
 - Consumer-specific syntax hacks or product-only AST behavior do not belong in
   Synth core packages.
+- MCP server runtime, transport, tool schemas, install packaging, and product
+  roadmaps belong in the owning MCP repositories, not in Synth.
 - Sylphx Platform CI, preview, deploy, and runner ownership remain outside this
   repository.
 
@@ -41,6 +46,8 @@ workspace internals or couple product behavior to private parser modules.
 
 - npm packages under `@sylphx/synth*`, declared in `packages/*/package.json`.
 - Documentation under `README.md` and `docs/`.
+- MCP family AST foundation roadmap:
+  [`docs/roadmap/mcp-family-ast-foundation.md`](./docs/roadmap/mcp-family-ast-foundation.md)
 - Vendor-neutral project manifest at `project.manifest.json`.
 - Required CI contexts: `risk-classification/pass`, `ci`, and `trunk-admission/pass`.
 - Release workflow in `.github/workflows/release.yml` publishing through
