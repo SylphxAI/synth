@@ -803,6 +803,88 @@ impl<'a> MarkdownParserV2<'a> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::collections::HashMap;
+    use std::fs;
+    use std::path::PathBuf;
+
+    #[derive(Debug, serde::Deserialize, PartialEq, Eq, serde::Serialize)]
+    struct BlockSignature {
+        #[serde(rename = "type")]
+        node_type: String,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        depth: Option<u64>,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        lang: Option<String>,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        checked: Option<bool>,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        ordered: Option<bool>,
+    }
+
+    #[derive(serde::Deserialize)]
+    struct GoldenFixture {
+        source: String,
+        blocks: Vec<BlockSignature>,
+    }
+
+    fn golden_fixture_path() -> PathBuf {
+        PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../test/fixtures/markdown-parity/golden.json")
+    }
+
+    fn normalize_blocks(tree: &Tree) -> Vec<BlockSignature> {
+        let mut blocks: Vec<BlockSignature> = tree
+            .nodes()
+            .iter()
+            .filter(|n| !matches!(n.node_type.as_str(), "root" | "text" | "inline"))
+            .map(|n| {
+                let data = n.data.as_ref();
+                BlockSignature {
+                    node_type: n.node_type.clone(),
+                    depth: data.and_then(|d| d.get("depth")).and_then(|v| v.as_u64()),
+                    lang: data
+                        .and_then(|d| d.get("lang"))
+                        .and_then(|v| v.as_str())
+                        .map(str::to_string),
+                    checked: data
+                        .and_then(|d| d.get("checked"))
+                        .and_then(|v| v.as_bool()),
+                    ordered: data
+                        .and_then(|d| d.get("ordered"))
+                        .and_then(|v| v.as_bool())
+                        .filter(|&o| o),
+                }
+            })
+            .collect();
+
+        blocks.sort_by(|a, b| {
+            serde_json::to_string(a)
+                .unwrap_or_default()
+                .cmp(&serde_json::to_string(b).unwrap_or_default())
+        });
+        blocks
+    }
+
+    #[test]
+    fn golden_fixtures_match_ts_baseline() {
+        let raw = fs::read_to_string(golden_fixture_path()).expect("golden.json must exist");
+        let fixtures: HashMap<String, GoldenFixture> =
+            serde_json::from_str(&raw).expect("golden.json must parse");
+
+        assert!(!fixtures.is_empty(), "golden fixtures must not be empty");
+
+        for (id, fixture) in &fixtures {
+            let mut parser = MarkdownParserV2::new(&fixture.source);
+            let tree = parser
+                .parse()
+                .unwrap_or_else(|e| panic!("{id}: parse failed: {e}"));
+            let got = normalize_blocks(&tree);
+            assert_eq!(
+                got, fixture.blocks,
+                "fixture {id}: Rust markdown parser must match TS baseline"
+            );
+        }
+    }
 
     #[test]
     fn test_parse_tree() {
