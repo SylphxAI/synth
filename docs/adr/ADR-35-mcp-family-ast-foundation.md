@@ -1,9 +1,9 @@
 ---
-status: draft
+status: proposed
 slug: mcp-family-ast-foundation
 ---
 
-# ADR-DRAFT: MCP Family AST Foundation
+# ADR-35: MCP Family AST Foundation
 
 ## Context
 

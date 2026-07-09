@@ -1,6 +1,6 @@
 # MCP Family AST Foundation Roadmap
 
-Decision record: `docs/adr/ADR-DRAFT-mcp-family-ast-foundation.md`
+Decision record: `docs/adr/ADR-35-mcp-family-ast-foundation.md`
 
 Synth is the AST substrate for the Sylphx MCP family. It should make source
 structure fast, stable, and portable for Rust-native MCP products without
