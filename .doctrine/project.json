@@ -10,11 +10,13 @@
     "goals": [
       "Provide a fast universal AST substrate for parsing, traversal, querying, and language tooling.",
       "Publish the @sylphx/synth package family for core AST primitives, language parsers, WASM bridges, and AST-based tooling.",
-      "Keep parser and tooling package contracts stable enough for downstream products to consume through public package exports."
+      "Keep parser and tooling package contracts stable enough for downstream products to consume through public package exports.",
+      "Serve the Rust-native MCP family as a product-neutral AST foundation through public packages, generated contracts, fixtures, benchmarks, and Rust/WASM bridge outputs."
     ],
     "nonGoals": [
       "Own application-specific content workflows, user interfaces, billing, auth, or runtime deployment behavior.",
       "Hardcode consumer-specific syntax behavior or product-only AST semantics into shared parser cores.",
+      "Own MCP server runtime, transport, tool schemas, install packaging, or product roadmaps for downstream MCP repositories.",
       "Own Sylphx Platform CI runner, preview, deployment, or production environment control planes."
     ]
   },
@@ -96,6 +98,11 @@
       },
       {
         "type": "documentation",
+        "name": "MCP family AST foundation roadmap",
+        "location": "docs/roadmap/mcp-family-ast-foundation.md"
+      },
+      {
+        "type": "documentation",
         "name": "Security policy",
         "location": "SECURITY.md"
       }
@@ -141,6 +148,7 @@
       "Do not add product-specific parser behavior for a single downstream repository.",
       "Do not make Synth packages depend on application repositories or customer runtime state.",
       "Do not bypass public package exports by having consumers import private workspace internals.",
+      "Do not add a TypeScript MCP adapter to Synth as the runtime strategy for downstream products.",
       "Do not move Platform preview, deployment, billing, auth, or runner policy into this repository."
     ]
   },
@@ -196,6 +204,12 @@
         "description": "Generate a package capability catalog from packages/*/package.json so current package surfaces are not hand-maintained in prose.",
         "owner": "SylphxAI/synth",
         "target": "Before declaring full doctrine adoption."
+      },
+      {
+        "id": "mcp-family-contract-fixtures",
+        "description": "Define generated AST contract fixtures and Rust/WASM consumption criteria before downstream Rust-native MCP products rely on Synth as their structural source.",
+        "owner": "SylphxAI/synth",
+        "target": "MCP family AST foundation implementation slice."
       },
       {
         "id": "groundatlas-fleet-rollout",
