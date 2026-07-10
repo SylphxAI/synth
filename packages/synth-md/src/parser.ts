@@ -67,6 +67,12 @@ export interface ParseOptions {
    * @range 1-128
    */
   batchSize?: number
+
+  /**
+   * Force the TypeScript parser path instead of Rust WASM authority.
+   * @default false — baseline consumers route through @sylphx/synth-wasm-md
+   */
+  useTsParser?: boolean
 }
 
 /**
@@ -78,6 +84,7 @@ export const DEFAULT_PARSE_OPTIONS: Required<ParseOptions> = {
   useNodePool: true,
   useBatchTokenizer: false,
   batchSize: 16,
+  useTsParser: false,
 } as const
 
 /**

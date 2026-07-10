@@ -45,6 +45,8 @@ test('CI runs package validation and dogfoods the released GroundAtlas package/a
 
 	assert.ok(workflow.includes('bun install --frozen-lockfile'))
 	assert.ok(workflow.includes('bun run validate'))
+	assert.ok(workflow.includes('check-no-ts-parser.sh'))
+	assert.ok(workflow.includes('check-no-ts-js-parser.sh'))
 	assert.ok(workflow.includes('uses: SylphxAI/groundatlas@v0.1.3'))
 	assert.ok(workflow.includes('package-spec: groundatlas@0.1.3'))
 	assert.ok(workflow.includes('require-atlas: "true"'))
@@ -61,8 +63,10 @@ test('root validation follows the current CI baseline', () => {
 
 	assert.equal(
 		manifest.scripts.validate,
-		'bun run lint && bunx turbo build --concurrency=1 && bun run typecheck && bun test'
+		'bun run lint && bunx turbo build --concurrency=1 && bun run typecheck && bun run check:no-ts-parser && bun run check:no-ts-js-parser && bun test'
 	)
+	assert.equal(manifest.scripts['check:no-ts-parser'], 'bash scripts/check-no-ts-parser.sh')
+	assert.equal(manifest.scripts['check:no-ts-js-parser'], 'bash scripts/check-no-ts-js-parser.sh')
 	assert.equal(manifest.scripts.build, 'turbo build')
 	assert.equal(manifest.scripts.typecheck, 'turbo typecheck')
 })

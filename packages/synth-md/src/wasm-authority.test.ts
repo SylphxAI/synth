@@ -68,6 +68,10 @@ describe('wasm authority routing', () => {
       expect(isWasmAuthorityEligible({ useBatchTokenizer: true })).toBe(false)
     })
 
+    it('opts out when useTsParser is explicitly set', () => {
+      expect(isWasmAuthorityEligible({ useTsParser: true })).toBe(false)
+    })
+
     it('opts out when SYNTH_MD_AUTHORITY=ts', () => {
       process.env.SYNTH_MD_AUTHORITY = 'ts'
       expect(isWasmAuthorityEligible()).toBe(false)

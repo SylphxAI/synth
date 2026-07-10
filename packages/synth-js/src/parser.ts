@@ -9,6 +9,11 @@ import type { NodeId, Plugin, Tree } from '@sylphx/synth'
 import { addNode, createTree, SynthError } from '@sylphx/synth'
 import * as acorn from 'acorn'
 import tsPlugin from 'acorn-typescript'
+import {
+	isWasmAuthorityEligible,
+	parseViaWasmAuthority,
+	parseViaWasmAuthorityAsync,
+} from './wasm-authority.js'
 
 // @ts-expect-error - acorn.Parser.extend type definition issue
 const acornTS = acorn.Parser.extend(tsPlugin())
@@ -37,6 +42,12 @@ export interface JSParseOptions {
 
   /** Allow hash bang (#!) at start */
   allowHashBang?: boolean
+
+  /**
+   * Force the TypeScript parser path instead of Rust WASM authority.
+   * @default false — baseline consumers route through @sylphx/synth-wasm-js
+   */
+  useTsParser?: boolean
 }
 
 export class JSParser {
@@ -293,11 +304,19 @@ export function createParser(): JSParser {
 }
 
 export function parse(code: string, options?: JSParseOptions): Tree {
+  if (isWasmAuthorityEligible(options)) {
+    return parseViaWasmAuthority(code)
+  }
+
   const parser = new JSParser()
   return parser.parse(code, options)
 }
 
 export async function parseAsync(code: string, options?: JSParseOptions): Promise<Tree> {
+  if (isWasmAuthorityEligible(options)) {
+    return parseViaWasmAuthorityAsync(code)
+  }
+
   const parser = new JSParser()
   return parser.parseAsync(code, options)
 }

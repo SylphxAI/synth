@@ -3,7 +3,8 @@
  *
  * Default parse() / parseAsync() delegate to @sylphx/synth-wasm-md when options
  * are baseline (no plugins, no batch tokenizer). Advanced TS paths remain for
- * incremental/streaming/plugin slices until ts_deleted.
+ * incremental/streaming/plugin slices until ts_deleted. Baseline consumers
+ * require explicit opt-in (useTsParser or SYNTH_MD_AUTHORITY=ts) to use TS.
  */
 
 import type { Tree } from '@sylphx/synth'
@@ -41,6 +42,10 @@ export function isWasmAuthorityEligible(options?: ParseOptions): boolean {
   }
 
   if (options.batchSize !== undefined && options.batchSize !== 16) {
+    return false
+  }
+
+  if (options.useTsParser === true) {
     return false
   }
 
