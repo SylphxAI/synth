@@ -72,23 +72,43 @@
       "id": "parser/javascript-wasm",
       "domain": "parser",
       "weight": 5,
-      "state": "authority_rust",
+      "state": "rust_impl",
       "rustSurface": "crates/wasm-js/src/parser.rs; crates/wasm-js/src/lexer.rs",
       "tsSurface": "packages/synth-wasm-js/src/ (thin WASM loader)",
       "parityTest": "packages/synth-wasm-js/test/parse.test.ts; cargo test -p synth-wasm-js",
-      "notes": "Published @sylphx/synth-wasm-js; parser authority is Rust WASM."
+      "notes": "Published @sylphx/synth-wasm-js; parser authority is Rust WASM. [PROOF-GAP-58-WAVE-TICK026] honesty demote authority_rust\u2192rust_impl (invalid/missing v2 proof).",
+      "proof": {
+        "status": "stale",
+        "staleReason": "PROOF-GAP-58-WAVE-TICK026 honesty demote: promoted state without valid v2 proof (missing SHA-bound differential_green|caught_up|canary_green fields). Prior state=authority_rust. rej-010."
+      },
+      "promotionHold": {
+        "active": true,
+        "reason": "rej-010 promotion freeze \u2014 incomplete differential proof; honesty demoted authority_rust\u2192rust_impl (PROOF-GAP-58-WAVE-TICK026)",
+        "rejectionRef": "rej-010",
+        "since": "2026-07-11T14:04:33Z"
+      }
     },
     {
       "id": "parser/markdown-wasm",
       "domain": "parser",
       "weight": 4,
-      "state": "authority_rust",
+      "state": "rust_impl",
       "rustSurface": "crates/wasm-md/src/parser_v2.rs",
       "tsSurface": "packages/synth-wasm-md/src/; packages/synth-md/src/wasm-authority.ts",
       "parityTest": "scripts/check-no-ts-parser.sh; test/check-no-ts-parser.node-test.mjs; test/fixtures/markdown-parity/golden.json; packages/synth-wasm-md/test/parity-golden.test.ts; packages/synth-md/src/wasm-authority.test.ts; cargo test -p synth-wasm-md golden_fixtures_match_ts_baseline",
       "branch": "rust-first/markdown-wasm-authority-rust",
       "prUrl": "https://github.com/SylphxAI/synth/pull/39",
-      "notes": "Default @sylphx/synth-md parse()/parseAsync() route to Rust WASM; TS parser remains for plugins/incremental until ts_deleted."
+      "notes": "Default @sylphx/synth-md parse()/parseAsync() route to Rust WASM; TS parser remains for plugins/incremental until ts_deleted. [PROOF-GAP-58-WAVE-TICK026] honesty demote authority_rust\u2192rust_impl (invalid/missing v2 proof).",
+      "proof": {
+        "status": "stale",
+        "staleReason": "PROOF-GAP-58-WAVE-TICK026 honesty demote: promoted state without valid v2 proof (missing SHA-bound differential_green|caught_up|canary_green fields). Prior state=authority_rust. rej-010."
+      },
+      "promotionHold": {
+        "active": true,
+        "reason": "rej-010 promotion freeze \u2014 incomplete differential proof; honesty demoted authority_rust\u2192rust_impl (PROOF-GAP-58-WAVE-TICK026)",
+        "rejectionRef": "rej-010",
+        "since": "2026-07-11T14:04:33Z"
+      }
     },
     {
       "id": "parser/markdown-ts",
@@ -123,10 +143,20 @@
       "id": "bindings/wasm-core-types",
       "domain": "bindings",
       "weight": 3,
-      "state": "authority_rust",
+      "state": "rust_impl",
       "rustSurface": "crates/core/src/tree.rs; crates/core/src/position.rs",
       "parityTest": "cargo test -p synth-wasm-core",
-      "notes": "Shared WASM tree/error types; TS @sylphx/synth types remain parallel during cutover."
+      "notes": "Shared WASM tree/error types; TS @sylphx/synth types remain parallel during cutover. [PROOF-GAP-58-WAVE-TICK026] honesty demote authority_rust\u2192rust_impl (invalid/missing v2 proof).",
+      "proof": {
+        "status": "stale",
+        "staleReason": "PROOF-GAP-58-WAVE-TICK026 honesty demote: promoted state without valid v2 proof (missing SHA-bound differential_green|caught_up|canary_green fields). Prior state=authority_rust. rej-010."
+      },
+      "promotionHold": {
+        "active": true,
+        "reason": "rej-010 promotion freeze \u2014 incomplete differential proof; honesty demoted authority_rust\u2192rust_impl (PROOF-GAP-58-WAVE-TICK026)",
+        "rejectionRef": "rej-010",
+        "since": "2026-07-11T14:04:33Z"
+      }
     },
     {
       "id": "distribution/npm-monorepo",
@@ -141,13 +171,39 @@
     "total": 10,
     "ts_only": 7,
     "contracted": 0,
-    "rust_impl": 0,
+    "rust_impl": 3,
     "parity_proven": 0,
-    "authority_rust": 3,
+    "authority_rust": 0,
     "ts_deleted": 0,
     "completion_progress": 0.0,
     "authority_progress": 0.3,
-    "weighted_progress": 0.2462
+    "weighted_progress": 0.2462,
+    "proof_stale": 3,
+    "proof_missing": 7,
+    "updatedAt": "2026-07-11T14:04:33Z",
+    "lastMutation": "PROOF-GAP-58-WAVE-TICK026"
   },
-  "repoLedgerPath": "docs/specs/migration-ledger.json"
+  "repoLedgerPath": "docs/specs/migration-ledger.json",
+  "rej010HonestyDemote": {
+    "packetId": "PROOF-GAP-58-WAVE-TICK026",
+    "appliedAt": "2026-07-11T14:04:33Z",
+    "demoted": [
+      {
+        "id": "parser/javascript-wasm",
+        "from": "authority_rust",
+        "to": "rust_impl"
+      },
+      {
+        "id": "parser/markdown-wasm",
+        "from": "authority_rust",
+        "to": "rust_impl"
+      },
+      {
+        "id": "bindings/wasm-core-types",
+        "from": "authority_rust",
+        "to": "rust_impl"
+      }
+    ],
+    "policy": "demote incomplete promoted states to rust_impl; no authority_rust/ts_deleted promotions"
+  }
 }
