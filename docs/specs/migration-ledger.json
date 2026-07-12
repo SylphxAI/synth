@@ -59,7 +59,13 @@
       "weight": 5,
       "state": "rust_impl",
       "tsSurface": "packages/synth/src/traverse.ts; packages/synth/src/query-index.ts; packages/synth/src/zipper.ts; src/core/",
-      "notes": "Universal AST substrate and query engine remain TypeScript; Rust core crate provides WASM tree types only. TICK039: find_by_type/descendants/depth pure query core."
+      "rustSurface": "crates/core/src/query.rs; crates/core/src/traverse.rs; crates/core/src/zipper.rs; crates/core/fixtures/traverse_golden.json",
+      "parityTest": "crates/core/tests/traverse_golden.rs; cargo test -p synth-wasm-core",
+      "proof": {
+        "status": "missing",
+        "staleReason": "BW1 pure bulk: traverse/zipper/query unit+golden on disk — awaiting SHA-bound differential_green vs TS oracle"
+      },
+      "notes": "BW1 pure bulk deepen: pre/post/bfs collect_ids, max_depth, zipper nav, golden fixture. TS substrate retained (no ts_deleted/authority). proof missing."
     },
     {
       "id": "core/incremental-batch",

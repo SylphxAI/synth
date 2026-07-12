@@ -7,11 +7,19 @@ mod tree;
 mod query;
 mod error;
 mod position;
+mod traverse;
+mod zipper;
 
 pub use tree::*;
 pub use query::{depth, descendants, find_by_type};
 pub use error::*;
 pub use position::*;
+pub use traverse::{
+    breadth_first, collect_ids, collect_ids_max_depth, post_order, pre_order, TraversalOrder,
+};
+pub use zipper::{
+    create_zipper, create_zipper_at, down, is_root, left, right, up, zipper_depth, Crumb, Zipper,
+};
 
 use wasm_bindgen::prelude::*;
 
