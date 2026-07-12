@@ -4,10 +4,12 @@
 //! Provides Tree structure compatible with the TypeScript @sylphx/synth package.
 
 mod tree;
+mod query;
 mod error;
 mod position;
 
 pub use tree::*;
+pub use query::{depth, descendants, find_by_type};
 pub use error::*;
 pub use position::*;
 

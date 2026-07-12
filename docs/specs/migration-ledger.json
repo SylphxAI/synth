@@ -57,9 +57,9 @@
       "id": "core/ast-traverse-query",
       "domain": "core",
       "weight": 5,
-      "state": "ts_only",
+      "state": "rust_impl",
       "tsSurface": "packages/synth/src/traverse.ts; packages/synth/src/query-index.ts; packages/synth/src/zipper.ts; src/core/",
-      "notes": "Universal AST substrate and query engine remain TypeScript; Rust core crate provides WASM tree types only."
+      "notes": "Universal AST substrate and query engine remain TypeScript; Rust core crate provides WASM tree types only. TICK039: find_by_type/descendants/depth pure query core."
     },
     {
       "id": "core/incremental-batch",
@@ -169,9 +169,9 @@
   ],
   "summary": {
     "total": 10,
-    "ts_only": 7,
+    "ts_only": 6,
     "contracted": 0,
-    "rust_impl": 3,
+    "rust_impl": 4,
     "parity_proven": 0,
     "authority_rust": 0,
     "ts_deleted": 0,
