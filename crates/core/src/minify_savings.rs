@@ -49,4 +49,21 @@ mod tests {
         assert_eq!(s.saved_bytes, 0);
         assert_eq!(s.saved_percent, 0.0);
     }
+
+    #[test]
+    fn fleet_web_media_wave4_ratio_and_zero_original() {
+        let s = savings("abcdefghij", "abcd");
+        assert_eq!(s.original_size, 10);
+        assert_eq!(s.minified_size, 4);
+        assert_eq!(s.saved_bytes, 6);
+        assert!((s.saved_percent - 60.0).abs() < 1e-9);
+        assert!((compression_ratio(10, 4) - 0.6).abs() < 1e-9);
+        let z = savings("", "x");
+        assert_eq!(z.original_size, 0);
+        assert_eq!(z.saved_percent, 0.0);
+        assert_eq!(compression_ratio(0, 5), 0.0);
+        let full = savings("same", "same");
+        assert_eq!(full.saved_bytes, 0);
+        assert!((full.saved_percent - 0.0).abs() < 1e-9);
+    }
 }

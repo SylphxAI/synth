@@ -193,8 +193,8 @@
     "weighted_progress": 0.1346,
     "proof_stale": 3,
     "proof_missing": 2,
-    "updatedAt": "2026-07-11T14:04:33Z",
-    "lastMutation": "PROOF-GAP-58-WAVE-TICK026",
+    "updatedAt": "2026-07-13T01:10:50Z",
+    "lastMutation": "FLEET-WEB-MEDIA-WAVE4",
     "verified_authority_progress": 0.0
   },
   "repoLedgerPath": "docs/specs/migration-ledger.json",
@@ -219,5 +219,22 @@
       }
     ],
     "policy": "demote incomplete promoted states to rust_impl; no authority_rust/ts_deleted promotions"
+  },
+  "honestyResidual": {
+    "packet": "FLEET-WEB-MEDIA-WAVE4",
+    "at": "2026-07-13T01:10:50Z",
+    "authority_rust": false,
+    "ts_deleted": false,
+    "goal_complete": false,
+    "strongestTruthfulState": "rust_impl_minority_proof_missing_or_stale_offline",
+    "explicitNonClaims": [
+      "authority_rust",
+      "ts_deleted",
+      "parity_proven",
+      "differential_green",
+      "canary_green",
+      "REPO_COMPLETE",
+      "fleet FCP"
+    ]
   }
 }

@@ -72,4 +72,28 @@ mod tests {
         let m = analyze_basic_loc("");
         assert_eq!(m, BasicLocMetrics { loc: 0, blank: 0, cloc: 0, sloc: 0 });
     }
+
+    #[test]
+    fn fleet_web_media_wave4_classify_line_kinds() {
+        // classify_line expects already-trimmed input (see analyze_basic_loc).
+        assert_eq!(classify_line(""), LineKind::Blank);
+        assert_eq!(classify_line("// comment"), LineKind::Comment);
+        assert_eq!(classify_line("# python"), LineKind::Comment);
+        assert_eq!(classify_line("/* block"), LineKind::Comment);
+        assert_eq!(classify_line("* cont"), LineKind::Comment);
+        assert_eq!(classify_line("let x = 1;"), LineKind::Code);
+        // untrimmed spaces are NOT blank at this layer
+        assert_eq!(classify_line("   "), LineKind::Code);
+    }
+
+    #[test]
+    fn fleet_web_media_wave4_analyze_mixed_source() {
+        let src = "\n// c\nfn main() {}\n\n";
+        let m = analyze_basic_loc(src);
+        assert!(m.loc >= 4);
+        assert!(m.blank >= 1);
+        assert!(m.cloc >= 1);
+        assert!(m.sloc >= 1);
+        assert_eq!(m.loc, m.blank + m.cloc + m.sloc);
+    }
 }

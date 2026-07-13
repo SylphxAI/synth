@@ -52,3 +52,38 @@ impl Span {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn fleet_web_media_wave4_position_new_and_eq() {
+        let p = Position::new(1, 0, 0);
+        assert_eq!(p.line, 1);
+        assert_eq!(p.column, 0);
+        assert_eq!(p.offset, 0);
+        assert_eq!(p, Position::new(1, 0, 0));
+        assert_ne!(p, Position::new(2, 0, 0));
+    }
+
+    #[test]
+    fn fleet_web_media_wave4_span_from_coords() {
+        let s = Span::from_coords(1, 0, 0, 2, 5, 20);
+        assert_eq!(s.start.line, 1);
+        assert_eq!(s.end.line, 2);
+        assert_eq!(s.end.column, 5);
+        assert_eq!(s.end.offset, 20);
+        let s2 = Span::new(Position::new(1, 0, 0), Position::new(1, 10, 10));
+        assert_eq!(s2.start.offset, 0);
+        assert_eq!(s2.end.column, 10);
+    }
+
+    #[test]
+    fn fleet_web_media_wave4_span_serde_roundtrip() {
+        let s = Span::from_coords(3, 1, 10, 3, 8, 17);
+        let json = serde_json::to_string(&s).expect("ser");
+        let back: Span = serde_json::from_str(&json).expect("de");
+        assert_eq!(back, s);
+    }
+}

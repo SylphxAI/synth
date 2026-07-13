@@ -85,4 +85,28 @@ mod tests {
         assert_eq!(m.mangle("baz", false), "baz");
         assert_eq!(m.counter(), 2);
     }
+
+
+    #[test]
+    fn fleet_web_media_wave4_mangle_skips_reserved_and_increments() {
+        let mut m = NameMangler::new(["window".into()]);
+        let a = m.mangle("foo", true);
+        let b = m.mangle("bar", true);
+        assert_ne!(a, b);
+        let a2 = m.mangle("foo", true);
+        assert_eq!(a, a2);
+        assert!(m.counter() >= 2);
+        // disabled returns original
+        assert_eq!(m.mangle("baz", false), "baz");
+    }
+
+    #[test]
+    fn fleet_web_media_wave4_generate_mangled_name_base26ish() {
+        assert_eq!(generate_mangled_name(0), "a");
+        assert_eq!(generate_mangled_name(1), "b");
+        assert_eq!(generate_mangled_name(25), "z");
+        let aa = generate_mangled_name(26);
+        assert!(!aa.is_empty());
+        assert_ne!(aa, "a");
+    }
 }
