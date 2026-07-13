@@ -17,6 +17,7 @@ mod mangle;
 mod halstead_math;
 mod complexity_types;
 mod detect_language;
+mod token_span;
 
 pub use tree::*;
 pub use query::{depth, descendants, find_by_type};
@@ -60,4 +61,5 @@ pub fn core_version() -> String {
 }
 
 pub use detect_language::{common_prefix_len, common_suffix_len, detect_language};
+pub use token_span::{find_token_index_at_offset, format_token_stats, is_position_in_token, token_ranges_overlap, TokenizerStats};
 pub use complexity_types::{cognitive_decision_weight, cyclomatic_from_decisions, is_decision_count_type, is_decision_node_type, is_nesting_node_type, next_nesting};
