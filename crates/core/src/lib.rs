@@ -16,6 +16,7 @@ mod minify_savings;
 mod mangle;
 mod halstead_math;
 mod complexity_types;
+mod detect_language;
 
 pub use tree::*;
 pub use query::{depth, descendants, find_by_type};
@@ -58,4 +59,5 @@ pub fn core_version() -> String {
     env!("CARGO_PKG_VERSION").to_string()
 }
 
+pub use detect_language::{common_prefix_len, common_suffix_len, detect_language};
 pub use complexity_types::{cognitive_decision_weight, cyclomatic_from_decisions, is_decision_count_type, is_decision_node_type, is_nesting_node_type, next_nesting};
