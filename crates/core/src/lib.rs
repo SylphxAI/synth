@@ -13,6 +13,7 @@ mod incremental;
 mod batch;
 mod metrics_basic;
 mod minify_savings;
+mod mangle;
 
 pub use tree::*;
 pub use query::{depth, descendants, find_by_type};
@@ -35,6 +36,7 @@ pub use batch::{
 };
 pub use metrics_basic::{analyze_basic_loc, classify_line, BasicLocMetrics, LineKind};
 pub use minify_savings::{compression_ratio, savings, Savings};
+pub use mangle::{generate_mangled_name, NameMangler};
 
 use wasm_bindgen::prelude::*;
 
