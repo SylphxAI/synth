@@ -15,6 +15,7 @@ mod metrics_basic;
 mod minify_savings;
 mod mangle;
 mod halstead_math;
+mod complexity_types;
 
 pub use tree::*;
 pub use query::{depth, descendants, find_by_type};
@@ -56,3 +57,5 @@ pub fn init() {
 pub fn core_version() -> String {
     env!("CARGO_PKG_VERSION").to_string()
 }
+
+pub use complexity_types::{cognitive_decision_weight, cyclomatic_from_decisions, is_decision_count_type, is_decision_node_type, is_nesting_node_type, next_nesting};
