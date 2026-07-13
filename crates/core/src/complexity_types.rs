@@ -94,13 +94,19 @@ mod tests {
 
     #[test]
     fn decision_and_nesting_types() {
+        // TS isDecisionNode uses short fragment list with includes()
         assert!(is_decision_node_type("IfStatement"));
-        assert!(is_decision_node_type("LogicalExpression"));
         assert!(is_decision_node_type("for"));
-        assert!(!is_decision_node_type("Identifier"));
+        assert!(is_decision_node_type("WhileStatement"));
+        assert!(is_decision_node_type("SwitchCase"));
+        // LogicalExpression is NOT in the short isDecisionNode list
+        assert!(!is_decision_node_type("LogicalExpression"));
+        // Identifier contains "if" substring — TS includes() true; keep parity
+        assert!(is_decision_node_type("Identifier"));
         assert!(is_nesting_node_type("FunctionDeclaration"));
         assert!(is_nesting_node_type("WhileStatement"));
         assert!(!is_nesting_node_type("Literal"));
+        assert!(!is_nesting_node_type("StringLiteral"));
     }
 
     #[test]
@@ -108,6 +114,7 @@ mod tests {
         assert!(is_decision_count_type("ElseClause"));
         assert!(is_decision_count_type("CatchClause"));
         assert!(is_decision_count_type("ConditionalExpression"));
+        assert!(is_decision_count_type("LogicalExpression"));
     }
 
     #[test]
@@ -117,6 +124,9 @@ mod tests {
         assert_eq!(cognitive_decision_weight(0), 1);
         assert_eq!(cognitive_decision_weight(2), 3);
         assert_eq!(next_nesting(0, "if"), 1);
-        assert_eq!(next_nesting(1, "Identifier"), 1);
+        // "Identifier" contains "if" → nesting match (TS includes parity)
+        assert_eq!(next_nesting(1, "Identifier"), 2);
+        // clean non-nesting type without decision substrings
+        assert_eq!(next_nesting(1, "StringLiteral"), 1);
     }
 }
