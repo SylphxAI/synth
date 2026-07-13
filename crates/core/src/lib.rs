@@ -11,6 +11,8 @@ mod traverse;
 mod zipper;
 mod incremental;
 mod batch;
+mod metrics_basic;
+mod minify_savings;
 
 pub use tree::*;
 pub use query::{depth, descendants, find_by_type};
@@ -31,6 +33,8 @@ pub use batch::{
     batch_preorder_ids, batch_select_by_type, chunk_ids, group_node_ids_by_type, plan_batches,
     BatchProcessingOptions, DEFAULT_BATCH_SIZE,
 };
+pub use metrics_basic::{analyze_basic_loc, classify_line, BasicLocMetrics, LineKind};
+pub use minify_savings::{compression_ratio, savings, Savings};
 
 use wasm_bindgen::prelude::*;
 
