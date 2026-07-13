@@ -1,0 +1,190 @@
+{
+  "schema": "synth-incremental-batch-golden/v1",
+  "source": "packages/synth/src/incremental.ts + batch-processor.ts pure helpers",
+  "language": "text",
+  "sourceText": "abcd\nefgh",
+  "nodes": [
+    {
+      "id": 0,
+      "type": "root",
+      "parent": null,
+      "children": [
+        1,
+        2
+      ],
+      "span": {
+        "start": {
+          "line": 0,
+          "column": 0,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 4,
+          "offset": 9
+        }
+      }
+    },
+    {
+      "id": 1,
+      "type": "left",
+      "parent": 0,
+      "children": [],
+      "span": {
+        "start": {
+          "line": 0,
+          "column": 0,
+          "offset": 0
+        },
+        "end": {
+          "line": 0,
+          "column": 4,
+          "offset": 4
+        }
+      }
+    },
+    {
+      "id": 2,
+      "type": "right",
+      "parent": 0,
+      "children": [],
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 0,
+          "offset": 5
+        },
+        "end": {
+          "line": 1,
+          "column": 4,
+          "offset": 9
+        }
+      }
+    }
+  ],
+  "cases": [
+    {
+      "name": "ranges_overlap_yes",
+      "kind": "ranges_overlap",
+      "a": [
+        0,
+        5
+      ],
+      "b": [
+        3,
+        8
+      ],
+      "expected": true
+    },
+    {
+      "name": "ranges_overlap_no",
+      "kind": "ranges_overlap",
+      "a": [
+        0,
+        2
+      ],
+      "b": [
+        3,
+        5
+      ],
+      "expected": false
+    },
+    {
+      "name": "offset_to_position_mid_line2",
+      "kind": "offset_to_position",
+      "offset": 6,
+      "expectedPosition": {
+        "line": 1,
+        "column": 1,
+        "offset": 6
+      }
+    },
+    {
+      "name": "plan_edit_left_region",
+      "kind": "plan_edits",
+      "simpleEdits": [
+        {
+          "start": 1,
+          "oldLength": 2,
+          "newLength": 1
+        }
+      ],
+      "expectedAffectedIds": [
+        0,
+        1
+      ],
+      "expectedRange": {
+        "startByte": 1,
+        "endByte": 2
+      }
+    },
+    {
+      "name": "find_node_at_offset_first_hit_root",
+      "kind": "find_node_at_offset",
+      "offset": 6,
+      "expectedId": 0,
+      "note": "TS findNodeAtOffset returns first matching arena index; root spans whole doc"
+    },
+    {
+      "name": "batch_preorder",
+      "kind": "batch_preorder",
+      "expectedIds": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "name": "group_by_type_left",
+      "kind": "group_by_type",
+      "type": "left",
+      "expectedIds": [
+        1
+      ]
+    },
+    {
+      "name": "chunk_size_2",
+      "kind": "chunk",
+      "batchSize": 2,
+      "expectedBatches": [
+        [
+          0,
+          1
+        ],
+        [
+          2
+        ]
+      ]
+    },
+    {
+      "name": "plan_batches_flat_size_2",
+      "kind": "plan_batches",
+      "batchSize": 2,
+      "groupByType": false,
+      "expectedBatches": [
+        [
+          0,
+          1
+        ],
+        [
+          2
+        ]
+      ]
+    },
+    {
+      "name": "find_node_at_offset_only_right_if_we_check_ids",
+      "kind": "find_overlapping_only",
+      "simpleEdits": [
+        {
+          "start": 6,
+          "oldLength": 1,
+          "newLength": 1
+        }
+      ],
+      "expectedAffectedIds": [
+        0,
+        2
+      ]
+    }
+  ]
+}

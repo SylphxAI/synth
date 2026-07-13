@@ -9,6 +9,8 @@ mod error;
 mod position;
 mod traverse;
 mod zipper;
+mod incremental;
+mod batch;
 
 pub use tree::*;
 pub use query::{depth, descendants, find_by_type};
@@ -19,6 +21,15 @@ pub use traverse::{
 };
 pub use zipper::{
     create_zipper, create_zipper_at, down, is_root, left, right, up, zipper_depth, Crumb, Zipper,
+};
+pub use incremental::{
+    calculate_affected_range, find_affected_nodes, find_node_at_offset, find_overlapping_nodes,
+    mark_parents_as_affected, normalize_simple_edit, offset_to_position, plan_edits, ranges_overlap,
+    set_node_span, AffectedRange, Edit, SimpleEdit,
+};
+pub use batch::{
+    batch_preorder_ids, batch_select_by_type, chunk_ids, group_node_ids_by_type, plan_batches,
+    BatchProcessingOptions, DEFAULT_BATCH_SIZE,
 };
 
 use wasm_bindgen::prelude::*;
