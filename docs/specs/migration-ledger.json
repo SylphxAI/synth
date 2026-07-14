@@ -57,16 +57,29 @@
       "id": "core/ast-traverse-query",
       "domain": "core",
       "weight": 5,
-      "state": "ts_only",
+      "state": "rust_impl",
       "tsSurface": "packages/synth/src/traverse.ts; packages/synth/src/query-index.ts; packages/synth/src/zipper.ts; src/core/",
-      "notes": "Universal AST substrate and query engine remain TypeScript; Rust core crate provides WASM tree types only."
+      "rustSurface": "crates/core/src/query.rs; crates/core/src/traverse.rs; crates/core/src/zipper.rs; crates/core/fixtures/traverse_golden.json",
+      "parityTest": "crates/core/tests/traverse_golden.rs; cargo test -p synth-wasm-core",
+      "proof": {
+        "status": "missing",
+        "staleReason": "BW1 pure bulk: traverse/zipper/query unit+golden on disk \u2014 awaiting SHA-bound differential_green vs TS oracle"
+      },
+      "notes": "BW1 pure bulk deepen: pre/post/bfs collect_ids, max_depth, zipper nav, golden fixture. TS substrate retained (no ts_deleted/authority). proof missing."
     },
     {
       "id": "core/incremental-batch",
       "domain": "core",
       "weight": 4,
-      "state": "ts_only",
-      "tsSurface": "packages/synth/src/incremental.ts; packages/synth/src/batch-processor.ts; packages/synth/src/node-pool.ts"
+      "state": "rust_impl",
+      "tsSurface": "packages/synth/src/incremental.ts; packages/synth/src/batch-processor.ts; packages/synth/src/node-pool.ts",
+      "rustSurface": "crates/core/src/incremental.rs; crates/core/src/batch.rs; crates/core/fixtures/incremental_batch_golden.json",
+      "parityTest": "crates/core/tests/incremental_batch_golden.rs; cargo test -p synth-wasm-core",
+      "proof": {
+        "status": "missing",
+        "staleReason": "BW1 residual pure deepen: incremental edit geometry + batch chunk/group unit+golden; differential_green unbound; reparse/parser callback still TS"
+      },
+      "notes": "BW1 residual pure deepen: ranges_overlap, offset_to_position, normalize/plan_edits, find_affected_nodes (overlap+parents), calculate_affected_range, batch group/chunk/preorder plan. node-pool + reparseAffected stay TS. No authority_rust/ts_deleted."
     },
     {
       "id": "parser/javascript-wasm",
@@ -169,19 +182,20 @@
   ],
   "summary": {
     "total": 10,
-    "ts_only": 7,
+    "ts_only": 5,
     "contracted": 0,
-    "rust_impl": 3,
+    "rust_impl": 5,
     "parity_proven": 0,
     "authority_rust": 0,
     "ts_deleted": 0,
     "completion_progress": 0.0,
-    "authority_progress": 0.3,
-    "weighted_progress": 0.2462,
+    "authority_progress": 0.0,
+    "weighted_progress": 0.1346,
     "proof_stale": 3,
-    "proof_missing": 7,
-    "updatedAt": "2026-07-11T14:04:33Z",
-    "lastMutation": "PROOF-GAP-58-WAVE-TICK026"
+    "proof_missing": 2,
+    "updatedAt": "2026-07-13T01:10:50Z",
+    "lastMutation": "FLEET-WEB-MEDIA-WAVE4",
+    "verified_authority_progress": 0.0
   },
   "repoLedgerPath": "docs/specs/migration-ledger.json",
   "rej010HonestyDemote": {
@@ -205,5 +219,22 @@
       }
     ],
     "policy": "demote incomplete promoted states to rust_impl; no authority_rust/ts_deleted promotions"
+  },
+  "honestyResidual": {
+    "packet": "FLEET-WEB-MEDIA-WAVE4",
+    "at": "2026-07-13T01:10:50Z",
+    "authority_rust": false,
+    "ts_deleted": false,
+    "goal_complete": false,
+    "strongestTruthfulState": "rust_impl_minority_proof_missing_or_stale_offline",
+    "explicitNonClaims": [
+      "authority_rust",
+      "ts_deleted",
+      "parity_proven",
+      "differential_green",
+      "canary_green",
+      "REPO_COMPLETE",
+      "fleet FCP"
+    ]
   }
 }

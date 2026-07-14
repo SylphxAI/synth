@@ -1,0 +1,53 @@
+{
+  "schema": "synth-traverse-golden/v1",
+  "source": "src/core/traverse.ts + zipper.ts pure id walks",
+  "language": "markdown",
+  "sourceText": "# hi",
+  "nodes": [
+    { "id": 0, "type": "root", "parent": null, "children": [1, 2] },
+    { "id": 1, "type": "heading", "parent": 0, "children": [] },
+    { "id": 2, "type": "paragraph", "parent": 0, "children": [3] },
+    { "id": 3, "type": "text", "parent": 2, "children": [] }
+  ],
+  "cases": [
+    {
+      "name": "pre_order",
+      "order": "pre",
+      "expectedIds": [0, 1, 2, 3]
+    },
+    {
+      "name": "post_order",
+      "order": "post",
+      "expectedIds": [1, 3, 2, 0]
+    },
+    {
+      "name": "breadth_first",
+      "order": "bfs",
+      "expectedIds": [0, 1, 2, 3]
+    },
+    {
+      "name": "max_depth_1_pre",
+      "order": "pre",
+      "maxDepth": 1,
+      "expectedIds": [0, 1, 2]
+    },
+    {
+      "name": "find_by_type_text",
+      "query": "find_by_type",
+      "type": "text",
+      "expectedIds": [3]
+    },
+    {
+      "name": "descendants_of_root",
+      "query": "descendants",
+      "start": 0,
+      "expectedIds": [1, 2, 3]
+    },
+    {
+      "name": "depth_of_text",
+      "query": "depth",
+      "start": 3,
+      "expectedDepth": 2
+    }
+  ]
+}

@@ -4,12 +4,48 @@
 //! Provides Tree structure compatible with the TypeScript @sylphx/synth package.
 
 mod tree;
+mod query;
 mod error;
 mod position;
+mod traverse;
+mod zipper;
+mod incremental;
+mod batch;
+mod metrics_basic;
+mod minify_savings;
+mod mangle;
+mod halstead_math;
+mod complexity_types;
+mod detect_language;
+mod token_span;
+mod lint_max_depth;
 
 pub use tree::*;
+pub use query::{depth, descendants, find_by_type};
 pub use error::*;
 pub use position::*;
+pub use traverse::{
+    breadth_first, collect_ids, collect_ids_max_depth, post_order, pre_order, TraversalOrder,
+};
+pub use zipper::{
+    create_zipper, create_zipper_at, down, is_root, left, right, up, zipper_depth, Crumb, Zipper,
+};
+pub use incremental::{
+    calculate_affected_range, find_affected_nodes, find_node_at_offset, find_overlapping_nodes,
+    mark_parents_as_affected, normalize_simple_edit, offset_to_position, plan_edits, ranges_overlap,
+    set_node_span, AffectedRange, Edit, SimpleEdit,
+};
+pub use batch::{
+    batch_preorder_ids, batch_select_by_type, chunk_ids, group_node_ids_by_type, plan_batches,
+    BatchProcessingOptions, DEFAULT_BATCH_SIZE,
+};
+pub use metrics_basic::{analyze_basic_loc, classify_line, BasicLocMetrics, LineKind};
+pub use minify_savings::{compression_ratio, savings, Savings};
+pub use mangle::{generate_mangled_name, NameMangler};
+pub use halstead_math::{
+    calculate_maintainability, compute_halstead, HalsteadMetrics, MaintainabilityLevel,
+    MaintainabilityMetrics,
+};
 
 use wasm_bindgen::prelude::*;
 
@@ -24,3 +60,8 @@ pub fn init() {
 pub fn core_version() -> String {
     env!("CARGO_PKG_VERSION").to_string()
 }
+
+pub use detect_language::{common_prefix_len, common_suffix_len, detect_language};
+pub use token_span::{find_token_index_at_offset, format_token_stats, is_position_in_token, token_ranges_overlap, TokenizerStats};
+pub use complexity_types::{cognitive_decision_weight, cyclomatic_from_decisions, is_decision_count_type, is_decision_node_type, is_nesting_node_type, next_nesting};
+pub use lint_max_depth::{compute_depth_from_parents, depth_exceeds, max_depth_message, should_report_default, DEFAULT_MAX_DEPTH};
