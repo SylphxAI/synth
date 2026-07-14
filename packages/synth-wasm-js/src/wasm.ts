@@ -9,7 +9,9 @@ import {
   tokenize as wasmTokenize,
   version as wasmVersion,
 } from '../wasm/synth_wasm_js.js'
+import type { Tree } from '@sylphx/synth'
 import { initWasm } from './init.js'
+import { binaryToTree } from './tree-bridge.js'
 import type { ASTNode, NodeKind, ParseResult } from './types.js'
 
 /**
@@ -71,7 +73,7 @@ export async function parseBinary(source: string): Promise<Uint8Array> {
  * console.log(result.nodes[0].kind) // NodeKind.Program
  * ```
  */
-export async function parse(source: string): Promise<ParseResult> {
+export async function parseFlat(source: string): Promise<ParseResult> {
   const binary = await parseBinary(source)
   const view = new DataView(binary.buffer)
 
@@ -90,6 +92,14 @@ export async function parse(source: string): Promise<ParseResult> {
   }
 
   return { nodes, source }
+}
+
+/**
+ * Parse JavaScript and return a Synth Tree for authority routing.
+ */
+export async function parse(source: string): Promise<Tree> {
+  const binary = await parseBinary(source)
+  return binaryToTree(source, binary)
 }
 
 /**

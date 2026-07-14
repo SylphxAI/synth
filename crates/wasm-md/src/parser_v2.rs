@@ -886,6 +886,96 @@ mod tests {
         }
     }
 
+    #[derive(Debug, serde::Deserialize)]
+    struct OracleCase {
+        id: String,
+        slice: String,
+        source: String,
+        output: Vec<BlockSignature>,
+    }
+
+    #[derive(Debug, serde::Deserialize)]
+    struct OracleCorpus {
+        #[serde(rename = "corpusVersion")]
+        corpus_version: u32,
+        #[serde(rename = "fixtureCorpusHash")]
+        fixture_corpus_hash: String,
+        cases: Vec<OracleCase>,
+    }
+
+    fn load_oracle_corpus() -> OracleCorpus {
+        if let Ok(path) = std::env::var("SYNTH_ORACLE_JSON") {
+            let raw = fs::read_to_string(&path)
+                .unwrap_or_else(|error| panic!("read SYNTH_ORACLE_JSON at {path}: {error}"));
+            return serde_json::from_str(&raw).expect("oracle JSON must be valid");
+        }
+
+        let script = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../scripts/differential/synth-oracle.ts");
+        let output = std::process::Command::new("bun")
+            .arg("run")
+            .arg(&script)
+            .current_dir(
+                PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../.."),
+            )
+            .output()
+            .unwrap_or_else(|error| panic!("spawn TS oracle at {}: {error}", script.display()));
+
+        assert!(
+            output.status.success(),
+            "TS oracle failed:\nstdout: {}\nstderr: {}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        );
+
+        serde_json::from_slice(&output.stdout).expect("oracle output must be valid JSON")
+    }
+
+    const MARKDOWN_SLICE: &str = "parser/markdown-wasm";
+
+    fn run_markdown_wasm_bounded_slice(min_cases: usize) {
+        let oracle = load_oracle_corpus();
+        assert_eq!(oracle.corpus_version, 1);
+        assert!(
+            !oracle.fixture_corpus_hash.is_empty(),
+            "oracle must include fixtureCorpusHash"
+        );
+
+        let md_cases: Vec<_> = oracle
+            .cases
+            .iter()
+            .filter(|case| case.slice == MARKDOWN_SLICE)
+            .collect();
+        assert!(
+            md_cases.len() >= min_cases,
+            "parser/markdown-wasm must have at least {min_cases} oracle cases, got {}",
+            md_cases.len()
+        );
+
+        for case in md_cases {
+            let mut parser = MarkdownParserV2::new(&case.source);
+            let tree = parser
+                .parse()
+                .unwrap_or_else(|error| panic!("{}: parse failed: {error}", case.id));
+            let got = normalize_blocks(&tree);
+            assert_eq!(
+                got, case.output,
+                "case {}: Rust markdown parser must match TS live oracle",
+                case.id
+            );
+        }
+    }
+
+    #[test]
+    fn parser_markdown_wasm_differential_matches_ts_oracle() {
+        run_markdown_wasm_bounded_slice(8);
+    }
+
+    #[test]
+    fn synth_differential_matches_ts_oracle() {
+        run_markdown_wasm_bounded_slice(8);
+    }
+
     #[test]
     fn test_parse_tree() {
         let mut p = MarkdownParserV2::new("# Hello\n\nWorld\n");
