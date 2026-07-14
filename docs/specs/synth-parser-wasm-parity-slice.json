@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 2,
+  "repo": "SylphxAI/synth",
+  "rejectionRef": "rej-010",
+  "slice": "parser/markdown-wasm|parser/javascript-wasm",
+  "differentialHarness": "scripts/run-synth-differential.sh",
+  "capabilities": [
+    {
+      "id": "parser/markdown-wasm",
+      "state": "authority_rust",
+      "differentialTest": "crates/wasm-md/src/parser_v2.rs#synth_differential_matches_ts_oracle",
+      "proof": {
+        "status": "missing",
+        "staleReason": "rej-010: differential harness landed — awaiting differential_green at bound SHAs",
+        "verificationRef": "verification/synth-2026-07-10T2130-parser-wasm-differential.json"
+      }
+    },
+    {
+      "id": "parser/javascript-wasm",
+      "state": "authority_rust",
+      "differentialTest": "crates/wasm-js/src/lib.rs#synth_differential_matches_ts_oracle",
+      "proof": {
+        "status": "missing",
+        "staleReason": "rej-010: differential harness landed — awaiting differential_green at bound SHAs",
+        "verificationRef": "verification/synth-2026-07-10T2130-parser-wasm-differential.json"
+      }
+    }
+  ],
+  "notes": "CI parity slice manifest for markdown-wasm + javascript-wasm differential gate (rej-010). Does not promote fleet ledger state."
+}

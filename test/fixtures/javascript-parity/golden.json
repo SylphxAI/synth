@@ -1,0 +1,119 @@
+{
+  "const-binding": {
+    "source": "const x = 1;",
+    "kindCounts": {
+      "Program": 1,
+      "VariableDeclaration": 1,
+      "VariableDeclarator": 1,
+      "Identifier": 1,
+      "Literal": 1
+    }
+  },
+  "function-decl": {
+    "source": "function add(a, b) { return a + b; }",
+    "kindCounts": {
+      "Program": 1,
+      "FunctionDeclaration": 1,
+      "Identifier": 4,
+      "BlockStatement": 1,
+      "ReturnStatement": 1,
+      "BinaryExpression": 1
+    }
+  },
+  "arrow-fn": {
+    "source": "const fn = x => x * 2;",
+    "kindCounts": {
+      "Program": 1,
+      "VariableDeclaration": 1,
+      "VariableDeclarator": 1,
+      "Identifier": 3,
+      "ArrowFunctionExpression": 1,
+      "BinaryExpression": 1,
+      "Literal": 1
+    }
+  },
+  "class-decl": {
+    "source": "class Foo { constructor() {} }",
+    "kindCounts": {
+      "Program": 1,
+      "ClassDeclaration": 1,
+      "MethodDefinition": 1,
+      "FunctionExpression": 1,
+      "BlockStatement": 1
+    }
+  },
+  "import-export": {
+    "source": "import { foo } from 'bar'; export default x;",
+    "kindCounts": {
+      "Program": 1,
+      "ImportDeclaration": 1,
+      "ImportSpecifier": 1,
+      "Identifier": 2,
+      "Literal": 1,
+      "ExportDeclaration": 1
+    }
+  },
+  "if-stmt": {
+    "source": "if (x) { return 1; } else { return 0; }",
+    "kindCounts": {
+      "Program": 1,
+      "IfStatement": 1,
+      "Identifier": 1,
+      "BlockStatement": 2,
+      "ReturnStatement": 2,
+      "Literal": 2
+    }
+  },
+  "for-of": {
+    "source": "for (const item of items) { console.log(item); }",
+    "kindCounts": {
+      "Program": 1,
+      "ForOfStatement": 1,
+      "VariableDeclaration": 1,
+      "VariableDeclarator": 1,
+      "BlockStatement": 1,
+      "ExpressionStatement": 1,
+      "CallExpression": 1,
+      "MemberExpression": 1,
+      "Identifier": 5
+    }
+  },
+  "try-catch": {
+    "source": "try { risky(); } catch (e) { handle(e); }",
+    "kindCounts": {
+      "Program": 1,
+      "TryStatement": 1,
+      "CatchClause": 1,
+      "BlockStatement": 2,
+      "ExpressionStatement": 2,
+      "CallExpression": 2,
+      "Identifier": 4
+    }
+  },
+  "async-await": {
+    "source": "async function load() { const r = await fetch(url); return r.json(); }",
+    "kindCounts": {
+      "Program": 1,
+      "FunctionDeclaration": 1,
+      "BlockStatement": 1,
+      "VariableDeclaration": 1,
+      "VariableDeclarator": 1,
+      "AwaitExpression": 1,
+      "CallExpression": 2,
+      "Identifier": 4,
+      "ReturnStatement": 1,
+      "MemberExpression": 1
+    }
+  },
+  "template-literal": {
+    "source": "const s = `hello ${name}`;",
+    "kindCounts": {
+      "Program": 1,
+      "VariableDeclaration": 1,
+      "VariableDeclarator": 1,
+      "Identifier": 2,
+      "TemplateLiteral": 1,
+      "TemplateElement": 1
+    }
+  }
+}

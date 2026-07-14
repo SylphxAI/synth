@@ -21,4 +21,11 @@ export type { ASTNode, ParseResult } from './types.js'
 export { NodeFlags, NodeKind } from './types.js'
 
 // Parse functions
-export { parse, parseBinary, parseCount, tokenize, version } from './wasm.js'
+export { parse, parseBinary, parseCount, parseFlat, tokenize, version } from './wasm.js'
+export { parseSync } from './parse-sync.js'
+export { initWasmSync, isWasmSyncInitialized } from './init-sync.js'
+export {
+	normalizeWasmCountsForTsParity,
+	wasmKindCounts,
+	type KindCounts,
+} from './parity-normalize.js'

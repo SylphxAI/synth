@@ -12,6 +12,11 @@ export { IncrementalJavaScriptTokenizer } from './incremental-tokenizer.js'
 export type { JSParseOptions } from './parser.js'
 // Core parser
 export { createParser, JSParser, parse, parseAsync } from './parser.js'
+export {
+	isWasmAuthorityEligible,
+	parseViaWasmAuthority,
+	parseViaWasmAuthorityAsync,
+} from './wasm-authority.js'
 export type { JSNodeType } from './types.js'
 // Types and utilities
 export {

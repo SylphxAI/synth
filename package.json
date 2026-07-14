@@ -31,7 +31,9 @@
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
     "typecheck": "turbo typecheck",
-    "validate": "bun run lint && bunx turbo build --concurrency=1 && bun run typecheck && bun test"
+    "check:no-ts-parser": "bash scripts/check-no-ts-parser.sh",
+    "check:no-ts-js-parser": "bash scripts/check-no-ts-js-parser.sh",
+    "validate": "bun run lint && bunx turbo build --concurrency=1 && bun run typecheck && bun run check:no-ts-parser && bun run check:no-ts-js-parser && bun test"
   },
   "keywords": [
     "ast",

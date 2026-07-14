@@ -803,6 +803,178 @@ impl<'a> MarkdownParserV2<'a> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::collections::HashMap;
+    use std::fs;
+    use std::path::PathBuf;
+
+    #[derive(Debug, serde::Deserialize, PartialEq, Eq, serde::Serialize)]
+    struct BlockSignature {
+        #[serde(rename = "type")]
+        node_type: String,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        depth: Option<u64>,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        lang: Option<String>,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        checked: Option<bool>,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        ordered: Option<bool>,
+    }
+
+    #[derive(serde::Deserialize)]
+    struct GoldenFixture {
+        source: String,
+        blocks: Vec<BlockSignature>,
+    }
+
+    fn golden_fixture_path() -> PathBuf {
+        PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../test/fixtures/markdown-parity/golden.json")
+    }
+
+    fn normalize_blocks(tree: &Tree) -> Vec<BlockSignature> {
+        let mut blocks: Vec<BlockSignature> = tree
+            .nodes()
+            .iter()
+            .filter(|n| !matches!(n.node_type.as_str(), "root" | "text" | "inline"))
+            .map(|n| {
+                let data = n.data.as_ref();
+                BlockSignature {
+                    node_type: n.node_type.clone(),
+                    depth: data.and_then(|d| d.get("depth")).and_then(|v| v.as_u64()),
+                    lang: data
+                        .and_then(|d| d.get("lang"))
+                        .and_then(|v| v.as_str())
+                        .map(str::to_string),
+                    checked: data
+                        .and_then(|d| d.get("checked"))
+                        .and_then(|v| v.as_bool()),
+                    ordered: data
+                        .and_then(|d| d.get("ordered"))
+                        .and_then(|v| v.as_bool())
+                        .filter(|&o| o),
+                }
+            })
+            .collect();
+
+        blocks.sort_by(|a, b| {
+            serde_json::to_string(a)
+                .unwrap_or_default()
+                .cmp(&serde_json::to_string(b).unwrap_or_default())
+        });
+        blocks
+    }
+
+    #[test]
+    fn golden_fixtures_match_ts_baseline() {
+        let raw = fs::read_to_string(golden_fixture_path()).expect("golden.json must exist");
+        let fixtures: HashMap<String, GoldenFixture> =
+            serde_json::from_str(&raw).expect("golden.json must parse");
+
+        assert!(!fixtures.is_empty(), "golden fixtures must not be empty");
+
+        for (id, fixture) in &fixtures {
+            let mut parser = MarkdownParserV2::new(&fixture.source);
+            let tree = parser
+                .parse()
+                .unwrap_or_else(|e| panic!("{id}: parse failed: {e}"));
+            let got = normalize_blocks(&tree);
+            assert_eq!(
+                got, fixture.blocks,
+                "fixture {id}: Rust markdown parser must match TS baseline"
+            );
+        }
+    }
+
+    #[derive(Debug, serde::Deserialize)]
+    struct OracleCase {
+        id: String,
+        slice: String,
+        source: String,
+        output: Vec<BlockSignature>,
+    }
+
+    #[derive(Debug, serde::Deserialize)]
+    struct OracleCorpus {
+        #[serde(rename = "corpusVersion")]
+        corpus_version: u32,
+        #[serde(rename = "fixtureCorpusHash")]
+        fixture_corpus_hash: String,
+        cases: Vec<OracleCase>,
+    }
+
+    fn load_oracle_corpus() -> OracleCorpus {
+        if let Ok(path) = std::env::var("SYNTH_ORACLE_JSON") {
+            let raw = fs::read_to_string(&path)
+                .unwrap_or_else(|error| panic!("read SYNTH_ORACLE_JSON at {path}: {error}"));
+            return serde_json::from_str(&raw).expect("oracle JSON must be valid");
+        }
+
+        let script = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("../../scripts/differential/synth-oracle.ts");
+        let output = std::process::Command::new("bun")
+            .arg("run")
+            .arg(&script)
+            .current_dir(
+                PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../.."),
+            )
+            .output()
+            .unwrap_or_else(|error| panic!("spawn TS oracle at {}: {error}", script.display()));
+
+        assert!(
+            output.status.success(),
+            "TS oracle failed:\nstdout: {}\nstderr: {}",
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        );
+
+        serde_json::from_slice(&output.stdout).expect("oracle output must be valid JSON")
+    }
+
+    const MARKDOWN_SLICE: &str = "parser/markdown-wasm";
+
+    fn run_markdown_wasm_bounded_slice(min_cases: usize) {
+        let oracle = load_oracle_corpus();
+        assert_eq!(oracle.corpus_version, 1);
+        assert!(
+            !oracle.fixture_corpus_hash.is_empty(),
+            "oracle must include fixtureCorpusHash"
+        );
+
+        let md_cases: Vec<_> = oracle
+            .cases
+            .iter()
+            .filter(|case| case.slice == MARKDOWN_SLICE)
+            .collect();
+        assert!(
+            md_cases.len() >= min_cases,
+            "parser/markdown-wasm must have at least {min_cases} oracle cases, got {}",
+            md_cases.len()
+        );
+
+        for case in md_cases {
+            let mut parser = MarkdownParserV2::new(&case.source);
+            let tree = parser
+                .parse()
+                .unwrap_or_else(|error| panic!("{}: parse failed: {error}", case.id));
+            let got = normalize_blocks(&tree);
+            assert_eq!(
+                got, case.output,
+                "case {}: Rust markdown parser must match TS live oracle",
+                case.id
+            );
+        }
+    }
+
+    #[test]
+    fn parser_markdown_wasm_differential_matches_ts_oracle() {
+        run_markdown_wasm_bounded_slice(8);
+    }
+
+    #[test]
+    fn synth_differential_matches_ts_oracle() {
+        run_markdown_wasm_bounded_slice(8);
+    }
 
     #[test]
     fn test_parse_tree() {

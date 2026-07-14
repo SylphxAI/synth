@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'bun:test'
-import { NodeKind, parse, parseBinary, parseCount, tokenize, version } from '../src/index.js'
+import { NodeKind, parse, parseBinary, parseCount, parseFlat, tokenize, version } from '../src/index.js'
 
 describe('synth-wasm-js', () => {
   it('should return version', async () => {
@@ -28,8 +28,8 @@ describe('synth-wasm-js', () => {
     expect(nodeCount).toBeGreaterThanOrEqual(3)
   })
 
-  it('should parse and return structured AST', async () => {
-    const result = await parse('const x = 1;')
+  it('should parse and return structured flat AST', async () => {
+    const result = await parseFlat('const x = 1;')
 
     expect(result.nodes).toBeInstanceOf(Array)
     expect(result.nodes.length).toBeGreaterThanOrEqual(3)
@@ -40,8 +40,19 @@ describe('synth-wasm-js', () => {
     expect(program.kind).toBe(NodeKind.Program)
   })
 
+  it('should parse and return Synth Tree for authority routing', async () => {
+    const tree = await parse('const x = 1;')
+
+    expect(tree.meta.language).toBe('javascript')
+    expect(tree.meta.source).toBe('const x = 1;')
+    expect(tree.nodes.length).toBeGreaterThanOrEqual(3)
+
+    const program = tree.nodes.find((n) => n.type === 'Program')
+    expect(program).toBeDefined()
+  })
+
   it('should parse functions', async () => {
-    const result = await parse('function add(a, b) { return a + b; }')
+    const result = await parseFlat('function add(a, b) { return a + b; }')
 
     expect(result.nodes.length).toBeGreaterThan(5)
 
@@ -51,21 +62,21 @@ describe('synth-wasm-js', () => {
   })
 
   it('should parse classes', async () => {
-    const result = await parse('class Foo { constructor() {} }')
+    const result = await parseFlat('class Foo { constructor() {} }')
 
     const hasClass = result.nodes.some((n) => n.kind === NodeKind.ClassDeclaration)
     expect(hasClass).toBe(true)
   })
 
   it('should parse arrow functions', async () => {
-    const result = await parse('const fn = x => x * 2;')
+    const result = await parseFlat('const fn = x => x * 2;')
 
     const hasArrow = result.nodes.some((n) => n.kind === NodeKind.ArrowFunctionExpression)
     expect(hasArrow).toBe(true)
   })
 
   it('should parse imports/exports', async () => {
-    const result = await parse("import { foo } from 'bar'; export default x;")
+    const result = await parseFlat("import { foo } from 'bar'; export default x;")
 
     const hasImport = result.nodes.some((n) => n.kind === NodeKind.ImportDeclaration)
     const hasExport = result.nodes.some((n) => n.kind === NodeKind.ExportDeclaration)
@@ -95,7 +106,7 @@ describe('synth-wasm-js', () => {
       export { fetchData, EventEmitter };
     `
 
-    const result = await parse(code)
+    const result = await parseFlat(code)
     expect(result.nodes.length).toBeGreaterThan(20)
   })
 })

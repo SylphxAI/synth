@@ -163,6 +163,11 @@ impl<'a> Parser<'a> {
         self.nodes.len()
     }
 
+    /// Parsed AST nodes (for golden parity tests).
+    pub fn nodes(&self) -> &[Node] {
+        &self.nodes
+    }
+
     /// Parse and return binary output
     pub fn parse_binary(&mut self) -> Vec<u8> {
         self.parse_program();

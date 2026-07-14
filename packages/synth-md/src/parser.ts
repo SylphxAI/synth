@@ -25,6 +25,11 @@ import { createNodePool, type MarkdownNodePool } from './node-pool.js'
 import { type Plugin, PluginManager } from './plugin.js'
 import { Tokenizer } from './tokenizer.js'
 import type { BlockToken, InlineToken } from './tokens.js'
+import {
+  isWasmAuthorityEligible,
+  parseViaWasmAuthority,
+  parseViaWasmAuthorityAsync,
+} from './wasm-authority.js'
 
 /**
  * Parse options
@@ -62,6 +67,12 @@ export interface ParseOptions {
    * @range 1-128
    */
   batchSize?: number
+
+  /**
+   * Force the TypeScript parser path instead of Rust WASM authority.
+   * @default false — baseline consumers route through @sylphx/synth-wasm-md
+   */
+  useTsParser?: boolean
 }
 
 /**
@@ -73,6 +84,7 @@ export const DEFAULT_PARSE_OPTIONS: Required<ParseOptions> = {
   useNodePool: true,
   useBatchTokenizer: false,
   batchSize: 16,
+  useTsParser: false,
 } as const
 
 /**
@@ -819,6 +831,10 @@ export function createParser(): Parser {
  * ```
  */
 export function parse(markdown: string, options?: ParseOptions): Tree {
+  if (isWasmAuthorityEligible(options)) {
+    return parseViaWasmAuthority(markdown)
+  }
+
   const parser = new Parser()
   return parser.parse(markdown, options)
 }
@@ -843,6 +859,10 @@ export function parse(markdown: string, options?: ParseOptions): Tree {
  * ```
  */
 export async function parseAsync(markdown: string, options?: ParseOptions): Promise<Tree> {
+  if (isWasmAuthorityEligible(options)) {
+    return parseViaWasmAuthorityAsync(markdown)
+  }
+
   const parser = new Parser()
   return parser.parseAsync(markdown, options)
 }

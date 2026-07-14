@@ -32,7 +32,6 @@ export { createNodePool, getGlobalNodePool, MarkdownNodePool, NodePool } from '.
 export type { ParseOptions } from './parser.js'
 // Export main parser
 export { createParser, DEFAULT_PARSE_OPTIONS, Parser, parse, parseAsync } from './parser.js'
-
 // Export plugin system
 export * from './plugin.js'
 export type { StreamingOptions } from './streaming-parser.js'
@@ -45,3 +44,8 @@ export type { IncrementalParseStats } from './true-incremental-parser.js'
 export { TrueIncrementalParser } from './true-incremental-parser.js'
 // Export types
 export * from './types.js'
+export {
+  isWasmAuthorityEligible,
+  parseViaWasmAuthority,
+  parseViaWasmAuthorityAsync,
+} from './wasm-authority.js'

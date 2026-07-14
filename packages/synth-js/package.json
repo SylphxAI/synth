@@ -34,6 +34,7 @@
   "license": "MIT",
   "dependencies": {
     "@sylphx/synth": "workspace:*",
+    "@sylphx/synth-wasm-js": "workspace:*",
     "acorn": "^8.12.1",
     "acorn-typescript": "^1.4.13"
   },

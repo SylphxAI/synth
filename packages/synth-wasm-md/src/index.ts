@@ -13,9 +13,9 @@
 
 // Initialization
 export { initWasm, isWasmInitialized } from './init.js'
-
+export { initWasmSync, isWasmSyncInitialized } from './init-sync.js'
+// Parse functions
+export { parseSync } from './parse-sync.js'
 // Types
 export type { ParseOptions, WasmNode, WasmTree } from './types.js'
-
-// Parse functions
 export { Position, parse, parseBinary, Tree, version } from './wasm.js'

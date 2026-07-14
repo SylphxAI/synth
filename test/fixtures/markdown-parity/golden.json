@@ -1,0 +1,90 @@
+{
+  "heading-h1": {
+    "source": "# Hello World",
+    "blocks": [
+      {
+        "type": "heading",
+        "depth": 1
+      }
+    ]
+  },
+  "paragraph-simple": {
+    "source": "This is a paragraph.",
+    "blocks": [
+      {
+        "type": "paragraph"
+      }
+    ]
+  },
+  "code-rust": {
+    "source": "```rust\nfn main() {}\n```",
+    "blocks": [
+      {
+        "type": "code",
+        "lang": "rust"
+      }
+    ]
+  },
+  "list-unordered": {
+    "source": "- Item 1\n- Item 2",
+    "blocks": [
+      {
+        "type": "listItem"
+      },
+      {
+        "type": "listItem"
+      }
+    ]
+  },
+  "list-tasks": {
+    "source": "- [x] Done\n- [ ] Todo",
+    "blocks": [
+      {
+        "type": "listItem",
+        "checked": false
+      },
+      {
+        "type": "listItem",
+        "checked": true
+      }
+    ]
+  },
+  "blockquote": {
+    "source": "> quote line",
+    "blocks": [
+      {
+        "type": "blockquote"
+      }
+    ]
+  },
+  "thematic-break": {
+    "source": "---",
+    "blocks": [
+      {
+        "type": "thematicBreak"
+      }
+    ]
+  },
+  "mixed-blocks": {
+    "source": "# Title\n\nPara\n\n## Sub\n\n- a\n- b",
+    "blocks": [
+      {
+        "type": "heading",
+        "depth": 1
+      },
+      {
+        "type": "heading",
+        "depth": 2
+      },
+      {
+        "type": "listItem"
+      },
+      {
+        "type": "listItem"
+      },
+      {
+        "type": "paragraph"
+      }
+    ]
+  }
+}
