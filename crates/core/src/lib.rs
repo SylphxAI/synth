@@ -45,6 +45,7 @@ mod method_kind;
 mod member_access_kind;
 mod class_emit_kind;
 mod unary_binary_emit;
+mod conditional_spread_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
@@ -177,6 +178,11 @@ pub use class_emit_kind::{
 pub use unary_binary_emit::{
     binary_needs_spaces, binary_operator_token, is_assignment_operator, is_logical_operator,
     unary_is_always_prefix, unary_is_word_operator, unary_operator_token, update_prefix_token,
+};
+pub use conditional_spread_emit::{
+    catch_close, catch_no_param, catch_open, finally_prefix, is_spread_element_type,
+    nullish_coalesce_token, optional_chain_dot, sequence_sep, spread_prefix, ternary_colon,
+    ternary_pair, ternary_q, throw_token, try_token, yield_token,
 };
 
 // Product tooling engines (printer / compressor / linter)
