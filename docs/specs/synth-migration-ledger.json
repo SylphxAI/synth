@@ -165,14 +165,18 @@
       "domain": "tooling",
       "weight": 4,
       "state": "ts_only",
-      "tsSurface": "packages/synth-js-format/; packages/synth-js-minify/; packages/synth-lint/"
+      "tsSurface": "packages/synth-js-format/; packages/synth-js-minify/; packages/synth-lint/",
+      "rustSurface": "crates/core/src/mangle.rs; crates/core/src/minify_savings.rs; crates/core/src/format_indent.rs; crates/core/src/lint_max_depth.rs",
+      "notes": "Full printer/compressor/linter engines remain TS intentionally. Pure residual fragments only: mangle, minify savings, indent/quote/eol, max-depth messages. NO rust_impl promotion / ts_deleted (engines+plugins stay TS)."
     },
     {
       "id": "tooling/metrics",
       "domain": "tooling",
       "weight": 2,
       "state": "ts_only",
-      "tsSurface": "packages/synth-metrics/"
+      "tsSurface": "packages/synth-metrics/",
+      "rustSurface": "crates/core/src/metrics_basic.rs; crates/core/src/halstead_math.rs; crates/core/src/complexity_types.rs; crates/core/src/function_types.rs",
+      "notes": "Full MetricsAnalyzer AST traversal remains TS. Pure residual fragments only: basic LOC, Halstead/maintainability math, decision/nesting type kernels, function-type + depth aggregates. NO rust_impl promotion / ts_deleted."
     },
     {
       "id": "bindings/wasm-core-types",
@@ -215,13 +219,11 @@
     "weighted_progress": 0.1346,
     "proof_stale": 1,
     "proof_missing": 2,
-    "updatedAt": "2026-07-15T05:14:12Z",
-    "lastMutation": "ADVERSARIAL-DIFFERENTIAL-GREEN-TIP-REBIND",
+    "updatedAt": "2026-07-15T06:26:00Z",
+    "lastMutation": "ADVERSARIAL-RESIDUAL-CLIPPY-PURE-KERNELS",
     "verified_authority_progress": 0.0
   },
   "repoLedgerPath": "docs/specs/migration-ledger.json",
-  "projectionOf": "docs/specs/migration-ledger.json",
-  "projectedAt": "2026-07-15T05:10:08Z",
   "rej010HonestyDemote": {
     "packetId": "PROOF-GAP-58-WAVE-TICK026",
     "appliedAt": "2026-07-11T14:04:33Z",
@@ -245,12 +247,17 @@
     "policy": "demote incomplete promoted states to rust_impl; no authority_rust/ts_deleted promotions"
   },
   "honestyResidual": {
-    "packet": "ADVERSARIAL-DIFFERENTIAL-GREEN-2026-07-15",
-    "at": "2026-07-15T05:13:15Z",
+    "packet": "ADVERSARIAL-RESIDUAL-LANE-2026-07-15",
+    "at": "2026-07-15T06:26:00Z",
     "authority_rust": false,
     "ts_deleted": false,
     "goal_complete": false,
     "differential_green_caps": ["parser/javascript-wasm", "parser/markdown-wasm"],
+    "pure_residual_kernels": [
+      "format_indent (indent/quote/eol)",
+      "function_types (is_function_node_type, depth aggregates)",
+      "prior: mangle, minify_savings, metrics_basic, halstead_math, complexity_types, lint_max_depth, token_span"
+    ],
     "ts_only_remaining": [
       "parser/markdown-ts",
       "parser/javascript-ts",
@@ -258,20 +265,29 @@
       "tooling/metrics",
       "distribution/npm-monorepo"
     ],
-    "strongestTruthfulState": "rust_impl_with_parser_wasm_differential_green_no_ts_deleted",
+    "intentional_ts_only": {
+      "parser/markdown-ts": "plugins/incremental/streaming residual",
+      "parser/javascript-ts": "plugins/useTsParser/incremental residual",
+      "tooling/format-minify-lint": "full engines remain TS; pure fragments only",
+      "tooling/metrics": "full analyzer remains TS; pure fragments only",
+      "distribution/npm-monorepo": "Changesets TS release path"
+    },
+    "strongestTruthfulState": "rust_impl_with_parser_wasm_differential_green_pure_fragments_no_ts_deleted",
     "explicitNonClaims": [
       "authority_rust",
       "ts_deleted",
       "parity_proven",
       "REPO_COMPLETE",
       "fleet FCP",
-      "full ts_deleted admission"
+      "full ts_deleted admission",
+      "tooling rust_impl / ts_deleted"
     ],
-    "rootCauseIfIncomplete": "Five residual ts_only caps (markdown-ts, javascript-ts plugins/incremental, format-minify-lint, metrics, distribution/npm-monorepo). Full ts_deleted requires retiring plugin/incremental/streaming TS surfaces and tooling packages \u2014 out of bounded adversarial slice."
+    "rootCauseIfIncomplete": "Five residual ts_only caps intentionally retained: markdown-ts + javascript-ts for plugins/incremental/streaming; format-minify-lint + metrics full engines (pure kernels only in crates/core); distribution/npm-monorepo. Full ts_deleted requires retiring those surfaces \u2014 out of bounded adversarial residual slice."
   },
   "ssot": {
     "repoLedgerPath": "docs/specs/migration-ledger.json",
     "legacyProjectionPath": "docs/specs/synth-migration-ledger.json",
     "policy": "migration-ledger.json is SSOT; synth-migration-ledger.json is projection for legacy path refs"
-  }
+  },
+  "projectedAt": "2026-07-15T06:27:21Z"
 }

@@ -131,12 +131,12 @@ mod tests {
     fn normalize_wasm_counts_for_ts_parity(mut counts: HashMap<String, u32>) -> HashMap<String, u32> {
         let name_identifiers = counts.get("FunctionDeclaration").copied().unwrap_or(0)
             + counts.get("ClassDeclaration").copied().unwrap_or(0);
-        if name_identifiers > 0 {
-            if let Some(ids) = counts.get_mut("Identifier") {
-                *ids = ids.saturating_sub(name_identifiers);
-                if *ids == 0 {
-                    counts.remove("Identifier");
-                }
+        if name_identifiers > 0
+            && let Some(ids) = counts.get_mut("Identifier")
+        {
+            *ids = ids.saturating_sub(name_identifiers);
+            if *ids == 0 {
+                counts.remove("Identifier");
             }
         }
         counts

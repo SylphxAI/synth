@@ -499,21 +499,21 @@ impl<'a> MarkdownParserV2<'a> {
 
         // Check for task list [ ] or [x]
         let mut checked: Option<bool> = None;
-        if self.current() == Some(b'[') {
-            if let (Some(mark), Some(b']')) = (self.byte(self.pos + 1), self.byte(self.pos + 2)) {
-                match mark {
-                    b'x' | b'X' => {
-                        checked = Some(true);
-                        self.pos += 3;
-                        self.skip_horizontal_space();
-                    }
-                    b' ' => {
-                        checked = Some(false);
-                        self.pos += 3;
-                        self.skip_horizontal_space();
-                    }
-                    _ => {}
+        if self.current() == Some(b'[')
+            && let (Some(mark), Some(b']')) = (self.byte(self.pos + 1), self.byte(self.pos + 2))
+        {
+            match mark {
+                b'x' | b'X' => {
+                    checked = Some(true);
+                    self.pos += 3;
+                    self.skip_horizontal_space();
                 }
+                b' ' => {
+                    checked = Some(false);
+                    self.pos += 3;
+                    self.skip_horizontal_space();
+                }
+                _ => {}
             }
         }
 
@@ -768,17 +768,17 @@ impl<'a> MarkdownParserV2<'a> {
         self.skip_horizontal_space();
 
         let mut flags = if ordered { 1u8 } else { 0u8 };
-        if self.current() == Some(b'[') {
-            if let (Some(mark), Some(b']')) = (self.byte(self.pos + 1), self.byte(self.pos + 2)) {
-                flags |= match mark {
-                    b'x' | b'X' => 0b10,
-                    b' ' => 0b100,
-                    _ => 0,
-                };
-                if flags & 0b110 != 0 {
-                    self.pos += 3;
-                    self.skip_horizontal_space();
-                }
+        if self.current() == Some(b'[')
+            && let (Some(mark), Some(b']')) = (self.byte(self.pos + 1), self.byte(self.pos + 2))
+        {
+            flags |= match mark {
+                b'x' | b'X' => 0b10,
+                b' ' => 0b100,
+                _ => 0,
+            };
+            if flags & 0b110 != 0 {
+                self.pos += 3;
+                self.skip_horizontal_space();
             }
         }
 

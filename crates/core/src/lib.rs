@@ -19,6 +19,8 @@ mod complexity_types;
 mod detect_language;
 mod token_span;
 mod lint_max_depth;
+mod format_indent;
+mod function_types;
 
 pub use tree::*;
 pub use query::{depth, descendants, find_by_type};
@@ -65,3 +67,5 @@ pub use detect_language::{common_prefix_len, common_suffix_len, detect_language}
 pub use token_span::{find_token_index_at_offset, format_token_stats, is_position_in_token, token_ranges_overlap, TokenizerStats};
 pub use complexity_types::{cognitive_decision_weight, cyclomatic_from_decisions, is_decision_count_type, is_decision_node_type, is_nesting_node_type, next_nesting};
 pub use lint_max_depth::{compute_depth_from_parents, depth_exceeds, max_depth_message, should_report_default, DEFAULT_MAX_DEPTH};
+pub use format_indent::{end_of_line, indent_string, quote_string_literal};
+pub use function_types::{avg_depth_of, is_function_node_type, max_depth_of};

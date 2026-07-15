@@ -169,7 +169,8 @@ impl<'a> Parser<'a> {
         self.nodes.len()
     }
 
-    /// Parsed AST nodes (for golden parity tests).
+    /// Parsed AST nodes (for golden parity tests / external consumers).
+    #[allow(dead_code)]
     pub fn nodes(&self) -> &[Node] {
         &self.nodes
     }
@@ -216,13 +217,10 @@ impl<'a> Parser<'a> {
     }
 
     fn skip_comments_and_newlines(&mut self) {
-        loop {
-            match self.current.kind {
-                TokenKind::Newline | TokenKind::LineComment | TokenKind::BlockComment => {
-                    self.advance();
-                }
-                _ => break,
-            }
+        while let TokenKind::Newline | TokenKind::LineComment | TokenKind::BlockComment =
+            self.current.kind
+        {
+            self.advance();
         }
     }
 
