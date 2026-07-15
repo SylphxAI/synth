@@ -50,6 +50,7 @@ mod loop_template_emit;
 mod call_member_emit;
 mod object_emit;
 mod function_decl_emit;
+mod var_stmt_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
@@ -215,6 +216,15 @@ pub use function_decl_emit::{
     function_declaration_head, function_declaration_skeleton, function_name_fragment,
     function_param_sep, function_params_close, function_params_open, generator_star,
     is_function_declaration_type, is_function_like_type,
+};
+// Pure residual continue11 — VariableDeclaration / expr / return / if skeletons.
+pub use var_stmt_emit::{
+    expression_statement_skeleton, if_else_prefix, if_statement_skeleton, if_stmt_close,
+    if_stmt_open, is_expression_statement_type, is_if_statement_type, is_return_statement_type,
+    is_var_stmt_related_type, is_variable_declaration_type, is_variable_declarator_type,
+    return_statement_skeleton, var_decl_kind_prefix, var_declarator_assign, var_declarator_sep,
+    var_kind_token_normalized, var_stmt_semi, variable_declaration_skeleton,
+    variable_declarator_skeleton,
 };
 
 // Product tooling engines (printer / compressor / linter)
