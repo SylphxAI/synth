@@ -49,6 +49,7 @@ mod conditional_spread_emit;
 mod loop_template_emit;
 mod call_member_emit;
 mod object_emit;
+mod function_decl_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
@@ -208,6 +209,12 @@ pub use object_emit::{
     object_prop_sep, object_property_colon, object_property_skeleton, object_skeleton,
     object_wants_trailing_comma, program_statement_sep, semi_if, shorthand_property,
     var_kind_with_space,
+};
+// Pure residual continue10 — FunctionDeclaration head/skeleton (unique names only).
+pub use function_decl_emit::{
+    function_declaration_head, function_declaration_skeleton, function_name_fragment,
+    function_param_sep, function_params_close, function_params_open, generator_star,
+    is_function_declaration_type, is_function_like_type,
 };
 
 // Product tooling engines (printer / compressor / linter)
