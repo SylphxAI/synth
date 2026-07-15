@@ -149,7 +149,7 @@
       "weight": 5,
       "state": "ts_only",
       "tsSurface": "packages/synth-md/; src/parsers/markdown/",
-      "notes": "Residual ultra-optimized TS markdown paths for plugins/incremental/streaming/batch tokenizer. Baseline default parse()/parseAsync() already route to Rust WASM (parser/markdown-wasm). Not default authority."
+      "notes": "Residual ultra-optimized TS markdown paths for plugins/incremental/streaming/batch tokenizer. Baseline default parse()/parseAsync() already route to Rust WASM (parser/markdown-wasm). Not default authority. [DOMAIN-MISC-W4] intentional ts_only retained; pure dens only under rust_impl tooling surfaces."
     },
     {
       "id": "parser/javascript-ts",
@@ -157,7 +157,7 @@
       "weight": 4,
       "state": "ts_only",
       "tsSurface": "packages/synth-js/src/parser.ts",
-      "notes": "Residual TS JSParser for plugins/useTsParser/SYNTH_JS_AUTHORITY=ts. Baseline default parse()/parseAsync() already route to Rust WASM (parser/javascript-wasm). Golden fixtures live under test/fixtures/javascript-parity/; not parity_proven until residual retire.",
+      "notes": "Residual TS JSParser for plugins/useTsParser/SYNTH_JS_AUTHORITY=ts. Baseline default parse()/parseAsync() already route to Rust WASM (parser/javascript-wasm). Golden fixtures live under test/fixtures/javascript-parity/; not parity_proven until residual retire. [DOMAIN-MISC-W4] intentional ts_only retained; pure dens only under rust_impl tooling surfaces.",
       "parityTest": "test/fixtures/javascript-parity/golden.json; packages/synth-wasm-js/test/parity-golden.test.ts; cargo test -p synth-wasm-js golden_fixtures_match_ts_baseline"
     },
     {
@@ -166,8 +166,8 @@
       "weight": 4,
       "state": "rust_impl",
       "tsSurface": "packages/synth-js-format/; packages/synth-js-minify/; packages/synth-lint/",
-      "rustSurface": "crates/core/src/printer_engine.rs; crates/core/src/compressor_engine.rs; crates/core/src/linter_engine.rs; pure fragments retained; crates/core/src/var_stmt_emit.rs; crates/core/src/method_array_import_emit.rs; crates/core/src/export_class_emit.rs; crates/core/src/ident_literal_emit.rs",
-      "notes": "WAVE4 product dens: full Printer/Compressor/Linter engines on Tree in synth-wasm-core. TS packages remain dual-oracle/npm surface. Plugins/incremental parsers + metrics analyzer remain ts_only. NO authority_rust / ts_deleted. [BLOCKED7-PURE 2026-07-15] continue6 conditional_spread_emit (ternary/spread/sequence/throw/try-catch-finally/yield/nullish/optional-chain pure). Engines retained. NO authority_rust/ts_deleted. [BLOCKED11-PURE 2026-07-15] continue7 loop_template_emit (for/while/do/switch/case/break/continue/template pure). Engines retained. NO authority_rust/ts_deleted. [DOMAIN-TS-RESIDUAL 2026-07-15] continue8 call_member_emit. NO authority_rust/ts_deleted. [DOMAIN-TS-RESIDUAL 2026-07-15] continue9 object_emit. NO authority_rust/ts_deleted. [BLOCKED3-PURE 2026-07-15] pure residual continue10 function_decl_emit (async/function/generator/name/params dual-oracle). denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted/denom_shrink. [PURE-RESIDUAL 2026-07-15] continue11 var_stmt_emit (VariableDeclaration/Declarator/ExpressionStatement/Return/If dual-oracle skeletons). denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted/denom_shrink. [DOMAIN-TS-W3 2026-07-15] pure residual continue12 method_array_import_emit (MethodDefinition/ArrayExpression/ImportDeclaration/Program sep dual-oracle). denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted/denom_shrink. [continue13 2026-07-15] export_class_emit Export/Class dual-oracle pure skeletons. NO authority_rust/ts_deleted. [continue14 pure residual] ident_literal_emit Identifier/Literal dual-oracle + named specifier lists. NO authority_rust/ts_deleted. denom retained ts_only=3 rust_impl=7.",
+      "rustSurface": "crates/core/src/printer_engine.rs; crates/core/src/compressor_engine.rs; crates/core/src/linter_engine.rs; pure fragments retained; crates/core/src/var_stmt_emit.rs; crates/core/src/method_array_import_emit.rs; crates/core/src/export_class_emit.rs; crates/core/src/ident_literal_emit.rs; crates/core/src/assign_logical_update_emit.rs",
+      "notes": "WAVE4 product dens: full Printer/Compressor/Linter engines on Tree in synth-wasm-core. TS packages remain dual-oracle/npm surface. Plugins/incremental parsers + metrics analyzer remain ts_only. NO authority_rust / ts_deleted. [BLOCKED7-PURE 2026-07-15] continue6 conditional_spread_emit (ternary/spread/sequence/throw/try-catch-finally/yield/nullish/optional-chain pure). Engines retained. NO authority_rust/ts_deleted. [BLOCKED11-PURE 2026-07-15] continue7 loop_template_emit (for/while/do/switch/case/break/continue/template pure). Engines retained. NO authority_rust/ts_deleted. [DOMAIN-TS-RESIDUAL 2026-07-15] continue8 call_member_emit. NO authority_rust/ts_deleted. [DOMAIN-TS-RESIDUAL 2026-07-15] continue9 object_emit. NO authority_rust/ts_deleted. [BLOCKED3-PURE 2026-07-15] pure residual continue10 function_decl_emit (async/function/generator/name/params dual-oracle). denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted/denom_shrink. [PURE-RESIDUAL 2026-07-15] continue11 var_stmt_emit (VariableDeclaration/Declarator/ExpressionStatement/Return/If dual-oracle skeletons). denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted/denom_shrink. [DOMAIN-TS-W3 2026-07-15] pure residual continue12 method_array_import_emit (MethodDefinition/ArrayExpression/ImportDeclaration/Program sep dual-oracle). denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted/denom_shrink. [continue13 2026-07-15] export_class_emit Export/Class dual-oracle pure skeletons. NO authority_rust/ts_deleted. [continue14 pure residual] ident_literal_emit Identifier/Literal dual-oracle + named specifier lists. NO authority_rust/ts_deleted. denom retained ts_only=3 rust_impl=7. [DOMAIN-MISC-W4 2026-07-15] continue15 assign_logical_update_emit (Assignment/Logical/Update/This/Empty/Debugger/Super/MetaProperty pure skeletons). Engines retained. intentional ts_only\u00d73 plugins/npm retained. NO authority_rust/ts_deleted.",
       "parityTest": "cargo test -p synth-wasm-core printer_engine:: compressor_engine:: linter_engine::",
       "proof": {
         "status": "missing",
@@ -215,7 +215,7 @@
       "weight": 3,
       "state": "ts_only",
       "tsSurface": "package.json; packages/*/package.json; .github/workflows/release.yml",
-      "notes": "Changesets release path; no Rust binary distribution yet for core TS packages."
+      "notes": "Changesets release path; no Rust binary distribution yet for core TS packages. [DOMAIN-MISC-W4] intentional ts_only retained; pure dens only under rust_impl tooling surfaces."
     }
   ],
   "summary": {

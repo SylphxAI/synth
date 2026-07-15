@@ -54,6 +54,7 @@ mod var_stmt_emit;
 mod method_array_import_emit;
 mod export_class_emit;
 mod ident_literal_emit;
+mod assign_logical_update_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
@@ -251,6 +252,15 @@ pub use ident_literal_emit::{
     is_ident_literal_related_type, is_identifier_node_type, is_literal_node_type, literal_token,
     named_specifier_braces, named_specifier_list_interior, non_string_literal_token,
     specifier_alias_fragment, specifier_list_sep, string_literal_token,
+};
+// Pure residual continue15 — Assignment/Logical/Update/This/Empty/Debugger skeletons.
+pub use assign_logical_update_emit::{
+    assignment_expression_skeleton, debugger_statement_token, empty_statement_token,
+    is_assign_logical_update_related_type, is_assignment_expression_type,
+    is_debugger_statement_type, is_empty_statement_type, is_logical_expression_type,
+    is_sequence_expression_type, is_super_type, is_this_expression_type,
+    is_update_expression_type, logical_expression_skeleton, meta_property_skeleton, paren_group,
+    sequence_expression_skeleton, super_token, this_token, update_expression_skeleton,
 };
 
 // Product tooling engines (printer / compressor / linter)
