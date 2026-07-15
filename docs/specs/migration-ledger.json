@@ -166,10 +166,16 @@
       "id": "tooling/format-minify-lint",
       "domain": "tooling",
       "weight": 4,
-      "state": "ts_only",
+      "state": "rust_impl",
       "tsSurface": "packages/synth-js-format/; packages/synth-js-minify/; packages/synth-lint/",
-      "rustSurface": "crates/core/src/mangle.rs; crates/core/src/minify_savings.rs; crates/core/src/format_indent.rs; crates/core/src/format_style.rs; crates/core/src/format_emit.rs; crates/core/src/lint_max_depth.rs; crates/core/src/lint_block_types.rs; crates/core/src/lint_console.rs; crates/core/src/lint_severity.rs; crates/core/src/lint_rule_active.rs",
-      "notes": "Full printer/compressor/linter engines remain TS intentionally. Pure residual fragments: mangle, minify savings, indent, lint severity/console/max-depth/block, format style/emit, stmt/literal/assign/quote/arrow/fn-sig, child_select, block_emit, export_kind, method_kind, member_access_kind, class_emit_kind, unary_binary_emit. NO authority_rust / ts_deleted."
+      "rustSurface": "crates/core/src/printer_engine.rs; crates/core/src/compressor_engine.rs; crates/core/src/linter_engine.rs; pure fragments retained",
+      "notes": "WAVE4 product dens: full Printer/Compressor/Linter engines on Tree in synth-wasm-core. TS packages remain dual-oracle/npm surface. Plugins/incremental parsers + metrics analyzer remain ts_only. NO authority_rust / ts_deleted.",
+      "parityTest": "cargo test -p synth-wasm-core printer_engine:: compressor_engine:: linter_engine::",
+      "proof": {
+        "status": "missing",
+        "staleReason": "unit product engine tests green; full TS oracle differential not bound",
+        "verificationRef": "crates/core/src/{printer,compressor,linter}_engine.rs#tests"
+      }
     },
     {
       "id": "tooling/metrics",
@@ -210,9 +216,9 @@
   ],
   "summary": {
     "total": 10,
-    "ts_only": 5,
+    "ts_only": 4,
     "contracted": 0,
-    "rust_impl": 5,
+    "rust_impl": 6,
     "parity_proven": 0,
     "authority_rust": 0,
     "ts_deleted": 0,
@@ -221,10 +227,13 @@
     "weighted_progress": 0.1346,
     "proof_stale": 1,
     "proof_missing": 2,
-    "updatedAt": "2026-07-15T17:10:00Z",
-    "lastMutation": "PURE-RESIDUAL-CONTINUE5-CLASS-MEMBER-UNARY",
+    "updatedAt": "2026-07-15T17:36:46Z",
+    "lastMutation": {
+      "at": "2026-07-15T17:36:46Z",
+      "action": "wave4_product_dens_format_minify_lint_engines"
+    },
     "verified_authority_progress": 0.0,
-    "notes": "pure residual continue5 2026-07-15: member_access_kind + class_emit_kind + unary_binary_emit; cargo test/clippy --lib green (119). engines remain TS. NO authority_rust / ts_deleted / prod_audit_pass."
+    "notes": "WAVE4 product dens 2026-07-15: tooling/format-minify-lint \u2192 rust_impl (printer/compressor/linter engines). residual ts_only: parser ts paths, metrics analyzer, npm dist. NO authority_rust / ts_deleted."
   },
   "repoLedgerPath": "docs/specs/migration-ledger.json",
   "rej010HonestyDemote": {

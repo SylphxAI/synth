@@ -45,6 +45,9 @@ mod method_kind;
 mod member_access_kind;
 mod class_emit_kind;
 mod unary_binary_emit;
+mod printer_engine;
+mod compressor_engine;
+mod linter_engine;
 
 pub use tree::*;
 pub use query::{depth, descendants, find_by_type};
@@ -173,4 +176,16 @@ pub use class_emit_kind::{
 pub use unary_binary_emit::{
     binary_needs_spaces, binary_operator_token, is_assignment_operator, is_logical_operator,
     unary_is_always_prefix, unary_is_word_operator, unary_operator_token, update_prefix_token,
+};
+
+// Product tooling engines (printer / compressor / linter)
+pub use printer_engine::{
+    check_formatted, format_tree, ArrowParens, FormatOptions, Printer, TrailingComma,
+};
+pub use compressor_engine::{
+    compress_tree, minify_savings as product_minify_savings, Compressor, MinifyOptions,
+};
+pub use linter_engine::{
+    lint_tree, lint_tree_with, BuiltinRule, Diagnostic, DiagnosticSeverity, LintResult, Linter,
+    LinterConfig, SeverityCountsDto,
 };
