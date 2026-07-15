@@ -57,6 +57,7 @@ mod ident_literal_emit;
 mod assign_logical_update_emit;
 mod new_await_chain_emit;
 mod try_import_emit;
+mod loop_switch_full_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
@@ -279,6 +280,14 @@ pub use try_import_emit::{
     is_labeled_statement_type, is_throw_statement_type, is_try_import_related_type,
     is_try_statement_type, is_with_statement_type, labeled_statement_skeleton,
     throw_statement_skeleton, try_statement_skeleton, with_close, with_open,
+};
+// Pure residual continue18 — full for/while/do/switch/template + pattern skeletons.
+pub use loop_switch_full_emit::{
+    array_pattern_skeleton, assignment_pattern_skeleton, do_while_statement_skeleton,
+    for_in_statement_skeleton, for_of_statement_skeleton, for_statement_skeleton,
+    is_array_pattern_type, is_assignment_pattern_type, is_loop_switch_full_related_type,
+    is_private_identifier_type, private_identifier_token, switch_case_skeleton,
+    switch_statement_skeleton, template_literal_skeleton, while_statement_skeleton,
 };
 // catch_open / try_token already re-exported from conditional_spread_emit dual-oracle.
 
