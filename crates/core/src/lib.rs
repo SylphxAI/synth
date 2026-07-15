@@ -53,6 +53,7 @@ mod function_decl_emit;
 mod var_stmt_emit;
 mod method_array_import_emit;
 mod export_class_emit;
+mod ident_literal_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
@@ -243,6 +244,13 @@ pub use export_class_emit::{
     class_id_fragment, class_keyword_space, class_method_sep, export_declaration_skeleton,
     export_declaration_skeleton_for_type, export_default_fragment, export_keyword,
     is_export_class_related_type, is_export_default_declaration, is_export_named_declaration,
+};
+// Pure residual continue14 — Identifier / Literal dual-oracle + named specifier lists.
+pub use ident_literal_emit::{
+    identifier_token, identifier_token_minify, identifier_token_pretty,
+    is_ident_literal_related_type, is_identifier_node_type, is_literal_node_type, literal_token,
+    named_specifier_braces, named_specifier_list_interior, non_string_literal_token,
+    specifier_alias_fragment, specifier_list_sep, string_literal_token,
 };
 
 // Product tooling engines (printer / compressor / linter)
