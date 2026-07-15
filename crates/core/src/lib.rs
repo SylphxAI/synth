@@ -46,6 +46,7 @@ mod member_access_kind;
 mod class_emit_kind;
 mod unary_binary_emit;
 mod conditional_spread_emit;
+mod loop_template_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
@@ -183,6 +184,12 @@ pub use conditional_spread_emit::{
     catch_close, catch_no_param, catch_open, finally_prefix, is_spread_element_type,
     nullish_coalesce_token, optional_chain_dot, sequence_sep, spread_prefix, ternary_colon,
     ternary_pair, ternary_q, throw_token, try_token, yield_token,
+};
+pub use loop_template_emit::{
+    break_token, case_colon, case_prefix, continue_token, default_label, do_token, do_while_open,
+    for_close, for_in_token, for_of_token, for_open, is_loop_statement_type, is_switch_related_type,
+    is_template_type, switch_close, switch_open, template_expr_close, template_expr_open,
+    template_tick, while_close, while_open,
 };
 
 // Product tooling engines (printer / compressor / linter)
