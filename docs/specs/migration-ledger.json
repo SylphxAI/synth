@@ -166,8 +166,8 @@
       "weight": 4,
       "state": "rust_impl",
       "tsSurface": "packages/synth-js-format/; packages/synth-js-minify/; packages/synth-lint/",
-      "rustSurface": "crates/core/src/printer_engine.rs; crates/core/src/compressor_engine.rs; crates/core/src/linter_engine.rs; pure fragments retained; crates/core/src/var_stmt_emit.rs",
-      "notes": "WAVE4 product dens: full Printer/Compressor/Linter engines on Tree in synth-wasm-core. TS packages remain dual-oracle/npm surface. Plugins/incremental parsers + metrics analyzer remain ts_only. NO authority_rust / ts_deleted. [BLOCKED7-PURE 2026-07-15] continue6 conditional_spread_emit (ternary/spread/sequence/throw/try-catch-finally/yield/nullish/optional-chain pure). Engines retained. NO authority_rust/ts_deleted. [BLOCKED11-PURE 2026-07-15] continue7 loop_template_emit (for/while/do/switch/case/break/continue/template pure). Engines retained. NO authority_rust/ts_deleted. [DOMAIN-TS-RESIDUAL 2026-07-15] continue8 call_member_emit. NO authority_rust/ts_deleted. [DOMAIN-TS-RESIDUAL 2026-07-15] continue9 object_emit. NO authority_rust/ts_deleted. [BLOCKED3-PURE 2026-07-15] pure residual continue10 function_decl_emit (async/function/generator/name/params dual-oracle). denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted/denom_shrink. [PURE-RESIDUAL 2026-07-15] continue11 var_stmt_emit (VariableDeclaration/Declarator/ExpressionStatement/Return/If dual-oracle skeletons). denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted/denom_shrink. [DOMAIN-TS-W3 2026-07-15] pure residual continue12 method_array_import_emit (MethodDefinition/ArrayExpression/ImportDeclaration/Program sep dual-oracle). denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted/denom_shrink.",
+      "rustSurface": "crates/core/src/printer_engine.rs; crates/core/src/compressor_engine.rs; crates/core/src/linter_engine.rs; pure fragments retained; crates/core/src/var_stmt_emit.rs; crates/core/src/method_array_import_emit.rs; crates/core/src/export_class_emit.rs",
+      "notes": "WAVE4 product dens: full Printer/Compressor/Linter engines on Tree in synth-wasm-core. TS packages remain dual-oracle/npm surface. Plugins/incremental parsers + metrics analyzer remain ts_only. NO authority_rust / ts_deleted. [BLOCKED7-PURE 2026-07-15] continue6 conditional_spread_emit (ternary/spread/sequence/throw/try-catch-finally/yield/nullish/optional-chain pure). Engines retained. NO authority_rust/ts_deleted. [BLOCKED11-PURE 2026-07-15] continue7 loop_template_emit (for/while/do/switch/case/break/continue/template pure). Engines retained. NO authority_rust/ts_deleted. [DOMAIN-TS-RESIDUAL 2026-07-15] continue8 call_member_emit. NO authority_rust/ts_deleted. [DOMAIN-TS-RESIDUAL 2026-07-15] continue9 object_emit. NO authority_rust/ts_deleted. [BLOCKED3-PURE 2026-07-15] pure residual continue10 function_decl_emit (async/function/generator/name/params dual-oracle). denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted/denom_shrink. [PURE-RESIDUAL 2026-07-15] continue11 var_stmt_emit (VariableDeclaration/Declarator/ExpressionStatement/Return/If dual-oracle skeletons). denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted/denom_shrink. [DOMAIN-TS-W3 2026-07-15] pure residual continue12 method_array_import_emit (MethodDefinition/ArrayExpression/ImportDeclaration/Program sep dual-oracle). denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted/denom_shrink. [continue13 2026-07-15] export_class_emit Export/Class dual-oracle pure skeletons. NO authority_rust/ts_deleted.",
       "parityTest": "cargo test -p synth-wasm-core printer_engine:: compressor_engine:: linter_engine::",
       "proof": {
         "status": "missing",
@@ -231,14 +231,14 @@
     "weighted_progress": 0.1346,
     "proof_stale": 1,
     "proof_missing": 2,
-    "updatedAt": "2026-07-15T22:30:00Z",
+    "updatedAt": "2026-07-15T23:00:00Z",
     "lastMutation": {
-      "at": "2026-07-15T22:30:00Z",
-      "action": "pure_residual_continue12_method_array_import_emit",
-      "notes": "method/array/import/program pure skeletons under tooling/format-minify-lint"
+      "at": "2026-07-15T23:00:00Z",
+      "action": "pure_residual_continue13_export_class_emit",
+      "notes": "export/class declaration pure skeletons under tooling/format-minify-lint"
     },
     "verified_authority_progress": 0.0,
-    "notes": "WAVE5 product dens 2026-07-15: tooling/metrics \u2192 rust_impl (MetricsAnalyzer engine). residual ts_only: parser-ts paths, npm dist. NO authority_rust / ts_deleted. BLOCKED7 pure residual continue6 2026-07-15T18:29:28Z: conditional_spread_emit. denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted. BLOCKED11 pure residual continue7 2026-07-15T19:40:00Z: loop_template_emit. denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted. BLOCKED-DOMAIN-TS-RESIDUAL pure residual continue8 2026-07-15T20:15:00Z: call_member_emit (call/member/array/property/import-export skeletons). denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted. DOMAIN-TS-RESIDUAL pure residual continue9 2026-07-15T21:30:00Z: object_emit (object skeleton/bracketSpacing/trailingComma/program separators). denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted. BLOCKED3 pure residual 2026-07-15T21:25:00Z: function_decl_emit continue10 dual-oracle. denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted/prod_audit_pass. PURE-RESIDUAL continue11 2026-07-15T22:05:00Z: var_stmt_emit (VariableDeclaration/Declarator/ExpressionStatement/Return/If dual-oracle). denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted/denom_shrink. DOMAIN-TS-W3 pure residual continue12 2026-07-15: method_array_import_emit. denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted."
+    "notes": "WAVE5 product dens 2026-07-15: tooling/metrics \u2192 rust_impl (MetricsAnalyzer engine). residual ts_only: parser-ts paths, npm dist. NO authority_rust / ts_deleted. BLOCKED7 pure residual continue6 2026-07-15T18:29:28Z: conditional_spread_emit. denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted. BLOCKED11 pure residual continue7 2026-07-15T19:40:00Z: loop_template_emit. denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted. BLOCKED-DOMAIN-TS-RESIDUAL pure residual continue8 2026-07-15T20:15:00Z: call_member_emit (call/member/array/property/import-export skeletons). denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted. DOMAIN-TS-RESIDUAL pure residual continue9 2026-07-15T21:30:00Z: object_emit (object skeleton/bracketSpacing/trailingComma/program separators). denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted. BLOCKED3 pure residual 2026-07-15T21:25:00Z: function_decl_emit continue10 dual-oracle. denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted/prod_audit_pass. PURE-RESIDUAL continue11 2026-07-15T22:05:00Z: var_stmt_emit (VariableDeclaration/Declarator/ExpressionStatement/Return/If dual-oracle). denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted/denom_shrink. DOMAIN-TS-W3 pure residual continue12 2026-07-15: method_array_import_emit. denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted. [continue13 pure residual] export_class_emit Export/Class dual-oracle skeletons. NO authority_rust/ts_deleted. denom retained ts_only=3 rust_impl=7."
   },
   "repoLedgerPath": "docs/specs/migration-ledger.json",
   "rej010HonestyDemote": {
@@ -271,6 +271,8 @@
     "goal_complete": false,
     "differential_green_caps": ["parser/javascript-wasm", "parser/markdown-wasm"],
     "pure_residual_kernels": [
+      "export_class_emit (ExportNamed/Default + ClassDeclaration/Body dual-oracle skeletons)",
+      "method_array_import_emit (MethodDefinition/ArrayExpression/ImportDeclaration/Program dual-oracle skeletons)",
       "var_stmt_emit (VariableDeclaration/Declarator/ExpressionStatement/Return/If dual-oracle skeletons)",
       "function_decl_emit (FunctionDeclaration async/generator/name/params head skeleton)",
       "object_emit (object skeleton + bracketSpacing + trailingComma + program/block separators + var kind)",
@@ -310,7 +312,7 @@
       "linter_engine",
       "metrics_analyzer_engine"
     ],
-    "updatedAt": "2026-07-15T22:30:00Z"
+    "updatedAt": "2026-07-15T23:00:00Z"
   },
   "ssot": {
     "repoLedgerPath": "docs/specs/migration-ledger.json",

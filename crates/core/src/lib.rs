@@ -52,6 +52,7 @@ mod object_emit;
 mod function_decl_emit;
 mod var_stmt_emit;
 mod method_array_import_emit;
+mod export_class_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
@@ -226,6 +227,22 @@ pub use var_stmt_emit::{
     return_statement_skeleton, var_decl_kind_prefix, var_declarator_assign, var_declarator_sep,
     var_kind_token_normalized, var_stmt_semi, variable_declaration_skeleton,
     variable_declarator_skeleton,
+};
+// Pure residual continue12 — MethodDefinition / ArrayExpression / Import / Program.
+pub use method_array_import_emit::{
+    array_element_sep, array_expression_skeleton, array_trailing_comma,
+    import_declaration_skeleton, import_declaration_skeleton_minify,
+    import_declaration_skeleton_pretty, is_method_array_import_related_type,
+    method_definition_skeleton, method_kind_prefix as method_def_kind_prefix,
+    method_params_body_glue, program_statement_sep as method_program_statement_sep,
+    program_statements_skeleton,
+};
+// Pure residual continue13 — ExportDeclaration / ClassDeclaration skeletons.
+pub use export_class_emit::{
+    class_body_interior, class_body_leading_newline, class_body_skeleton, class_declaration_skeleton,
+    class_id_fragment, class_keyword_space, class_method_sep, export_declaration_skeleton,
+    export_declaration_skeleton_for_type, export_default_fragment, export_keyword,
+    is_export_class_related_type, is_export_default_declaration, is_export_named_declaration,
 };
 
 // Product tooling engines (printer / compressor / linter)
