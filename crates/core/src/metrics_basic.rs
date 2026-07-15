@@ -13,11 +13,13 @@ pub fn classify_line(trimmed: &str) -> LineKind {
     if trimmed.is_empty() {
         return LineKind::Blank;
     }
+    // Parity with TS isCommentLine (+ `*/` continuation already kept; HTML `<!--` added).
     if trimmed.starts_with("//")
         || trimmed.starts_with('#')
         || trimmed.starts_with("/*")
         || trimmed.starts_with('*')
         || trimmed.starts_with("*/")
+        || trimmed.starts_with("<!--")
     {
         return LineKind::Comment;
     }
@@ -81,6 +83,7 @@ mod tests {
         assert_eq!(classify_line("# python"), LineKind::Comment);
         assert_eq!(classify_line("/* block"), LineKind::Comment);
         assert_eq!(classify_line("* cont"), LineKind::Comment);
+        assert_eq!(classify_line("<!-- html"), LineKind::Comment);
         assert_eq!(classify_line("let x = 1;"), LineKind::Code);
         // untrimmed spaces are NOT blank at this layer
         assert_eq!(classify_line("   "), LineKind::Code);

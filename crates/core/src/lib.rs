@@ -30,6 +30,10 @@ mod halstead_classify;
 mod lint_rule_active;
 mod function_meta;
 mod format_emit;
+mod stmt_emit;
+mod literal_emit;
+mod assign_sep;
+mod quote_props;
 
 pub use tree::*;
 pub use query::{depth, descendants, find_by_type};
@@ -105,4 +109,19 @@ pub use format_emit::{
     async_prefix, exceeds_print_width, export_prefix, format_unary_operator, generator_suffix,
     member_access_close, member_access_open, method_kind_prefix, unary_needs_trailing_space,
     var_kind_token,
+};
+pub use stmt_emit::{
+    await_prefix, class_name_suffix, class_prefix, else_prefix, if_close, if_open, import_prefix,
+    new_prefix, return_token,
+};
+pub use literal_emit::{
+    emit_literal, emit_primitive_keyword, emit_raw_or_fallback, emit_string_literal,
+};
+pub use assign_sep::{
+    array_close, array_open, assign_op, body_brace_open, call_close, call_open, empty_braces,
+    function_keyword, function_params_glue, prop_sep,
+};
+pub use quote_props::{
+    any_key_needs_quote, emit_prop_key, is_bare_identifier_key, needs_quote_as_needed,
+    should_quote_prop,
 };
