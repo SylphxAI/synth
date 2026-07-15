@@ -51,6 +51,7 @@ mod call_member_emit;
 mod object_emit;
 mod function_decl_emit;
 mod var_stmt_emit;
+mod method_array_import_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
