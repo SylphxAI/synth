@@ -34,6 +34,10 @@ mod stmt_emit;
 mod literal_emit;
 mod assign_sep;
 mod quote_props;
+mod arrow_emit;
+mod fn_sig_emit;
+mod node_fallback;
+mod binding_id;
 
 pub use tree::*;
 pub use query::{depth, descendants, find_by_type};
@@ -125,3 +129,11 @@ pub use quote_props::{
     any_key_needs_quote, emit_prop_key, is_bare_identifier_key, needs_quote_as_needed,
     should_quote_prop,
 };
+pub use arrow_emit::{
+    arrow_after_params, arrow_params_need_parens, arrow_params_open, arrow_token,
+};
+pub use fn_sig_emit::{emit_named_id, method_params, named_id_prefix, params_close_before_body};
+pub use node_fallback::{
+    emit_import_stub, from_keyword, import_stub_comment, unsupported_node_comment,
+};
+pub use binding_id::{classify_declarator_child, is_binding_id_type, is_pattern_type};
