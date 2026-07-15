@@ -21,6 +21,11 @@ mod token_span;
 mod lint_max_depth;
 mod format_indent;
 mod function_types;
+mod lint_block_types;
+mod lint_console;
+mod lint_severity;
+mod format_style;
+mod metrics_ratio;
 
 pub use tree::*;
 pub use query::{depth, descendants, find_by_type};
@@ -69,3 +74,17 @@ pub use complexity_types::{cognitive_decision_weight, cyclomatic_from_decisions,
 pub use lint_max_depth::{compute_depth_from_parents, depth_exceeds, max_depth_message, should_report_default, DEFAULT_MAX_DEPTH};
 pub use format_indent::{end_of_line, indent_string, quote_string_literal};
 pub use function_types::{avg_depth_of, is_function_node_type, max_depth_of};
+pub use lint_block_types::{empty_block_message, is_block_node, is_empty_block};
+pub use lint_console::{console_message, is_console_call, is_console_call_source, is_console_member_object};
+pub use lint_severity::{
+    count_by_severity, filter_by_severity, lint_success, passes_min_severity, severity_rank,
+    SeverityCounts, SEVERITY_ORDER,
+};
+pub use format_style::{
+    arrow_needs_parens, binary_op_needs_space, bracket_close, bracket_open, format_binary_operator,
+    list_joiner, semi_suffix, statement_separator, wants_trailing_comma,
+};
+pub use metrics_ratio::{
+    avg_nodes_per_function, blank_density, comment_density, complexity_density,
+    max_function_complexity, source_density, sum_function_complexity,
+};
