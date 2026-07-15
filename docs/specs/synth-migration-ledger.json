@@ -61,7 +61,7 @@
       "parityTest": "crates/core/tests/traverse_golden.rs; cargo test -p synth-wasm-core",
       "proof": {
         "status": "missing",
-        "staleReason": "BW1 pure bulk: traverse/zipper/query unit+golden on disk \u2014 awaiting SHA-bound differential_green vs TS oracle"
+        "staleReason": "BW1 pure bulk: traverse/zipper/query unit+golden on disk — awaiting SHA-bound differential_green vs TS oracle"
       },
       "notes": "BW1 pure bulk deepen: pre/post/bfs collect_ids, max_depth, zipper nav, golden fixture. TS substrate retained (no ts_deleted/authority). proof missing."
     },
@@ -87,7 +87,7 @@
       "rustSurface": "crates/wasm-js/src/parser.rs; crates/wasm-js/src/lexer.rs",
       "tsSurface": "packages/synth-wasm-js/src/ (thin WASM loader)",
       "parityTest": "scripts/check-no-ts-js-parser.sh; test/check-no-ts-js-parser.node-test.mjs; test/fixtures/javascript-parity/golden.json; packages/synth-wasm-js/test/parity-golden.test.ts; packages/synth-js/src/wasm-authority.test.ts; cargo test -p synth-wasm-js golden_fixtures_match_ts_baseline; scripts/run-synth-differential.sh",
-      "notes": "Published @sylphx/synth-wasm-js; default @sylphx/synth-js parse()/parseAsync() route to Rust WASM for baseline options (S4 routing in code). [PROOF-GAP-58-WAVE-TICK026] honesty demote authority_rust\u2192rust_impl (invalid/missing v2 proof). Residual parser/javascript-ts stays for plugins. | 2026-07-15 differential_green rebound; residual TS paths remain until ts_deleted. | 2026-07-15 pure residual continue rebind tip 5725c79 | 2026-07-15 pure residual deepen2 rebind tip a744e78 | 2026-07-15 pure residual continue3 rebind tip 231b103",
+      "notes": "Published @sylphx/synth-wasm-js; default @sylphx/synth-js parse()/parseAsync() route to Rust WASM for baseline options (S4 routing in code). [PROOF-GAP-58-WAVE-TICK026] honesty demote authority_rust→rust_impl (invalid/missing v2 proof). Residual parser/javascript-ts stays for plugins. | 2026-07-15 differential_green rebound; residual TS paths remain until ts_deleted. | 2026-07-15 pure residual continue rebind tip 5725c79 | 2026-07-15 pure residual deepen2 rebind tip a744e78 | 2026-07-15 pure residual continue3 rebind tip 231b103",
       "proof": {
         "status": "differential_green",
         "verifiedAt": "2026-07-15T13:01:51+01:00",
@@ -100,11 +100,11 @@
         "caseCount": 18,
         "verificationRef": "verification/synth-tip-parser-wasm-differential-green.json",
         "differentialTest": "scripts/run-synth-differential.sh; crates/wasm-js/src/lib.rs#parser_javascript_wasm_differential_matches_ts_oracle",
-        "notes": "ADVERSARIAL-PURE-RESIDUAL-CONTINUE3-2026-07-15: differential_green rebind to pure residual code tip. State remains rust_impl (rej-010 \u2014 no authority_rust/ts_deleted). Residual plugins/engines intentionally ts_only."
+        "notes": "ADVERSARIAL-PURE-RESIDUAL-CONTINUE3-2026-07-15: differential_green rebind to pure residual code tip. State remains rust_impl (rej-010 — no authority_rust/ts_deleted). Residual plugins/engines intentionally ts_only."
       },
       "promotionHold": {
         "active": true,
-        "reason": "rej-010 promotion freeze \u2014 differential_green proven but authority_rust/ts_deleted not admitted (residual TS plugins/incremental + incomplete product cutover)",
+        "reason": "rej-010 promotion freeze — differential_green proven but authority_rust/ts_deleted not admitted (residual TS plugins/incremental + incomplete product cutover)",
         "rejectionRef": "rej-010",
         "since": "2026-07-11T14:04:33Z"
       },
@@ -120,7 +120,7 @@
       "parityTest": "scripts/check-no-ts-parser.sh; test/check-no-ts-parser.node-test.mjs; test/fixtures/markdown-parity/golden.json; packages/synth-wasm-md/test/parity-golden.test.ts; packages/synth-md/src/wasm-authority.test.ts; cargo test -p synth-wasm-md golden_fixtures_match_ts_baseline; scripts/run-synth-differential.sh",
       "branch": "rust-first/markdown-wasm-authority-rust",
       "prUrl": "https://github.com/SylphxAI/synth/pull/39",
-      "notes": "Default @sylphx/synth-md parse()/parseAsync() route to Rust WASM; TS parser remains for plugins/incremental until ts_deleted. [PROOF-GAP-58-WAVE-TICK026] honesty demote authority_rust\u2192rust_impl (invalid/missing v2 proof). | 2026-07-15 differential_green rebound; residual TS paths remain until ts_deleted. | 2026-07-15 pure residual continue rebind tip 5725c79 | 2026-07-15 pure residual deepen2 rebind tip a744e78 | 2026-07-15 pure residual continue3 rebind tip 231b103",
+      "notes": "Default @sylphx/synth-md parse()/parseAsync() route to Rust WASM; TS parser remains for plugins/incremental until ts_deleted. [PROOF-GAP-58-WAVE-TICK026] honesty demote authority_rust→rust_impl (invalid/missing v2 proof). | 2026-07-15 differential_green rebound; residual TS paths remain until ts_deleted. | 2026-07-15 pure residual continue rebind tip 5725c79 | 2026-07-15 pure residual deepen2 rebind tip a744e78 | 2026-07-15 pure residual continue3 rebind tip 231b103",
       "proof": {
         "status": "differential_green",
         "verifiedAt": "2026-07-15T13:01:51+01:00",
@@ -133,11 +133,11 @@
         "caseCount": 18,
         "verificationRef": "verification/synth-tip-parser-wasm-differential-green.json",
         "differentialTest": "scripts/run-synth-differential.sh; crates/wasm-md/src/parser_v2.rs#parser_markdown_wasm_differential_matches_ts_oracle",
-        "notes": "ADVERSARIAL-PURE-RESIDUAL-CONTINUE3-2026-07-15: differential_green rebind to pure residual code tip. State remains rust_impl (rej-010 \u2014 no authority_rust/ts_deleted). Residual plugins/engines intentionally ts_only."
+        "notes": "ADVERSARIAL-PURE-RESIDUAL-CONTINUE3-2026-07-15: differential_green rebind to pure residual code tip. State remains rust_impl (rej-010 — no authority_rust/ts_deleted). Residual plugins/engines intentionally ts_only."
       },
       "promotionHold": {
         "active": true,
-        "reason": "rej-010 promotion freeze \u2014 differential_green proven but authority_rust/ts_deleted not admitted (residual TS plugins/incremental + incomplete product cutover)",
+        "reason": "rej-010 promotion freeze — differential_green proven but authority_rust/ts_deleted not admitted (residual TS plugins/incremental + incomplete product cutover)",
         "rejectionRef": "rej-010",
         "since": "2026-07-11T14:04:33Z"
       },
@@ -166,8 +166,8 @@
       "weight": 4,
       "state": "rust_impl",
       "tsSurface": "packages/synth-js-format/; packages/synth-js-minify/; packages/synth-lint/",
-      "rustSurface": "crates/core/src/printer_engine.rs; crates/core/src/compressor_engine.rs; crates/core/src/linter_engine.rs; pure fragments retained",
-      "notes": "WAVE4 product dens: full Printer/Compressor/Linter engines on Tree in synth-wasm-core. TS packages remain dual-oracle/npm surface. Plugins/incremental parsers + metrics analyzer remain ts_only. NO authority_rust / ts_deleted. [BLOCKED7-PURE 2026-07-15] continue6 conditional_spread_emit (ternary/spread/sequence/throw/try-catch-finally/yield/nullish/optional-chain pure). Engines retained. NO authority_rust/ts_deleted. [BLOCKED11-PURE 2026-07-15] continue7 loop_template_emit (for/while/do/switch/case/break/continue/template pure). Engines retained. NO authority_rust/ts_deleted. [DOMAIN-TS-RESIDUAL 2026-07-15] continue8 call_member_emit. NO authority_rust/ts_deleted.",
+      "rustSurface": "crates/core/src/printer_engine.rs; crates/core/src/compressor_engine.rs; crates/core/src/linter_engine.rs; pure fragments retained; crates/core/src/object_emit.rs",
+      "notes": "WAVE4 product dens: full Printer/Compressor/Linter engines on Tree in synth-wasm-core. TS packages remain dual-oracle/npm surface. Plugins/incremental parsers + metrics analyzer remain ts_only. NO authority_rust / ts_deleted. [BLOCKED7-PURE 2026-07-15] continue6 conditional_spread_emit (ternary/spread/sequence/throw/try-catch-finally/yield/nullish/optional-chain pure). Engines retained. NO authority_rust/ts_deleted. [BLOCKED11-PURE 2026-07-15] continue7 loop_template_emit (for/while/do/switch/case/break/continue/template pure). Engines retained. NO authority_rust/ts_deleted. [DOMAIN-TS-RESIDUAL 2026-07-15] continue8 call_member_emit. NO authority_rust/ts_deleted. [DOMAIN-TS-RESIDUAL 2026-07-15] continue9 object_emit. NO authority_rust/ts_deleted.",
       "proof": {
         "status": "missing",
         "staleReason": "unit product engine tests green; full TS oracle differential not bound",
@@ -197,14 +197,14 @@
       "state": "rust_impl",
       "rustSurface": "crates/core/src/tree.rs; crates/core/src/position.rs",
       "parityTest": "cargo test -p synth-wasm-core",
-      "notes": "Shared WASM tree/error types; TS @sylphx/synth types remain parallel during cutover. [PROOF-GAP-58-WAVE-TICK026] honesty demote authority_rust\u2192rust_impl (invalid/missing v2 proof).",
+      "notes": "Shared WASM tree/error types; TS @sylphx/synth types remain parallel during cutover. [PROOF-GAP-58-WAVE-TICK026] honesty demote authority_rust→rust_impl (invalid/missing v2 proof).",
       "proof": {
         "status": "stale",
         "staleReason": "PROOF-GAP-58-WAVE-TICK026 honesty demote: promoted state without valid v2 proof (missing SHA-bound differential_green|caught_up|canary_green fields). Prior state=authority_rust. rej-010."
       },
       "promotionHold": {
         "active": true,
-        "reason": "rej-010 promotion freeze \u2014 incomplete differential proof; honesty demoted authority_rust\u2192rust_impl (PROOF-GAP-58-WAVE-TICK026)",
+        "reason": "rej-010 promotion freeze — incomplete differential proof; honesty demoted authority_rust→rust_impl (PROOF-GAP-58-WAVE-TICK026)",
         "rejectionRef": "rej-010",
         "since": "2026-07-11T14:04:33Z"
       }
@@ -231,13 +231,13 @@
     "weighted_progress": 0.1346,
     "proof_stale": 1,
     "proof_missing": 2,
-    "updatedAt": "2026-07-15T20:15:00Z",
+    "updatedAt": "2026-07-15T21:30:00Z",
     "lastMutation": {
-      "at": "2026-07-15T20:15:00Z",
-      "action": "blocked_domain_ts_residual_continue8_call_member_emit"
+      "at": "2026-07-15T21:30:00Z",
+      "action": "domain_ts_residual_continue9_object_emit"
     },
     "verified_authority_progress": 0.0,
-    "notes": "WAVE5 product dens 2026-07-15: tooling/metrics \u2192 rust_impl (MetricsAnalyzer engine). residual ts_only: parser-ts paths, npm dist. NO authority_rust / ts_deleted. BLOCKED7 pure residual continue6 2026-07-15T18:29:28Z: conditional_spread_emit. denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted. BLOCKED11 pure residual continue7 2026-07-15T19:40:00Z: loop_template_emit. denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted. BLOCKED-DOMAIN-TS-RESIDUAL pure residual continue8 2026-07-15T20:15:00Z: call_member_emit (call/member/array/property/import-export skeletons). denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted."
+    "notes": "WAVE5 product dens 2026-07-15: tooling/metrics → rust_impl (MetricsAnalyzer engine). residual ts_only: parser-ts paths, npm dist. NO authority_rust / ts_deleted. BLOCKED7 pure residual continue6 2026-07-15T18:29:28Z: conditional_spread_emit. denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted. BLOCKED11 pure residual continue7 2026-07-15T19:40:00Z: loop_template_emit. denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted. BLOCKED-DOMAIN-TS-RESIDUAL pure residual continue8 2026-07-15T20:15:00Z: call_member_emit (call/member/array/property/import-export skeletons). denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted. DOMAIN-TS-RESIDUAL pure residual continue9 2026-07-15T21:30:00Z: object_emit (object skeleton/bracketSpacing/trailingComma/program separators). denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted."
   },
   "repoLedgerPath": "docs/specs/migration-ledger.json",
   "rej010HonestyDemote": {
@@ -264,12 +264,13 @@
   },
   "honestyResidual": {
     "packet": "WAVE5-PRODUCT-DENS-METRICS-2026-07-15",
-    "at": "2026-07-15T18:24:32Z",
+    "at": "2026-07-15T21:30:00Z",
     "authority_rust": false,
     "ts_deleted": false,
     "goal_complete": false,
     "differential_green_caps": ["parser/javascript-wasm", "parser/markdown-wasm"],
     "pure_residual_kernels": [
+      "object_emit (object skeleton + bracketSpacing + trailingComma + program/block separators + var kind)",
       "call_member_emit (call/member/array/property skeletons + type guards)",
       "halstead_classify (is_operator/operand_node_type, operand_value)",
       "lint_rule_active (is_rule_enabled, language/config filters, severity resolve, node_type_applies)",

@@ -48,6 +48,7 @@ mod unary_binary_emit;
 mod conditional_spread_emit;
 mod loop_template_emit;
 mod call_member_emit;
+mod object_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
@@ -200,6 +201,13 @@ pub use call_member_emit::{
     member_access_open as call_member_access_open, member_computed_close, member_computed_open,
     member_dot, member_skeleton, optional_chain as call_optional_chain, property_colon,
     property_skeleton,
+};
+// Pure residual continue9 — object expression / program separators.
+pub use object_emit::{
+    block_statement_sep, empty_object, is_object_related_type, object_close_pad, object_open_pad,
+    object_prop_sep, object_property_colon, object_property_skeleton, object_skeleton,
+    object_wants_trailing_comma, program_statement_sep, semi_if, shorthand_property,
+    var_kind_with_space,
 };
 
 // Product tooling engines (printer / compressor / linter)
