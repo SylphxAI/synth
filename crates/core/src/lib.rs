@@ -55,6 +55,7 @@ mod method_array_import_emit;
 mod export_class_emit;
 mod ident_literal_emit;
 mod assign_logical_update_emit;
+mod new_await_chain_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
@@ -261,6 +262,14 @@ pub use assign_logical_update_emit::{
     is_sequence_expression_type, is_super_type, is_this_expression_type,
     is_update_expression_type, logical_expression_skeleton, meta_property_skeleton, paren_group,
     sequence_expression_skeleton, super_token, this_token, update_expression_skeleton,
+};
+// Pure residual continue16 — New/Await/Yield/Chain/ImportExpression skeletons.
+pub use new_await_chain_emit::{
+    await_expression_skeleton, chain_expression_skeleton, conditional_expression_skeleton,
+    import_expression_skeleton, is_await_expression_type, is_chain_expression_type,
+    is_conditional_expression_type, is_import_expression_type, is_new_await_chain_related_type,
+    is_new_expression_type, is_tagged_template_type, is_yield_expression_type, new_expression_skeleton,
+    new_keyword, tagged_template_skeleton, yield_expression_skeleton,
 };
 
 // Product tooling engines (printer / compressor / linter)

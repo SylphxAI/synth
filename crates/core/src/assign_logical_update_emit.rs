@@ -142,15 +142,11 @@ pub fn meta_property_skeleton(meta: &str, property: &str) -> String {
     format!("{meta}.{property}")
 }
 
-/// Grouped parenthesized expression (pretty keeps spaces? minify compact).
+/// Grouped parenthesized expression (pretty/minify identical for explicit parens).
 /// TS engines rarely re-parenthesize; this models explicit ParenExpression residual.
 #[must_use]
-pub fn paren_group(inner: &str, pretty: bool) -> String {
-    if pretty {
-        format!("({inner})")
-    } else {
-        format!("({inner})")
-    }
+pub fn paren_group(inner: &str, _pretty: bool) -> String {
+    format!("({inner})")
 }
 
 #[cfg(test)]

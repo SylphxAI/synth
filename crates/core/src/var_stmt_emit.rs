@@ -106,11 +106,9 @@ pub fn expression_statement_skeleton(expr: Option<&str>, pretty: bool, semi: boo
 pub fn return_statement_skeleton(arg: Option<&str>, pretty: bool, semi: bool) -> String {
     let mut out = String::with_capacity(arg.map_or(6, |a| 8 + a.len()));
     out.push_str("return");
-    if let Some(a) = arg {
-        if !a.is_empty() {
-            out.push(' ');
-            out.push_str(a);
-        }
+    if let Some(a) = arg.filter(|a| !a.is_empty()) {
+        out.push(' ');
+        out.push_str(a);
     }
     out.push_str(var_stmt_semi(pretty, semi));
     out

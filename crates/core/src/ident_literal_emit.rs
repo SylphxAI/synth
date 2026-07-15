@@ -101,8 +101,10 @@ pub fn non_string_literal_token(raw: Option<&str>, value_repr: Option<&str>) -> 
 }
 
 /// Full Literal dual-oracle branch.
+///
 /// - String values: quote policy (pretty singleQuote vs minify double).
 /// - Non-string: prefer raw, else value_repr.
+///
 /// Mirrors TS: when raw is defined and value is string → rewrite quotes;
 /// when raw defined and non-string → write raw; else JSON.stringify(value).
 #[must_use]
