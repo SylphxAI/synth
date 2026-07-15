@@ -47,6 +47,7 @@ mod class_emit_kind;
 mod unary_binary_emit;
 mod conditional_spread_emit;
 mod loop_template_emit;
+mod call_member_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
@@ -190,6 +191,15 @@ pub use loop_template_emit::{
     for_close, for_in_token, for_of_token, for_open, is_loop_statement_type, is_switch_related_type,
     is_template_type, switch_close, switch_open, template_expr_close, template_expr_open,
     template_tick, while_close, while_open,
+};
+// Pure residual continue8 — unique call/member/collection skeletons only (no name collisions).
+pub use call_member_emit::{
+    array_skeleton, call_args_close, call_args_open, call_skeleton, declarator_assign,
+    is_call_related_type, is_collection_type, is_member_related_type, is_module_declaration_type,
+    list_element_sep, member_access_close as call_member_access_close,
+    member_access_open as call_member_access_open, member_computed_close, member_computed_open,
+    member_dot, member_skeleton, optional_chain as call_optional_chain, property_colon,
+    property_skeleton,
 };
 
 // Product tooling engines (printer / compressor / linter)
