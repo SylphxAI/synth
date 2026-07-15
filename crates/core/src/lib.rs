@@ -58,6 +58,7 @@ mod assign_logical_update_emit;
 mod new_await_chain_emit;
 mod try_import_emit;
 mod loop_switch_full_emit;
+mod pattern_sequence_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
@@ -288,6 +289,14 @@ pub use loop_switch_full_emit::{
     is_array_pattern_type, is_assignment_pattern_type, is_loop_switch_full_related_type,
     is_private_identifier_type, private_identifier_token, switch_case_skeleton,
     switch_statement_skeleton, template_literal_skeleton, while_statement_skeleton,
+};
+// Pure residual continue19 — ObjectPattern/Rest/for-await/tagged-template.
+pub use pattern_sequence_emit::{
+    for_await_of_statement_skeleton, is_object_pattern_type, is_pattern_sequence_related_type,
+    is_rest_element_type, is_tagged_template_expression_type, object_pattern_assign_property,
+    object_pattern_shorthand, object_pattern_skeleton, rest_element_token,
+    sequence_expression_paren_skeleton, spread_element_token, tagged_template_expression_skeleton,
+    tagged_template_simple,
 };
 // catch_open / try_token already re-exported from conditional_spread_emit dual-oracle.
 
