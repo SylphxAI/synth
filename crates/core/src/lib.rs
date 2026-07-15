@@ -48,6 +48,7 @@ mod unary_binary_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
+mod metrics_analyzer_engine;
 
 pub use tree::*;
 pub use query::{depth, descendants, find_by_type};
@@ -188,4 +189,11 @@ pub use compressor_engine::{
 pub use linter_engine::{
     lint_tree, lint_tree_with, BuiltinRule, Diagnostic, DiagnosticSeverity, LintResult, Linter,
     LinterConfig, SeverityCountsDto,
+};
+// Product metrics analyzer engine
+pub use metrics_analyzer_engine::{
+    analyze_tree, report_tree, BasicMetrics as ProductBasicMetrics, CodeMetrics,
+    ComplexityMetrics as ProductComplexityMetrics, FunctionLocation, FunctionMetrics,
+    HalsteadMetricsDto, LocationPoint, MaintainabilityDto, MaintainabilityLevelDto,
+    MetricsAnalyzer, MetricsReport,
 };

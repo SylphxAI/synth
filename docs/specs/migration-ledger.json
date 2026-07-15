@@ -181,10 +181,16 @@
       "id": "tooling/metrics",
       "domain": "tooling",
       "weight": 2,
-      "state": "ts_only",
+      "state": "rust_impl",
       "tsSurface": "packages/synth-metrics/",
-      "rustSurface": "crates/core/src/metrics_basic.rs; crates/core/src/halstead_math.rs; crates/core/src/halstead_classify.rs; crates/core/src/complexity_types.rs; crates/core/src/function_types.rs; crates/core/src/function_meta.rs; crates/core/src/metrics_ratio.rs",
-      "notes": "Full MetricsAnalyzer AST traversal remains TS. Pure residual fragments only: basic LOC, Halstead/maintainability math, operator/operand classify, decision/nesting type kernels, function-type + function_meta + depth aggregates, density/ratio aggregates. NO rust_impl promotion / ts_deleted."
+      "rustSurface": "crates/core/src/metrics_analyzer_engine.rs; crates/core/src/metrics_basic.rs; crates/core/src/halstead_math.rs; crates/core/src/halstead_classify.rs; crates/core/src/complexity_types.rs; crates/core/src/function_types.rs; crates/core/src/function_meta.rs; crates/core/src/metrics_ratio.rs",
+      "notes": "WAVE5 product dens: full MetricsAnalyzer engine on Tree in synth-wasm-core. TS package remains dual-oracle/npm surface. parser-ts plugins/incremental + npm monorepo remain ts_only. NO authority_rust / ts_deleted.",
+      "parityTest": "cargo test -p synth-wasm-core metrics_analyzer_engine::",
+      "proof": {
+        "status": "missing",
+        "staleReason": "unit product engine tests green; full TS oracle differential not bound",
+        "verificationRef": "crates/core/src/metrics_analyzer_engine.rs#tests"
+      }
     },
     {
       "id": "bindings/wasm-core-types",
@@ -216,9 +222,9 @@
   ],
   "summary": {
     "total": 10,
-    "ts_only": 4,
+    "ts_only": 3,
     "contracted": 0,
-    "rust_impl": 6,
+    "rust_impl": 7,
     "parity_proven": 0,
     "authority_rust": 0,
     "ts_deleted": 0,
@@ -227,13 +233,13 @@
     "weighted_progress": 0.1346,
     "proof_stale": 1,
     "proof_missing": 2,
-    "updatedAt": "2026-07-15T17:36:46Z",
+    "updatedAt": "2026-07-15T18:24:32Z",
     "lastMutation": {
-      "at": "2026-07-15T17:36:46Z",
-      "action": "wave4_product_dens_format_minify_lint_engines"
+      "at": "2026-07-15T18:24:32Z",
+      "action": "wave5_product_dens_metrics_analyzer_engine"
     },
     "verified_authority_progress": 0.0,
-    "notes": "WAVE4 product dens 2026-07-15: tooling/format-minify-lint \u2192 rust_impl (printer/compressor/linter engines). residual ts_only: parser ts paths, metrics analyzer, npm dist. NO authority_rust / ts_deleted."
+    "notes": "WAVE5 product dens 2026-07-15: tooling/metrics \u2192 rust_impl (MetricsAnalyzer engine). residual ts_only: parser-ts paths, npm dist. NO authority_rust / ts_deleted."
   },
   "repoLedgerPath": "docs/specs/migration-ledger.json",
   "rej010HonestyDemote": {
@@ -259,8 +265,8 @@
     "policy": "demote incomplete promoted states to rust_impl; no authority_rust/ts_deleted promotions"
   },
   "honestyResidual": {
-    "packet": "ADVERSARIAL-PURE-RESIDUAL-CONTINUE-2026-07-15",
-    "at": "2026-07-15T11:02:09Z",
+    "packet": "WAVE5-PRODUCT-DENS-METRICS-2026-07-15",
+    "at": "2026-07-15T18:24:32Z",
     "authority_rust": false,
     "ts_deleted": false,
     "goal_complete": false,
@@ -278,18 +284,14 @@
     "ts_only_remaining": [
       "parser/markdown-ts",
       "parser/javascript-ts",
-      "tooling/format-minify-lint",
-      "tooling/metrics",
       "distribution/npm-monorepo"
     ],
     "intentional_ts_only": {
       "parser/markdown-ts": "plugins/incremental/streaming residual",
       "parser/javascript-ts": "plugins/useTsParser/incremental residual",
-      "tooling/format-minify-lint": "full engines remain TS; pure fragments only",
-      "tooling/metrics": "full analyzer remains TS; pure fragments only",
       "distribution/npm-monorepo": "Changesets TS release path"
     },
-    "strongestTruthfulState": "rust_impl_with_parser_wasm_differential_green_pure_fragments_no_ts_deleted",
+    "strongestTruthfulState": "rust_impl_with_parser_wasm_differential_green_and_metrics_product_engine_no_ts_deleted",
     "explicitNonClaims": [
       "authority_rust",
       "ts_deleted",
@@ -299,9 +301,15 @@
       "fleet FCP",
       "deploy/production promotion"
     ],
-    "rootCauseIfIncomplete": "Five residual ts_only caps intentionally retained: markdown-ts + javascript-ts for plugins/incremental/streaming; format-minify-lint + metrics full engines (pure kernels only in crates/core); distribution/npm-monorepo. Full ts_deleted requires retiring those surfaces \u2014 out of bounded adversarial residual slice.",
+    "rootCauseIfIncomplete": "Three residual ts_only caps intentionally retained: markdown-ts + javascript-ts for plugins/incremental/streaming; distribution/npm-monorepo. Metrics product densed to rust_impl. Full ts_deleted requires retiring residual parser plugins + npm path.",
     "decision": "HONEST_FAIL_FULL_TS_DELETED",
-    "prod_audit_pass": false
+    "prod_audit_pass": false,
+    "product_engines": [
+      "printer_engine",
+      "compressor_engine",
+      "linter_engine",
+      "metrics_analyzer_engine"
+    ]
   },
   "ssot": {
     "repoLedgerPath": "docs/specs/migration-ledger.json",
