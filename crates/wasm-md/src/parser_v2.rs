@@ -891,7 +891,8 @@ mod tests {
         id: String,
         slice: String,
         source: String,
-        output: Vec<BlockSignature>,
+        /// Mixed corpus: MD cases are block arrays; JS cases are kindCount maps.
+        output: serde_json::Value,
     }
 
     #[derive(Debug, serde::Deserialize)]
@@ -953,13 +954,20 @@ mod tests {
         );
 
         for case in md_cases {
+            let expected: Vec<BlockSignature> = serde_json::from_value(case.output.clone())
+                .unwrap_or_else(|error| {
+                    panic!(
+                        "case {}: markdown oracle output must be block array: {error}",
+                        case.id
+                    )
+                });
             let mut parser = MarkdownParserV2::new(&case.source);
             let tree = parser
                 .parse()
                 .unwrap_or_else(|error| panic!("{}: parse failed: {error}", case.id));
             let got = normalize_blocks(&tree);
             assert_eq!(
-                got, case.output,
+                got, expected,
                 "case {}: Rust markdown parser must match TS live oracle",
                 case.id
             );

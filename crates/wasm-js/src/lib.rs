@@ -113,6 +113,8 @@ mod tests {
             NodeKind::MethodDefinition => "MethodDefinition",
             NodeKind::PropertyDefinition => "PropertyDefinition",
             NodeKind::Comment => "Comment",
+            NodeKind::ClassBody => "ClassBody",
+            NodeKind::TemplateElement => "TemplateElement",
         }
     }
 
@@ -171,7 +173,8 @@ mod tests {
         id: String,
         slice: String,
         source: String,
-        output: HashMap<String, u32>,
+        /// Mixed corpus: JS cases are kindCount maps; MD cases are block arrays.
+        output: serde_json::Value,
     }
 
     #[derive(Debug, serde::Deserialize)]
@@ -233,11 +236,18 @@ mod tests {
         );
 
         for case in js_cases {
+            let expected: HashMap<String, u32> = serde_json::from_value(case.output.clone())
+                .unwrap_or_else(|error| {
+                    panic!(
+                        "case {}: javascript oracle output must be kindCount map: {error}",
+                        case.id
+                    )
+                });
             let mut parser = Parser::new(&case.source);
             parser.parse_count();
             let got = normalize_wasm_counts_for_ts_parity(wasm_kind_counts(parser.nodes()));
             assert_eq!(
-                got, case.output,
+                got, expected,
                 "case {}: Rust JS parser must match TS live oracle",
                 case.id
             );

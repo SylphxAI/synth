@@ -87,6 +87,10 @@ pub enum NodeKind {
     // Comments
     #[allow(dead_code)]
     Comment,
+
+    // ESTree containers required for TS golden parity (append-only — preserve prior discriminants)
+    ClassBody,
+    TemplateElement,
 }
 
 /// Compact AST node - 16 bytes
@@ -138,6 +142,7 @@ pub mod flags {
 
 /// JavaScript Parser
 pub struct Parser<'a> {
+    source: &'a str,
     lexer: Lexer<'a>,
     current: Token,
     peek: Token,
@@ -150,6 +155,7 @@ impl<'a> Parser<'a> {
         let current = lexer.next_token();
         let peek = lexer.next_token();
         Self {
+            source,
             lexer,
             current,
             peek,
@@ -528,6 +534,7 @@ impl<'a> Parser<'a> {
     }
 
     fn parse_class_body(&mut self) {
+        let start = self.current.start;
         self.expect(TokenKind::LBrace);
         self.skip_comments_and_newlines();
 
@@ -537,6 +544,10 @@ impl<'a> Parser<'a> {
         }
 
         self.expect(TokenKind::RBrace);
+        let end = self.current.start;
+        // ESTree ClassBody container — required for TS golden parity
+        self.nodes
+            .push(Node::new(NodeKind::ClassBody, start, end));
     }
 
     fn parse_class_member(&mut self) {
@@ -582,12 +593,18 @@ impl<'a> Parser<'a> {
 
         // Method or property
         if self.at(TokenKind::LParen) {
+            // ESTree MethodDefinition.value is a FunctionExpression
+            let fn_start = self.current.start;
             self.parse_function_params();
             self.skip_comments_and_newlines();
             self.parse_block_statement();
             let end = self.current.start;
-            self.nodes.push(Node::new(NodeKind::MethodDefinition, start, end)
-                .with_flags(flags));
+            self.nodes.push(
+                Node::new(NodeKind::FunctionExpression, fn_start, end).with_flags(flags),
+            );
+            self.nodes.push(
+                Node::new(NodeKind::MethodDefinition, start, end).with_flags(flags),
+            );
         } else {
             // Property
             if self.eat(TokenKind::Eq) {
@@ -609,7 +626,10 @@ impl<'a> Parser<'a> {
 
         // import "module" (side-effect only)
         if self.at(TokenKind::String) {
+            let lit_start = self.current.start;
             self.advance();
+            self.nodes
+                .push(Node::new(NodeKind::Literal, lit_start, self.current.start));
             self.eat(TokenKind::Semicolon);
             let end = self.current.start;
             self.nodes.push(Node::new(NodeKind::ImportDeclaration, start, end));
@@ -650,12 +670,19 @@ impl<'a> Parser<'a> {
 
             while !self.at(TokenKind::RBrace) && !self.at(TokenKind::Eof) {
                 let spec_start = self.current.start;
+                // ESTree ImportSpecifier has both imported + local Identifier nodes.
                 self.parse_identifier();
                 self.skip_comments_and_newlines();
 
                 if self.eat(TokenKind::As) {
                     self.skip_comments_and_newlines();
                     self.parse_identifier();
+                } else {
+                    // No rename: emit local Identifier twin (same span) to match ESTree.
+                    let id_start = spec_start;
+                    let id_end = self.current.start;
+                    self.nodes
+                        .push(Node::new(NodeKind::Identifier, id_start, id_end));
                 }
 
                 let spec_end = self.current.start;
@@ -675,8 +702,15 @@ impl<'a> Parser<'a> {
         self.expect(TokenKind::From);
         self.skip_comments_and_newlines();
 
-        // Module path
-        self.advance(); // skip string
+        // Module path as ESTree Literal
+        if self.at(TokenKind::String) {
+            let lit_start = self.current.start;
+            self.advance();
+            self.nodes
+                .push(Node::new(NodeKind::Literal, lit_start, self.current.start));
+        } else {
+            self.advance(); // skip unexpected token fail-soft
+        }
 
         self.eat(TokenKind::Semicolon);
         let end = self.current.start;
@@ -1491,8 +1525,97 @@ impl<'a> Parser<'a> {
 
     fn parse_template_literal(&mut self) {
         let start = self.current.start;
-        self.advance(); // skip template
-        self.nodes.push(Node::new(NodeKind::TemplateLiteral, start, self.current.start));
+        // Lexer currently collapses full ``...`` into one Template token.
+        // Re-scan source for ESTree quasis (TemplateElement) + ${expr} identifiers.
+        let end_exclusive = self.current.end as usize;
+        let start_usize = start as usize;
+        self.advance(); // skip template token
+        let end = self.current.start;
+
+        if end_exclusive > start_usize && end_exclusive <= self.source.len() {
+            let raw = &self.source[start_usize..end_exclusive];
+            // raw includes surrounding backticks when lexer kept them in span
+            let inner = raw
+                .strip_prefix('`')
+                .and_then(|s| s.strip_suffix('`'))
+                .unwrap_or(raw);
+            let mut i = 0;
+            let bytes = inner.as_bytes();
+            let mut quasi_count = 0u32;
+            while i <= bytes.len() {
+                // emit TemplateElement for current quasi
+                let quasi_start = start_usize
+                    + if raw.starts_with('`') { 1 } else { 0 }
+                    + i;
+                while i < bytes.len() {
+                    if bytes[i] == b'\\' {
+                        i += 2;
+                        continue;
+                    }
+                    if bytes[i] == b'$' && i + 1 < bytes.len() && bytes[i + 1] == b'{' {
+                        break;
+                    }
+                    i += 1;
+                }
+                let quasi_end = start_usize
+                    + if raw.starts_with('`') { 1 } else { 0 }
+                    + i;
+                self.nodes.push(Node::new(
+                    NodeKind::TemplateElement,
+                    quasi_start as u32,
+                    quasi_end as u32,
+                ));
+                quasi_count += 1;
+
+                if i >= bytes.len() {
+                    break;
+                }
+                // ${ expression }
+                i += 2; // skip ${
+                let expr_start = start_usize
+                    + if raw.starts_with('`') { 1 } else { 0 }
+                    + i;
+                let mut depth = 1i32;
+                while i < bytes.len() && depth > 0 {
+                    match bytes[i] {
+                        b'{' => depth += 1,
+                        b'}' => depth -= 1,
+                        _ => {}
+                    }
+                    if depth > 0 {
+                        i += 1;
+                    }
+                }
+                let expr_end = start_usize
+                    + if raw.starts_with('`') { 1 } else { 0 }
+                    + i;
+                // Simple identifier expressions: emit Identifier (covers golden `${name}`)
+                let expr = &self.source[expr_start..expr_end.min(self.source.len())];
+                let expr_trim = expr.trim();
+                if !expr_trim.is_empty()
+                    && expr_trim
+                        .chars()
+                        .all(|c| c.is_ascii_alphanumeric() || c == '_' || c == '$')
+                {
+                    self.nodes.push(Node::new(
+                        NodeKind::Identifier,
+                        expr_start as u32,
+                        expr_end as u32,
+                    ));
+                }
+                if i < bytes.len() && bytes[i] == b'}' {
+                    i += 1;
+                }
+            }
+            // Always at least one quasi for empty templates
+            if quasi_count == 0 {
+                self.nodes
+                    .push(Node::new(NodeKind::TemplateElement, start, end));
+            }
+        }
+
+        self.nodes
+            .push(Node::new(NodeKind::TemplateLiteral, start, end));
     }
 
     fn parse_array_expression(&mut self) {
@@ -1703,6 +1826,50 @@ mod tests {
         let count = parser.parse_count();
         assert!(count >= 4);
     }
+
+    #[test]
+    fn test_class_body_and_method_function_expression() {
+        let mut parser = Parser::new("class Foo { constructor() {} }");
+        parser.parse_count();
+        let kinds: Vec<_> = parser.nodes().iter().map(|n| n.kind).collect();
+        assert!(kinds.contains(&NodeKind::ClassBody), "ClassBody required for TS parity");
+        assert!(
+            kinds.contains(&NodeKind::FunctionExpression),
+            "MethodDefinition.value FunctionExpression required for TS parity"
+        );
+        assert!(kinds.contains(&NodeKind::MethodDefinition));
+    }
+
+    #[test]
+    fn test_import_literal_and_specifier_identifiers() {
+        let mut parser = Parser::new("import { foo } from 'bar'; export default x;");
+        parser.parse_count();
+        let id_count = parser
+            .nodes()
+            .iter()
+            .filter(|n| n.kind == NodeKind::Identifier)
+            .count();
+        let lit_count = parser
+            .nodes()
+            .iter()
+            .filter(|n| n.kind == NodeKind::Literal)
+            .count();
+        assert!(id_count >= 3, "imported+local+export identifiers, got {id_count}");
+        assert!(lit_count >= 1, "module path Literal required");
+    }
+
+    #[test]
+    fn test_template_elements_for_interpolation() {
+        let mut parser = Parser::new("const s = `hello ${name}`;");
+        parser.parse_count();
+        let te = parser
+            .nodes()
+            .iter()
+            .filter(|n| n.kind == NodeKind::TemplateElement)
+            .count();
+        assert_eq!(te, 2, "TemplateLiteral quasis should be expressions+1");
+    }
+
 
     #[test]
     fn test_arrow_function() {

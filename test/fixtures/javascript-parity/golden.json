@@ -37,7 +37,9 @@
     "kindCounts": {
       "Program": 1,
       "ClassDeclaration": 1,
+      "ClassBody": 1,
       "MethodDefinition": 1,
+      "Identifier": 1,
       "FunctionExpression": 1,
       "BlockStatement": 1
     }
@@ -48,7 +50,7 @@
       "Program": 1,
       "ImportDeclaration": 1,
       "ImportSpecifier": 1,
-      "Identifier": 2,
+      "Identifier": 3,
       "Literal": 1,
       "ExportDeclaration": 1
     }
@@ -71,11 +73,11 @@
       "ForOfStatement": 1,
       "VariableDeclaration": 1,
       "VariableDeclarator": 1,
+      "Identifier": 5,
       "BlockStatement": 1,
       "ExpressionStatement": 1,
       "CallExpression": 1,
-      "MemberExpression": 1,
-      "Identifier": 5
+      "MemberExpression": 1
     }
   },
   "try-catch": {
@@ -83,11 +85,11 @@
     "kindCounts": {
       "Program": 1,
       "TryStatement": 1,
-      "CatchClause": 1,
       "BlockStatement": 2,
       "ExpressionStatement": 2,
       "CallExpression": 2,
-      "Identifier": 4
+      "Identifier": 4,
+      "CatchClause": 1
     }
   },
   "async-await": {
@@ -98,9 +100,9 @@
       "BlockStatement": 1,
       "VariableDeclaration": 1,
       "VariableDeclarator": 1,
+      "Identifier": 5,
       "AwaitExpression": 1,
       "CallExpression": 2,
-      "Identifier": 4,
       "ReturnStatement": 1,
       "MemberExpression": 1
     }
@@ -113,7 +115,7 @@
       "VariableDeclarator": 1,
       "Identifier": 2,
       "TemplateLiteral": 1,
-      "TemplateElement": 1
+      "TemplateElement": 2
     }
   }
 }

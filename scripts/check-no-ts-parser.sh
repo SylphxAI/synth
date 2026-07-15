@@ -16,7 +16,9 @@ GOLDEN="${ROOT}/test/fixtures/markdown-parity/golden.json"
 PARITY_TEST="${ROOT}/packages/synth-wasm-md/test/parity-golden.test.ts"
 WASM_TEST="${ROOT}/packages/synth-md/src/wasm-authority.test.ts"
 GATE_TEST="${ROOT}/test/check-no-ts-parser.node-test.mjs"
-LEDGER="${ROOT}/docs/specs/synth-migration-ledger.json"
+# SSOT: migration-ledger.json (repoLedgerPath). Legacy synth-migration-ledger.json is a projection.
+LEDGER="${ROOT}/docs/specs/migration-ledger.json"
+LEGACY_LEDGER="${ROOT}/docs/specs/synth-migration-ledger.json"
 CI_WORKFLOW="${ROOT}/.github/workflows/ci.yml"
 PACKAGE_JSON="${ROOT}/package.json"
 
@@ -74,7 +76,11 @@ if [[ ! -f "${GATE_TEST}" ]]; then
 fi
 
 if [[ ! -f "${LEDGER}" ]]; then
-  report_violation "missing docs/specs/synth-migration-ledger.json"
+  report_violation "missing docs/specs/migration-ledger.json (SSOT)"
+fi
+
+if [[ ! -f "${LEGACY_LEDGER}" ]]; then
+  report_violation "missing docs/specs/synth-migration-ledger.json (projection)"
 fi
 
 if [[ ! -f "${CI_WORKFLOW}" ]]; then
@@ -86,17 +92,36 @@ if [[ ! -f "${PACKAGE_JSON}" ]]; then
 fi
 
 if [[ -f "${LEDGER}" ]]; then
+  # rej-010 honesty: accept rust_impl|parity_proven|authority_rust|ts_deleted.
+  # Do NOT require authority_rust without valid v2 proof (PROOF-GAP-58 demote).
+  # Gate still enforces code-level WASM default routing below.
   node - "${LEDGER}" <<'NODE'
 const [ledgerPath] = process.argv.slice(2);
 const ledger = JSON.parse(require("node:fs").readFileSync(ledgerPath, "utf8"));
 const entry = ledger.capabilities.find((cap) => cap.id === "parser/markdown-wasm");
+const allowed = new Set(["rust_impl", "parity_proven", "authority_rust", "ts_deleted"]);
 if (!entry) {
   console.error("[check-no-ts-parser] missing capability parser/markdown-wasm");
   process.exit(1);
 }
-if (entry.state !== "authority_rust") {
+if (!allowed.has(entry.state)) {
   console.error(
-    `[check-no-ts-parser] parser/markdown-wasm is ${entry.state}; expected authority_rust`
+    `[check-no-ts-parser] parser/markdown-wasm is ${entry.state}; expected rust_impl|parity_proven|authority_rust|ts_deleted`
+  );
+  process.exit(1);
+}
+if (entry.state === "rust_impl" && entry.promotionHold && entry.promotionHold.active !== true) {
+  console.error(
+    "[check-no-ts-parser] rust_impl parser/markdown-wasm must keep promotionHold.active=true under rej-010 freeze"
+  );
+  process.exit(1);
+}
+if (
+  !entry.parityTest?.includes("scripts/check-no-ts-parser.sh") &&
+  !entry.parityTest?.includes("golden.json")
+) {
+  console.error(
+    "[check-no-ts-parser] parser/markdown-wasm parityTest must cite check-no-ts-parser or golden fixtures"
   );
   process.exit(1);
 }

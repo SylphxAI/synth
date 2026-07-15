@@ -7,24 +7,25 @@
   "capabilities": [
     {
       "id": "parser/markdown-wasm",
-      "state": "authority_rust",
+      "state": "rust_impl",
       "differentialTest": "crates/wasm-md/src/parser_v2.rs#synth_differential_matches_ts_oracle",
       "proof": {
-        "status": "missing",
-        "staleReason": "rej-010: differential harness landed — awaiting differential_green at bound SHAs",
-        "verificationRef": "verification/synth-2026-07-10T2130-parser-wasm-differential.json"
+        "status": "differential_green",
+        "verificationRef": "verification/synth-2026-07-15T051315Z-parser-wasm-differential-green.json",
+        "staleReason": null
       }
     },
     {
       "id": "parser/javascript-wasm",
-      "state": "authority_rust",
+      "state": "rust_impl",
       "differentialTest": "crates/wasm-js/src/lib.rs#synth_differential_matches_ts_oracle",
       "proof": {
-        "status": "missing",
-        "staleReason": "rej-010: differential harness landed — awaiting differential_green at bound SHAs",
-        "verificationRef": "verification/synth-2026-07-10T2130-parser-wasm-differential.json"
+        "status": "differential_green",
+        "verificationRef": "verification/synth-2026-07-15T051315Z-parser-wasm-differential-green.json",
+        "staleReason": null
       }
     }
   ],
-  "notes": "CI parity slice manifest for markdown-wasm + javascript-wasm differential gate (rej-010). Does not promote fleet ledger state."
+  "notes": "differential_green at bound SHAs; state remains rust_impl (rej-010 no authority promotion)",
+  "status": "differential_green"
 }

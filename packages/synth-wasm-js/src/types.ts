@@ -81,6 +81,8 @@ export enum NodeKind {
 
   // Comments
   Comment = 60,
+  ClassBody = 61,
+  TemplateElement = 62,
 }
 
 /**

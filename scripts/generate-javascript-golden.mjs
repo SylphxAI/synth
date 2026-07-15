@@ -47,7 +47,12 @@ function tsKindCounts(tree) {
 
 const golden = {}
 for (const [id, source] of Object.entries(FIXTURES)) {
-	const tree = parse(source, { typescript: false, plugins: [] })
+	const tree = parse(source, {
+  typescript: false,
+  plugins: [],
+  useTsParser: true,
+  allowReturnOutsideFunction: true,
+})
 	golden[id] = { source, kindCounts: tsKindCounts(tree) }
 }
 

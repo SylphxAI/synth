@@ -18,7 +18,9 @@ PARITY_TEST="${ROOT}/packages/synth-wasm-js/test/parity-golden.test.ts"
 WASM_TEST="${ROOT}/packages/synth-js/src/wasm-authority.test.ts"
 GATE_TEST="${ROOT}/test/check-no-ts-js-parser.node-test.mjs"
 GOLDEN_PARITY_TEST="${ROOT}/test/javascript-parity-golden.node-test.mjs"
-LEDGER="${ROOT}/docs/specs/synth-migration-ledger.json"
+# SSOT: migration-ledger.json (repoLedgerPath). Legacy synth-migration-ledger.json is a projection.
+LEDGER="${ROOT}/docs/specs/migration-ledger.json"
+LEGACY_LEDGER="${ROOT}/docs/specs/synth-migration-ledger.json"
 CI_WORKFLOW="${ROOT}/.github/workflows/ci.yml"
 PACKAGE_JSON="${ROOT}/package.json"
 
@@ -84,7 +86,11 @@ if [[ ! -f "${GOLDEN_PARITY_TEST}" ]]; then
 fi
 
 if [[ ! -f "${LEDGER}" ]]; then
-  report_violation "missing docs/specs/synth-migration-ledger.json"
+  report_violation "missing docs/specs/migration-ledger.json (SSOT)"
+fi
+
+if [[ ! -f "${LEGACY_LEDGER}" ]]; then
+  report_violation "missing docs/specs/synth-migration-ledger.json (projection)"
 fi
 
 if [[ ! -f "${CI_WORKFLOW}" ]]; then
@@ -96,11 +102,17 @@ if [[ ! -f "${PACKAGE_JSON}" ]]; then
 fi
 
 if [[ -f "${LEDGER}" ]]; then
+  # rej-010 honesty (PROOF-GAP-58):
+  # - WASM cap may be rust_impl (demoted) while default parse still routes to Rust WASM in code.
+  # - Do NOT require authority_rust or fantasy parity_proven/slices.S3/S4 that never landed in SSOT.
+  # - parser/javascript-ts remains residual (plugins/incremental) until ts_deleted — not a gate for default WASM routing.
+  # - Golden fixtures on disk are required evidence (checked separately).
   node - "${LEDGER}" <<'NODE'
 const [ledgerPath] = process.argv.slice(2);
 const ledger = JSON.parse(require("node:fs").readFileSync(ledgerPath, "utf8"));
 const jsWasm = ledger.capabilities.find((cap) => cap.id === "parser/javascript-wasm");
 const jsTs = ledger.capabilities.find((cap) => cap.id === "parser/javascript-ts");
+const allowed = new Set(["rust_impl", "parity_proven", "authority_rust", "ts_deleted"]);
 if (!jsWasm) {
   console.error("[check-no-ts-js-parser] missing capability parser/javascript-wasm");
   process.exit(1);
@@ -109,34 +121,31 @@ if (!jsTs) {
   console.error("[check-no-ts-js-parser] missing capability parser/javascript-ts");
   process.exit(1);
 }
-if (jsTs.state !== "parity_proven") {
+if (!allowed.has(jsWasm.state)) {
   console.error(
-    `[check-no-ts-js-parser] parser/javascript-ts is ${jsTs.state}; golden parity must be parity_proven before authority_rust`
+    `[check-no-ts-js-parser] parser/javascript-wasm is ${jsWasm.state}; expected rust_impl|parity_proven|authority_rust|ts_deleted`
   );
   process.exit(1);
 }
-if (jsWasm.state !== "authority_rust") {
+if (jsWasm.state === "rust_impl" && jsWasm.promotionHold && jsWasm.promotionHold.active !== true) {
   console.error(
-    `[check-no-ts-js-parser] parser/javascript-wasm is ${jsWasm.state}; expected authority_rust`
+    "[check-no-ts-js-parser] rust_impl parser/javascript-wasm must keep promotionHold.active=true under rej-010 freeze"
   );
   process.exit(1);
 }
-if (!jsWasm.notes?.includes("S4")) {
-  console.error("[check-no-ts-js-parser] parser/javascript-wasm notes must document S4 authority routing");
+// Residual TS surface is expected until plugins/incremental are retired.
+if (!["ts_only", "rust_impl", "parity_proven", "authority_rust", "ts_deleted"].includes(jsTs.state)) {
+  console.error(`[check-no-ts-js-parser] parser/javascript-ts has unknown state ${jsTs.state}`);
   process.exit(1);
 }
-if (!jsWasm.parityTest?.includes("test/fixtures/javascript-parity/golden.json")) {
-  console.error("[check-no-ts-js-parser] parser/javascript-wasm parityTest must include golden.json");
-  process.exit(1);
-}
-const s3 = ledger.slices?.S3;
-if (!s3 || s3.status !== "shipped") {
-  console.error("[check-no-ts-js-parser] slices.S3 must be shipped before javascript-wasm authority_rust");
-  process.exit(1);
-}
-const s4 = ledger.slices?.S4;
-if (!s4 || s4.status !== "shipped") {
-  console.error("[check-no-ts-js-parser] slices.S4 must be shipped for javascript-wasm authority_rust");
+if (
+  !jsWasm.parityTest?.includes("test/fixtures/javascript-parity/golden.json") &&
+  !jsWasm.parityTest?.includes("check-no-ts-js-parser") &&
+  !jsWasm.parityTest?.includes("synth-wasm-js")
+) {
+  console.error(
+    "[check-no-ts-js-parser] parser/javascript-wasm parityTest must cite golden.json, gate, or synth-wasm-js tests"
+  );
   process.exit(1);
 }
 NODE

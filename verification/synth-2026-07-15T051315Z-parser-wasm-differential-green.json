@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 2,
+  "slice": "parser/markdown-wasm|parser/javascript-wasm",
+  "sliceFilter": "all",
+  "status": "differential_green",
+  "verifiedAt": "2026-07-15T06:13:10+01:00",
+  "lastComparedMainSha": "730bfa1cf03d59b686a67642128f4597c29079a6",
+  "mergeGroupSha": "730bfa1cf03d59b686a67642128f4597c29079a6",
+  "baselineTsSha": "730bfa1cf03d59b686a67642128f4597c29079a6",
+  "rustCandidateSha": "730bfa1cf03d59b686a67642128f4597c29079a6",
+  "behaviorSpecHash": "746ed8a71078fdd1d8735151af4a135f45c9a2970184e6a245c207fc90c77b79",
+  "fixtureCorpusHash": "13f8c01c0c0193bc31727d23dac5e1487c652cee11efb3f1470e976b96e521b7",
+  "caseCount": 18,
+  "markdownCaseCount": 8,
+  "javascriptCaseCount": 10,
+  "harness": "scripts/run-synth-differential.sh",
+  "differentialTest": "crates/wasm-md/src/parser_v2.rs#parser_markdown_wasm_differential_matches_ts_oracle; crates/wasm-js/src/lib.rs#parser_javascript_wasm_differential_matches_ts_oracle",
+  "boundedSlices": {
+    "parser/markdown-wasm": "crates/wasm-md/src/parser_v2.rs#parser_markdown_wasm_differential_matches_ts_oracle",
+    "parser/javascript-wasm": "crates/wasm-js/src/lib.rs#parser_javascript_wasm_differential_matches_ts_oracle"
+  },
+  "oracle": "scripts/differential/synth-oracle.ts",
+  "gate": "scripts/check-no-ts-parser.sh; scripts/check-no-ts-js-parser.sh"
+}
