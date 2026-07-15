@@ -247,18 +247,18 @@
     "policy": "demote incomplete promoted states to rust_impl; no authority_rust/ts_deleted promotions"
   },
   "honestyResidual": {
-    "packet": "ADVERSARIAL-PURE-RESIDUAL-CONTINUE3-2026-07-15",
-    "at": "2026-07-15T12:01:51Z",
+    "packet": "ADVERSARIAL-PURE-RESIDUAL-CONTINUE4-2026-07-15",
+    "at": "2026-07-15T12:43:53Z",
     "authority_rust": false,
     "ts_deleted": false,
     "goal_complete": false,
     "differential_green_caps": ["parser/javascript-wasm", "parser/markdown-wasm"],
     "pure_residual_kernels": [
-      "arrow_emit (arrow_token, params need/open/after parens)",
-      "fn_sig_emit (params_close_before_body, method_params, named_id_prefix/emit_named_id)",
-      "node_fallback (unsupported_node_comment, import_stub, from_keyword)",
-      "binding_id (is_binding_id_type, is_pattern_type, classify_declarator_child)",
-      "prior: stmt_emit, literal_emit, assign_sep, quote_props, format_emit, function_meta, lint_rule_active, halstead_classify, lint_block_types, lint_console, lint_severity, format_style, metrics_ratio, format_indent, function_types, mangle, minify_savings, metrics_basic, halstead_math, complexity_types, lint_max_depth, token_span"
+      "child_select (program/block/class_body/fn_expr/identifier indices; arrow body; call/binary splits)",
+      "block_emit (block_open/close/item_sep, trailing_comma_suffix, unary_is_prefix, object open/close)",
+      "export_kind (default/named/type classify, export_default_token)",
+      "method_kind (should_emit_method_kind, normalize, method_after_key, method_has_value)",
+      "prior: arrow_emit, fn_sig_emit, node_fallback, binding_id, stmt_emit, literal_emit, assign_sep, quote_props, format_emit, function_meta, lint_rule_active, halstead_classify, lint_block_types, lint_console, lint_severity, format_style, metrics_ratio, format_indent, function_types, mangle, minify_savings, metrics_basic, halstead_math, complexity_types, lint_max_depth, token_span"
     ],
     "ts_only_remaining": [
       "parser/markdown-ts",
@@ -274,7 +274,7 @@
       "tooling/metrics": "full analyzer remains TS; pure fragments only",
       "distribution/npm-monorepo": "Changesets TS release path"
     },
-    "strongestTruthfulState": "rust_impl_with_parser_wasm_differential_green_pure_residual_continue3",
+    "strongestTruthfulState": "rust_impl_with_parser_wasm_differential_green_pure_residual_continue4",
     "explicitNonClaims": [
       "authority_rust",
       "ts_deleted",
@@ -287,7 +287,7 @@
     "rootCauseIfIncomplete": "Five residual ts_only caps intentionally retained: markdown-ts + javascript-ts for plugins/incremental/streaming; format-minify-lint + metrics full engines (pure kernels only in crates/core); distribution/npm-monorepo. Full ts_deleted requires retiring those surfaces \u2014 out of bounded adversarial residual slice.",
     "decision": "HONEST_FAIL_FULL_TS_DELETED",
     "prod_audit_pass": false,
-    "lastPureResidualCodeTip": "a744e78e57710d6c00bbdd0265a815bf9f950657"
+    "lastPureResidualCodeTip": "b2c2b4e47e7bd58a0c133dfd70822b3e01ca48b4"
   },
   "ssot": {
     "repoLedgerPath": "docs/specs/migration-ledger.json",
