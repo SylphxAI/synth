@@ -59,6 +59,7 @@ mod new_await_chain_emit;
 mod try_import_emit;
 mod loop_switch_full_emit;
 mod pattern_sequence_emit;
+mod property_static_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
@@ -297,6 +298,13 @@ pub use pattern_sequence_emit::{
     object_pattern_shorthand, object_pattern_skeleton, rest_element_token,
     sequence_expression_paren_skeleton, spread_element_token, tagged_template_expression_skeleton,
     tagged_template_simple,
+};
+// Pure residual continue20 — PropertyDefinition/StaticBlock/ClassExpression.
+pub use property_static_emit::{
+    accessor_property_skeleton, class_expression_skeleton, class_method_like_field_skeleton,
+    computed_property_key, is_accessor_property_type, is_class_expression_type,
+    is_property_definition_type, is_property_static_related_type, is_static_block_type,
+    property_definition_skeleton, property_key_token, static_block_skeleton, static_prefix,
 };
 // catch_open / try_token already re-exported from conditional_spread_emit dual-oracle.
 

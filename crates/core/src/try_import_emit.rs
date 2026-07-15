@@ -88,7 +88,7 @@ pub fn catch_open(pretty: bool, has_param: bool) -> &'static str {
 #[must_use]
 pub fn catch_param_close(pretty: bool, has_param: bool) -> &'static str {
     if !has_param {
-        return if pretty { "" } else { "" };
+        return "";
     }
     if pretty {
         ") "
@@ -235,7 +235,7 @@ pub fn import_declaration_full_skeleton(
             }
             out.push_str(p);
         }
-        out.push_str(if pretty { " from " } else { " from " });
+        out.push_str(" from ");
         out.push_str(&src);
     } else {
         // side-effect import: `import 'mod'`

@@ -218,12 +218,9 @@ pub fn assignment_pattern_skeleton(left: &str, right: &str, pretty: bool) -> Str
 }
 
 fn body_spacing(body: &str, pretty: bool) -> String {
+    // Pretty always inserts a leading space before body (block or statement form).
     if pretty {
-        if body.starts_with('{') || body.starts_with('\n') {
-            format!(" {body}")
-        } else {
-            format!(" {body}")
-        }
+        format!(" {body}")
     } else {
         body.to_string()
     }

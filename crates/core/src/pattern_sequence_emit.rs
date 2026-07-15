@@ -128,12 +128,9 @@ pub fn object_pattern_shorthand(name: &str) -> String {
 }
 
 fn body_spacing(body: &str, pretty: bool) -> String {
+    // Pretty always inserts a leading space before body (block or statement form).
     if pretty {
-        if body.starts_with('{') || body.starts_with('\n') {
-            format!(" {body}")
-        } else {
-            format!(" {body}")
-        }
+        format!(" {body}")
     } else {
         body.to_string()
     }
