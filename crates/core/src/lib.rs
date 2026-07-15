@@ -59,6 +59,7 @@ mod new_await_chain_emit;
 mod try_import_emit;
 mod loop_switch_full_emit;
 mod pattern_sequence_emit;
+mod yield_meta_emit;
 mod property_static_emit;
 mod printer_engine;
 mod compressor_engine;
