@@ -1,14 +1,16 @@
-# Agent Instructions - Synth
+# synth — local agent notes only
 
-This repository follows the central Sylphx doctrine:
-<https://github.com/SylphxAI/doctrine>.
+Doctrine and fleet delivery law live in the **host always-on constitution**
+(`~/.grok/AGENTS.md` / Doctrine template). This file must **not** restate,
+weaken, or fork that law (including PR-vs-direct-trunk delivery).
 
-Before changing behavior, read:
+Local truth: `PROJECT.md`, `.doctrine/project.json` when present.
 
-- [PROJECT.md](./PROJECT.md), [project.manifest.json](./project.manifest.json), and [.doctrine/project.json](./.doctrine/project.json) for this repository's goal, boundary, public
-  surfaces, delivery proof, vendor-neutral manifest, and Sylphx Doctrine adapter facts.
+## Boundary hazards
 
-Local validation ladder:
+- Never commit secrets, tokens, `.env` files, or credentials.
+
+## Local commands
 
 ```bash
 bun install --frozen-lockfile
@@ -18,10 +20,7 @@ npm exec --yes --package groundatlas@0.1.3 -- ga fleet . --out .groundatlas-pilo
 npm exec --yes --package groundatlas@0.1.3 -- ga fleet . --out .groundatlas-pilot --require-atlas --strict
 ```
 
-Rust/WASM parser changes also need the Rust toolchain with
-`wasm32-unknown-unknown` and should pass the relevant package build before PR.
+## Validation notes
 
-CI is wired through ADR-29 fan-in contexts:
-`risk-classification/pass`, `ci`, and `trunk-admission/pass`.
-
-Generated `.groundatlas*` files plus GroundAtlas JSON/Markdown reports are evidence/navigation only. Do not treat them as source of truth.
+- Prefer the **narrowest** affected check before full workspace runs.
+- Report layers honestly: local diff · trunk FF · deploy · prod proof (do not collapse).
