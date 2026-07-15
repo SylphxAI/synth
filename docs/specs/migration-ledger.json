@@ -2,7 +2,9 @@
   "schemaVersion": 2,
   "repo": "SylphxAI/synth",
   "lockedAt": "2026-07-09T19:38:00Z",
-  "inventorySource": ["manual"],
+  "inventorySource": [
+    "manual"
+  ],
   "inScopeBoundary": {
     "includeGlobs": [
       "src/**",
@@ -167,7 +169,7 @@
       "state": "ts_only",
       "tsSurface": "packages/synth-js-format/; packages/synth-js-minify/; packages/synth-lint/",
       "rustSurface": "crates/core/src/mangle.rs; crates/core/src/minify_savings.rs; crates/core/src/format_indent.rs; crates/core/src/format_style.rs; crates/core/src/format_emit.rs; crates/core/src/lint_max_depth.rs; crates/core/src/lint_block_types.rs; crates/core/src/lint_console.rs; crates/core/src/lint_severity.rs; crates/core/src/lint_rule_active.rs",
-      "notes": "Full printer/compressor/linter engines remain TS intentionally. Pure residual fragments only: mangle, minify savings, indent/quote/eol, format_style option branches, format_emit (unary/member/prefixes/print_width), max-depth/block/console/severity + rule-active kernels. NO rust_impl promotion / ts_deleted (engines+plugins stay TS)."
+      "notes": "Full printer/compressor/linter engines remain TS intentionally. Pure residual fragments: mangle, minify savings, indent, lint severity/console/max-depth/block, format style/emit, stmt/literal/assign/quote/arrow/fn-sig, child_select, block_emit, export_kind, method_kind, member_access_kind, class_emit_kind, unary_binary_emit. NO authority_rust / ts_deleted."
     },
     {
       "id": "tooling/metrics",
@@ -219,9 +221,10 @@
     "weighted_progress": 0.1346,
     "proof_stale": 1,
     "proof_missing": 2,
-    "updatedAt": "2026-07-15T11:02:09Z",
-    "lastMutation": "ADVERSARIAL-PURE-RESIDUAL-CONTINUE-REBIND",
-    "verified_authority_progress": 0.0
+    "updatedAt": "2026-07-15T17:10:00Z",
+    "lastMutation": "PURE-RESIDUAL-CONTINUE5-CLASS-MEMBER-UNARY",
+    "verified_authority_progress": 0.0,
+    "notes": "pure residual continue5 2026-07-15: member_access_kind + class_emit_kind + unary_binary_emit; cargo test/clippy --lib green (119). engines remain TS. NO authority_rust / ts_deleted / prod_audit_pass."
   },
   "repoLedgerPath": "docs/specs/migration-ledger.json",
   "rej010HonestyDemote": {
@@ -252,7 +255,10 @@
     "authority_rust": false,
     "ts_deleted": false,
     "goal_complete": false,
-    "differential_green_caps": ["parser/javascript-wasm", "parser/markdown-wasm"],
+    "differential_green_caps": [
+      "parser/javascript-wasm",
+      "parser/markdown-wasm"
+    ],
     "pure_residual_kernels": [
       "halstead_classify (is_operator/operand_node_type, operand_value)",
       "lint_rule_active (is_rule_enabled, language/config filters, severity resolve, node_type_applies)",

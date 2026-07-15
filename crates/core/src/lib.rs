@@ -42,6 +42,9 @@ mod child_select;
 mod block_emit;
 mod export_kind;
 mod method_kind;
+mod member_access_kind;
+mod class_emit_kind;
+mod unary_binary_emit;
 
 pub use tree::*;
 pub use query::{depth, descendants, find_by_type};
@@ -157,4 +160,17 @@ pub use export_kind::{
 };
 pub use method_kind::{
     method_after_key, method_has_value, normalize_method_kind, should_emit_method_kind,
+};
+pub use member_access_kind::{
+    is_computed_member, member_brackets, member_close, member_open, optional_chain_close,
+    optional_chain_open,
+};
+pub use class_emit_kind::{
+    class_body_close, class_body_open, class_body_token, class_keyword, class_name_trailing_space,
+    empty_class_body, is_class_body_type as is_class_emit_body_type, is_class_type,
+    should_emit_class_name,
+};
+pub use unary_binary_emit::{
+    binary_needs_spaces, binary_operator_token, is_assignment_operator, is_logical_operator,
+    unary_is_always_prefix, unary_is_word_operator, unary_operator_token, update_prefix_token,
 };
