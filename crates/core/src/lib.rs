@@ -56,6 +56,7 @@ mod export_class_emit;
 mod ident_literal_emit;
 mod assign_logical_update_emit;
 mod new_await_chain_emit;
+mod try_import_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
@@ -271,6 +272,15 @@ pub use new_await_chain_emit::{
     is_new_expression_type, is_tagged_template_type, is_yield_expression_type, new_expression_skeleton,
     new_keyword, tagged_template_skeleton, yield_expression_skeleton,
 };
+// Pure residual continue17 — Try/Catch/Throw/Labeled/Break/Continue/With + full Import.
+pub use try_import_emit::{
+    break_continue_skeleton, catch_param_close, finally_token, import_declaration_full_skeleton,
+    is_break_statement_type, is_catch_clause_type, is_continue_statement_type,
+    is_labeled_statement_type, is_throw_statement_type, is_try_import_related_type,
+    is_try_statement_type, is_with_statement_type, labeled_statement_skeleton,
+    throw_statement_skeleton, try_statement_skeleton, with_close, with_open,
+};
+// catch_open / try_token already re-exported from conditional_spread_emit dual-oracle.
 
 // Product tooling engines (printer / compressor / linter)
 pub use printer_engine::{
