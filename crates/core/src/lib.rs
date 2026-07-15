@@ -38,6 +38,10 @@ mod arrow_emit;
 mod fn_sig_emit;
 mod node_fallback;
 mod binding_id;
+mod child_select;
+mod block_emit;
+mod export_kind;
+mod method_kind;
 
 pub use tree::*;
 pub use query::{depth, descendants, find_by_type};
@@ -137,3 +141,20 @@ pub use node_fallback::{
     emit_import_stub, from_keyword, import_stub_comment, unsupported_node_comment,
 };
 pub use binding_id::{classify_declarator_child, is_binding_id_type, is_pattern_type};
+pub use child_select::{
+    arrow_body_index, binary_has_left, binary_has_right, body_index, call_arg_count,
+    class_body_index, find_first_index, has_callee, identifier_index, is_block_statement_type,
+    is_class_body_type, is_function_expression_type, is_identifier_type, is_program_type,
+    method_value_index,
+};
+pub use block_emit::{
+    block_close, block_item_sep, block_open, object_close, object_open, trailing_comma_suffix,
+    unary_is_prefix,
+};
+pub use export_kind::{
+    classify_export_kind, export_default_token, is_export_default_type, is_export_named_type,
+    is_export_type, wants_export_default_token,
+};
+pub use method_kind::{
+    method_after_key, method_has_value, normalize_method_kind, should_emit_method_kind,
+};
