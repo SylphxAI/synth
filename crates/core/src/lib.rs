@@ -26,6 +26,10 @@ mod lint_console;
 mod lint_severity;
 mod format_style;
 mod metrics_ratio;
+mod halstead_classify;
+mod lint_rule_active;
+mod function_meta;
+mod format_emit;
 
 pub use tree::*;
 pub use query::{depth, descendants, find_by_type};
@@ -87,4 +91,18 @@ pub use format_style::{
 pub use metrics_ratio::{
     avg_nodes_per_function, blank_density, comment_density, complexity_density,
     max_function_complexity, source_density, sum_function_complexity,
+};
+pub use halstead_classify::{is_operand_node_type, is_operator_node_type, operand_value};
+pub use lint_rule_active::{
+    config_language_allows, is_rule_enabled, language_applies, node_type_applies,
+    resolve_diagnostic_severity, rule_is_active,
+};
+pub use function_meta::{
+    function_loc, function_loc_from_source, function_name, function_param_count,
+    function_source_slice,
+};
+pub use format_emit::{
+    async_prefix, exceeds_print_width, export_prefix, format_unary_operator, generator_suffix,
+    member_access_close, member_access_open, method_kind_prefix, unary_needs_trailing_space,
+    var_kind_token,
 };
