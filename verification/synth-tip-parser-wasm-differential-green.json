@@ -3,11 +3,11 @@
   "slice": "parser/markdown-wasm|parser/javascript-wasm",
   "sliceFilter": "all",
   "status": "differential_green",
-  "verifiedAt": "2026-07-15T12:31:30+01:00",
-  "lastComparedMainSha": "a744e78e57710d6c00bbdd0265a815bf9f950657",
-  "mergeGroupSha": "a744e78e57710d6c00bbdd0265a815bf9f950657",
-  "baselineTsSha": "a744e78e57710d6c00bbdd0265a815bf9f950657",
-  "rustCandidateSha": "a744e78e57710d6c00bbdd0265a815bf9f950657",
+  "verifiedAt": "2026-07-15T13:01:51+01:00",
+  "lastComparedMainSha": "231b103ff352db92c8ea1de0ba8af21b5611086f",
+  "mergeGroupSha": "231b103ff352db92c8ea1de0ba8af21b5611086f",
+  "baselineTsSha": "231b103ff352db92c8ea1de0ba8af21b5611086f",
+  "rustCandidateSha": "231b103ff352db92c8ea1de0ba8af21b5611086f",
   "behaviorSpecHash": "746ed8a71078fdd1d8735151af4a135f45c9a2970184e6a245c207fc90c77b79",
   "fixtureCorpusHash": "13f8c01c0c0193bc31727d23dac5e1487c652cee11efb3f1470e976b96e521b7",
   "caseCount": 18,
@@ -21,5 +21,5 @@
   },
   "oracle": "scripts/differential/synth-oracle.ts",
   "gate": "scripts/check-no-ts-parser.sh; scripts/check-no-ts-js-parser.sh",
-  "notes": "Rebind after pure residual deepen2 (stmt_emit/literal_emit/assign_sep/quote_props + metrics_basic <!-- parity); wasm parsers unchanged; cases=18 still green"
+  "notes": "Rebind after pure residual continue3 (arrow_emit/fn_sig_emit/node_fallback/binding_id); wasm parsers unchanged; cases=18 still green"
 }
