@@ -99,6 +99,7 @@ mod try_throw_debugger_empty_switch_emit;
 mod switch_case_method_export_import_expr_class_body_emit;
 mod switch_case_break_continue_for_logical_emit;
 mod return_block_expr_var_ident_emit;
+mod unary_binary_await_arrow_spread_rest_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
