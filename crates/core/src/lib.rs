@@ -65,6 +65,7 @@ mod literal_widen_emit;
 mod class_export_from_emit;
 mod arrow_method_default_emit;
 mod optional_chain_emit;
+mod object_method_conditional_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
@@ -369,6 +370,19 @@ pub use optional_chain_emit::{
     optional_call_pretty, optional_call_skeleton, optional_member_computed,
     optional_member_skeleton, optional_member_static, optional_member_then_call,
     CONTINUE73_RELATED_TYPES,
+};
+
+// Pure residual continue74 — ObjectMethod / ConditionalExpression / ForOf(await)
+// dual-oracle dens. New surface (not continue64–73 re-wrap).
+// dens ≠ flip; PreferRust OFF.
+pub use object_method_conditional_emit::{
+    conditional_expression_minify, conditional_expression_pretty,
+    continue74_conditional_expression_skeleton, for_await_of_minify, for_of_await_skeleton,
+    for_of_pretty, is_continue74_conditional_type, is_continue74_for_in_type,
+    is_continue74_for_of_type, is_continue74_object_method_type,
+    is_continue74_object_property_type, is_object_method_conditional_related_type,
+    object_getter_skeleton, object_method_minify, object_method_pretty,
+    object_method_skeleton, object_setter_skeleton, CONTINUE74_RELATED_TYPES,
 };
 
 // Product tooling engines (printer / compressor / linter)
