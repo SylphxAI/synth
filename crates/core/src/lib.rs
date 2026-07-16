@@ -63,6 +63,7 @@ mod yield_meta_emit;
 mod property_static_emit;
 mod literal_widen_emit;
 mod class_export_from_emit;
+mod arrow_method_default_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
@@ -338,6 +339,21 @@ pub use class_export_from_emit::{
     is_continue71_super_type, super_call_skeleton, super_computed_member_skeleton,
     super_member_skeleton, super_static_member_skeleton, wants_class_extends,
     CONTINUE71_RELATED_TYPES,
+};
+
+// Pure residual continue72 — Arrow / Method(static·async·params·computed) /
+// ExportDefault dual-oracle dens. New surface (not continue64–71 re-wrap).
+// dens ≠ flip; PreferRust OFF.
+pub use arrow_method_default_emit::{
+    arrow_dual_needs_parens, arrow_empty_skeleton, arrow_function_minify,
+    arrow_function_pretty_always, arrow_function_skeleton, export_default_class_skeleton,
+    export_default_declaration_skeleton, export_default_expression_skeleton,
+    export_default_function_skeleton, is_arrow_method_default_related_type,
+    is_continue72_arrow_type, is_continue72_class_declaration_type,
+    is_continue72_export_default_type, is_continue72_function_declaration_type,
+    is_continue72_function_expression_type, is_continue72_method_definition_type,
+    method_definition_full_skeleton, method_key_fragment, method_params_fragment,
+    param_list_interior, CONTINUE72_RELATED_TYPES,
 };
 
 // Product tooling engines (printer / compressor / linter)
