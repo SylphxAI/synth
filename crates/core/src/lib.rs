@@ -64,6 +64,7 @@ mod property_static_emit;
 mod literal_widen_emit;
 mod class_export_from_emit;
 mod arrow_method_default_emit;
+mod optional_chain_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
@@ -354,6 +355,20 @@ pub use arrow_method_default_emit::{
     is_continue72_function_expression_type, is_continue72_method_definition_type,
     method_definition_full_skeleton, method_key_fragment, method_params_fragment,
     param_list_interior, CONTINUE72_RELATED_TYPES,
+};
+
+// Pure residual continue73 — OptionalMember / OptionalCall / ChainExpression
+// dual-oracle dens. New surface (not continue64–72 re-wrap).
+// dens ≠ flip; PreferRust OFF.
+pub use optional_chain_emit::{
+    arg_list_interior, chain_optional_call, chain_optional_member,
+    continue73_chain_expression_skeleton, is_continue73_call_type,
+    is_continue73_chain_expression_type, is_continue73_member_type,
+    is_continue73_optional_call_type, is_continue73_optional_member_type,
+    is_optional_chain_related_type, optional_call_minify, optional_call_open,
+    optional_call_pretty, optional_call_skeleton, optional_member_computed,
+    optional_member_skeleton, optional_member_static, optional_member_then_call,
+    CONTINUE73_RELATED_TYPES,
 };
 
 // Product tooling engines (printer / compressor / linter)
