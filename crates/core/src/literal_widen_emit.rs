@@ -1,4 +1,4 @@
-//! Pure residual continue21–25: widen literals through paren/template-expr/private emit.
+//! Pure residual continue21–26: widen literals through paren/template/private/sequence/yield emit.
 //! Intentional ts_only plugins retained. NO authority_rust / ts_deleted invent.
 
 #![allow(dead_code)]
@@ -298,6 +298,67 @@ pub fn continue25_private_name_skeleton(name: &str) -> String {
     format!("#{n}")
 }
 
+
+// ── continue26 pure residual: SequenceExpression / UpdateExpression / YieldExpression emit ──
+
+/// Dual-oracle residual: sequence / update / yield related types.
+#[must_use]
+pub fn is_continue26_related_type(t: &str) -> bool {
+    matches!(
+        t,
+        "SequenceExpression" | "UpdateExpression" | "YieldExpression" | "AwaitExpression"
+    )
+}
+
+#[must_use]
+pub fn is_continue26_sequence_expression_type(t: &str) -> bool {
+    t == "SequenceExpression"
+}
+
+#[must_use]
+pub fn is_continue26_update_expression_type(t: &str) -> bool {
+    t == "UpdateExpression"
+}
+
+#[must_use]
+pub fn is_continue26_yield_expression_type(t: &str) -> bool {
+    t == "YieldExpression"
+}
+
+/// Dual-oracle residual: sequence of two expressions `a, b`.
+#[must_use]
+pub fn continue26_sequence_two_skeleton(left: &str, right: &str) -> String {
+    format!("{left}, {right}")
+}
+
+/// Dual-oracle residual: prefix update `++x` / `--x`.
+#[must_use]
+pub fn continue26_update_prefix_skeleton(op: &str, arg: &str) -> String {
+    format!("{op}{arg}")
+}
+
+/// Dual-oracle residual: postfix update `x++` / `x--`.
+#[must_use]
+pub fn continue26_update_postfix_skeleton(arg: &str, op: &str) -> String {
+    format!("{arg}{op}")
+}
+
+/// Dual-oracle residual: bare `yield` / `yield expr` / `yield* expr`.
+#[must_use]
+pub fn continue26_yield_skeleton(delegate: bool, arg: Option<&str>) -> String {
+    match (delegate, arg) {
+        (true, Some(a)) => format!("yield* {a}"),
+        (false, Some(a)) => format!("yield {a}"),
+        (_, None) => "yield".to_string(),
+    }
+}
+
+/// Dual-oracle residual: `await expr`.
+#[must_use]
+pub fn continue26_await_skeleton(arg: &str) -> String {
+    format!("await {arg}")
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -396,5 +457,25 @@ mod tests {
         assert_eq!(continue25_private_name_skeleton("field"), "#field");
         assert_eq!(continue25_private_name_skeleton("#already"), "#already");
     }
+
+    #[test]
+    fn continue26_sequence_update_yield_emit() {
+        assert!(is_continue26_related_type("SequenceExpression"));
+        assert!(is_continue26_related_type("UpdateExpression"));
+        assert!(is_continue26_related_type("YieldExpression"));
+        assert!(is_continue26_related_type("AwaitExpression"));
+        assert!(!is_continue26_related_type("StringLiteral"));
+        assert!(is_continue26_sequence_expression_type("SequenceExpression"));
+        assert!(is_continue26_update_expression_type("UpdateExpression"));
+        assert!(is_continue26_yield_expression_type("YieldExpression"));
+        assert_eq!(continue26_sequence_two_skeleton("a", "b"), "a, b");
+        assert_eq!(continue26_update_prefix_skeleton("++", "x"), "++x");
+        assert_eq!(continue26_update_postfix_skeleton("x", "--"), "x--");
+        assert_eq!(continue26_yield_skeleton(false, None), "yield");
+        assert_eq!(continue26_yield_skeleton(false, Some("v")), "yield v");
+        assert_eq!(continue26_yield_skeleton(true, Some("v")), "yield* v");
+        assert_eq!(continue26_await_skeleton("p"), "await p");
+    }
+
 
 }
