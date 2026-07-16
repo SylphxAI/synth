@@ -1063,6 +1063,131 @@ pub fn continue33_class_property_skeleton(name: &str, value: Option<&str>) -> St
     }
 }
 
+// ── continue34: for / var / assignment-pattern / program / import-spec emit ──
+// Pure residual dual-oracle dens of remaining core AST tags not yet catalogued
+// in continue21–33. Full printer/compressor engines remain intentional residual.
+// NO authority_rust / ts_deleted invent. dens ≠ flip.
+
+/// Dual-oracle residual: ForStatement type tag.
+pub const CONTINUE34_FOR_STATEMENT_TYPE: &str = "ForStatement";
+/// Dual-oracle residual: VariableDeclaration type tag.
+pub const CONTINUE34_VARIABLE_DECLARATION_TYPE: &str = "VariableDeclaration";
+/// Dual-oracle residual: VariableDeclarator type tag.
+pub const CONTINUE34_VARIABLE_DECLARATOR_TYPE: &str = "VariableDeclarator";
+/// Dual-oracle residual: AssignmentPattern type tag.
+pub const CONTINUE34_ASSIGNMENT_PATTERN_TYPE: &str = "AssignmentPattern";
+/// Dual-oracle residual: Program type tag.
+pub const CONTINUE34_PROGRAM_TYPE: &str = "Program";
+/// Dual-oracle residual: ImportDefaultSpecifier type tag.
+pub const CONTINUE34_IMPORT_DEFAULT_SPECIFIER_TYPE: &str = "ImportDefaultSpecifier";
+/// Dual-oracle residual: ImportNamespaceSpecifier type tag.
+pub const CONTINUE34_IMPORT_NAMESPACE_SPECIFIER_TYPE: &str = "ImportNamespaceSpecifier";
+
+/// Dual-oracle residual: continue34 related type membership.
+#[must_use]
+pub fn is_continue34_related_type(ty: &str) -> bool {
+    matches!(
+        ty,
+        "ForStatement"
+            | "VariableDeclaration"
+            | "VariableDeclarator"
+            | "AssignmentPattern"
+            | "Program"
+            | "ImportDefaultSpecifier"
+            | "ImportNamespaceSpecifier"
+    )
+}
+
+#[must_use]
+pub fn is_continue34_for_statement_type(ty: &str) -> bool {
+    ty == CONTINUE34_FOR_STATEMENT_TYPE
+}
+
+#[must_use]
+pub fn is_continue34_variable_declaration_type(ty: &str) -> bool {
+    ty == CONTINUE34_VARIABLE_DECLARATION_TYPE
+}
+
+#[must_use]
+pub fn is_continue34_variable_declarator_type(ty: &str) -> bool {
+    ty == CONTINUE34_VARIABLE_DECLARATOR_TYPE
+}
+
+#[must_use]
+pub fn is_continue34_assignment_pattern_type(ty: &str) -> bool {
+    ty == CONTINUE34_ASSIGNMENT_PATTERN_TYPE
+}
+
+#[must_use]
+pub fn is_continue34_program_type(ty: &str) -> bool {
+    ty == CONTINUE34_PROGRAM_TYPE
+}
+
+#[must_use]
+pub fn is_continue34_import_default_specifier_type(ty: &str) -> bool {
+    ty == CONTINUE34_IMPORT_DEFAULT_SPECIFIER_TYPE
+}
+
+#[must_use]
+pub fn is_continue34_import_namespace_specifier_type(ty: &str) -> bool {
+    ty == CONTINUE34_IMPORT_NAMESPACE_SPECIFIER_TYPE
+}
+
+/// Dual-oracle residual: `for (init; test; update) body` skeleton.
+#[must_use]
+pub fn continue34_for_skeleton(init: &str, test: &str, update: &str, body: &str) -> String {
+    format!("for ({init}; {test}; {update}) {body}")
+}
+
+/// Dual-oracle residual: `kind decls;` variable declaration skeleton.
+#[must_use]
+pub fn continue34_variable_declaration_skeleton(kind: &str, decls: &str) -> String {
+    format!("{kind} {decls};")
+}
+
+/// Dual-oracle residual: `id = init` declarator (or bare `id`).
+#[must_use]
+pub fn continue34_variable_declarator_skeleton(id: &str, init: Option<&str>) -> String {
+    match init {
+        Some(v) => format!("{id} = {v}"),
+        None => id.to_string(),
+    }
+}
+
+/// Dual-oracle residual: assignment pattern `left = right`.
+#[must_use]
+pub fn continue34_assignment_pattern_skeleton(left: &str, right: &str) -> String {
+    format!("{left} = {right}")
+}
+
+/// Dual-oracle residual: program body join (statements already terminated).
+#[must_use]
+pub fn continue34_program_skeleton(body: &str) -> String {
+    body.to_string()
+}
+
+/// Dual-oracle residual: default import specifier local name.
+#[must_use]
+pub fn continue34_import_default_specifier_skeleton(local: &str) -> String {
+    local.to_string()
+}
+
+/// Dual-oracle residual: namespace import `* as local`.
+#[must_use]
+pub fn continue34_import_namespace_specifier_skeleton(local: &str) -> String {
+    format!("* as {local}")
+}
+
+/// Dual-oracle residual: `import Def, * as NS from "src"` combined skeleton.
+#[must_use]
+pub fn continue34_import_default_namespace_skeleton(
+    default_local: &str,
+    ns_local: &str,
+    source: &str,
+) -> String {
+    format!("import {default_local}, * as {ns_local} from {source};")
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1436,5 +1561,65 @@ mod tests {
             "x = 1;"
         );
         assert_eq!(continue33_class_property_skeleton("y", None), "y;");
+    }
+
+    #[test]
+    fn continue34_for_var_assignment_program_import_spec_emit() {
+        assert!(is_continue34_related_type("ForStatement"));
+        assert!(is_continue34_related_type("VariableDeclaration"));
+        assert!(is_continue34_related_type("VariableDeclarator"));
+        assert!(is_continue34_related_type("AssignmentPattern"));
+        assert!(is_continue34_related_type("Program"));
+        assert!(is_continue34_related_type("ImportDefaultSpecifier"));
+        assert!(is_continue34_related_type("ImportNamespaceSpecifier"));
+        assert!(!is_continue34_related_type("ClassDeclaration"));
+        assert!(is_continue34_for_statement_type("ForStatement"));
+        assert!(is_continue34_variable_declaration_type("VariableDeclaration"));
+        assert!(is_continue34_variable_declarator_type("VariableDeclarator"));
+        assert!(is_continue34_assignment_pattern_type("AssignmentPattern"));
+        assert!(is_continue34_program_type("Program"));
+        assert!(is_continue34_import_default_specifier_type(
+            "ImportDefaultSpecifier"
+        ));
+        assert!(is_continue34_import_namespace_specifier_type(
+            "ImportNamespaceSpecifier"
+        ));
+        assert_eq!(
+            continue34_for_skeleton("let i = 0", "i < 3", "i++", "{}"),
+            "for (let i = 0; i < 3; i++) {}"
+        );
+        assert_eq!(
+            continue34_variable_declaration_skeleton("const", "x = 1"),
+            "const x = 1;"
+        );
+        assert_eq!(
+            continue34_variable_declaration_skeleton("let", "a, b"),
+            "let a, b;"
+        );
+        assert_eq!(
+            continue34_variable_declarator_skeleton("x", Some("1")),
+            "x = 1"
+        );
+        assert_eq!(continue34_variable_declarator_skeleton("y", None), "y");
+        assert_eq!(
+            continue34_assignment_pattern_skeleton("x", "0"),
+            "x = 0"
+        );
+        assert_eq!(
+            continue34_program_skeleton("const x = 1;\n"),
+            "const x = 1;\n"
+        );
+        assert_eq!(
+            continue34_import_default_specifier_skeleton("React"),
+            "React"
+        );
+        assert_eq!(
+            continue34_import_namespace_specifier_skeleton("ns"),
+            "* as ns"
+        );
+        assert_eq!(
+            continue34_import_default_namespace_skeleton("Def", "NS", "\"./m.js\""),
+            "import Def, * as NS from \"./m.js\";"
+        );
     }
 }
