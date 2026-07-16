@@ -663,6 +663,93 @@ pub fn continue29_export_default_skeleton(expr: &str) -> String {
     format!("export default {expr}")
 }
 
+
+// ── continue30 pure residual: Assignment / Update / Member / Call emit ──
+// Dual-oracle residual of AST expression emit skeletons.
+// Intentional ts_only plugins retained. dens ≠ flip; no authority invent.
+
+/// Dual-oracle residual: continue30 related AST type catalog.
+#[must_use]
+pub fn is_continue30_related_type(t: &str) -> bool {
+    matches!(
+        t,
+        "AssignmentExpression"
+            | "UpdateExpression"
+            | "MemberExpression"
+            | "OptionalMemberExpression"
+            | "CallExpression"
+            | "OptionalCallExpression"
+            | "NewExpression"
+            | "SequenceExpression"
+            | "SpreadElement"
+    )
+}
+
+#[must_use]
+pub fn is_continue30_assignment_type(t: &str) -> bool {
+    t == "AssignmentExpression"
+}
+#[must_use]
+pub fn is_continue30_update_type(t: &str) -> bool {
+    t == "UpdateExpression"
+}
+#[must_use]
+pub fn is_continue30_member_type(t: &str) -> bool {
+    matches!(t, "MemberExpression" | "OptionalMemberExpression")
+}
+#[must_use]
+pub fn is_continue30_call_type(t: &str) -> bool {
+    matches!(t, "CallExpression" | "OptionalCallExpression" | "NewExpression")
+}
+
+/// Dual-oracle residual: assignment skeleton (`a = b`, `a += b`).
+#[must_use]
+pub fn continue30_assignment_skeleton(left: &str, op: &str, right: &str) -> String {
+    format!("{left} {op} {right}")
+}
+
+/// Dual-oracle residual: update skeleton (`++i` / `i++`).
+#[must_use]
+pub fn continue30_update_skeleton(arg: &str, op: &str, prefix: bool) -> String {
+    if prefix {
+        format!("{op}{arg}")
+    } else {
+        format!("{arg}{op}")
+    }
+}
+
+/// Dual-oracle residual: member access skeleton.
+#[must_use]
+pub fn continue30_member_skeleton(object: &str, property: &str, computed: bool, optional: bool) -> String {
+    let chain = if optional { "?." } else { "." };
+    if computed {
+        if optional {
+            format!("{object}?.[{property}]")
+        } else {
+            format!("{object}[{property}]")
+        }
+    } else {
+        format!("{object}{chain}{property}")
+    }
+}
+
+/// Dual-oracle residual: call skeleton.
+#[must_use]
+pub fn continue30_call_skeleton(callee: &str, args: &str, optional: bool) -> String {
+    if optional {
+        format!("{callee}?.({args})")
+    } else {
+        format!("{callee}({args})")
+    }
+}
+
+/// Dual-oracle residual: new expression skeleton.
+#[must_use]
+pub fn continue30_new_skeleton(callee: &str, args: &str) -> String {
+    format!("new {callee}({args})")
+}
+
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -903,5 +990,39 @@ mod tests {
             "export default A"
         );
     }
+
+    #[test]
+    fn continue30_assignment_update_member_call_emit() {
+        assert!(is_continue30_related_type("AssignmentExpression"));
+        assert!(is_continue30_related_type("UpdateExpression"));
+        assert!(is_continue30_related_type("MemberExpression"));
+        assert!(is_continue30_related_type("CallExpression"));
+        assert!(is_continue30_related_type("NewExpression"));
+        assert!(!is_continue30_related_type("ClassDeclaration"));
+        assert!(is_continue30_assignment_type("AssignmentExpression"));
+        assert!(is_continue30_update_type("UpdateExpression"));
+        assert!(is_continue30_member_type("OptionalMemberExpression"));
+        assert!(is_continue30_call_type("OptionalCallExpression"));
+        assert_eq!(continue30_assignment_skeleton("a", "=", "1"), "a = 1");
+        assert_eq!(continue30_assignment_skeleton("a", "+=", "b"), "a += b");
+        assert_eq!(continue30_update_skeleton("i", "++", true), "++i");
+        assert_eq!(continue30_update_skeleton("i", "++", false), "i++");
+        assert_eq!(
+            continue30_member_skeleton("obj", "x", false, false),
+            "obj.x"
+        );
+        assert_eq!(
+            continue30_member_skeleton("obj", "k", true, false),
+            "obj[k]"
+        );
+        assert_eq!(
+            continue30_member_skeleton("obj", "x", false, true),
+            "obj?.x"
+        );
+        assert_eq!(continue30_call_skeleton("f", "1, 2", false), "f(1, 2)");
+        assert_eq!(continue30_call_skeleton("f", "", true), "f?.()");
+        assert_eq!(continue30_new_skeleton("Foo", "a"), "new Foo(a)");
+    }
+
 
 }
