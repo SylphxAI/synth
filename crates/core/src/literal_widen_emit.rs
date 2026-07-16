@@ -4484,3 +4484,55 @@ mod continue56_tests {
     }
 }
 
+
+
+// ── continue57 pure residual dens: class new this super emit edges dual-oracle residual ──
+// Dual-oracle residual of continue55 class/meta/new/this pure halves (edge dens).
+// Intentional ts_only plugins retained; pure emit only. dens ≠ flip.
+
+/// Dual-oracle residual: continue57 class expression empty vs named.
+#[must_use]
+pub fn continue57_class_edge_shell() -> bool {
+    continue55_class_expression_skeleton("") == "class {}"
+        && continue55_class_expression_skeleton("Widget") == "class Widget {}"
+        && continue55_class_declaration_skeleton("App") == "class App {}"
+        && is_continue55_class_expression_type("ClassExpression")
+        && is_continue55_class_declaration_type("ClassDeclaration")
+}
+
+/// Dual-oracle residual: continue57 new/this/super edge emit.
+#[must_use]
+pub fn continue57_new_this_super_shell() -> bool {
+    continue55_new_expression_skeleton("Map", "") == "new Map()"
+        && continue55_new_expression_skeleton("Set", "1, 2") == "new Set(1, 2)"
+        && continue55_this_skeleton() == "this"
+        && continue55_super_call_skeleton("") == "super()"
+        && continue55_super_call_skeleton("props") == "super(props)"
+}
+
+/// Dual-oracle residual: continue57 meta + partition vs sequence plane.
+#[must_use]
+pub fn continue57_meta_partition_shell() -> bool {
+    continue55_meta_import_meta_skeleton() == "import.meta"
+        && continue55_meta_new_target_skeleton() == "new.target"
+        && is_continue55_meta_property_type("MetaProperty")
+        && is_continue55_related_type("Super")
+        && !is_continue55_related_type("SequenceExpression")
+        && is_continue53_related_type("SequenceExpression")
+        && CONTINUE55_RELATED_TYPES.len() == 6
+}
+
+#[cfg(test)]
+mod continue57_tests {
+    use super::*;
+
+    #[test]
+    fn continue57_class_new_this_super_emit_edges() {
+        assert!(continue57_class_edge_shell());
+        assert!(continue57_new_this_super_shell());
+        assert!(continue57_meta_partition_shell());
+        assert!(is_continue55_new_expression_type("NewExpression"));
+        assert!(is_continue55_this_expression_type("ThisExpression"));
+        assert!(is_continue55_super_type("Super"));
+    }
+}
