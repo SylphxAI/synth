@@ -3298,59 +3298,141 @@ mod continue46_tests {
     }
 }
 
-
-// ── continue47 pure residual dens: JSX member/for/throw union dual-oracle residual ──
-// Dual-oracle residual deepening continue46 pure emit skeletons.
+// ── continue47 pure residual: Class/Import/Export/New/This/Super/Meta emit ──
+// Dual-oracle residual of class/import/export/new/this/super/meta pure emit skeletons.
 // Intentional ts_only plugins retained. dens ≠ flip.
-// product residual dens wave71
 
-/// Dual-oracle residual: continue47 related union of continue46 JSX + for family.
+/// Dual-oracle residual: continue47 related AST node types.
+pub const CONTINUE47_RELATED_TYPES: &[&str] = &[
+    "ClassDeclaration",
+    "ClassExpression",
+    "ImportDeclaration",
+    "ExportNamedDeclaration",
+    "ExportDefaultDeclaration",
+    "ExportAllDeclaration",
+    "NewExpression",
+    "ThisExpression",
+    "Super",
+    "MetaProperty",
+];
+
+/// Dual-oracle residual: continue47 related type membership.
 #[must_use]
 pub fn is_continue47_related_type(t: &str) -> bool {
-    is_continue46_related_type(t)
+    CONTINUE47_RELATED_TYPES.contains(&t)
 }
 
-/// Dual-oracle residual: JSX member skeleton shell.
 #[must_use]
-pub fn continue47_jsx_member_shell() -> bool {
-    continue46_jsx_member_expression_skeleton("Foo", "Bar") == "Foo.Bar"
-        && continue46_jsx_namespaced_name_skeleton("svg", "path") == "svg:path"
+pub fn is_continue47_class_declaration_type(t: &str) -> bool {
+    t == "ClassDeclaration"
 }
 
-/// Dual-oracle residual: JSX open/close + empty expr shell.
 #[must_use]
-pub fn continue47_jsx_element_shell() -> bool {
-    continue46_jsx_opening_element_skeleton("div") == "<div>"
-        && continue46_jsx_closing_element_skeleton("div") == "</div>"
-        && continue46_jsx_empty_expression_skeleton() == "{}"
-        && continue46_jsx_spread_attribute_skeleton("props") == "{...props}"
+pub fn is_continue47_class_expression_type(t: &str) -> bool {
+    t == "ClassExpression"
 }
 
-/// Dual-oracle residual: for/for-in/for-of skeleton shell.
 #[must_use]
-pub fn continue47_for_family_shell() -> bool {
-    continue46_for_skeleton("let i = 0", "i < 3", "i++", "{}")
-        == "for (let i = 0; i < 3; i++) {}"
-        && continue46_for_in_skeleton("const k", "obj", "{}") == "for (const k in obj) {}"
-        && continue46_for_of_skeleton("const x", "xs", "{}") == "for (const x of xs) {}"
+pub fn is_continue47_import_type(t: &str) -> bool {
+    t == "ImportDeclaration"
 }
 
-/// Dual-oracle residual: throw/label/continue/empty shell.
 #[must_use]
-pub fn continue47_throw_label_shell() -> bool {
-    continue46_throw_skeleton("err") == "throw err;"
-        && continue46_label_skeleton("loop", "while (1) {}") == "loop: while (1) {}"
-        && continue46_continue_label_skeleton("loop") == "continue loop;"
-        && continue46_empty_skeleton() == ";"
+pub fn is_continue47_export_named_type(t: &str) -> bool {
+    t == "ExportNamedDeclaration"
 }
 
-/// Dual-oracle residual: type membership probes.
 #[must_use]
-pub fn continue47_type_membership_shell() -> bool {
-    is_continue47_related_type("JSXMemberExpression")
-        && is_continue47_related_type("ForStatement")
-        && is_continue47_related_type("ThrowStatement")
-        && !is_continue47_related_type("WhileStatement")
+pub fn is_continue47_export_default_type(t: &str) -> bool {
+    t == "ExportDefaultDeclaration"
+}
+
+#[must_use]
+pub fn is_continue47_export_all_type(t: &str) -> bool {
+    t == "ExportAllDeclaration"
+}
+
+#[must_use]
+pub fn is_continue47_new_type(t: &str) -> bool {
+    t == "NewExpression"
+}
+
+#[must_use]
+pub fn is_continue47_this_type(t: &str) -> bool {
+    t == "ThisExpression"
+}
+
+#[must_use]
+pub fn is_continue47_super_type(t: &str) -> bool {
+    t == "Super"
+}
+
+#[must_use]
+pub fn is_continue47_meta_type(t: &str) -> bool {
+    t == "MetaProperty"
+}
+
+/// Dual-oracle residual: ClassDeclaration skeleton.
+#[must_use]
+pub fn continue47_class_declaration_skeleton(name: &str, body: &str) -> String {
+    format!("class {name} {body}")
+}
+
+/// Dual-oracle residual: ClassExpression skeleton.
+#[must_use]
+pub fn continue47_class_expression_skeleton(name: Option<&str>, body: &str) -> String {
+    match name {
+        Some(n) => format!("class {n} {body}"),
+        None => format!("class {body}"),
+    }
+}
+
+/// Dual-oracle residual: ImportDeclaration skeleton.
+#[must_use]
+pub fn continue47_import_skeleton(spec: &str, source: &str) -> String {
+    format!("import {spec} from \"{source}\";")
+}
+
+/// Dual-oracle residual: ExportNamedDeclaration skeleton.
+#[must_use]
+pub fn continue47_export_named_skeleton(body: &str) -> String {
+    format!("export {body}")
+}
+
+/// Dual-oracle residual: ExportDefaultDeclaration skeleton.
+#[must_use]
+pub fn continue47_export_default_skeleton(body: &str) -> String {
+    format!("export default {body}")
+}
+
+/// Dual-oracle residual: ExportAllDeclaration skeleton.
+#[must_use]
+pub fn continue47_export_all_skeleton(source: &str) -> String {
+    format!("export * from \"{source}\";")
+}
+
+/// Dual-oracle residual: NewExpression skeleton.
+#[must_use]
+pub fn continue47_new_skeleton(callee: &str, args: &str) -> String {
+    format!("new {callee}({args})")
+}
+
+/// Dual-oracle residual: ThisExpression skeleton.
+#[must_use]
+pub fn continue47_this_skeleton() -> &'static str {
+    "this"
+}
+
+/// Dual-oracle residual: Super skeleton.
+#[must_use]
+pub fn continue47_super_skeleton() -> &'static str {
+    "super"
+}
+
+/// Dual-oracle residual: MetaProperty skeleton (import.meta).
+#[must_use]
+pub fn continue47_meta_property_skeleton(meta: &str, property: &str) -> String {
+    format!("{meta}.{property}")
 }
 
 #[cfg(test)]
@@ -3358,13 +3440,66 @@ mod continue47_tests {
     use super::*;
 
     #[test]
-    fn continue47_jsx_for_throw_union_dual_oracle() {
-        assert!(continue47_jsx_member_shell());
-        assert!(continue47_jsx_element_shell());
-        assert!(continue47_for_family_shell());
-        assert!(continue47_throw_label_shell());
-        assert!(continue47_type_membership_shell());
-        assert!(is_continue46_jsx_member_expression_type("JSXMemberExpression"));
-        assert!(is_continue46_for_type("ForStatement"));
+    fn continue47_class_import_export_new_this_super_meta_emit() {
+        assert!(is_continue47_related_type("ClassDeclaration"));
+        assert!(is_continue47_related_type("ClassExpression"));
+        assert!(is_continue47_related_type("ImportDeclaration"));
+        assert!(is_continue47_related_type("ExportNamedDeclaration"));
+        assert!(is_continue47_related_type("ExportDefaultDeclaration"));
+        assert!(is_continue47_related_type("ExportAllDeclaration"));
+        assert!(is_continue47_related_type("NewExpression"));
+        assert!(is_continue47_related_type("ThisExpression"));
+        assert!(is_continue47_related_type("Super"));
+        assert!(is_continue47_related_type("MetaProperty"));
+        assert!(!is_continue47_related_type("ForStatement"));
+        assert!(is_continue47_class_declaration_type("ClassDeclaration"));
+        assert!(is_continue47_class_expression_type("ClassExpression"));
+        assert!(is_continue47_import_type("ImportDeclaration"));
+        assert!(is_continue47_export_named_type("ExportNamedDeclaration"));
+        assert!(is_continue47_export_default_type("ExportDefaultDeclaration"));
+        assert!(is_continue47_export_all_type("ExportAllDeclaration"));
+        assert!(is_continue47_new_type("NewExpression"));
+        assert!(is_continue47_this_type("ThisExpression"));
+        assert!(is_continue47_super_type("Super"));
+        assert!(is_continue47_meta_type("MetaProperty"));
+        assert_eq!(
+            continue47_class_declaration_skeleton("Foo", "{}"),
+            "class Foo {}"
+        );
+        assert_eq!(
+            continue47_class_expression_skeleton(None, "{}"),
+            "class {}"
+        );
+        assert_eq!(
+            continue47_class_expression_skeleton(Some("Bar"), "{}"),
+            "class Bar {}"
+        );
+        assert_eq!(
+            continue47_import_skeleton("{ x }", "./mod.js"),
+            "import { x } from \"./mod.js\";"
+        );
+        assert_eq!(
+            continue47_export_named_skeleton("const a = 1;"),
+            "export const a = 1;"
+        );
+        assert_eq!(
+            continue47_export_default_skeleton("Foo;"),
+            "export default Foo;"
+        );
+        assert_eq!(
+            continue47_export_all_skeleton("./all.js"),
+            "export * from \"./all.js\";"
+        );
+        assert_eq!(continue47_new_skeleton("Map", ""), "new Map()");
+        assert_eq!(continue47_new_skeleton("Foo", "1, 2"), "new Foo(1, 2)");
+        assert_eq!(continue47_this_skeleton(), "this");
+        assert_eq!(continue47_super_skeleton(), "super");
+        assert_eq!(
+            continue47_meta_property_skeleton("import", "meta"),
+            "import.meta"
+        );
+        assert_eq!(CONTINUE47_RELATED_TYPES.len(), 10);
+        assert!(!is_continue46_related_type("ClassDeclaration"));
+        assert!(!is_continue47_related_type("JSXMemberExpression"));
     }
 }
