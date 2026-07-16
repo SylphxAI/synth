@@ -3774,3 +3774,127 @@ mod continue49_tests {
         );
     }
 }
+
+// ── continue50 pure residual dens: class private method get/set emit dual-oracle residual ──
+// Dual-oracle residual of class private/getter/setter emit skeletons.
+// Intentional ts_only plugins retained. dens ≠ flip.
+
+/// Dual-oracle residual: continue50 related type catalog.
+pub const CONTINUE50_RELATED_TYPES: &[&str] = &[
+    "ClassPrivateProperty",
+    "ClassPrivateMethod",
+    "ClassMethod",
+    "ClassAccessorProperty",
+    "TSParameterProperty",
+    "ObjectMethod",
+];
+
+#[must_use]
+pub fn is_continue50_related_type(t: &str) -> bool {
+    CONTINUE50_RELATED_TYPES.contains(&t)
+}
+
+#[must_use]
+pub fn is_continue50_private_property_type(t: &str) -> bool {
+    t == "ClassPrivateProperty"
+}
+
+#[must_use]
+pub fn is_continue50_private_method_type(t: &str) -> bool {
+    t == "ClassPrivateMethod"
+}
+
+#[must_use]
+pub fn is_continue50_class_method_type(t: &str) -> bool {
+    t == "ClassMethod"
+}
+
+#[must_use]
+pub fn is_continue50_accessor_type(t: &str) -> bool {
+    t == "ClassAccessorProperty"
+}
+
+#[must_use]
+pub fn is_continue50_ts_param_property_type(t: &str) -> bool {
+    t == "TSParameterProperty"
+}
+
+#[must_use]
+pub fn is_continue50_object_method_type(t: &str) -> bool {
+    t == "ObjectMethod"
+}
+
+#[must_use]
+pub fn continue50_private_property_skeleton(name: &str, value: &str) -> String {
+    format!("#{name} = {value};")
+}
+
+#[must_use]
+pub fn continue50_private_method_skeleton(name: &str, params: &str, body: &str) -> String {
+    format!("#{name}({params}) {{ {body} }}")
+}
+
+#[must_use]
+pub fn continue50_getter_skeleton(name: &str, body: &str) -> String {
+    format!("get {name}() {{ {body} }}")
+}
+
+#[must_use]
+pub fn continue50_setter_skeleton(name: &str, param: &str, body: &str) -> String {
+    format!("set {name}({param}) {{ {body} }}")
+}
+
+#[must_use]
+pub fn continue50_object_method_skeleton(name: &str, params: &str, body: &str) -> String {
+    format!("{name}({params}) {{ {body} }}")
+}
+
+#[must_use]
+pub fn continue50_ts_param_property_skeleton(modif: &str, name: &str) -> String {
+    format!("{modif} {name}")
+}
+
+#[cfg(test)]
+mod continue50_tests {
+    use super::*;
+
+    #[test]
+    fn continue50_class_private_method_get_set_emit() {
+        assert_eq!(CONTINUE50_RELATED_TYPES.len(), 6);
+        assert!(is_continue50_related_type("ClassPrivateProperty"));
+        assert!(is_continue50_related_type("ClassPrivateMethod"));
+        assert!(is_continue50_related_type("ClassMethod"));
+        assert!(is_continue50_related_type("ClassAccessorProperty"));
+        assert!(is_continue50_related_type("TSParameterProperty"));
+        assert!(is_continue50_related_type("ObjectMethod"));
+        assert!(!is_continue50_related_type("PropertyDefinition"));
+        assert!(!is_continue49_related_type("ClassPrivateProperty"));
+        assert!(is_continue50_private_property_type("ClassPrivateProperty"));
+        assert!(is_continue50_private_method_type("ClassPrivateMethod"));
+        assert!(is_continue50_class_method_type("ClassMethod"));
+        assert!(is_continue50_accessor_type("ClassAccessorProperty"));
+        assert!(is_continue50_ts_param_property_type("TSParameterProperty"));
+        assert!(is_continue50_object_method_type("ObjectMethod"));
+        assert_eq!(
+            continue50_private_property_skeleton("x", "1"),
+            "#x = 1;"
+        );
+        assert_eq!(
+            continue50_private_method_skeleton("m", "a", "return a;"),
+            "#m(a) { return a; }"
+        );
+        assert_eq!(continue50_getter_skeleton("v", "return this.#v;"), "get v() { return this.#v; }");
+        assert_eq!(
+            continue50_setter_skeleton("v", "n", "this.#v = n;"),
+            "set v(n) { this.#v = n; }"
+        );
+        assert_eq!(
+            continue50_object_method_skeleton("run", "", "return 1;"),
+            "run() { return 1; }"
+        );
+        assert_eq!(
+            continue50_ts_param_property_skeleton("private", "id"),
+            "private id"
+        );
+    }
+}
