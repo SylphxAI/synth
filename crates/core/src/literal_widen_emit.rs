@@ -166,6 +166,74 @@ pub fn continue23_tagged_template_skeleton(tag: &str) -> String {
 }
 
 
+
+
+// ── continue24 pure residual: ArrayExpression / ObjectExpression / ArrayPattern emit ──
+
+/// Type guards for continue24 container expression AST node types.
+#[must_use]
+pub fn is_continue24_container_type(t: &str) -> bool {
+    matches!(
+        t,
+        "ArrayExpression" | "ObjectExpression" | "ArrayPattern" | "ObjectPattern" | "Property"
+    )
+}
+
+#[must_use]
+pub fn is_continue24_array_expression_type(t: &str) -> bool {
+    t == "ArrayExpression"
+}
+
+#[must_use]
+pub fn is_continue24_object_expression_type(t: &str) -> bool {
+    t == "ObjectExpression"
+}
+
+#[must_use]
+pub fn is_continue24_array_pattern_type(t: &str) -> bool {
+    t == "ArrayPattern"
+}
+
+#[must_use]
+pub fn is_continue24_object_pattern_type(t: &str) -> bool {
+    t == "ObjectPattern"
+}
+
+/// Dual-oracle residual: empty array expression skeleton.
+#[must_use]
+pub fn continue24_empty_array_skeleton() -> &'static str {
+    "[]"
+}
+
+/// Dual-oracle residual: empty object expression skeleton.
+#[must_use]
+pub fn continue24_empty_object_skeleton() -> &'static str {
+    "{}"
+}
+
+/// Dual-oracle residual: array of string literal elements (pretty=false, comma-join).
+#[must_use]
+pub fn continue24_array_string_literals_skeleton(elems: &[&str]) -> String {
+    let inner = elems
+        .iter()
+        .map(|e| format!("\"{e}\""))
+        .collect::<Vec<_>>()
+        .join(",");
+    format!("[{inner}]")
+}
+
+/// Dual-oracle residual: object with single identifier property key=value skeleton.
+#[must_use]
+pub fn continue24_object_prop_skeleton(key: &str, value_raw: &str) -> String {
+    format!("{{{key}:{value_raw}}}")
+}
+
+/// Dual-oracle residual: array pattern empty skeleton.
+#[must_use]
+pub fn continue24_empty_array_pattern_skeleton() -> &'static str {
+    "[]"
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -221,5 +289,28 @@ mod tests {
         assert_eq!(continue23_template_literal_no_expr_skeleton("hello"), "`hello`");
         assert_eq!(continue23_tagged_template_skeleton("String.raw"), "String.raw``");
     }
+
+    #[test]
+    fn continue24_array_object_emit() {
+        assert!(is_continue24_container_type("ArrayExpression"));
+        assert!(is_continue24_container_type("ObjectExpression"));
+        assert!(is_continue24_container_type("ArrayPattern"));
+        assert!(is_continue24_container_type("ObjectPattern"));
+        assert!(is_continue24_container_type("Property"));
+        assert!(!is_continue24_container_type("StringLiteral"));
+        assert!(is_continue24_array_expression_type("ArrayExpression"));
+        assert!(is_continue24_object_expression_type("ObjectExpression"));
+        assert!(is_continue24_array_pattern_type("ArrayPattern"));
+        assert!(is_continue24_object_pattern_type("ObjectPattern"));
+        assert_eq!(continue24_empty_array_skeleton(), "[]");
+        assert_eq!(continue24_empty_object_skeleton(), "{}");
+        assert_eq!(
+            continue24_array_string_literals_skeleton(&["a", "b"]),
+            "[\"a\",\"b\"]"
+        );
+        assert_eq!(continue24_object_prop_skeleton("x", "1"), "{x:1}");
+        assert_eq!(continue24_empty_array_pattern_skeleton(), "[]");
+    }
+
 
 }
