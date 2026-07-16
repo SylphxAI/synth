@@ -84,6 +84,7 @@ mod decorator_private_emit;
 mod jsx_fragment_literal_emit;
 mod primitive_literal_emit;
 mod template_array_object_emit;
+mod sequence_update_yield_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
