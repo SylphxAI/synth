@@ -2648,3 +2648,127 @@ mod continue42_tests {
         assert_eq!(CONTINUE42_RELATED_TYPES.len(), 6);
     }
 }
+
+// ── continue43 pure residual dens: with/label/debugger/throw/expr/if emit ──
+// Dual-oracle residual of WithStatement / LabeledStatement / DebuggerStatement /
+// ThrowStatement / ExpressionStatement / IfStatement pure emit skeletons.
+// Intentional ts_only plugins retained. dens ≠ flip.
+
+/// Type guards for continue43 control/statement AST node types.
+#[must_use]
+pub fn is_continue43_related_type(t: &str) -> bool {
+    matches!(
+        t,
+        "WithStatement"
+            | "LabeledStatement"
+            | "DebuggerStatement"
+            | "ThrowStatement"
+            | "ExpressionStatement"
+            | "IfStatement"
+    )
+}
+
+#[must_use]
+pub fn is_continue43_with_type(t: &str) -> bool {
+    t == "WithStatement"
+}
+
+#[must_use]
+pub fn is_continue43_labeled_type(t: &str) -> bool {
+    t == "LabeledStatement"
+}
+
+#[must_use]
+pub fn is_continue43_debugger_type(t: &str) -> bool {
+    t == "DebuggerStatement"
+}
+
+#[must_use]
+pub fn is_continue43_throw_type(t: &str) -> bool {
+    t == "ThrowStatement"
+}
+
+#[must_use]
+pub fn is_continue43_expression_stmt_type(t: &str) -> bool {
+    t == "ExpressionStatement"
+}
+
+#[must_use]
+pub fn is_continue43_if_type(t: &str) -> bool {
+    t == "IfStatement"
+}
+
+/// Dual-oracle residual: with skeleton.
+#[must_use]
+pub fn continue43_with_skeleton(obj: &str, body: &str) -> String {
+    format!("with ({obj}) {body}")
+}
+
+/// Dual-oracle residual: labeled skeleton.
+#[must_use]
+pub fn continue43_labeled_skeleton(label: &str, body: &str) -> String {
+    format!("{label}: {body}")
+}
+
+/// Dual-oracle residual: debugger skeleton.
+#[must_use]
+pub fn continue43_debugger_skeleton() -> &'static str {
+    "debugger;"
+}
+
+/// Dual-oracle residual: throw skeleton.
+#[must_use]
+pub fn continue43_throw_skeleton(arg: &str) -> String {
+    format!("throw {arg};")
+}
+
+/// Dual-oracle residual: expression statement skeleton.
+#[must_use]
+pub fn continue43_expression_stmt_skeleton(expr: &str) -> String {
+    format!("{expr};")
+}
+
+/// Dual-oracle residual: if skeleton (no else).
+#[must_use]
+pub fn continue43_if_skeleton(test: &str, cons: &str) -> String {
+    format!("if ({test}) {cons}")
+}
+
+/// Dual-oracle residual: if-else skeleton.
+#[must_use]
+pub fn continue43_if_else_skeleton(test: &str, cons: &str, alt: &str) -> String {
+    format!("if ({test}) {cons} else {alt}")
+}
+
+#[cfg(test)]
+mod continue43_tests {
+    use super::*;
+
+    #[test]
+    fn continue43_with_label_debugger_throw_expr_if_emit() {
+        assert!(is_continue43_related_type("WithStatement"));
+        assert!(is_continue43_related_type("LabeledStatement"));
+        assert!(is_continue43_related_type("DebuggerStatement"));
+        assert!(is_continue43_related_type("ThrowStatement"));
+        assert!(is_continue43_related_type("ExpressionStatement"));
+        assert!(is_continue43_related_type("IfStatement"));
+        assert!(!is_continue43_related_type("NewExpression"));
+        assert!(is_continue43_with_type("WithStatement"));
+        assert!(is_continue43_labeled_type("LabeledStatement"));
+        assert!(is_continue43_debugger_type("DebuggerStatement"));
+        assert!(is_continue43_throw_type("ThrowStatement"));
+        assert!(is_continue43_expression_stmt_type("ExpressionStatement"));
+        assert!(is_continue43_if_type("IfStatement"));
+        assert_eq!(continue43_with_skeleton("obj", "{}"), "with (obj) {}");
+        assert_eq!(continue43_labeled_skeleton("loop", "break;"), "loop: break;");
+        assert_eq!(continue43_debugger_skeleton(), "debugger;");
+        assert_eq!(continue43_throw_skeleton("err"), "throw err;");
+        assert_eq!(continue43_expression_stmt_skeleton("foo()"), "foo();");
+        assert_eq!(continue43_if_skeleton("ok", "a;"), "if (ok) a;");
+        assert_eq!(
+            continue43_if_else_skeleton("ok", "a;", "b;"),
+            "if (ok) a; else b;"
+        );
+    }
+}
+
