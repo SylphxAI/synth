@@ -2908,3 +2908,154 @@ mod continue44_tests {
     }
 }
 
+
+
+// ── continue45 pure residual dens: do/while/switch/break/continue/try emit ──
+// Dual-oracle residual of DoWhileStatement / WhileStatement / SwitchStatement /
+// BreakStatement / ContinueStatement / TryStatement pure emit skeletons.
+// Intentional ts_only plugins retained. dens ≠ flip.
+
+/// Type guards for continue45 loop/control AST node types.
+#[must_use]
+pub fn is_continue45_related_type(t: &str) -> bool {
+    matches!(
+        t,
+        "DoWhileStatement"
+            | "WhileStatement"
+            | "SwitchStatement"
+            | "BreakStatement"
+            | "ContinueStatement"
+            | "TryStatement"
+    )
+}
+
+#[must_use]
+pub fn is_continue45_do_while_type(t: &str) -> bool {
+    t == "DoWhileStatement"
+}
+
+#[must_use]
+pub fn is_continue45_while_type(t: &str) -> bool {
+    t == "WhileStatement"
+}
+
+#[must_use]
+pub fn is_continue45_switch_type(t: &str) -> bool {
+    t == "SwitchStatement"
+}
+
+#[must_use]
+pub fn is_continue45_break_type(t: &str) -> bool {
+    t == "BreakStatement"
+}
+
+#[must_use]
+pub fn is_continue45_continue_type(t: &str) -> bool {
+    t == "ContinueStatement"
+}
+
+#[must_use]
+pub fn is_continue45_try_type(t: &str) -> bool {
+    t == "TryStatement"
+}
+
+/// Dual-oracle residual: do-while skeleton.
+#[must_use]
+pub fn continue45_do_while_skeleton(body: &str, test: &str) -> String {
+    format!("do {body} while ({test});")
+}
+
+/// Dual-oracle residual: while skeleton.
+#[must_use]
+pub fn continue45_while_skeleton(test: &str, body: &str) -> String {
+    format!("while ({test}) {body}")
+}
+
+/// Dual-oracle residual: switch skeleton.
+#[must_use]
+pub fn continue45_switch_skeleton(disc: &str, body: &str) -> String {
+    format!("switch ({disc}) {body}")
+}
+
+/// Dual-oracle residual: break skeleton.
+#[must_use]
+pub fn continue45_break_skeleton() -> &'static str {
+    "break;"
+}
+
+/// Dual-oracle residual: labeled break skeleton.
+#[must_use]
+pub fn continue45_break_label_skeleton(label: &str) -> String {
+    format!("break {label};")
+}
+
+/// Dual-oracle residual: continue skeleton.
+#[must_use]
+pub fn continue45_continue_skeleton() -> &'static str {
+    "continue;"
+}
+
+/// Dual-oracle residual: try/catch skeleton.
+#[must_use]
+pub fn continue45_try_catch_skeleton(block: &str, param: &str, handler: &str) -> String {
+    format!("try {block} catch ({param}) {handler}")
+}
+
+/// Dual-oracle residual: try/finally skeleton.
+#[must_use]
+pub fn continue45_try_finally_skeleton(block: &str, finalizer: &str) -> String {
+    format!("try {block} finally {finalizer}")
+}
+
+/// Dual-oracle residual: continue45 related type catalog size.
+pub const CONTINUE45_RELATED_TYPES: &[&str] = &[
+    "DoWhileStatement",
+    "WhileStatement",
+    "SwitchStatement",
+    "BreakStatement",
+    "ContinueStatement",
+    "TryStatement",
+];
+
+#[cfg(test)]
+mod continue45_tests {
+    use super::*;
+
+    #[test]
+    fn continue45_do_while_switch_break_continue_try_emit() {
+        assert!(is_continue45_related_type("DoWhileStatement"));
+        assert!(is_continue45_related_type("WhileStatement"));
+        assert!(is_continue45_related_type("SwitchStatement"));
+        assert!(is_continue45_related_type("BreakStatement"));
+        assert!(is_continue45_related_type("ContinueStatement"));
+        assert!(is_continue45_related_type("TryStatement"));
+        assert!(!is_continue45_related_type("JSXElement"));
+        assert!(is_continue45_do_while_type("DoWhileStatement"));
+        assert!(is_continue45_while_type("WhileStatement"));
+        assert!(is_continue45_switch_type("SwitchStatement"));
+        assert!(is_continue45_break_type("BreakStatement"));
+        assert!(is_continue45_continue_type("ContinueStatement"));
+        assert!(is_continue45_try_type("TryStatement"));
+        assert_eq!(
+            continue45_do_while_skeleton("{}", "ok"),
+            "do {} while (ok);"
+        );
+        assert_eq!(continue45_while_skeleton("ok", "{}"), "while (ok) {}");
+        assert_eq!(
+            continue45_switch_skeleton("x", "{ case 1: break; }"),
+            "switch (x) { case 1: break; }"
+        );
+        assert_eq!(continue45_break_skeleton(), "break;");
+        assert_eq!(continue45_break_label_skeleton("loop"), "break loop;");
+        assert_eq!(continue45_continue_skeleton(), "continue;");
+        assert_eq!(
+            continue45_try_catch_skeleton("{}", "e", "{}"),
+            "try {} catch (e) {}"
+        );
+        assert_eq!(
+            continue45_try_finally_skeleton("{}", "{}"),
+            "try {} finally {}"
+        );
+        assert_eq!(CONTINUE45_RELATED_TYPES.len(), 6);
+    }
+}
