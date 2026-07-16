@@ -4211,3 +4211,68 @@ mod continue53_tests {
         assert!(is_continue53_import_expr_type("ImportExpression"));
     }
 }
+
+
+// ── continue54 pure residual dens: sequence update yield await edges dual-oracle residual ──
+// Dual-oracle residual of continue53 sequence/update/yield/await/import/chain pure halves.
+// Intentional ts_only parser residual retained. dens ≠ flip.
+
+/// Dual-oracle residual: continue54 sequence empty-ish edges.
+#[must_use]
+pub fn continue54_sequence_edge_shell() -> bool {
+    continue53_sequence_skeleton("", "") == ", "
+        && continue53_sequence_skeleton("x", "y") == "x, y"
+        && is_continue53_sequence_type("SequenceExpression")
+}
+
+/// Dual-oracle residual: continue54 update prefix/postfix edges.
+#[must_use]
+pub fn continue54_update_edge_shell() -> bool {
+    continue53_update_prefix_skeleton("--", "n") == "--n"
+        && continue53_update_postfix_skeleton("n", "++") == "n++"
+        && is_continue53_update_type("UpdateExpression")
+}
+
+/// Dual-oracle residual: continue54 yield/await empty arg edges.
+#[must_use]
+pub fn continue54_yield_await_edge_shell() -> bool {
+    continue53_yield_skeleton("") == "yield "
+        && continue53_yield_star_skeleton("") == "yield* "
+        && continue53_await_skeleton("") == "await "
+        && is_continue53_yield_type("YieldExpression")
+        && is_continue53_await_type("AwaitExpression")
+}
+
+/// Dual-oracle residual: continue54 import dynamic + optional chain edges.
+#[must_use]
+pub fn continue54_import_chain_edge_shell() -> bool {
+    continue53_import_dynamic_skeleton("''") == "import('')"
+        && continue53_optional_chain_skeleton("a", "") == "a?."
+        && is_continue53_import_expr_type("ImportExpression")
+        && is_continue53_chain_type("ChainExpression")
+}
+
+/// Dual-oracle residual: continue54 catalog partition vs continue51 Super plane.
+#[must_use]
+pub fn continue54_partition_shell() -> bool {
+    CONTINUE53_RELATED_TYPES.len() == 6
+        && !is_continue53_related_type("Super")
+        && !is_continue53_related_type("ThisExpression")
+        && is_continue53_related_type("SequenceExpression")
+        && is_continue51_related_type("Super")
+}
+
+#[cfg(test)]
+mod continue54_tests {
+    use super::*;
+
+    #[test]
+    fn continue54_sequence_update_yield_await_edges() {
+        assert!(continue54_sequence_edge_shell());
+        assert!(continue54_update_edge_shell());
+        assert!(continue54_yield_await_edge_shell());
+        assert!(continue54_import_chain_edge_shell());
+        assert!(continue54_partition_shell());
+        assert!(continue53_catalog_partition_shell());
+    }
+}
