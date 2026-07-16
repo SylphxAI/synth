@@ -1,6 +1,7 @@
-//! Pure residual continue21: BigIntLiteral / RegExpLiteral / DirectiveLiteral emit.
+//! Pure residual continue21–25: widen literals through paren/template-expr/private emit.
 //! Intentional ts_only plugins retained. NO authority_rust / ts_deleted invent.
 
+#![allow(dead_code)]
 /// Type guards for continue21 related AST node types.
 #[must_use]
 pub fn is_literal_widen_related_type(t: &str) -> bool {
@@ -46,11 +47,8 @@ pub fn continue21_regexp_literal_skeleton(pattern: &str, flags: &str) -> String 
 #[must_use]
 pub fn continue21_directive_literal_skeleton(value: &str, pretty: bool) -> String {
     let body = format!("\"{value}\"");
-    if pretty {
-        format!("{body};")
-    } else {
-        format!("{body};")
-    }
+    let _ = pretty;
+    format!("{body};")
 }
 
 
@@ -234,6 +232,72 @@ pub fn continue24_empty_array_pattern_skeleton() -> &'static str {
     "[]"
 }
 
+
+
+// ── continue25 pure residual: ParenthesizedExpression + template-with-expr + PrivateName ──
+
+/// Type guards for continue25 residual AST node types.
+#[must_use]
+pub fn is_continue25_related_type(t: &str) -> bool {
+    matches!(
+        t,
+        "ParenthesizedExpression"
+            | "TemplateLiteral"
+            | "TemplateElement"
+            | "TaggedTemplateExpression"
+            | "PrivateName"
+            | "PrivateIdentifier"
+    )
+}
+
+#[must_use]
+pub fn is_continue25_parenthesized_expression_type(t: &str) -> bool {
+    t == "ParenthesizedExpression"
+}
+
+/// Dual-oracle residual: explicit parentheses around an expression.
+#[must_use]
+pub fn continue25_parenthesized_expression_skeleton(inner: &str) -> String {
+    format!("({inner})")
+}
+
+/// Dual-oracle residual: template literal with one expression between cooked quasis.
+#[must_use]
+pub fn continue25_template_literal_one_expr_skeleton(
+    cooked_head: &str,
+    expr: &str,
+    cooked_tail: &str,
+) -> String {
+    format!("`{cooked_head}${{{expr}}}{cooked_tail}`")
+}
+
+/// Dual-oracle residual: tagged template with one expression.
+#[must_use]
+pub fn continue25_tagged_template_one_expr_skeleton(
+    tag: &str,
+    cooked_head: &str,
+    expr: &str,
+    cooked_tail: &str,
+) -> String {
+    format!(
+        "{tag}{}",
+        continue25_template_literal_one_expr_skeleton(cooked_head, expr, cooked_tail)
+    )
+}
+
+/// Dual-oracle residual: PrivateName / private identifier type guard.
+#[must_use]
+pub fn is_continue25_private_name_type(t: &str) -> bool {
+    t == "PrivateName" || t == "PrivateIdentifier"
+}
+
+/// Dual-oracle residual: `#field` token skeleton.
+#[must_use]
+pub fn continue25_private_name_skeleton(name: &str) -> String {
+    let n = name.trim_start_matches('#');
+    format!("#{n}")
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -312,5 +376,25 @@ mod tests {
         assert_eq!(continue24_empty_array_pattern_skeleton(), "[]");
     }
 
+    #[test]
+    fn continue25_paren_template_expr_emit() {
+        assert!(is_continue25_related_type("ParenthesizedExpression"));
+        assert!(is_continue25_related_type("TemplateLiteral"));
+        assert!(!is_continue25_related_type("StringLiteral"));
+        assert!(is_continue25_parenthesized_expression_type("ParenthesizedExpression"));
+        assert_eq!(continue25_parenthesized_expression_skeleton("a + b"), "(a + b)");
+        assert_eq!(
+            continue25_template_literal_one_expr_skeleton("a", "x", "b"),
+            "`a${x}b`"
+        );
+        assert_eq!(
+            continue25_tagged_template_one_expr_skeleton("tag", "", "id", ""),
+            "tag`${id}`"
+        );
+        assert!(is_continue25_private_name_type("PrivateName"));
+        assert!(is_continue25_private_name_type("PrivateIdentifier"));
+        assert_eq!(continue25_private_name_skeleton("field"), "#field");
+        assert_eq!(continue25_private_name_skeleton("#already"), "#already");
+    }
 
 }

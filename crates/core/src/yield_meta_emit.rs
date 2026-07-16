@@ -3,6 +3,7 @@
 //! Dual-oracle under tooling/format-minify-lint. Intentional ts_only plugins retained.
 //! NO authority_rust invent / ts_deleted.
 
+#![allow(dead_code)]
 /// Type guards for continue20 related AST node types.
 #[must_use]
 pub fn is_yield_meta_related_type(t: &str) -> bool {
