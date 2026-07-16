@@ -109,6 +109,7 @@ mod class_import_export_new_this_super_meta_emit;
 mod optional_import_await_yield_private_emit;
 mod class_property_static_decorator_method_emit;
 mod class_private_method_accessor_object_emit;
+mod super_this_meta_template_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
