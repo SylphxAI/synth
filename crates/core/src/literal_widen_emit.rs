@@ -4633,3 +4633,51 @@ mod continue59_tests {
         assert!(continue55_super_call_skeleton("x") == "super(x)");
     }
 }
+
+
+// ── continue60 pure residual dens: new/super call partition emit dual-oracle residual ──
+// Dual-oracle residual of continue55 new/super/this pure halves (edge dens).
+// Intentional ts_only plugins retained; pure emit only. dens ≠ flip.
+
+/// Dual-oracle residual: continue60 new expression skeleton + type fence.
+#[must_use]
+pub fn continue60_new_type_shell() -> bool {
+    continue55_new_expression_skeleton("Map", "") == "new Map()"
+        && continue55_new_expression_skeleton("Set", "1, 2") == "new Set(1, 2)"
+        && is_continue55_new_expression_type("NewExpression")
+        && !is_continue55_new_expression_type("CallExpression")
+}
+
+/// Dual-oracle residual: continue60 super call empty/args + Super type.
+#[must_use]
+pub fn continue60_super_call_shell() -> bool {
+    continue55_super_call_skeleton("") == "super()"
+        && continue55_super_call_skeleton("a, b") == "super(a, b)"
+        && is_continue55_super_type("Super")
+        && !is_continue55_super_type("ThisExpression")
+}
+
+/// Dual-oracle residual: continue60 this + catalog closed six + related.
+#[must_use]
+pub fn continue60_this_catalog_shell() -> bool {
+    continue55_this_skeleton() == "this"
+        && is_continue55_this_expression_type("ThisExpression")
+        && CONTINUE55_RELATED_TYPES.len() == 6
+        && is_continue55_related_type("NewExpression")
+        && is_continue55_related_type("Super")
+        && !is_continue55_related_type("SequenceExpression")
+}
+
+#[cfg(test)]
+mod continue60_tests {
+    use super::*;
+
+    #[test]
+    fn continue60_new_super_this_partition_emit() {
+        assert!(continue60_new_type_shell());
+        assert!(continue60_super_call_shell());
+        assert!(continue60_this_catalog_shell());
+        assert!(continue55_class_expression_skeleton("C") == "class C {}");
+        assert!(continue55_meta_import_meta_skeleton() == "import.meta");
+    }
+}
