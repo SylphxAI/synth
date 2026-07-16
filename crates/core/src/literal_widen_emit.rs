@@ -4020,93 +4020,52 @@ mod continue51_tests {
 
 
 
-// ── continue52 pure residual dens: sequence/update/yield/await/chain dual-oracle residual ──
-// Dual-oracle residual of AST type catalog + emit skeletons for control expressions.
-// Intentional ts_only plugins retained; pure emit only. dens ≠ flip.
+// ── continue52 pure residual dens: super this meta template edges dual-oracle residual ──
+// Dual-oracle residual of super/this/meta/template emit pure halves.
+// Intentional ts_only parser residual retained. dens ≠ flip.
 
-/// Dual-oracle residual: continue52 related type catalog.
-pub const CONTINUE52_RELATED_TYPES: &[&str] = &[
-    "SequenceExpression",
-    "UpdateExpression",
-    "YieldExpression",
-    "AwaitExpression",
-    "ChainExpression",
-    "ImportExpression",
-];
-
+/// Dual-oracle residual: continue52 related type catalog length six.
 #[must_use]
-pub fn is_continue52_related_type(t: &str) -> bool {
-    CONTINUE52_RELATED_TYPES.contains(&t)
+pub fn continue52_related_len_shell() -> bool {
+    CONTINUE51_RELATED_TYPES.len() == 6
+        && is_continue51_related_type("Super")
+        && is_continue51_related_type("TemplateElement")
+        && !is_continue51_related_type("Identifier")
 }
 
+/// Dual-oracle residual: continue52 super call/member empty-ish edges.
 #[must_use]
-pub fn is_continue52_sequence_type(t: &str) -> bool {
-    t == "SequenceExpression"
+pub fn continue52_super_edge_shell() -> bool {
+    continue51_super_call_skeleton("") == "super()"
+        && continue51_super_member_skeleton("bar") == "super.bar"
+        && is_continue51_super_type("Super")
 }
 
+/// Dual-oracle residual: continue52 this + import.meta + new.target.
 #[must_use]
-pub fn is_continue52_update_type(t: &str) -> bool {
-    t == "UpdateExpression"
+pub fn continue52_this_meta_shell() -> bool {
+    continue51_this_member_skeleton("y") == "this.y"
+        && continue51_import_meta_skeleton() == "import.meta"
+        && continue51_new_target_skeleton() == "new.target"
+        && is_continue51_this_type("ThisExpression")
+        && is_continue51_meta_type("MetaProperty")
 }
 
+/// Dual-oracle residual: continue52 template empty + tagged empty.
 #[must_use]
-pub fn is_continue52_yield_type(t: &str) -> bool {
-    t == "YieldExpression"
+pub fn continue52_template_edge_shell() -> bool {
+    continue51_template_literal_skeleton("") == "``"
+        && continue51_tagged_template_skeleton("html", "") == "html``"
+        && is_continue51_template_literal_type("TemplateLiteral")
+        && is_continue51_tagged_template_type("TaggedTemplateExpression")
 }
 
+/// Dual-oracle residual: continue52 not continue50 private plane.
 #[must_use]
-pub fn is_continue52_await_type(t: &str) -> bool {
-    t == "AwaitExpression"
-}
-
-#[must_use]
-pub fn is_continue52_chain_type(t: &str) -> bool {
-    t == "ChainExpression"
-}
-
-#[must_use]
-pub fn is_continue52_import_expr_type(t: &str) -> bool {
-    t == "ImportExpression"
-}
-
-#[must_use]
-pub fn continue52_sequence_skeleton(left: &str, right: &str) -> String {
-    format!("{left}, {right}")
-}
-
-#[must_use]
-pub fn continue52_update_prefix_skeleton(op: &str, arg: &str) -> String {
-    format!("{op}{arg}")
-}
-
-#[must_use]
-pub fn continue52_update_postfix_skeleton(arg: &str, op: &str) -> String {
-    format!("{arg}{op}")
-}
-
-#[must_use]
-pub fn continue52_yield_skeleton(arg: &str) -> String {
-    format!("yield {arg}")
-}
-
-#[must_use]
-pub fn continue52_yield_star_skeleton(arg: &str) -> String {
-    format!("yield* {arg}")
-}
-
-#[must_use]
-pub fn continue52_await_skeleton(arg: &str) -> String {
-    format!("await {arg}")
-}
-
-#[must_use]
-pub fn continue52_import_dynamic_skeleton(spec: &str) -> String {
-    format!("import({spec})")
-}
-
-#[must_use]
-pub fn continue52_optional_chain_skeleton(obj: &str, prop: &str) -> String {
-    format!("{obj}?.{prop}")
+pub fn continue52_not_private_plane_shell() -> bool {
+    !is_continue51_related_type("ClassPrivateProperty")
+        && !is_continue50_related_type("Super")
+        && is_continue51_template_element_type("TemplateElement")
 }
 
 #[cfg(test)]
@@ -4114,29 +4073,11 @@ mod continue52_tests {
     use super::*;
 
     #[test]
-    fn continue52_sequence_update_yield_await_chain_emit() {
-        assert_eq!(CONTINUE52_RELATED_TYPES.len(), 6);
-        assert!(is_continue52_related_type("SequenceExpression"));
-        assert!(is_continue52_related_type("UpdateExpression"));
-        assert!(is_continue52_related_type("YieldExpression"));
-        assert!(is_continue52_related_type("AwaitExpression"));
-        assert!(is_continue52_related_type("ChainExpression"));
-        assert!(is_continue52_related_type("ImportExpression"));
-        assert!(!is_continue52_related_type("Super"));
-        assert!(!is_continue51_related_type("SequenceExpression"));
-        assert!(is_continue52_sequence_type("SequenceExpression"));
-        assert!(is_continue52_update_type("UpdateExpression"));
-        assert!(is_continue52_yield_type("YieldExpression"));
-        assert!(is_continue52_await_type("AwaitExpression"));
-        assert!(is_continue52_chain_type("ChainExpression"));
-        assert!(is_continue52_import_expr_type("ImportExpression"));
-        assert_eq!(continue52_sequence_skeleton("a", "b"), "a, b");
-        assert_eq!(continue52_update_prefix_skeleton("++", "i"), "++i");
-        assert_eq!(continue52_update_postfix_skeleton("i", "--"), "i--");
-        assert_eq!(continue52_yield_skeleton("x"), "yield x");
-        assert_eq!(continue52_yield_star_skeleton("xs"), "yield* xs");
-        assert_eq!(continue52_await_skeleton("p"), "await p");
-        assert_eq!(continue52_import_dynamic_skeleton("'./m'"), "import('./m')");
-        assert_eq!(continue52_optional_chain_skeleton("o", "x"), "o?.x");
+    fn continue52_super_this_meta_template_edges() {
+        assert!(continue52_related_len_shell());
+        assert!(continue52_super_edge_shell());
+        assert!(continue52_this_meta_shell());
+        assert!(continue52_template_edge_shell());
+        assert!(continue52_not_private_plane_shell());
     }
 }
