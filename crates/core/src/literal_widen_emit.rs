@@ -485,6 +485,106 @@ pub fn continue27_labeled_skeleton(label: &str, body: &str) -> String {
     format!("{label}: {body}")
 }
 
+
+// ── continue28 pure residual: If/While/Return/Throw/Try/Catch/Switch/Empty emit ──
+// Dual-oracle residual of intentional ts_only AST emit surface for control-flow
+// statement skeletons. Intentional ts_only plugins retained. NO authority invent.
+
+/// Dual-oracle residual: continue28 related Babel node types.
+#[must_use]
+pub fn is_continue28_related_type(t: &str) -> bool {
+    matches!(
+        t,
+        "IfStatement"
+            | "WhileStatement"
+            | "ReturnStatement"
+            | "ThrowStatement"
+            | "TryStatement"
+            | "CatchClause"
+            | "SwitchStatement"
+            | "SwitchCase"
+            | "EmptyStatement"
+            | "DebuggerStatement"
+    )
+}
+
+#[must_use]
+pub fn is_continue28_if_statement_type(t: &str) -> bool {
+    t == "IfStatement"
+}
+#[must_use]
+pub fn is_continue28_while_statement_type(t: &str) -> bool {
+    t == "WhileStatement"
+}
+#[must_use]
+pub fn is_continue28_return_statement_type(t: &str) -> bool {
+    t == "ReturnStatement"
+}
+#[must_use]
+pub fn is_continue28_throw_statement_type(t: &str) -> bool {
+    t == "ThrowStatement"
+}
+#[must_use]
+pub fn is_continue28_try_statement_type(t: &str) -> bool {
+    t == "TryStatement"
+}
+#[must_use]
+pub fn is_continue28_switch_statement_type(t: &str) -> bool {
+    t == "SwitchStatement"
+}
+
+/// Dual-oracle residual: if skeleton `if (test) consec else alt`.
+#[must_use]
+pub fn continue28_if_skeleton(test: &str, consec: &str, alt: Option<&str>) -> String {
+    match alt {
+        Some(a) => format!("if ({test}) {consec} else {a}"),
+        None => format!("if ({test}) {consec}"),
+    }
+}
+
+/// Dual-oracle residual: while skeleton.
+#[must_use]
+pub fn continue28_while_skeleton(test: &str, body: &str) -> String {
+    format!("while ({test}) {body}")
+}
+
+/// Dual-oracle residual: return skeleton.
+#[must_use]
+pub fn continue28_return_skeleton(arg: Option<&str>) -> String {
+    match arg {
+        Some(a) => format!("return {a}"),
+        None => "return".to_string(),
+    }
+}
+
+/// Dual-oracle residual: throw skeleton.
+#[must_use]
+pub fn continue28_throw_skeleton(arg: &str) -> String {
+    format!("throw {arg}")
+}
+
+/// Dual-oracle residual: try/catch skeleton (no finally).
+#[must_use]
+pub fn continue28_try_catch_skeleton(body: &str, param: &str, handler: &str) -> String {
+    format!("try {body} catch ({param}) {handler}")
+}
+
+/// Dual-oracle residual: switch skeleton single case.
+#[must_use]
+pub fn continue28_switch_case_skeleton(disc: &str, case_test: &str, case_body: &str) -> String {
+    format!("switch ({disc}) {{ case {case_test}: {case_body} }}")
+}
+
+/// Dual-oracle residual: empty / debugger skeletons.
+#[must_use]
+pub fn continue28_empty_skeleton() -> &'static str {
+    ";"
+}
+#[must_use]
+pub fn continue28_debugger_skeleton() -> &'static str {
+    "debugger"
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -653,6 +753,47 @@ mod tests {
         assert_eq!(continue27_continue_skeleton(Some("loop")), "continue loop");
         assert_eq!(continue27_labeled_skeleton("outer", "break"), "outer: break");
     }
+
+    #[test]
+    fn continue28_if_while_return_throw_try_switch_emit() {
+        assert!(is_continue28_related_type("IfStatement"));
+        assert!(is_continue28_related_type("WhileStatement"));
+        assert!(is_continue28_related_type("ReturnStatement"));
+        assert!(is_continue28_related_type("ThrowStatement"));
+        assert!(is_continue28_related_type("TryStatement"));
+        assert!(is_continue28_related_type("CatchClause"));
+        assert!(is_continue28_related_type("SwitchStatement"));
+        assert!(is_continue28_related_type("SwitchCase"));
+        assert!(is_continue28_related_type("EmptyStatement"));
+        assert!(is_continue28_related_type("DebuggerStatement"));
+        assert!(!is_continue28_related_type("StringLiteral"));
+        assert!(is_continue28_if_statement_type("IfStatement"));
+        assert!(is_continue28_while_statement_type("WhileStatement"));
+        assert!(is_continue28_return_statement_type("ReturnStatement"));
+        assert!(is_continue28_throw_statement_type("ThrowStatement"));
+        assert!(is_continue28_try_statement_type("TryStatement"));
+        assert!(is_continue28_switch_statement_type("SwitchStatement"));
+        assert_eq!(continue28_if_skeleton("a", "{}", None), "if (a) {}");
+        assert_eq!(
+            continue28_if_skeleton("a", "{x}", Some("{y}")),
+            "if (a) {x} else {y}"
+        );
+        assert_eq!(continue28_while_skeleton("c", "{}"), "while (c) {}");
+        assert_eq!(continue28_return_skeleton(None), "return");
+        assert_eq!(continue28_return_skeleton(Some("1")), "return 1");
+        assert_eq!(continue28_throw_skeleton("e"), "throw e");
+        assert_eq!(
+            continue28_try_catch_skeleton("{}", "e", "{}"),
+            "try {} catch (e) {}"
+        );
+        assert_eq!(
+            continue28_switch_case_skeleton("x", "1", "break;"),
+            "switch (x) { case 1: break; }"
+        );
+        assert_eq!(continue28_empty_skeleton(), ";");
+        assert_eq!(continue28_debugger_skeleton(), "debugger");
+    }
+
 
 
 
