@@ -1358,6 +1358,99 @@ pub fn continue36_meta_property_skeleton(meta: &str, property: &str) -> String {
     format!("{meta}.{property}")
 }
 
+// ── continue37 pure residual dens: try/catch/throw/debugger/empty/switch emit ──
+// Dual-oracle residual pure emit skeletons for control/exception AST shapes.
+// Intentional ts_only plugins retained. dens ≠ flip.
+
+/// Dual-oracle residual: continue37 related AST type names.
+pub const CONTINUE37_RELATED_TYPES: &[&str] = &[
+    "TryStatement",
+    "CatchClause",
+    "ThrowStatement",
+    "DebuggerStatement",
+    "EmptyStatement",
+    "SwitchStatement",
+];
+
+/// Dual-oracle residual: type is continue37-related.
+#[must_use]
+pub fn is_continue37_related_type(t: &str) -> bool {
+    CONTINUE37_RELATED_TYPES.contains(&t)
+}
+
+/// Dual-oracle residual: try type.
+#[must_use]
+pub fn is_continue37_try_type(t: &str) -> bool {
+    t == "TryStatement"
+}
+
+/// Dual-oracle residual: catch type.
+#[must_use]
+pub fn is_continue37_catch_type(t: &str) -> bool {
+    t == "CatchClause"
+}
+
+/// Dual-oracle residual: throw type.
+#[must_use]
+pub fn is_continue37_throw_type(t: &str) -> bool {
+    t == "ThrowStatement"
+}
+
+/// Dual-oracle residual: debugger type.
+#[must_use]
+pub fn is_continue37_debugger_type(t: &str) -> bool {
+    t == "DebuggerStatement"
+}
+
+/// Dual-oracle residual: empty type.
+#[must_use]
+pub fn is_continue37_empty_type(t: &str) -> bool {
+    t == "EmptyStatement"
+}
+
+/// Dual-oracle residual: switch type.
+#[must_use]
+pub fn is_continue37_switch_type(t: &str) -> bool {
+    t == "SwitchStatement"
+}
+
+/// Dual-oracle residual: try/catch skeleton.
+#[must_use]
+pub fn continue37_try_catch_skeleton(try_body: &str, catch_param: &str, catch_body: &str) -> String {
+    format!("try {{ {try_body} }} catch ({catch_param}) {{ {catch_body} }}")
+}
+
+/// Dual-oracle residual: try/finally skeleton.
+#[must_use]
+pub fn continue37_try_finally_skeleton(try_body: &str, finally_body: &str) -> String {
+    format!("try {{ {try_body} }} finally {{ {finally_body} }}")
+}
+
+/// Dual-oracle residual: throw skeleton.
+#[must_use]
+pub fn continue37_throw_skeleton(arg: &str) -> String {
+    format!("throw {arg};")
+}
+
+/// Dual-oracle residual: debugger skeleton.
+#[must_use]
+pub fn continue37_debugger_skeleton() -> String {
+    "debugger;".to_string()
+}
+
+/// Dual-oracle residual: empty statement skeleton.
+#[must_use]
+pub fn continue37_empty_skeleton() -> String {
+    ";".to_string()
+}
+
+/// Dual-oracle residual: switch skeleton (discriminant + body).
+#[must_use]
+pub fn continue37_switch_skeleton(disc: &str, body: &str) -> String {
+    format!("switch ({disc}) {{ {body} }}")
+}
+
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1855,6 +1948,40 @@ mod tests {
         );
         assert_eq!(CONTINUE36_RELATED_TYPES.len(), 6);
     }
+
+    #[test]
+    fn continue37_try_catch_throw_debugger_empty_switch_emit() {
+        assert!(is_continue37_related_type("TryStatement"));
+        assert!(is_continue37_related_type("CatchClause"));
+        assert!(is_continue37_related_type("ThrowStatement"));
+        assert!(is_continue37_related_type("DebuggerStatement"));
+        assert!(is_continue37_related_type("EmptyStatement"));
+        assert!(is_continue37_related_type("SwitchStatement"));
+        assert!(!is_continue37_related_type("ClassDeclaration"));
+        assert!(is_continue37_try_type("TryStatement"));
+        assert!(is_continue37_catch_type("CatchClause"));
+        assert!(is_continue37_throw_type("ThrowStatement"));
+        assert!(is_continue37_debugger_type("DebuggerStatement"));
+        assert!(is_continue37_empty_type("EmptyStatement"));
+        assert!(is_continue37_switch_type("SwitchStatement"));
+        assert_eq!(
+            continue37_try_catch_skeleton("a();", "e", "handle(e);"),
+            "try { a(); } catch (e) { handle(e); }"
+        );
+        assert_eq!(
+            continue37_try_finally_skeleton("a();", "cleanup();"),
+            "try { a(); } finally { cleanup(); }"
+        );
+        assert_eq!(continue37_throw_skeleton("err"), "throw err;");
+        assert_eq!(continue37_debugger_skeleton(), "debugger;");
+        assert_eq!(continue37_empty_skeleton(), ";");
+        assert_eq!(
+            continue37_switch_skeleton("x", "case 1: break;"),
+            "switch (x) { case 1: break; }"
+        );
+        assert_eq!(CONTINUE37_RELATED_TYPES.len(), 6);
+    }
+
 
 
 }
