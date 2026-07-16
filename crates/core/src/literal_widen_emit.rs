@@ -3641,3 +3641,136 @@ mod continue48_tests {
         assert!(is_continue48_yield_type("YieldExpression"));
     }
 }
+
+
+// ── continue49 pure residual dens: class property/static/decorator/method dual-oracle residual ──
+// Dual-oracle residual of PropertyDefinition / StaticBlock / Decorator / ClassBody /
+// MethodDefinition / ExportDefaultSpecifier pure halves.
+// Intentional ts_only plugins retained. dens ≠ flip.
+// product residual dens wave72
+
+/// Dual-oracle residual: continue49 related type catalog.
+pub const CONTINUE49_RELATED_TYPES: &[&str] = &[
+    "PropertyDefinition",
+    "StaticBlock",
+    "Decorator",
+    "ClassBody",
+    "MethodDefinition",
+    "ExportDefaultSpecifier",
+];
+
+#[must_use]
+pub fn is_continue49_related_type(t: &str) -> bool {
+    CONTINUE49_RELATED_TYPES.contains(&t)
+}
+
+#[must_use]
+pub fn is_continue49_property_definition_type(t: &str) -> bool {
+    t == "PropertyDefinition"
+}
+
+#[must_use]
+pub fn is_continue49_static_block_type(t: &str) -> bool {
+    t == "StaticBlock"
+}
+
+#[must_use]
+pub fn is_continue49_decorator_type(t: &str) -> bool {
+    t == "Decorator"
+}
+
+#[must_use]
+pub fn is_continue49_class_body_type(t: &str) -> bool {
+    t == "ClassBody"
+}
+
+#[must_use]
+pub fn is_continue49_method_definition_type(t: &str) -> bool {
+    t == "MethodDefinition"
+}
+
+#[must_use]
+pub fn is_continue49_export_default_specifier_type(t: &str) -> bool {
+    t == "ExportDefaultSpecifier"
+}
+
+#[must_use]
+pub fn continue49_property_definition_skeleton(key: &str, value: &str) -> String {
+    format!("{key} = {value};")
+}
+
+#[must_use]
+pub fn continue49_static_property_skeleton(key: &str, value: &str) -> String {
+    format!("static {key} = {value};")
+}
+
+#[must_use]
+pub fn continue49_static_block_skeleton(body: &str) -> String {
+    format!("static {{ {body} }}")
+}
+
+#[must_use]
+pub fn continue49_decorator_skeleton(expr: &str) -> String {
+    format!("@{expr}")
+}
+
+#[must_use]
+pub fn continue49_class_body_skeleton(members: &str) -> String {
+    format!("{{ {members} }}")
+}
+
+#[must_use]
+pub fn continue49_method_definition_skeleton(name: &str, params: &str, body: &str) -> String {
+    format!("{name}({params}) {{ {body} }}")
+}
+
+#[must_use]
+pub fn continue49_export_default_specifier_skeleton(local: &str) -> String {
+    format!("export default {local};")
+}
+
+#[cfg(test)]
+mod continue49_tests {
+    use super::*;
+
+    #[test]
+    fn continue49_class_property_static_decorator_method_emit() {
+        assert_eq!(CONTINUE49_RELATED_TYPES.len(), 6);
+        assert!(is_continue49_related_type("PropertyDefinition"));
+        assert!(is_continue49_related_type("StaticBlock"));
+        assert!(is_continue49_related_type("Decorator"));
+        assert!(is_continue49_related_type("ClassBody"));
+        assert!(is_continue49_related_type("MethodDefinition"));
+        assert!(is_continue49_related_type("ExportDefaultSpecifier"));
+        assert!(!is_continue49_related_type("ClassDeclaration"));
+        assert!(!is_continue48_related_type("PropertyDefinition"));
+        assert!(is_continue49_property_definition_type("PropertyDefinition"));
+        assert!(is_continue49_static_block_type("StaticBlock"));
+        assert!(is_continue49_decorator_type("Decorator"));
+        assert!(is_continue49_class_body_type("ClassBody"));
+        assert!(is_continue49_method_definition_type("MethodDefinition"));
+        assert!(is_continue49_export_default_specifier_type("ExportDefaultSpecifier"));
+        assert_eq!(
+            continue49_property_definition_skeleton("x", "1"),
+            "x = 1;"
+        );
+        assert_eq!(
+            continue49_static_property_skeleton("y", "2"),
+            "static y = 2;"
+        );
+        assert_eq!(
+            continue49_static_block_skeleton("init();"),
+            "static { init(); }"
+        );
+        assert_eq!(continue49_decorator_skeleton("sealed"), "@sealed");
+        assert_eq!(continue49_class_body_skeleton("m() {}"), "{ m() {} }");
+        assert_eq!(
+            continue49_method_definition_skeleton("m", "a", "return a;"),
+            "m(a) { return a; }"
+        );
+        assert_eq!(
+            continue49_export_default_specifier_skeleton("Foo"),
+            "export default Foo;"
+        );
+    }
+}
