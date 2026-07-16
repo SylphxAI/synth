@@ -69,6 +69,7 @@ mod object_method_conditional_emit;
 mod template_import_options_emit;
 mod binary_unary_logical_emit;
 mod call_member_new_emit;
+mod assign_sequence_object_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
@@ -428,6 +429,20 @@ pub use call_member_new_emit::{
     new_expression_minify, new_expression_pretty, CONTINUE77_RELATED_TYPES,
 };
 
+// Pure residual continue78 — Assignment / Sequence / Object / Parenthesized
+// dual-oracle dens. New surface (not continue64–77 re-wrap).
+// dens ≠ flip; PreferRust OFF.
+pub use assign_sequence_object_emit::{
+    assignment_expression_minify, assignment_expression_pretty,
+    continue78_assignment_expression_skeleton, continue78_object_expression_skeleton,
+    continue78_object_property_skeleton, continue78_parenthesized_expression_skeleton,
+    continue78_parenthesized_sequence, continue78_sequence_expression_skeleton,
+    is_assign_sequence_object_related_type, is_continue78_assignment_type,
+    is_continue78_object_type, is_continue78_parenthesized_type, is_continue78_sequence_type,
+    object_expression_minify, object_expression_pretty, object_expression_pretty_trailing,
+    parenthesized_expression, sequence_expression_minify, sequence_expression_pretty,
+    CONTINUE78_RELATED_TYPES,
+};
 
 // Product tooling engines (printer / compressor / linter)
 pub use printer_engine::{
