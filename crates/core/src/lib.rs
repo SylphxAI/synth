@@ -78,6 +78,7 @@ mod yield_meta_stmt_emit;
 mod pattern_rest_for_await_emit;
 mod ident_block_program_emit;
 mod function_class_this_emit;
+mod import_specifier_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
