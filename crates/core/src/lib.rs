@@ -71,6 +71,7 @@ mod binary_unary_logical_emit;
 mod call_member_new_emit;
 mod assign_sequence_object_emit;
 mod var_return_if_emit;
+mod loop_switch_stmt_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
@@ -458,6 +459,24 @@ pub use var_return_if_emit::{
     is_var_return_if_related_type, return_statement_minify, return_statement_pretty,
     variable_declaration_minify, variable_declaration_pretty, variable_declarator_minify,
     variable_declarator_pretty, CONTINUE79_RELATED_TYPES,
+};
+
+// Pure residual continue80 — For / While / DoWhile / Switch dual-oracle dens.
+// New surface (not continue64–79 re-wrap). dens ≠ flip; PreferRust OFF.
+pub use loop_switch_stmt_emit::{
+    continue80_do_while_statement_skeleton, continue80_for_in_statement_skeleton,
+    continue80_for_of_statement_skeleton, continue80_for_statement_skeleton,
+    continue80_for_then_while, continue80_switch_case_skeleton,
+    continue80_switch_statement_skeleton, continue80_while_statement_skeleton,
+    do_while_statement_minify, do_while_statement_pretty, for_in_statement_minify,
+    for_in_statement_pretty, for_of_statement_minify, for_of_statement_pretty,
+    for_statement_minify, for_statement_pretty, is_continue80_do_while_type,
+    is_continue80_for_in_type, is_continue80_for_of_type, is_continue80_for_type,
+    is_continue80_switch_case_type, is_continue80_switch_type, is_continue80_while_type,
+    is_loop_switch_stmt_related_type, switch_case_minify, switch_case_pretty,
+    switch_default_minify, switch_default_pretty, switch_statement_minify,
+    switch_statement_pretty, while_statement_minify, while_statement_pretty,
+    CONTINUE80_RELATED_TYPES,
 };
 
 // Product tooling engines (printer / compressor / linter)
