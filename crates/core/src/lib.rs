@@ -68,6 +68,7 @@ mod optional_chain_emit;
 mod object_method_conditional_emit;
 mod template_import_options_emit;
 mod binary_unary_logical_emit;
+mod call_member_new_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
@@ -413,6 +414,20 @@ pub use binary_unary_logical_emit::{
     unary_expression_minify, unary_expression_pretty, update_postfix_dec, update_postfix_inc,
     update_prefix_dec, update_prefix_inc, CONTINUE76_RELATED_TYPES,
 };
+
+// Pure residual continue77 — Call / Member / New / Array dual-oracle dens.
+// New surface (not continue64–76 re-wrap). dens ≠ flip; PreferRust OFF.
+pub use call_member_new_emit::{
+    array_expression_minify, array_expression_pretty, array_expression_pretty_trailing,
+    call_expression_minify, call_expression_pretty, continue77_array_expression_skeleton,
+    continue77_call_expression_skeleton, continue77_join_list, continue77_list_sep,
+    continue77_member_expression_skeleton, continue77_member_then_call,
+    continue77_new_expression_skeleton, continue77_new_keyword, is_call_member_new_related_type,
+    is_continue77_array_type, is_continue77_call_type, is_continue77_member_type,
+    is_continue77_new_type, member_expression_computed, member_expression_static,
+    new_expression_minify, new_expression_pretty, CONTINUE77_RELATED_TYPES,
+};
+
 
 // Product tooling engines (printer / compressor / linter)
 pub use printer_engine::{
