@@ -3898,3 +3898,123 @@ mod continue50_tests {
         );
     }
 }
+
+// ── continue51 pure residual dens: super/this/meta/template dual-oracle residual ──
+// Dual-oracle residual of Super / ThisExpression / MetaProperty /
+// TaggedTemplateExpression / TemplateLiteral / TemplateElement pure halves.
+// Intentional ts_only plugins retained. dens ≠ flip.
+
+/// Dual-oracle residual: continue51 related type catalog.
+pub const CONTINUE51_RELATED_TYPES: &[&str] = &[
+    "Super",
+    "ThisExpression",
+    "MetaProperty",
+    "TaggedTemplateExpression",
+    "TemplateLiteral",
+    "TemplateElement",
+];
+
+#[must_use]
+pub fn is_continue51_related_type(t: &str) -> bool {
+    CONTINUE51_RELATED_TYPES.contains(&t)
+}
+
+#[must_use]
+pub fn is_continue51_super_type(t: &str) -> bool {
+    t == "Super"
+}
+
+#[must_use]
+pub fn is_continue51_this_type(t: &str) -> bool {
+    t == "ThisExpression"
+}
+
+#[must_use]
+pub fn is_continue51_meta_type(t: &str) -> bool {
+    t == "MetaProperty"
+}
+
+#[must_use]
+pub fn is_continue51_tagged_template_type(t: &str) -> bool {
+    t == "TaggedTemplateExpression"
+}
+
+#[must_use]
+pub fn is_continue51_template_literal_type(t: &str) -> bool {
+    t == "TemplateLiteral"
+}
+
+#[must_use]
+pub fn is_continue51_template_element_type(t: &str) -> bool {
+    t == "TemplateElement"
+}
+
+#[must_use]
+pub fn continue51_super_call_skeleton(args: &str) -> String {
+    format!("super({args})")
+}
+
+#[must_use]
+pub fn continue51_super_member_skeleton(name: &str) -> String {
+    format!("super.{name}")
+}
+
+#[must_use]
+pub fn continue51_this_member_skeleton(name: &str) -> String {
+    format!("this.{name}")
+}
+
+#[must_use]
+pub fn continue51_import_meta_skeleton() -> String {
+    "import.meta".to_string()
+}
+
+#[must_use]
+pub fn continue51_new_target_skeleton() -> String {
+    "new.target".to_string()
+}
+
+#[must_use]
+pub fn continue51_template_literal_skeleton(cooked: &str) -> String {
+    format!("`{cooked}`")
+}
+
+#[must_use]
+pub fn continue51_tagged_template_skeleton(tag: &str, cooked: &str) -> String {
+    format!("{tag}`{cooked}`")
+}
+
+#[cfg(test)]
+mod continue51_tests {
+    use super::*;
+
+    #[test]
+    fn continue51_super_this_meta_template_emit() {
+        assert_eq!(CONTINUE51_RELATED_TYPES.len(), 6);
+        assert!(is_continue51_related_type("Super"));
+        assert!(is_continue51_related_type("ThisExpression"));
+        assert!(is_continue51_related_type("MetaProperty"));
+        assert!(is_continue51_related_type("TaggedTemplateExpression"));
+        assert!(is_continue51_related_type("TemplateLiteral"));
+        assert!(is_continue51_related_type("TemplateElement"));
+        assert!(!is_continue51_related_type("ClassPrivateProperty"));
+        assert!(!is_continue50_related_type("Super"));
+        assert!(is_continue51_super_type("Super"));
+        assert!(is_continue51_this_type("ThisExpression"));
+        assert!(is_continue51_meta_type("MetaProperty"));
+        assert!(is_continue51_tagged_template_type("TaggedTemplateExpression"));
+        assert!(is_continue51_template_literal_type("TemplateLiteral"));
+        assert!(is_continue51_template_element_type("TemplateElement"));
+        assert_eq!(continue51_super_call_skeleton("a, b"), "super(a, b)");
+        assert_eq!(continue51_super_member_skeleton("foo"), "super.foo");
+        assert_eq!(continue51_this_member_skeleton("x"), "this.x");
+        assert_eq!(continue51_import_meta_skeleton(), "import.meta");
+        assert_eq!(continue51_new_target_skeleton(), "new.target");
+        assert_eq!(continue51_template_literal_skeleton("hi"), "`hi`");
+        assert_eq!(
+            continue51_tagged_template_skeleton("css", "a{}"),
+            "css`a{}`"
+        );
+    }
+}
+
