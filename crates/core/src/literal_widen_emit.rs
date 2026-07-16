@@ -3297,3 +3297,74 @@ mod continue46_tests {
         assert!(!is_continue46_related_type("WhileStatement"));
     }
 }
+
+
+// ── continue47 pure residual dens: JSX member/for/throw union dual-oracle residual ──
+// Dual-oracle residual deepening continue46 pure emit skeletons.
+// Intentional ts_only plugins retained. dens ≠ flip.
+// product residual dens wave71
+
+/// Dual-oracle residual: continue47 related union of continue46 JSX + for family.
+#[must_use]
+pub fn is_continue47_related_type(t: &str) -> bool {
+    is_continue46_related_type(t)
+}
+
+/// Dual-oracle residual: JSX member skeleton shell.
+#[must_use]
+pub fn continue47_jsx_member_shell() -> bool {
+    continue46_jsx_member_expression_skeleton("Foo", "Bar") == "Foo.Bar"
+        && continue46_jsx_namespaced_name_skeleton("svg", "path") == "svg:path"
+}
+
+/// Dual-oracle residual: JSX open/close + empty expr shell.
+#[must_use]
+pub fn continue47_jsx_element_shell() -> bool {
+    continue46_jsx_opening_element_skeleton("div") == "<div>"
+        && continue46_jsx_closing_element_skeleton("div") == "</div>"
+        && continue46_jsx_empty_expression_skeleton() == "{}"
+        && continue46_jsx_spread_attribute_skeleton("props") == "{...props}"
+}
+
+/// Dual-oracle residual: for/for-in/for-of skeleton shell.
+#[must_use]
+pub fn continue47_for_family_shell() -> bool {
+    continue46_for_skeleton("let i = 0", "i < 3", "i++", "{}")
+        == "for (let i = 0; i < 3; i++) {}"
+        && continue46_for_in_skeleton("const k", "obj", "{}") == "for (const k in obj) {}"
+        && continue46_for_of_skeleton("const x", "xs", "{}") == "for (const x of xs) {}"
+}
+
+/// Dual-oracle residual: throw/label/continue/empty shell.
+#[must_use]
+pub fn continue47_throw_label_shell() -> bool {
+    continue46_throw_skeleton("err") == "throw err;"
+        && continue46_label_skeleton("loop", "while (1) {}") == "loop: while (1) {}"
+        && continue46_continue_label_skeleton("loop") == "continue loop;"
+        && continue46_empty_skeleton() == ";"
+}
+
+/// Dual-oracle residual: type membership probes.
+#[must_use]
+pub fn continue47_type_membership_shell() -> bool {
+    is_continue47_related_type("JSXMemberExpression")
+        && is_continue47_related_type("ForStatement")
+        && is_continue47_related_type("ThrowStatement")
+        && !is_continue47_related_type("WhileStatement")
+}
+
+#[cfg(test)]
+mod continue47_tests {
+    use super::*;
+
+    #[test]
+    fn continue47_jsx_for_throw_union_dual_oracle() {
+        assert!(continue47_jsx_member_shell());
+        assert!(continue47_jsx_element_shell());
+        assert!(continue47_for_family_shell());
+        assert!(continue47_throw_label_shell());
+        assert!(continue47_type_membership_shell());
+        assert!(is_continue46_jsx_member_expression_type("JSXMemberExpression"));
+        assert!(is_continue46_for_type("ForStatement"));
+    }
+}
