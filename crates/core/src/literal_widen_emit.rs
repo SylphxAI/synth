@@ -2397,3 +2397,136 @@ mod continue40_tests {
         assert_eq!(CONTINUE40_RELATED_TYPES.len(), 6);
     }
 }
+
+
+// ── continue41 pure residual dens: Unary / Binary / Await / Arrow / Spread / Rest emit ──
+// Dual-oracle residual pure emit skeletons for expression/pattern residual shapes.
+// Intentional ts_only plugins retained. dens ≠ flip.
+
+/// Dual-oracle residual: continue41 related AST type names.
+pub const CONTINUE41_RELATED_TYPES: &[&str] = &[
+    "UnaryExpression",
+    "BinaryExpression",
+    "AwaitExpression",
+    "ArrowFunctionExpression",
+    "SpreadElement",
+    "RestElement",
+];
+
+/// Dual-oracle residual: type is continue41-related.
+#[must_use]
+pub fn is_continue41_related_type(t: &str) -> bool {
+    CONTINUE41_RELATED_TYPES.contains(&t)
+}
+
+#[must_use]
+pub fn is_continue41_unary_type(t: &str) -> bool {
+    t == "UnaryExpression"
+}
+
+#[must_use]
+pub fn is_continue41_binary_type(t: &str) -> bool {
+    t == "BinaryExpression"
+}
+
+#[must_use]
+pub fn is_continue41_await_type(t: &str) -> bool {
+    t == "AwaitExpression"
+}
+
+#[must_use]
+pub fn is_continue41_arrow_type(t: &str) -> bool {
+    t == "ArrowFunctionExpression"
+}
+
+#[must_use]
+pub fn is_continue41_spread_type(t: &str) -> bool {
+    t == "SpreadElement"
+}
+
+#[must_use]
+pub fn is_continue41_rest_type(t: &str) -> bool {
+    t == "RestElement"
+}
+
+/// Dual-oracle residual: unary skeleton (`op arg` or `arg op` for postfix).
+#[must_use]
+pub fn continue41_unary_skeleton(op: &str, arg: &str, prefix: bool) -> String {
+    if prefix {
+        format!("{op}{arg}")
+    } else {
+        format!("{arg}{op}")
+    }
+}
+
+/// Dual-oracle residual: binary skeleton.
+#[must_use]
+pub fn continue41_binary_skeleton(left: &str, op: &str, right: &str) -> String {
+    format!("{left} {op} {right}")
+}
+
+/// Dual-oracle residual: await skeleton.
+#[must_use]
+pub fn continue41_await_skeleton(arg: &str) -> String {
+    format!("await {arg}")
+}
+
+/// Dual-oracle residual: arrow function skeleton (`(params) => body`).
+#[must_use]
+pub fn continue41_arrow_skeleton(params: &str, body: &str, expression: bool) -> String {
+    if expression {
+        format!("({params}) => {body}")
+    } else {
+        format!("({params}) => {{ {body} }}")
+    }
+}
+
+/// Dual-oracle residual: spread element skeleton (`...arg`).
+#[must_use]
+pub fn continue41_spread_skeleton(arg: &str) -> String {
+    format!("...{arg}")
+}
+
+/// Dual-oracle residual: rest element skeleton (`...arg`).
+#[must_use]
+pub fn continue41_rest_skeleton(arg: &str) -> String {
+    format!("...{arg}")
+}
+
+#[cfg(test)]
+mod continue41_tests {
+    use super::*;
+
+    #[test]
+    fn continue41_unary_binary_await_arrow_spread_rest_emit() {
+        assert!(is_continue41_related_type("UnaryExpression"));
+        assert!(is_continue41_related_type("BinaryExpression"));
+        assert!(is_continue41_related_type("AwaitExpression"));
+        assert!(is_continue41_related_type("ArrowFunctionExpression"));
+        assert!(is_continue41_related_type("SpreadElement"));
+        assert!(is_continue41_related_type("RestElement"));
+        assert!(!is_continue41_related_type("ReturnStatement"));
+        assert!(is_continue41_unary_type("UnaryExpression"));
+        assert!(is_continue41_binary_type("BinaryExpression"));
+        assert!(is_continue41_await_type("AwaitExpression"));
+        assert!(is_continue41_arrow_type("ArrowFunctionExpression"));
+        assert!(is_continue41_spread_type("SpreadElement"));
+        assert!(is_continue41_rest_type("RestElement"));
+        assert_eq!(continue41_unary_skeleton("!", "x", true), "!x");
+        assert_eq!(continue41_unary_skeleton("++", "i", false), "i++");
+        assert_eq!(continue41_binary_skeleton("a", "+", "b"), "a + b");
+        assert_eq!(continue41_binary_skeleton("a", "===", "b"), "a === b");
+        assert_eq!(continue41_await_skeleton("fetch()"), "await fetch()");
+        assert_eq!(
+            continue41_arrow_skeleton("x", "x + 1", true),
+            "(x) => x + 1"
+        );
+        assert_eq!(
+            continue41_arrow_skeleton("x", "return x;", false),
+            "(x) => { return x; }"
+        );
+        assert_eq!(continue41_spread_skeleton("xs"), "...xs");
+        assert_eq!(continue41_rest_skeleton("rest"), "...rest");
+        assert_eq!(CONTINUE41_RELATED_TYPES.len(), 6);
+    }
+}
