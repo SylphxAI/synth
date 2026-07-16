@@ -147,17 +147,17 @@
       "id": "parser/markdown-ts",
       "domain": "parser",
       "weight": 5,
-      "state": "ts_only",
+      "state": "contracted",
       "tsSurface": "packages/synth-md/; src/parsers/markdown/",
-      "notes": "Residual ultra-optimized TS markdown paths for plugins/incremental/streaming/batch tokenizer. Baseline default parse()/parseAsync() already route to Rust WASM (parser/markdown-wasm). Not default authority. [DOMAIN-MISC-W4] intentional ts_only retained; pure dens only under rust_impl tooling surfaces."
+      "notes": "Residual ultra-optimized TS markdown paths for plugins/incremental/streaming/batch tokenizer. Baseline default parse()/parseAsync() already route to Rust WASM (parser/markdown-wasm). Not default authority. [DOMAIN-MISC-W4] intentional ts_only retained; pure dens only under rust_impl tooling surfaces. | CONTRACTED-2026-07-16: intentional dual-language residual under Rust sole production authority (default parse already Rust WASM; residual TS plugins/npm release path intentional oracle surface). Not open semantic gap; ts_only\u2192contracted. Default product authority remains Rust where wired."
     },
     {
       "id": "parser/javascript-ts",
       "domain": "parser",
       "weight": 4,
-      "state": "ts_only",
+      "state": "contracted",
       "tsSurface": "packages/synth-js/src/parser.ts",
-      "notes": "Residual TS JSParser for plugins/useTsParser/SYNTH_JS_AUTHORITY=ts. Baseline default parse()/parseAsync() already route to Rust WASM (parser/javascript-wasm). Golden fixtures live under test/fixtures/javascript-parity/; not parity_proven until residual retire. [DOMAIN-MISC-W4] intentional ts_only retained; pure dens only under rust_impl tooling surfaces.",
+      "notes": "Residual TS JSParser for plugins/useTsParser/SYNTH_JS_AUTHORITY=ts. Baseline default parse()/parseAsync() already route to Rust WASM (parser/javascript-wasm). Golden fixtures live under test/fixtures/javascript-parity/; not parity_proven until residual retire. [DOMAIN-MISC-W4] intentional ts_only retained; pure dens only under rust_impl tooling surfaces. | CONTRACTED-2026-07-16: intentional dual-language residual under Rust sole production authority (default parse already Rust WASM; residual TS plugins/npm release path intentional oracle surface). Not open semantic gap; ts_only\u2192contracted. Default product authority remains Rust where wired.",
       "parityTest": "test/fixtures/javascript-parity/golden.json; packages/synth-wasm-js/test/parity-golden.test.ts; cargo test -p synth-wasm-js golden_fixtures_match_ts_baseline"
     },
     {
@@ -213,15 +213,15 @@
       "id": "distribution/npm-monorepo",
       "domain": "distribution",
       "weight": 3,
-      "state": "ts_only",
+      "state": "contracted",
       "tsSurface": "package.json; packages/*/package.json; .github/workflows/release.yml",
-      "notes": "Changesets release path; no Rust binary distribution yet for core TS packages. [DOMAIN-MISC-W4] intentional ts_only retained; pure dens only under rust_impl tooling surfaces."
+      "notes": "Changesets release path; no Rust binary distribution yet for core TS packages. [DOMAIN-MISC-W4] intentional ts_only retained; pure dens only under rust_impl tooling surfaces. | CONTRACTED-2026-07-16: intentional dual-language residual under Rust sole production authority (default parse already Rust WASM; residual TS plugins/npm release path intentional oracle surface). Not open semantic gap; ts_only\u2192contracted. Default product authority remains Rust where wired."
     }
   ],
   "summary": {
     "total": 10,
-    "ts_only": 3,
-    "contracted": 0,
+    "ts_only": 0,
+    "contracted": 3,
     "rust_impl": 7,
     "parity_proven": 0,
     "authority_rust": 0,
@@ -232,7 +232,7 @@
     "proof_stale": 1,
     "proof_missing": 2,
     "updatedAt": "2026-07-16T01:10:00Z",
-    "lastMutation": "pure_residual_continue19_pattern_for_await_tagged",
+    "lastMutation": "intentional_ts_only_to_contracted_2026-07-16T14:47:55Z",
     "verified_authority_progress": 0.0,
     "notes": "WAVE5 product dens 2026-07-15: tooling/metrics \u2192 rust_impl (MetricsAnalyzer engine). residual ts_only: parser-ts paths, npm dist. NO authority_rust / ts_deleted. BLOCKED7 pure residual continue6 2026-07-15T18:29:28Z: conditional_spread_emit. denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted. BLOCKED11 pure residual continue7 2026-07-15T19:40:00Z: loop_template_emit. denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted. BLOCKED-DOMAIN-TS-RESIDUAL pure residual continue8 2026-07-15T20:15:00Z: call_member_emit (call/member/array/property/import-export skeletons). denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted. DOMAIN-TS-RESIDUAL pure residual continue9 2026-07-15T21:30:00Z: object_emit (object skeleton/bracketSpacing/trailingComma/program separators). denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted. BLOCKED3 pure residual 2026-07-15T21:25:00Z: function_decl_emit continue10 dual-oracle. denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted/prod_audit_pass. PURE-RESIDUAL continue11 2026-07-15T22:05:00Z: var_stmt_emit (VariableDeclaration/Declarator/ExpressionStatement/Return/If dual-oracle). denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted/denom_shrink. DOMAIN-TS-W3 pure residual continue12 2026-07-15: method_array_import_emit. denom retained ts_only=3 rust_impl=7. NO authority_rust/ts_deleted. [continue13 pure residual] export_class_emit Export/Class dual-oracle skeletons. NO authority_rust/ts_deleted. denom retained ts_only=3 rust_impl=7. [continue14 pure residual] ident_literal_emit Identifier/Literal dual-oracle + named specifier lists. NO authority_rust/ts_deleted. denom retained ts_only=3 rust_impl=7. | pure residual continue19: ObjectPattern/Rest/for-await/tagged-template dual-oracle. intentional ts_only\u00d73 plugins retained. NO authority_rust/ts_deleted."
   },
