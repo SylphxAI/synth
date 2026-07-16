@@ -3061,12 +3061,11 @@ mod continue45_tests {
 }
 
 
-// ── continue46 pure residual dens: JSX member/namespaced/spread/opening/closing emit ──
-// Dual-oracle residual pure emit skeletons for remaining JSX AST fragments.
+// ── continue46 pure residual dens: JSX + for/throw/label emit dual-oracle residual ──
+// Dual-oracle residual pure emit skeletons for JSX AST fragments + for-family/throw/label.
 // Intentional ts_only plugins retained. dens ≠ flip. No ts_deleted invent.
-// product residual dens wave70
 
-/// Dual-oracle residual: continue46 related JSX type names.
+/// Dual-oracle residual: continue46 related type catalog (JSX + for/control union).
 pub const CONTINUE46_RELATED_TYPES: &[&str] = &[
     "JSXMemberExpression",
     "JSXNamespacedName",
@@ -3076,8 +3075,15 @@ pub const CONTINUE46_RELATED_TYPES: &[&str] = &[
     "JSXOpeningFragment",
     "JSXClosingFragment",
     "JSXEmptyExpression",
+    "ForStatement",
+    "ForInStatement",
+    "ForOfStatement",
+    "ThrowStatement",
+    "LabeledStatement",
+    "EmptyStatement",
 ];
 
+/// Dual-oracle residual: continue46 related type membership.
 #[must_use]
 pub fn is_continue46_related_type(t: &str) -> bool {
     CONTINUE46_RELATED_TYPES.contains(&t)
@@ -3143,6 +3149,78 @@ pub fn continue46_jsx_empty_expression_skeleton() -> String {
     "{}".to_string()
 }
 
+#[must_use]
+pub fn is_continue46_for_type(t: &str) -> bool {
+    t == "ForStatement"
+}
+
+#[must_use]
+pub fn is_continue46_for_in_type(t: &str) -> bool {
+    t == "ForInStatement"
+}
+
+#[must_use]
+pub fn is_continue46_for_of_type(t: &str) -> bool {
+    t == "ForOfStatement"
+}
+
+#[must_use]
+pub fn is_continue46_throw_type(t: &str) -> bool {
+    t == "ThrowStatement"
+}
+
+#[must_use]
+pub fn is_continue46_labeled_type(t: &str) -> bool {
+    t == "LabeledStatement"
+}
+
+#[must_use]
+pub fn is_continue46_empty_type(t: &str) -> bool {
+    t == "EmptyStatement"
+}
+
+/// Dual-oracle residual: for skeleton.
+#[must_use]
+pub fn continue46_for_skeleton(init: &str, test: &str, update: &str, body: &str) -> String {
+    format!("for ({init}; {test}; {update}) {body}")
+}
+
+/// Dual-oracle residual: for-in skeleton.
+#[must_use]
+pub fn continue46_for_in_skeleton(left: &str, right: &str, body: &str) -> String {
+    format!("for ({left} in {right}) {body}")
+}
+
+/// Dual-oracle residual: for-of skeleton.
+#[must_use]
+pub fn continue46_for_of_skeleton(left: &str, right: &str, body: &str) -> String {
+    format!("for ({left} of {right}) {body}")
+}
+
+/// Dual-oracle residual: throw skeleton.
+#[must_use]
+pub fn continue46_throw_skeleton(arg: &str) -> String {
+    format!("throw {arg};")
+}
+
+/// Dual-oracle residual: labeled statement skeleton.
+#[must_use]
+pub fn continue46_label_skeleton(label: &str, body: &str) -> String {
+    format!("{label}: {body}")
+}
+
+/// Dual-oracle residual: continue with label.
+#[must_use]
+pub fn continue46_continue_label_skeleton(label: &str) -> String {
+    format!("continue {label};")
+}
+
+/// Dual-oracle residual: empty statement.
+#[must_use]
+pub fn continue46_empty_skeleton() -> &'static str {
+    ";"
+}
+
 #[cfg(test)]
 mod continue46_tests {
     use super::*;
@@ -3177,6 +3255,45 @@ mod continue46_tests {
         assert_eq!(continue46_jsx_opening_element_skeleton("div"), "<div>");
         assert_eq!(continue46_jsx_closing_element_skeleton("div"), "</div>");
         assert_eq!(continue46_jsx_empty_expression_skeleton(), "{}");
-        assert_eq!(CONTINUE46_RELATED_TYPES.len(), 8);
+        assert!(CONTINUE46_RELATED_TYPES.len() >= 8);
+    }
+
+    #[test]
+    fn continue46_for_throw_label_emit() {
+        assert!(is_continue46_related_type("ForStatement"));
+        assert!(is_continue46_related_type("ForInStatement"));
+        assert!(is_continue46_related_type("ForOfStatement"));
+        assert!(is_continue46_related_type("ThrowStatement"));
+        assert!(is_continue46_related_type("LabeledStatement"));
+        assert!(is_continue46_related_type("EmptyStatement"));
+        assert!(!is_continue46_related_type("DoWhileStatement"));
+        assert!(is_continue46_for_type("ForStatement"));
+        assert!(is_continue46_for_in_type("ForInStatement"));
+        assert!(is_continue46_for_of_type("ForOfStatement"));
+        assert!(is_continue46_throw_type("ThrowStatement"));
+        assert!(is_continue46_labeled_type("LabeledStatement"));
+        assert!(is_continue46_empty_type("EmptyStatement"));
+        assert_eq!(
+            continue46_for_skeleton("let i = 0", "i < 3", "i++", "{}"),
+            "for (let i = 0; i < 3; i++) {}"
+        );
+        assert_eq!(
+            continue46_for_in_skeleton("const k", "obj", "{}"),
+            "for (const k in obj) {}"
+        );
+        assert_eq!(
+            continue46_for_of_skeleton("const x", "xs", "{}"),
+            "for (const x of xs) {}"
+        );
+        assert_eq!(continue46_throw_skeleton("err"), "throw err;");
+        assert_eq!(
+            continue46_label_skeleton("loop", "while (1) {}"),
+            "loop: while (1) {}"
+        );
+        assert_eq!(continue46_continue_label_skeleton("loop"), "continue loop;");
+        assert_eq!(continue46_empty_skeleton(), ";");
+        assert_eq!(CONTINUE46_RELATED_TYPES.len(), 14);
+        assert!(!is_continue45_related_type("ForStatement"));
+        assert!(!is_continue46_related_type("WhileStatement"));
     }
 }
