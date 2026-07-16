@@ -4278,12 +4278,12 @@ mod continue54_tests {
 }
 
 
-// ── continue54 pure residual dens: class/meta/new/this emit dual-oracle residual ──
+// ── continue55 pure residual dens: class/meta/new/this emit dual-oracle residual ──
 // Dual-oracle residual of AST type catalog + emit skeletons for class/meta plane.
 // Intentional ts_only plugins retained; pure emit only. dens ≠ flip.
 
-/// Dual-oracle residual: continue54 related type catalog.
-pub const CONTINUE54_RELATED_TYPES: &[&str] = &[
+/// Dual-oracle residual: continue55 related type catalog.
+pub const CONTINUE55_RELATED_TYPES: &[&str] = &[
     "ClassExpression",
     "ClassDeclaration",
     "MetaProperty",
@@ -4293,42 +4293,42 @@ pub const CONTINUE54_RELATED_TYPES: &[&str] = &[
 ];
 
 #[must_use]
-pub fn is_continue54_related_type(t: &str) -> bool {
-    CONTINUE54_RELATED_TYPES.contains(&t)
+pub fn is_continue55_related_type(t: &str) -> bool {
+    CONTINUE55_RELATED_TYPES.contains(&t)
 }
 
 #[must_use]
-pub fn is_continue54_class_expression_type(t: &str) -> bool {
+pub fn is_continue55_class_expression_type(t: &str) -> bool {
     t == "ClassExpression"
 }
 
 #[must_use]
-pub fn is_continue54_class_declaration_type(t: &str) -> bool {
+pub fn is_continue55_class_declaration_type(t: &str) -> bool {
     t == "ClassDeclaration"
 }
 
 #[must_use]
-pub fn is_continue54_meta_property_type(t: &str) -> bool {
+pub fn is_continue55_meta_property_type(t: &str) -> bool {
     t == "MetaProperty"
 }
 
 #[must_use]
-pub fn is_continue54_new_expression_type(t: &str) -> bool {
+pub fn is_continue55_new_expression_type(t: &str) -> bool {
     t == "NewExpression"
 }
 
 #[must_use]
-pub fn is_continue54_this_expression_type(t: &str) -> bool {
+pub fn is_continue55_this_expression_type(t: &str) -> bool {
     t == "ThisExpression"
 }
 
 #[must_use]
-pub fn is_continue54_super_type(t: &str) -> bool {
+pub fn is_continue55_super_type(t: &str) -> bool {
     t == "Super"
 }
 
 #[must_use]
-pub fn continue54_class_expression_skeleton(name: &str) -> String {
+pub fn continue55_class_expression_skeleton(name: &str) -> String {
     if name.is_empty() {
         "class {}".into()
     } else {
@@ -4337,22 +4337,22 @@ pub fn continue54_class_expression_skeleton(name: &str) -> String {
 }
 
 #[must_use]
-pub fn continue54_class_declaration_skeleton(name: &str) -> String {
+pub fn continue55_class_declaration_skeleton(name: &str) -> String {
     format!("class {name} {{}}")
 }
 
 #[must_use]
-pub fn continue54_meta_import_meta_skeleton() -> &'static str {
+pub fn continue55_meta_import_meta_skeleton() -> &'static str {
     "import.meta"
 }
 
 #[must_use]
-pub fn continue54_meta_new_target_skeleton() -> &'static str {
+pub fn continue55_meta_new_target_skeleton() -> &'static str {
     "new.target"
 }
 
 #[must_use]
-pub fn continue54_new_expression_skeleton(callee: &str, args: &str) -> String {
+pub fn continue55_new_expression_skeleton(callee: &str, args: &str) -> String {
     if args.is_empty() {
         format!("new {callee}()")
     } else {
@@ -4361,12 +4361,12 @@ pub fn continue54_new_expression_skeleton(callee: &str, args: &str) -> String {
 }
 
 #[must_use]
-pub fn continue54_this_skeleton() -> &'static str {
+pub fn continue55_this_skeleton() -> &'static str {
     "this"
 }
 
 #[must_use]
-pub fn continue54_super_call_skeleton(args: &str) -> String {
+pub fn continue55_super_call_skeleton(args: &str) -> String {
     if args.is_empty() {
         "super()".into()
     } else {
@@ -4374,44 +4374,44 @@ pub fn continue54_super_call_skeleton(args: &str) -> String {
     }
 }
 
-/// Dual-oracle residual: continue54 catalog length + partition vs continue53.
+/// Dual-oracle residual: continue55 catalog length + partition vs continue53.
 #[must_use]
-pub fn continue54_catalog_partition_shell() -> bool {
-    CONTINUE54_RELATED_TYPES.len() == 6
-        && is_continue54_related_type("ClassExpression")
-        && is_continue54_related_type("Super")
-        && !is_continue54_related_type("SequenceExpression")
+pub fn continue55_catalog_partition_shell() -> bool {
+    CONTINUE55_RELATED_TYPES.len() == 6
+        && is_continue55_related_type("ClassExpression")
+        && is_continue55_related_type("Super")
+        && !is_continue55_related_type("SequenceExpression")
         && !is_continue53_related_type("ClassExpression")
 }
 
-/// Dual-oracle residual: continue54 emit skeletons closed.
+/// Dual-oracle residual: continue55 emit skeletons closed.
 #[must_use]
-pub fn continue54_emit_shell() -> bool {
-    continue54_class_expression_skeleton("") == "class {}"
-        && continue54_class_expression_skeleton("C") == "class C {}"
-        && continue54_class_declaration_skeleton("D") == "class D {}"
-        && continue54_meta_import_meta_skeleton() == "import.meta"
-        && continue54_meta_new_target_skeleton() == "new.target"
-        && continue54_new_expression_skeleton("Foo", "") == "new Foo()"
-        && continue54_new_expression_skeleton("Foo", "1, 2") == "new Foo(1, 2)"
-        && continue54_this_skeleton() == "this"
-        && continue54_super_call_skeleton("") == "super()"
-        && continue54_super_call_skeleton("x") == "super(x)"
+pub fn continue55_emit_shell() -> bool {
+    continue55_class_expression_skeleton("") == "class {}"
+        && continue55_class_expression_skeleton("C") == "class C {}"
+        && continue55_class_declaration_skeleton("D") == "class D {}"
+        && continue55_meta_import_meta_skeleton() == "import.meta"
+        && continue55_meta_new_target_skeleton() == "new.target"
+        && continue55_new_expression_skeleton("Foo", "") == "new Foo()"
+        && continue55_new_expression_skeleton("Foo", "1, 2") == "new Foo(1, 2)"
+        && continue55_this_skeleton() == "this"
+        && continue55_super_call_skeleton("") == "super()"
+        && continue55_super_call_skeleton("x") == "super(x)"
 }
 
 #[cfg(test)]
-mod continue54_tests {
+mod continue55_tests {
     use super::*;
 
     #[test]
-    fn continue54_class_meta_new_this_emit() {
-        assert!(continue54_catalog_partition_shell());
-        assert!(continue54_emit_shell());
-        assert!(is_continue54_class_expression_type("ClassExpression"));
-        assert!(is_continue54_class_declaration_type("ClassDeclaration"));
-        assert!(is_continue54_meta_property_type("MetaProperty"));
-        assert!(is_continue54_new_expression_type("NewExpression"));
-        assert!(is_continue54_this_expression_type("ThisExpression"));
-        assert!(is_continue54_super_type("Super"));
+    fn continue55_class_meta_new_this_emit() {
+        assert!(continue55_catalog_partition_shell());
+        assert!(continue55_emit_shell());
+        assert!(is_continue55_class_expression_type("ClassExpression"));
+        assert!(is_continue55_class_declaration_type("ClassDeclaration"));
+        assert!(is_continue55_meta_property_type("MetaProperty"));
+        assert!(is_continue55_new_expression_type("NewExpression"));
+        assert!(is_continue55_this_expression_type("ThisExpression"));
+        assert!(is_continue55_super_type("Super"));
     }
 }
