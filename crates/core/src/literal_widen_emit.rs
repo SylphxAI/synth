@@ -1269,6 +1269,95 @@ pub fn continue35_with_skeleton(object: &str, body: &str) -> String {
     format!("with ({object}) {{ {body} }}")
 }
 
+
+// ── continue36 pure residual: Class / Return / This / Super / MetaProperty emit ──
+// Dual-oracle residual of ClassDeclaration/Expression, ReturnStatement,
+// ThisExpression, Super, MetaProperty emit skeletons.
+// Intentional ts_only plugins retained. dens ≠ flip.
+
+/// Dual-oracle residual: continue36 related AST type catalog.
+pub const CONTINUE36_RELATED_TYPES: &[&str] = &[
+    "ClassDeclaration",
+    "ClassExpression",
+    "ReturnStatement",
+    "ThisExpression",
+    "Super",
+    "MetaProperty",
+];
+
+/// Dual-oracle residual: is continue36 related type.
+#[must_use]
+pub fn is_continue36_related_type(t: &str) -> bool {
+    CONTINUE36_RELATED_TYPES.contains(&t)
+}
+
+#[must_use]
+pub fn is_continue36_class_type(t: &str) -> bool {
+    matches!(t, "ClassDeclaration" | "ClassExpression")
+}
+
+#[must_use]
+pub fn is_continue36_return_type(t: &str) -> bool {
+    t == "ReturnStatement"
+}
+
+#[must_use]
+pub fn is_continue36_this_type(t: &str) -> bool {
+    t == "ThisExpression"
+}
+
+#[must_use]
+pub fn is_continue36_super_type(t: &str) -> bool {
+    t == "Super"
+}
+
+#[must_use]
+pub fn is_continue36_meta_property_type(t: &str) -> bool {
+    t == "MetaProperty"
+}
+
+/// Dual-oracle residual: class declaration skeleton.
+#[must_use]
+pub fn continue36_class_declaration_skeleton(name: &str, body: &str) -> String {
+    format!("class {name} {body}")
+}
+
+/// Dual-oracle residual: class expression skeleton.
+#[must_use]
+pub fn continue36_class_expression_skeleton(name: Option<&str>, body: &str) -> String {
+    match name {
+        Some(n) if !n.is_empty() => format!("class {n} {body}"),
+        _ => format!("class {body}"),
+    }
+}
+
+/// Dual-oracle residual: return skeleton (optional argument).
+#[must_use]
+pub fn continue36_return_skeleton(arg: Option<&str>) -> String {
+    match arg {
+        Some(a) if !a.is_empty() => format!("return {a};"),
+        _ => "return;".into(),
+    }
+}
+
+/// Dual-oracle residual: this expression skeleton.
+#[must_use]
+pub fn continue36_this_skeleton() -> String {
+    "this".into()
+}
+
+/// Dual-oracle residual: super skeleton.
+#[must_use]
+pub fn continue36_super_skeleton() -> String {
+    "super".into()
+}
+
+/// Dual-oracle residual: meta property skeleton (e.g. import.meta / new.target).
+#[must_use]
+pub fn continue36_meta_property_skeleton(meta: &str, property: &str) -> String {
+    format!("{meta}.{property}")
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1725,5 +1814,47 @@ mod tests {
         assert_eq!(continue35_with_skeleton("obj", "f();"), "with (obj) { f(); }");
         assert_eq!(CONTINUE35_RELATED_TYPES.len(), 6);
     }
+
+    #[test]
+    fn continue36_class_return_this_super_meta_emit() {
+        assert!(is_continue36_related_type("ClassDeclaration"));
+        assert!(is_continue36_related_type("ClassExpression"));
+        assert!(is_continue36_related_type("ReturnStatement"));
+        assert!(is_continue36_related_type("ThisExpression"));
+        assert!(is_continue36_related_type("Super"));
+        assert!(is_continue36_related_type("MetaProperty"));
+        assert!(!is_continue36_related_type("IfStatement"));
+        assert!(is_continue36_class_type("ClassExpression"));
+        assert!(is_continue36_return_type("ReturnStatement"));
+        assert!(is_continue36_this_type("ThisExpression"));
+        assert!(is_continue36_super_type("Super"));
+        assert!(is_continue36_meta_property_type("MetaProperty"));
+        assert_eq!(
+            continue36_class_declaration_skeleton("Foo", "{ }"),
+            "class Foo { }"
+        );
+        assert_eq!(
+            continue36_class_expression_skeleton(None, "{ }"),
+            "class { }"
+        );
+        assert_eq!(
+            continue36_class_expression_skeleton(Some("Bar"), "{ }"),
+            "class Bar { }"
+        );
+        assert_eq!(continue36_return_skeleton(Some("1")), "return 1;");
+        assert_eq!(continue36_return_skeleton(None), "return;");
+        assert_eq!(continue36_this_skeleton(), "this");
+        assert_eq!(continue36_super_skeleton(), "super");
+        assert_eq!(
+            continue36_meta_property_skeleton("import", "meta"),
+            "import.meta"
+        );
+        assert_eq!(
+            continue36_meta_property_skeleton("new", "target"),
+            "new.target"
+        );
+        assert_eq!(CONTINUE36_RELATED_TYPES.len(), 6);
+    }
+
 
 }
