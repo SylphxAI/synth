@@ -4585,3 +4585,51 @@ mod continue58_tests {
         assert!(is_continue55_new_expression_type("NewExpression"));
     }
 }
+
+
+// ── continue59 pure residual dens: this+class name partition emit dual-oracle residual ──
+// Dual-oracle residual of continue55 this/class/meta pure halves (edge dens).
+// Intentional ts_only plugins retained; pure emit only. dens ≠ flip.
+
+/// Dual-oracle residual: continue59 this skeleton + type fence.
+#[must_use]
+pub fn continue59_this_type_shell() -> bool {
+    continue55_this_skeleton() == "this"
+        && is_continue55_this_expression_type("ThisExpression")
+        && !is_continue55_this_expression_type("Super")
+        && is_continue55_super_type("Super")
+}
+
+/// Dual-oracle residual: continue59 named class expression + declaration.
+#[must_use]
+pub fn continue59_named_class_shell() -> bool {
+    continue55_class_expression_skeleton("Foo") == "class Foo {}"
+        && continue55_class_declaration_skeleton("Bar") == "class Bar {}"
+        && is_continue55_class_expression_type("ClassExpression")
+        && is_continue55_class_declaration_type("ClassDeclaration")
+}
+
+/// Dual-oracle residual: continue59 meta import/new.target + catalog closed.
+#[must_use]
+pub fn continue59_meta_catalog_shell() -> bool {
+    continue55_meta_import_meta_skeleton() == "import.meta"
+        && continue55_meta_new_target_skeleton() == "new.target"
+        && is_continue55_meta_property_type("MetaProperty")
+        && CONTINUE55_RELATED_TYPES.len() == 6
+        && !is_continue55_related_type("SequenceExpression")
+        && is_continue53_related_type("SequenceExpression")
+}
+
+#[cfg(test)]
+mod continue59_tests {
+    use super::*;
+
+    #[test]
+    fn continue59_this_named_class_meta_partition_emit() {
+        assert!(continue59_this_type_shell());
+        assert!(continue59_named_class_shell());
+        assert!(continue59_meta_catalog_shell());
+        assert!(continue55_new_expression_skeleton("Map", "k, v") == "new Map(k, v)");
+        assert!(continue55_super_call_skeleton("x") == "super(x)");
+    }
+}
