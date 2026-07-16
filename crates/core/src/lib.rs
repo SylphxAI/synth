@@ -66,6 +66,7 @@ mod class_export_from_emit;
 mod arrow_method_default_emit;
 mod optional_chain_emit;
 mod object_method_conditional_emit;
+mod template_import_options_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
@@ -383,6 +384,20 @@ pub use object_method_conditional_emit::{
     is_continue74_object_property_type, is_object_method_conditional_related_type,
     object_getter_skeleton, object_method_minify, object_method_pretty,
     object_method_skeleton, object_setter_skeleton, CONTINUE74_RELATED_TYPES,
+};
+
+// Pure residual continue75 — TemplateLiteral / TaggedTemplate / ImportExpression(options)
+// dual-oracle dens. New surface (not continue64–74 re-wrap).
+// dens ≠ flip; PreferRust OFF.
+pub use template_import_options_emit::{
+    continue75_import_expression_options_skeleton, continue75_tagged_template_skeleton,
+    continue75_template_literal_skeleton, import_expression_bare,
+    import_expression_with_options_minify, import_expression_with_options_pretty,
+    is_continue75_import_expression_type, is_continue75_tagged_template_type,
+    is_continue75_template_element_type, is_continue75_template_literal_type,
+    is_template_import_options_related_type, tagged_template_cooked, tagged_template_single,
+    template_element_cooked, template_interpolation, template_literal_cooked,
+    template_literal_empty, template_literal_single, CONTINUE75_RELATED_TYPES,
 };
 
 // Product tooling engines (printer / compressor / linter)
