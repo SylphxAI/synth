@@ -750,6 +750,124 @@ pub fn continue30_new_skeleton(callee: &str, args: &str) -> String {
 }
 
 
+
+
+// ── continue31 pure residual: Unary / Binary / Await / Identifier / Block / Jump emit ──
+// Dual-oracle residual of AST expression/statement emit skeletons.
+// Intentional ts_only plugins retained. dens ≠ flip; no authority invent.
+
+/// Dual-oracle residual: continue31 related AST type catalog.
+#[must_use]
+pub fn is_continue31_related_type(t: &str) -> bool {
+    matches!(
+        t,
+        "UnaryExpression"
+            | "BinaryExpression"
+            | "AwaitExpression"
+            | "Identifier"
+            | "BlockStatement"
+            | "BreakStatement"
+            | "ContinueStatement"
+            | "LabeledStatement"
+            | "ExpressionStatement"
+    )
+}
+
+#[must_use]
+pub fn is_continue31_unary_type(t: &str) -> bool {
+    t == "UnaryExpression"
+}
+#[must_use]
+pub fn is_continue31_binary_type(t: &str) -> bool {
+    t == "BinaryExpression"
+}
+#[must_use]
+pub fn is_continue31_await_type(t: &str) -> bool {
+    t == "AwaitExpression"
+}
+#[must_use]
+pub fn is_continue31_identifier_type(t: &str) -> bool {
+    t == "Identifier"
+}
+#[must_use]
+pub fn is_continue31_block_type(t: &str) -> bool {
+    t == "BlockStatement"
+}
+#[must_use]
+pub fn is_continue31_jump_type(t: &str) -> bool {
+    matches!(t, "BreakStatement" | "ContinueStatement" | "LabeledStatement")
+}
+
+/// Dual-oracle residual: unary skeleton (`!x`, `typeof x`, `void 0`).
+#[must_use]
+pub fn continue31_unary_skeleton(op: &str, arg: &str, prefix: bool) -> String {
+    if prefix {
+        // space for word operators (typeof/void/delete); no space for ! ~ + -
+        if op.chars().all(|c| c.is_ascii_alphabetic()) {
+            format!("{op} {arg}")
+        } else {
+            format!("{op}{arg}")
+        }
+    } else {
+        format!("{arg}{op}")
+    }
+}
+
+/// Dual-oracle residual: binary skeleton (`a + b`).
+#[must_use]
+pub fn continue31_binary_skeleton(left: &str, op: &str, right: &str) -> String {
+    format!("{left} {op} {right}")
+}
+
+/// Dual-oracle residual: await skeleton.
+#[must_use]
+pub fn continue31_await_skeleton(arg: &str) -> String {
+    format!("await {arg}")
+}
+
+/// Dual-oracle residual: identifier token (name only).
+#[must_use]
+pub fn continue31_identifier_skeleton(name: &str) -> String {
+    name.to_string()
+}
+
+/// Dual-oracle residual: block statement skeleton.
+#[must_use]
+pub fn continue31_block_skeleton(body: &str) -> String {
+    format!("{{ {body} }}")
+}
+
+/// Dual-oracle residual: break skeleton (optional label).
+#[must_use]
+pub fn continue31_break_skeleton(label: Option<&str>) -> String {
+    match label {
+        Some(l) if !l.is_empty() => format!("break {l};"),
+        _ => "break;".to_string(),
+    }
+}
+
+/// Dual-oracle residual: continue skeleton (optional label).
+#[must_use]
+pub fn continue31_continue_skeleton(label: Option<&str>) -> String {
+    match label {
+        Some(l) if !l.is_empty() => format!("continue {l};"),
+        _ => "continue;".to_string(),
+    }
+}
+
+/// Dual-oracle residual: labeled statement skeleton.
+#[must_use]
+pub fn continue31_labeled_skeleton(label: &str, body: &str) -> String {
+    format!("{label}: {body}")
+}
+
+/// Dual-oracle residual: expression statement skeleton.
+#[must_use]
+pub fn continue31_expression_stmt_skeleton(expr: &str) -> String {
+    format!("{expr};")
+}
+
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1023,6 +1141,38 @@ mod tests {
         assert_eq!(continue30_call_skeleton("f", "", true), "f?.()");
         assert_eq!(continue30_new_skeleton("Foo", "a"), "new Foo(a)");
     }
+
+    #[test]
+    fn continue31_unary_binary_await_identifier_block_jump_emit() {
+        assert!(is_continue31_related_type("UnaryExpression"));
+        assert!(is_continue31_related_type("BinaryExpression"));
+        assert!(is_continue31_related_type("AwaitExpression"));
+        assert!(is_continue31_related_type("Identifier"));
+        assert!(is_continue31_related_type("BlockStatement"));
+        assert!(is_continue31_related_type("BreakStatement"));
+        assert!(is_continue31_related_type("ContinueStatement"));
+        assert!(!is_continue31_related_type("ClassDeclaration"));
+        assert!(is_continue31_unary_type("UnaryExpression"));
+        assert!(is_continue31_binary_type("BinaryExpression"));
+        assert!(is_continue31_await_type("AwaitExpression"));
+        assert!(is_continue31_identifier_type("Identifier"));
+        assert!(is_continue31_block_type("BlockStatement"));
+        assert!(is_continue31_jump_type("LabeledStatement"));
+        assert_eq!(continue31_unary_skeleton("!", "x", true), "!x");
+        assert_eq!(continue31_unary_skeleton("typeof", "x", true), "typeof x");
+        assert_eq!(continue31_binary_skeleton("a", "+", "b"), "a + b");
+        assert_eq!(continue31_await_skeleton("p"), "await p");
+        assert_eq!(continue31_identifier_skeleton("foo"), "foo");
+        assert_eq!(continue31_block_skeleton("return 1;"), "{ return 1; }");
+        assert_eq!(continue31_break_skeleton(None), "break;");
+        assert_eq!(continue31_break_skeleton(Some("outer")), "break outer;");
+        assert_eq!(continue31_continue_skeleton(None), "continue;");
+        assert_eq!(continue31_continue_skeleton(Some("loop")), "continue loop;");
+        assert_eq!(continue31_labeled_skeleton("outer", "break;"), "outer: break;");
+        assert_eq!(continue31_expression_stmt_skeleton("f()"), "f();");
+    }
+
+
 
 
 }
