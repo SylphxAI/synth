@@ -953,6 +953,115 @@ pub fn continue32_debugger_skeleton() -> &'static str {
     "debugger;"
 }
 
+// ── continue33 pure residual: MetaProperty / ImportExpression / Chain /
+// Empty / Rest / Spread / ClassProperty emit ──
+// Dual-oracle pure emit skeletons for remaining expression/class forms.
+// Intentional ts_only plugins retained. dens ≠ flip.
+
+/// Dual-oracle residual: MetaProperty type tag (`import.meta` / `new.target`).
+pub const CONTINUE33_META_PROPERTY_TYPE: &str = "MetaProperty";
+/// Dual-oracle residual: ImportExpression type tag (`import()`).
+pub const CONTINUE33_IMPORT_EXPRESSION_TYPE: &str = "ImportExpression";
+/// Dual-oracle residual: ChainExpression type tag (optional chain root).
+pub const CONTINUE33_CHAIN_EXPRESSION_TYPE: &str = "ChainExpression";
+/// Dual-oracle residual: EmptyStatement type tag.
+pub const CONTINUE33_EMPTY_STATEMENT_TYPE: &str = "EmptyStatement";
+/// Dual-oracle residual: RestElement type tag.
+pub const CONTINUE33_REST_ELEMENT_TYPE: &str = "RestElement";
+/// Dual-oracle residual: SpreadElement type tag.
+pub const CONTINUE33_SPREAD_ELEMENT_TYPE: &str = "SpreadElement";
+/// Dual-oracle residual: ClassProperty type tag.
+pub const CONTINUE33_CLASS_PROPERTY_TYPE: &str = "ClassProperty";
+
+/// Dual-oracle residual: continue33 related type membership.
+#[must_use]
+pub fn is_continue33_related_type(ty: &str) -> bool {
+    matches!(
+        ty,
+        "MetaProperty"
+            | "ImportExpression"
+            | "ChainExpression"
+            | "EmptyStatement"
+            | "RestElement"
+            | "SpreadElement"
+            | "ClassProperty"
+    )
+}
+
+#[must_use]
+pub fn is_continue33_meta_property_type(ty: &str) -> bool {
+    ty == CONTINUE33_META_PROPERTY_TYPE
+}
+
+#[must_use]
+pub fn is_continue33_import_expression_type(ty: &str) -> bool {
+    ty == CONTINUE33_IMPORT_EXPRESSION_TYPE
+}
+
+#[must_use]
+pub fn is_continue33_chain_expression_type(ty: &str) -> bool {
+    ty == CONTINUE33_CHAIN_EXPRESSION_TYPE
+}
+
+#[must_use]
+pub fn is_continue33_empty_statement_type(ty: &str) -> bool {
+    ty == CONTINUE33_EMPTY_STATEMENT_TYPE
+}
+
+#[must_use]
+pub fn is_continue33_rest_or_spread_type(ty: &str) -> bool {
+    ty == CONTINUE33_REST_ELEMENT_TYPE || ty == CONTINUE33_SPREAD_ELEMENT_TYPE
+}
+
+#[must_use]
+pub fn is_continue33_class_property_type(ty: &str) -> bool {
+    ty == CONTINUE33_CLASS_PROPERTY_TYPE
+}
+
+/// Dual-oracle residual: `import.meta` / `new.target` skeleton.
+#[must_use]
+pub fn continue33_meta_property_skeleton(meta: &str, property: &str) -> String {
+    format!("{meta}.{property}")
+}
+
+/// Dual-oracle residual: `import(source)` dynamic import skeleton.
+#[must_use]
+pub fn continue33_import_expression_skeleton(source: &str) -> String {
+    format!("import({source})")
+}
+
+/// Dual-oracle residual: chain expression wrapper (identity pure half).
+#[must_use]
+pub fn continue33_chain_expression_skeleton(expr: &str) -> String {
+    expr.to_string()
+}
+
+/// Dual-oracle residual: empty statement `;`.
+#[must_use]
+pub fn continue33_empty_statement_skeleton() -> &'static str {
+    ";"
+}
+
+/// Dual-oracle residual: rest element `...arg`.
+#[must_use]
+pub fn continue33_rest_element_skeleton(arg: &str) -> String {
+    format!("...{arg}")
+}
+
+/// Dual-oracle residual: spread element `...arg` (expression position).
+#[must_use]
+pub fn continue33_spread_element_skeleton(arg: &str) -> String {
+    format!("...{arg}")
+}
+
+/// Dual-oracle residual: class field `name = value;` (or bare `name;`).
+#[must_use]
+pub fn continue33_class_property_skeleton(name: &str, value: Option<&str>) -> String {
+    match value {
+        Some(v) => format!("{name} = {v};"),
+        None => format!("{name};"),
+    }
+}
 
 #[cfg(test)]
 mod tests {
@@ -1286,9 +1395,46 @@ mod tests {
         assert_eq!(continue32_debugger_skeleton(), "debugger;");
     }
 
-
-
-
-
-
+    #[test]
+    fn continue33_meta_import_chain_empty_rest_spread_class_property_emit() {
+        assert!(is_continue33_related_type("MetaProperty"));
+        assert!(is_continue33_related_type("ImportExpression"));
+        assert!(is_continue33_related_type("ChainExpression"));
+        assert!(is_continue33_related_type("EmptyStatement"));
+        assert!(is_continue33_related_type("RestElement"));
+        assert!(is_continue33_related_type("SpreadElement"));
+        assert!(is_continue33_related_type("ClassProperty"));
+        assert!(!is_continue33_related_type("ClassDeclaration"));
+        assert!(is_continue33_meta_property_type("MetaProperty"));
+        assert!(is_continue33_import_expression_type("ImportExpression"));
+        assert!(is_continue33_chain_expression_type("ChainExpression"));
+        assert!(is_continue33_empty_statement_type("EmptyStatement"));
+        assert!(is_continue33_rest_or_spread_type("RestElement"));
+        assert!(is_continue33_rest_or_spread_type("SpreadElement"));
+        assert!(is_continue33_class_property_type("ClassProperty"));
+        assert_eq!(
+            continue33_meta_property_skeleton("import", "meta"),
+            "import.meta"
+        );
+        assert_eq!(
+            continue33_meta_property_skeleton("new", "target"),
+            "new.target"
+        );
+        assert_eq!(
+            continue33_import_expression_skeleton("\"./m.js\""),
+            "import(\"./m.js\")"
+        );
+        assert_eq!(
+            continue33_chain_expression_skeleton("obj?.x"),
+            "obj?.x"
+        );
+        assert_eq!(continue33_empty_statement_skeleton(), ";");
+        assert_eq!(continue33_rest_element_skeleton("args"), "...args");
+        assert_eq!(continue33_spread_element_skeleton("items"), "...items");
+        assert_eq!(
+            continue33_class_property_skeleton("x", Some("1")),
+            "x = 1;"
+        );
+        assert_eq!(continue33_class_property_skeleton("y", None), "y;");
+    }
 }
