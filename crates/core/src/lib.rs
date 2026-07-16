@@ -75,6 +75,7 @@ mod loop_switch_stmt_emit;
 mod try_throw_import_stmt_emit;
 mod property_static_stmt_emit;
 mod yield_meta_stmt_emit;
+mod pattern_rest_for_await_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
