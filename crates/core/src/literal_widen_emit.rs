@@ -4018,3 +4018,125 @@ mod continue51_tests {
     }
 }
 
+
+
+// ── continue52 pure residual dens: sequence/update/yield/await/chain dual-oracle residual ──
+// Dual-oracle residual of AST type catalog + emit skeletons for control expressions.
+// Intentional ts_only plugins retained; pure emit only. dens ≠ flip.
+
+/// Dual-oracle residual: continue52 related type catalog.
+pub const CONTINUE52_RELATED_TYPES: &[&str] = &[
+    "SequenceExpression",
+    "UpdateExpression",
+    "YieldExpression",
+    "AwaitExpression",
+    "ChainExpression",
+    "ImportExpression",
+];
+
+#[must_use]
+pub fn is_continue52_related_type(t: &str) -> bool {
+    CONTINUE52_RELATED_TYPES.contains(&t)
+}
+
+#[must_use]
+pub fn is_continue52_sequence_type(t: &str) -> bool {
+    t == "SequenceExpression"
+}
+
+#[must_use]
+pub fn is_continue52_update_type(t: &str) -> bool {
+    t == "UpdateExpression"
+}
+
+#[must_use]
+pub fn is_continue52_yield_type(t: &str) -> bool {
+    t == "YieldExpression"
+}
+
+#[must_use]
+pub fn is_continue52_await_type(t: &str) -> bool {
+    t == "AwaitExpression"
+}
+
+#[must_use]
+pub fn is_continue52_chain_type(t: &str) -> bool {
+    t == "ChainExpression"
+}
+
+#[must_use]
+pub fn is_continue52_import_expr_type(t: &str) -> bool {
+    t == "ImportExpression"
+}
+
+#[must_use]
+pub fn continue52_sequence_skeleton(left: &str, right: &str) -> String {
+    format!("{left}, {right}")
+}
+
+#[must_use]
+pub fn continue52_update_prefix_skeleton(op: &str, arg: &str) -> String {
+    format!("{op}{arg}")
+}
+
+#[must_use]
+pub fn continue52_update_postfix_skeleton(arg: &str, op: &str) -> String {
+    format!("{arg}{op}")
+}
+
+#[must_use]
+pub fn continue52_yield_skeleton(arg: &str) -> String {
+    format!("yield {arg}")
+}
+
+#[must_use]
+pub fn continue52_yield_star_skeleton(arg: &str) -> String {
+    format!("yield* {arg}")
+}
+
+#[must_use]
+pub fn continue52_await_skeleton(arg: &str) -> String {
+    format!("await {arg}")
+}
+
+#[must_use]
+pub fn continue52_import_dynamic_skeleton(spec: &str) -> String {
+    format!("import({spec})")
+}
+
+#[must_use]
+pub fn continue52_optional_chain_skeleton(obj: &str, prop: &str) -> String {
+    format!("{obj}?.{prop}")
+}
+
+#[cfg(test)]
+mod continue52_tests {
+    use super::*;
+
+    #[test]
+    fn continue52_sequence_update_yield_await_chain_emit() {
+        assert_eq!(CONTINUE52_RELATED_TYPES.len(), 6);
+        assert!(is_continue52_related_type("SequenceExpression"));
+        assert!(is_continue52_related_type("UpdateExpression"));
+        assert!(is_continue52_related_type("YieldExpression"));
+        assert!(is_continue52_related_type("AwaitExpression"));
+        assert!(is_continue52_related_type("ChainExpression"));
+        assert!(is_continue52_related_type("ImportExpression"));
+        assert!(!is_continue52_related_type("Super"));
+        assert!(!is_continue51_related_type("SequenceExpression"));
+        assert!(is_continue52_sequence_type("SequenceExpression"));
+        assert!(is_continue52_update_type("UpdateExpression"));
+        assert!(is_continue52_yield_type("YieldExpression"));
+        assert!(is_continue52_await_type("AwaitExpression"));
+        assert!(is_continue52_chain_type("ChainExpression"));
+        assert!(is_continue52_import_expr_type("ImportExpression"));
+        assert_eq!(continue52_sequence_skeleton("a", "b"), "a, b");
+        assert_eq!(continue52_update_prefix_skeleton("++", "i"), "++i");
+        assert_eq!(continue52_update_postfix_skeleton("i", "--"), "i--");
+        assert_eq!(continue52_yield_skeleton("x"), "yield x");
+        assert_eq!(continue52_yield_star_skeleton("xs"), "yield* xs");
+        assert_eq!(continue52_await_skeleton("p"), "await p");
+        assert_eq!(continue52_import_dynamic_skeleton("'./m'"), "import('./m')");
+        assert_eq!(continue52_optional_chain_skeleton("o", "x"), "o?.x");
+    }
+}
