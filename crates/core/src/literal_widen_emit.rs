@@ -4729,3 +4729,50 @@ mod continue61_tests {
         assert!(continue55_super_call_skeleton("") == "super()");
     }
 }
+
+
+// ── continue62 pure residual dens: new/super/this partition emit dual-oracle residual ──
+// Dual-oracle residual of continue55 new/super/this pure halves (edge dens).
+// Intentional ts_only plugins retained; pure emit only. dens ≠ flip.
+
+/// Dual-oracle residual: continue62 new expression empty/args + type fence.
+#[must_use]
+pub fn continue62_new_shell() -> bool {
+    continue55_new_expression_skeleton("Foo", "") == "new Foo()"
+        && continue55_new_expression_skeleton("Bar", "1, 2") == "new Bar(1, 2)"
+        && is_continue55_new_expression_type("NewExpression")
+        && !is_continue55_new_expression_type("CallExpression")
+}
+
+/// Dual-oracle residual: continue62 super call + Super type + this.
+#[must_use]
+pub fn continue62_super_this_shell() -> bool {
+    continue55_super_call_skeleton("") == "super()"
+        && continue55_super_call_skeleton("x") == "super(x)"
+        && continue55_this_skeleton() == "this"
+        && is_continue55_super_type("Super")
+        && is_continue55_this_expression_type("ThisExpression")
+}
+
+/// Dual-oracle residual: continue62 catalog closed six + Super in set.
+#[must_use]
+pub fn continue62_catalog_shell() -> bool {
+    CONTINUE55_RELATED_TYPES.len() == 6
+        && is_continue55_related_type("Super")
+        && is_continue55_related_type("ThisExpression")
+        && is_continue55_related_type("NewExpression")
+        && !is_continue55_related_type("CallExpression")
+}
+
+#[cfg(test)]
+mod continue62_tests {
+    use super::*;
+
+    #[test]
+    fn continue62_new_super_this_catalog_partition_emit() {
+        assert!(continue62_new_shell());
+        assert!(continue62_super_this_shell());
+        assert!(continue62_catalog_shell());
+        assert!(continue55_meta_import_meta_skeleton() == "import.meta");
+    }
+}
