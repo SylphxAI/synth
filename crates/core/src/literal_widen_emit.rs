@@ -2530,3 +2530,121 @@ mod continue41_tests {
         assert_eq!(CONTINUE41_RELATED_TYPES.len(), 6);
     }
 }
+
+
+// ── continue42 pure residual dens: new/conditional/this/super/sequence/empty emit ──
+// Dual-oracle residual pure emit skeletons for New/Conditional/This/Super/Sequence/Empty.
+// Intentional ts_only plugins retained. dens ≠ flip.
+
+/// Dual-oracle residual: continue42 related AST types.
+pub const CONTINUE42_RELATED_TYPES: &[&str] = &[
+    "NewExpression",
+    "ConditionalExpression",
+    "ThisExpression",
+    "Super",
+    "SequenceExpression",
+    "EmptyStatement",
+];
+
+/// Dual-oracle residual: known continue42 type.
+#[must_use]
+pub fn is_continue42_related_type(t: &str) -> bool {
+    CONTINUE42_RELATED_TYPES.contains(&t)
+}
+
+#[must_use]
+pub fn is_continue42_new_type(t: &str) -> bool {
+    t == "NewExpression"
+}
+
+#[must_use]
+pub fn is_continue42_conditional_type(t: &str) -> bool {
+    t == "ConditionalExpression"
+}
+
+#[must_use]
+pub fn is_continue42_this_type(t: &str) -> bool {
+    t == "ThisExpression"
+}
+
+#[must_use]
+pub fn is_continue42_super_type(t: &str) -> bool {
+    t == "Super"
+}
+
+#[must_use]
+pub fn is_continue42_sequence_type(t: &str) -> bool {
+    t == "SequenceExpression"
+}
+
+#[must_use]
+pub fn is_continue42_empty_type(t: &str) -> bool {
+    t == "EmptyStatement"
+}
+
+/// Dual-oracle residual: `new Ctor(args)` skeleton.
+#[must_use]
+pub fn continue42_new_skeleton(ctor: &str, args: &str) -> String {
+    format!("new {ctor}({args})")
+}
+
+/// Dual-oracle residual: ternary skeleton.
+#[must_use]
+pub fn continue42_conditional_skeleton(test: &str, cons: &str, alt: &str) -> String {
+    format!("{test} ? {cons} : {alt}")
+}
+
+/// Dual-oracle residual: this / super skeletons.
+#[must_use]
+pub fn continue42_this_skeleton() -> &'static str {
+    "this"
+}
+
+#[must_use]
+pub fn continue42_super_skeleton() -> &'static str {
+    "super"
+}
+
+/// Dual-oracle residual: sequence skeleton (`a, b`).
+#[must_use]
+pub fn continue42_sequence_skeleton(left: &str, right: &str) -> String {
+    format!("{left}, {right}")
+}
+
+/// Dual-oracle residual: empty statement skeleton.
+#[must_use]
+pub fn continue42_empty_skeleton() -> &'static str {
+    ";"
+}
+
+#[cfg(test)]
+mod continue42_tests {
+    use super::*;
+
+    #[test]
+    fn continue42_new_conditional_this_super_sequence_empty_emit() {
+        assert!(is_continue42_related_type("NewExpression"));
+        assert!(is_continue42_related_type("ConditionalExpression"));
+        assert!(is_continue42_related_type("ThisExpression"));
+        assert!(is_continue42_related_type("Super"));
+        assert!(is_continue42_related_type("SequenceExpression"));
+        assert!(is_continue42_related_type("EmptyStatement"));
+        assert!(!is_continue42_related_type("UnaryExpression"));
+        assert!(is_continue42_new_type("NewExpression"));
+        assert!(is_continue42_conditional_type("ConditionalExpression"));
+        assert!(is_continue42_this_type("ThisExpression"));
+        assert!(is_continue42_super_type("Super"));
+        assert!(is_continue42_sequence_type("SequenceExpression"));
+        assert!(is_continue42_empty_type("EmptyStatement"));
+        assert_eq!(continue42_new_skeleton("Map", "entries"), "new Map(entries)");
+        assert_eq!(
+            continue42_conditional_skeleton("ok", "a", "b"),
+            "ok ? a : b"
+        );
+        assert_eq!(continue42_this_skeleton(), "this");
+        assert_eq!(continue42_super_skeleton(), "super");
+        assert_eq!(continue42_sequence_skeleton("a", "b"), "a, b");
+        assert_eq!(continue42_empty_skeleton(), ";");
+        assert_eq!(CONTINUE42_RELATED_TYPES.len(), 6);
+    }
+}
