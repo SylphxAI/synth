@@ -1,5 +1,10 @@
 # Synth
 
+<p align="center">
+  <img src="docs/banner.png" alt="synth banner" width="100%" />
+</p>
+
+
 > **The World's Fastest AST Processor** - 50-3000x faster than unified
 
 [![npm](https://img.shields.io/npm/v/@sylphx/synth)](https://www.npmjs.com/package/@sylphx/synth)
