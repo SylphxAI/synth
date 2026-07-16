@@ -3059,3 +3059,124 @@ mod continue45_tests {
         assert_eq!(CONTINUE45_RELATED_TYPES.len(), 6);
     }
 }
+
+
+// ── continue46 pure residual dens: JSX member/namespaced/spread/opening/closing emit ──
+// Dual-oracle residual pure emit skeletons for remaining JSX AST fragments.
+// Intentional ts_only plugins retained. dens ≠ flip. No ts_deleted invent.
+// product residual dens wave70
+
+/// Dual-oracle residual: continue46 related JSX type names.
+pub const CONTINUE46_RELATED_TYPES: &[&str] = &[
+    "JSXMemberExpression",
+    "JSXNamespacedName",
+    "JSXSpreadAttribute",
+    "JSXOpeningElement",
+    "JSXClosingElement",
+    "JSXOpeningFragment",
+    "JSXClosingFragment",
+    "JSXEmptyExpression",
+];
+
+#[must_use]
+pub fn is_continue46_related_type(t: &str) -> bool {
+    CONTINUE46_RELATED_TYPES.contains(&t)
+}
+
+#[must_use]
+pub fn is_continue46_jsx_member_expression_type(t: &str) -> bool {
+    t == "JSXMemberExpression"
+}
+
+#[must_use]
+pub fn is_continue46_jsx_namespaced_name_type(t: &str) -> bool {
+    t == "JSXNamespacedName"
+}
+
+#[must_use]
+pub fn is_continue46_jsx_spread_attribute_type(t: &str) -> bool {
+    t == "JSXSpreadAttribute"
+}
+
+#[must_use]
+pub fn is_continue46_jsx_opening_element_type(t: &str) -> bool {
+    t == "JSXOpeningElement"
+}
+
+#[must_use]
+pub fn is_continue46_jsx_closing_element_type(t: &str) -> bool {
+    t == "JSXClosingElement"
+}
+
+#[must_use]
+pub fn is_continue46_jsx_empty_expression_type(t: &str) -> bool {
+    t == "JSXEmptyExpression"
+}
+
+#[must_use]
+pub fn continue46_jsx_member_expression_skeleton(object: &str, property: &str) -> String {
+    format!("{object}.{property}")
+}
+
+#[must_use]
+pub fn continue46_jsx_namespaced_name_skeleton(ns: &str, name: &str) -> String {
+    format!("{ns}:{name}")
+}
+
+#[must_use]
+pub fn continue46_jsx_spread_attribute_skeleton(expr: &str) -> String {
+    format!("{{...{expr}}}")
+}
+
+#[must_use]
+pub fn continue46_jsx_opening_element_skeleton(name: &str) -> String {
+    format!("<{name}>")
+}
+
+#[must_use]
+pub fn continue46_jsx_closing_element_skeleton(name: &str) -> String {
+    format!("</{name}>")
+}
+
+#[must_use]
+pub fn continue46_jsx_empty_expression_skeleton() -> String {
+    "{}".to_string()
+}
+
+#[cfg(test)]
+mod continue46_tests {
+    use super::*;
+
+    #[test]
+    fn continue46_jsx_member_namespace_spread_open_close_emit() {
+        assert!(is_continue46_related_type("JSXMemberExpression"));
+        assert!(is_continue46_related_type("JSXNamespacedName"));
+        assert!(is_continue46_related_type("JSXSpreadAttribute"));
+        assert!(is_continue46_related_type("JSXOpeningElement"));
+        assert!(is_continue46_related_type("JSXClosingElement"));
+        assert!(is_continue46_related_type("JSXEmptyExpression"));
+        assert!(!is_continue46_related_type("DoWhileStatement"));
+        assert!(is_continue46_jsx_member_expression_type("JSXMemberExpression"));
+        assert!(is_continue46_jsx_namespaced_name_type("JSXNamespacedName"));
+        assert!(is_continue46_jsx_spread_attribute_type("JSXSpreadAttribute"));
+        assert!(is_continue46_jsx_opening_element_type("JSXOpeningElement"));
+        assert!(is_continue46_jsx_closing_element_type("JSXClosingElement"));
+        assert!(is_continue46_jsx_empty_expression_type("JSXEmptyExpression"));
+        assert_eq!(
+            continue46_jsx_member_expression_skeleton("Foo", "Bar"),
+            "Foo.Bar"
+        );
+        assert_eq!(
+            continue46_jsx_namespaced_name_skeleton("svg", "path"),
+            "svg:path"
+        );
+        assert_eq!(
+            continue46_jsx_spread_attribute_skeleton("props"),
+            "{...props}"
+        );
+        assert_eq!(continue46_jsx_opening_element_skeleton("div"), "<div>");
+        assert_eq!(continue46_jsx_closing_element_skeleton("div"), "</div>");
+        assert_eq!(continue46_jsx_empty_expression_skeleton(), "{}");
+        assert_eq!(CONTINUE46_RELATED_TYPES.len(), 8);
+    }
+}
