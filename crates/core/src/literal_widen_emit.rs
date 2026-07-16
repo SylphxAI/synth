@@ -1,4 +1,4 @@
-//! Pure residual continue21–26: widen literals through paren/template/private/sequence/yield emit.
+//! Pure residual continue21–27: widen literals through paren/template/private/sequence/yield/this-super-conditional emit.
 //! Intentional ts_only plugins retained. NO authority_rust / ts_deleted invent.
 
 #![allow(dead_code)]
@@ -359,6 +359,132 @@ pub fn continue26_await_skeleton(arg: &str) -> String {
     format!("await {arg}")
 }
 
+
+// ── continue27 pure residual: This/Super/Conditional/Logical/DoWhile/ForIn/ForOf emit ──
+
+/// Dual-oracle residual: this / super / conditional / logical / loop residual types.
+#[must_use]
+pub fn is_continue27_related_type(t: &str) -> bool {
+    matches!(
+        t,
+        "ThisExpression"
+            | "Super"
+            | "ConditionalExpression"
+            | "LogicalExpression"
+            | "DoWhileStatement"
+            | "ForInStatement"
+            | "ForOfStatement"
+            | "BreakStatement"
+            | "ContinueStatement"
+            | "LabeledStatement"
+    )
+}
+
+#[must_use]
+pub fn is_continue27_this_expression_type(t: &str) -> bool {
+    t == "ThisExpression"
+}
+
+#[must_use]
+pub fn is_continue27_super_type(t: &str) -> bool {
+    t == "Super"
+}
+
+#[must_use]
+pub fn is_continue27_conditional_expression_type(t: &str) -> bool {
+    t == "ConditionalExpression"
+}
+
+#[must_use]
+pub fn is_continue27_logical_expression_type(t: &str) -> bool {
+    t == "LogicalExpression"
+}
+
+#[must_use]
+pub fn is_continue27_do_while_statement_type(t: &str) -> bool {
+    t == "DoWhileStatement"
+}
+
+#[must_use]
+pub fn is_continue27_for_in_statement_type(t: &str) -> bool {
+    t == "ForInStatement"
+}
+
+#[must_use]
+pub fn is_continue27_for_of_statement_type(t: &str) -> bool {
+    t == "ForOfStatement"
+}
+
+/// Dual-oracle residual: `this` keyword skeleton.
+#[must_use]
+pub fn continue27_this_skeleton() -> &'static str {
+    "this"
+}
+
+/// Dual-oracle residual: `super` keyword skeleton.
+#[must_use]
+pub fn continue27_super_skeleton() -> &'static str {
+    "super"
+}
+
+/// Dual-oracle residual: ternary `test ? consequent : alternate`.
+#[must_use]
+pub fn continue27_conditional_skeleton(test: &str, consequent: &str, alternate: &str) -> String {
+    format!("{test} ? {consequent} : {alternate}")
+}
+
+/// Dual-oracle residual: logical binary `left op right` (&&, ||, ??).
+#[must_use]
+pub fn continue27_logical_skeleton(left: &str, op: &str, right: &str) -> String {
+    format!("{left} {op} {right}")
+}
+
+/// Dual-oracle residual: do-while skeleton.
+#[must_use]
+pub fn continue27_do_while_skeleton(body: &str, test: &str) -> String {
+    format!("do {body} while ({test})")
+}
+
+/// Dual-oracle residual: for-in skeleton `for (left in right) body`.
+#[must_use]
+pub fn continue27_for_in_skeleton(left: &str, right: &str, body: &str) -> String {
+    format!("for ({left} in {right}) {body}")
+}
+
+/// Dual-oracle residual: for-of skeleton `for (left of right) body` (+ optional await).
+#[must_use]
+pub fn continue27_for_of_skeleton(left: &str, right: &str, body: &str, awaited: bool) -> String {
+    if awaited {
+        format!("for await ({left} of {right}) {body}")
+    } else {
+        format!("for ({left} of {right}) {body}")
+    }
+}
+
+/// Dual-oracle residual: bare `break` / `break label`.
+#[must_use]
+pub fn continue27_break_skeleton(label: Option<&str>) -> String {
+    match label {
+        Some(l) => format!("break {l}"),
+        None => "break".to_string(),
+    }
+}
+
+/// Dual-oracle residual: bare `continue` / `continue label`.
+#[must_use]
+pub fn continue27_continue_skeleton(label: Option<&str>) -> String {
+    match label {
+        Some(l) => format!("continue {l}"),
+        None => "continue".to_string(),
+    }
+}
+
+/// Dual-oracle residual: labeled statement `label: body`.
+#[must_use]
+pub fn continue27_labeled_skeleton(label: &str, body: &str) -> String {
+    format!("{label}: {body}")
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -476,6 +602,58 @@ mod tests {
         assert_eq!(continue26_yield_skeleton(true, Some("v")), "yield* v");
         assert_eq!(continue26_await_skeleton("p"), "await p");
     }
+
+    #[test]
+    fn continue27_this_super_conditional_emit() {
+        assert!(is_continue27_related_type("ThisExpression"));
+        assert!(is_continue27_related_type("Super"));
+        assert!(is_continue27_related_type("ConditionalExpression"));
+        assert!(is_continue27_related_type("LogicalExpression"));
+        assert!(is_continue27_related_type("DoWhileStatement"));
+        assert!(is_continue27_related_type("ForInStatement"));
+        assert!(is_continue27_related_type("ForOfStatement"));
+        assert!(is_continue27_related_type("BreakStatement"));
+        assert!(is_continue27_related_type("ContinueStatement"));
+        assert!(is_continue27_related_type("LabeledStatement"));
+        assert!(!is_continue27_related_type("StringLiteral"));
+        assert!(is_continue27_this_expression_type("ThisExpression"));
+        assert!(is_continue27_super_type("Super"));
+        assert!(is_continue27_conditional_expression_type("ConditionalExpression"));
+        assert!(is_continue27_logical_expression_type("LogicalExpression"));
+        assert!(is_continue27_do_while_statement_type("DoWhileStatement"));
+        assert!(is_continue27_for_in_statement_type("ForInStatement"));
+        assert!(is_continue27_for_of_statement_type("ForOfStatement"));
+        assert_eq!(continue27_this_skeleton(), "this");
+        assert_eq!(continue27_super_skeleton(), "super");
+        assert_eq!(
+            continue27_conditional_skeleton("a", "b", "c"),
+            "a ? b : c"
+        );
+        assert_eq!(continue27_logical_skeleton("a", "&&", "b"), "a && b");
+        assert_eq!(continue27_logical_skeleton("a", "??", "b"), "a ?? b");
+        assert_eq!(
+            continue27_do_while_skeleton("{}", "x"),
+            "do {} while (x)"
+        );
+        assert_eq!(
+            continue27_for_in_skeleton("k", "obj", "{}"),
+            "for (k in obj) {}"
+        );
+        assert_eq!(
+            continue27_for_of_skeleton("x", "xs", "{}", false),
+            "for (x of xs) {}"
+        );
+        assert_eq!(
+            continue27_for_of_skeleton("x", "xs", "{}", true),
+            "for await (x of xs) {}"
+        );
+        assert_eq!(continue27_break_skeleton(None), "break");
+        assert_eq!(continue27_break_skeleton(Some("loop")), "break loop");
+        assert_eq!(continue27_continue_skeleton(None), "continue");
+        assert_eq!(continue27_continue_skeleton(Some("loop")), "continue loop");
+        assert_eq!(continue27_labeled_skeleton("outer", "break"), "outer: break");
+    }
+
 
 
 }
