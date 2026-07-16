@@ -4415,3 +4415,72 @@ mod continue55_tests {
         assert!(is_continue55_super_type("Super"));
     }
 }
+
+
+// ── continue56 pure residual dens: sequence update yield await import dual-oracle residual ──
+// residual6 rehome: concurrent continue55 class/meta kept; this dens advances continue56.
+// Dual-oracle residual of continue53 sequence/update/yield/await/import/chain pure halves.
+// Intentional ts_only parser residual retained. dens ≠ flip.
+
+/// Dual-oracle residual: continue56 sequence multi + membership.
+#[must_use]
+pub fn continue56_sequence_shell() -> bool {
+    continue53_sequence_skeleton("a", "b") == "a, b"
+        && continue53_sequence_skeleton("1", "2") == "1, 2"
+        && is_continue53_sequence_type("SequenceExpression")
+        && !is_continue53_sequence_type("BinaryExpression")
+}
+
+/// Dual-oracle residual: continue56 update ++/-- both sides.
+#[must_use]
+pub fn continue56_update_shell() -> bool {
+    continue53_update_prefix_skeleton("++", "i") == "++i"
+        && continue53_update_postfix_skeleton("i", "--") == "i--"
+        && is_continue53_update_type("UpdateExpression")
+}
+
+/// Dual-oracle residual: continue56 yield/await with args.
+#[must_use]
+pub fn continue56_yield_await_shell() -> bool {
+    continue53_yield_skeleton("x") == "yield x"
+        && continue53_yield_star_skeleton("xs") == "yield* xs"
+        && continue53_await_skeleton("p") == "await p"
+        && is_continue53_yield_type("YieldExpression")
+        && is_continue53_await_type("AwaitExpression")
+}
+
+/// Dual-oracle residual: continue56 import + optional chain prop.
+#[must_use]
+pub fn continue56_import_chain_shell() -> bool {
+    continue53_import_dynamic_skeleton("'./m.js'") == "import('./m.js')"
+        && continue53_optional_chain_skeleton("obj", "prop") == "obj?.prop"
+        && is_continue53_import_expr_type("ImportExpression")
+        && is_continue53_chain_type("ChainExpression")
+}
+
+/// Dual-oracle residual: continue56 catalog six + partition Super.
+#[must_use]
+pub fn continue56_partition_shell() -> bool {
+    CONTINUE53_RELATED_TYPES.len() == 6
+        && is_continue53_related_type("UpdateExpression")
+        && is_continue53_related_type("ImportExpression")
+        && !is_continue53_related_type("Super")
+        && is_continue51_related_type("Super")
+        && is_continue55_related_type("Super")
+}
+
+#[cfg(test)]
+mod continue56_tests {
+    use super::*;
+
+    #[test]
+    fn continue56_sequence_update_yield_await_import() {
+        assert!(continue56_sequence_shell());
+        assert!(continue56_update_shell());
+        assert!(continue56_yield_await_shell());
+        assert!(continue56_import_chain_shell());
+        assert!(continue56_partition_shell());
+        assert!(continue54_partition_shell());
+    }
+}
+
