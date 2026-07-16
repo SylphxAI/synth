@@ -868,6 +868,92 @@ pub fn continue31_expression_stmt_skeleton(expr: &str) -> String {
 }
 
 
+// ── continue32 pure residual: Switch / Try / Catch / Throw / Debugger emit ──
+// Dual-oracle pure emit skeletons for remaining statement forms.
+// Intentional ts_only plugins retained. dens ≠ flip.
+
+/// Dual-oracle residual: SwitchStatement type tag.
+pub const CONTINUE32_SWITCH_TYPE: &str = "SwitchStatement";
+/// Dual-oracle residual: SwitchCase type tag.
+pub const CONTINUE32_SWITCH_CASE_TYPE: &str = "SwitchCase";
+/// Dual-oracle residual: TryStatement type tag.
+pub const CONTINUE32_TRY_TYPE: &str = "TryStatement";
+/// Dual-oracle residual: CatchClause type tag.
+pub const CONTINUE32_CATCH_TYPE: &str = "CatchClause";
+/// Dual-oracle residual: ThrowStatement type tag.
+pub const CONTINUE32_THROW_TYPE: &str = "ThrowStatement";
+/// Dual-oracle residual: DebuggerStatement type tag.
+pub const CONTINUE32_DEBUGGER_TYPE: &str = "DebuggerStatement";
+
+/// Dual-oracle residual: continue32 related type membership.
+#[must_use]
+pub fn is_continue32_related_type(ty: &str) -> bool {
+    matches!(
+        ty,
+        "SwitchStatement"
+            | "SwitchCase"
+            | "TryStatement"
+            | "CatchClause"
+            | "ThrowStatement"
+            | "DebuggerStatement"
+    )
+}
+
+#[must_use]
+pub fn is_continue32_switch_type(ty: &str) -> bool {
+    ty == CONTINUE32_SWITCH_TYPE || ty == CONTINUE32_SWITCH_CASE_TYPE
+}
+
+#[must_use]
+pub fn is_continue32_try_type(ty: &str) -> bool {
+    ty == CONTINUE32_TRY_TYPE || ty == CONTINUE32_CATCH_TYPE
+}
+
+#[must_use]
+pub fn is_continue32_throw_type(ty: &str) -> bool {
+    ty == CONTINUE32_THROW_TYPE
+}
+
+/// Dual-oracle residual: `switch (disc) { body }` emit skeleton.
+#[must_use]
+pub fn continue32_switch_skeleton(disc: &str, body: &str) -> String {
+    format!("switch ({disc}) {{ {body} }}")
+}
+
+/// Dual-oracle residual: `case test: body` emit skeleton.
+#[must_use]
+pub fn continue32_case_skeleton(test: Option<&str>, body: &str) -> String {
+    match test {
+        Some(t) => format!("case {t}: {body}"),
+        None => format!("default: {body}"),
+    }
+}
+
+/// Dual-oracle residual: `try { body } catch (param) { catch_body }` emit skeleton.
+#[must_use]
+pub fn continue32_try_catch_skeleton(body: &str, param: &str, catch_body: &str) -> String {
+    format!("try {{ {body} }} catch ({param}) {{ {catch_body} }}")
+}
+
+/// Dual-oracle residual: `try { body } finally { fin }` emit skeleton.
+#[must_use]
+pub fn continue32_try_finally_skeleton(body: &str, fin: &str) -> String {
+    format!("try {{ {body} }} finally {{ {fin} }}")
+}
+
+/// Dual-oracle residual: `throw arg;` emit skeleton.
+#[must_use]
+pub fn continue32_throw_skeleton(arg: &str) -> String {
+    format!("throw {arg};")
+}
+
+/// Dual-oracle residual: `debugger;` emit skeleton.
+#[must_use]
+pub fn continue32_debugger_skeleton() -> &'static str {
+    "debugger;"
+}
+
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1171,6 +1257,36 @@ mod tests {
         assert_eq!(continue31_labeled_skeleton("outer", "break;"), "outer: break;");
         assert_eq!(continue31_expression_stmt_skeleton("f()"), "f();");
     }
+
+    #[test]
+    fn continue32_switch_try_catch_throw_debugger_emit() {
+        assert!(is_continue32_related_type("SwitchStatement"));
+        assert!(is_continue32_related_type("TryStatement"));
+        assert!(is_continue32_related_type("ThrowStatement"));
+        assert!(is_continue32_related_type("DebuggerStatement"));
+        assert!(!is_continue32_related_type("ClassDeclaration"));
+        assert!(is_continue32_switch_type("SwitchCase"));
+        assert!(is_continue32_try_type("CatchClause"));
+        assert!(is_continue32_throw_type("ThrowStatement"));
+        assert_eq!(
+            continue32_switch_skeleton("x", "case 1: break;"),
+            "switch (x) { case 1: break; }"
+        );
+        assert_eq!(continue32_case_skeleton(Some("1"), "break;"), "case 1: break;");
+        assert_eq!(continue32_case_skeleton(None, "break;"), "default: break;");
+        assert_eq!(
+            continue32_try_catch_skeleton("f();", "e", "handle(e);"),
+            "try { f(); } catch (e) { handle(e); }"
+        );
+        assert_eq!(
+            continue32_try_finally_skeleton("f();", "cleanup();"),
+            "try { f(); } finally { cleanup(); }"
+        );
+        assert_eq!(continue32_throw_skeleton("err"), "throw err;");
+        assert_eq!(continue32_debugger_skeleton(), "debugger;");
+    }
+
+
 
 
 
