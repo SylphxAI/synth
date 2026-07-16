@@ -310,11 +310,17 @@ pub use property_static_emit::{
 };
 
 // Pure residual continue21 — BigIntLiteral/RegExpLiteral/DirectiveLiteral.
+// Pure residual continue22 — Null/Boolean/Numeric/String literals.
 pub use literal_widen_emit::{
     continue21_bigint_literal_skeleton, continue21_directive_literal_skeleton,
     continue21_regexp_literal_skeleton, is_continue21_bigint_literal_type,
     is_continue21_directive_literal_type, is_continue21_regexp_literal_type,
     is_literal_widen_related_type,
+    continue22_boolean_literal_skeleton, continue22_null_literal_skeleton,
+    continue22_numeric_literal_skeleton, continue22_string_literal_skeleton,
+    is_continue22_boolean_literal_type, is_continue22_null_literal_type,
+    is_continue22_numeric_literal_type, is_continue22_primitive_literal_type,
+    is_continue22_string_literal_type,
 };
 
 // catch_open / try_token already re-exported from conditional_spread_emit dual-oracle.

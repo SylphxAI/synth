@@ -53,6 +53,70 @@ pub fn continue21_directive_literal_skeleton(value: &str, pretty: bool) -> Strin
     }
 }
 
+
+// ── continue22 pure residual: Null/Boolean/Numeric/String literal emit ──
+
+/// Type guards for continue22 primitive literal AST node types.
+#[must_use]
+pub fn is_continue22_primitive_literal_type(t: &str) -> bool {
+    matches!(
+        t,
+        "NullLiteral" | "BooleanLiteral" | "NumericLiteral" | "StringLiteral"
+    )
+}
+
+#[must_use]
+pub fn is_continue22_null_literal_type(t: &str) -> bool {
+    t == "NullLiteral"
+}
+
+#[must_use]
+pub fn is_continue22_boolean_literal_type(t: &str) -> bool {
+    t == "BooleanLiteral"
+}
+
+#[must_use]
+pub fn is_continue22_numeric_literal_type(t: &str) -> bool {
+    t == "NumericLiteral"
+}
+
+#[must_use]
+pub fn is_continue22_string_literal_type(t: &str) -> bool {
+    t == "StringLiteral"
+}
+
+/// Dual-oracle NullLiteral emit residual.
+#[must_use]
+pub fn continue22_null_literal_skeleton() -> &'static str {
+    "null"
+}
+
+/// Dual-oracle BooleanLiteral emit residual.
+#[must_use]
+pub fn continue22_boolean_literal_skeleton(value: bool) -> &'static str {
+    if value {
+        "true"
+    } else {
+        "false"
+    }
+}
+
+/// Dual-oracle NumericLiteral emit residual (raw value string).
+#[must_use]
+pub fn continue22_numeric_literal_skeleton(raw: &str) -> String {
+    raw.trim().to_string()
+}
+
+/// Dual-oracle StringLiteral emit residual with quote style.
+#[must_use]
+pub fn continue22_string_literal_skeleton(value: &str, double_quote: bool) -> String {
+    if double_quote {
+        format!("\"{value}\"")
+    } else {
+        format!("'{value}'")
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -74,4 +138,24 @@ mod tests {
             "\"use strict\";"
         );
     }
+
+    #[test]
+    fn continue22_primitive_literal_emit() {
+        assert!(is_continue22_primitive_literal_type("NullLiteral"));
+        assert!(is_continue22_primitive_literal_type("BooleanLiteral"));
+        assert!(is_continue22_primitive_literal_type("NumericLiteral"));
+        assert!(is_continue22_primitive_literal_type("StringLiteral"));
+        assert!(!is_continue22_primitive_literal_type("BigIntLiteral"));
+        assert!(is_continue22_null_literal_type("NullLiteral"));
+        assert!(is_continue22_boolean_literal_type("BooleanLiteral"));
+        assert!(is_continue22_numeric_literal_type("NumericLiteral"));
+        assert!(is_continue22_string_literal_type("StringLiteral"));
+        assert_eq!(continue22_null_literal_skeleton(), "null");
+        assert_eq!(continue22_boolean_literal_skeleton(true), "true");
+        assert_eq!(continue22_boolean_literal_skeleton(false), "false");
+        assert_eq!(continue22_numeric_literal_skeleton(" 3.14 "), "3.14");
+        assert_eq!(continue22_string_literal_skeleton("hi", true), "\"hi\"");
+        assert_eq!(continue22_string_literal_skeleton("hi", false), "'hi'");
+    }
+
 }
