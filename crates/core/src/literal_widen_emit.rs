@@ -3503,3 +3503,141 @@ mod continue47_tests {
         assert!(!is_continue47_related_type("JSXMemberExpression"));
     }
 }
+
+// ── continue48 pure residual: optional chain/import/await/yield/private dual-oracle dens ──
+// Dual-oracle residual of optional chain / dynamic import / await / yield / private name pure emit.
+// Intentional ts_only plugins retained. dens ≠ flip.
+
+/// Dual-oracle residual: continue48 related AST node types.
+pub const CONTINUE48_RELATED_TYPES: &[&str] = &[
+    "OptionalMemberExpression",
+    "OptionalCallExpression",
+    "ChainExpression",
+    "ImportExpression",
+    "AwaitExpression",
+    "YieldExpression",
+    "PrivateIdentifier",
+    "PrivateName",
+];
+
+/// Dual-oracle residual: continue48 related type membership.
+#[must_use]
+pub fn is_continue48_related_type(t: &str) -> bool {
+    CONTINUE48_RELATED_TYPES.contains(&t)
+}
+
+#[must_use]
+pub fn is_continue48_optional_member_type(t: &str) -> bool {
+    t == "OptionalMemberExpression"
+}
+
+#[must_use]
+pub fn is_continue48_optional_call_type(t: &str) -> bool {
+    t == "OptionalCallExpression"
+}
+
+#[must_use]
+pub fn is_continue48_chain_type(t: &str) -> bool {
+    t == "ChainExpression"
+}
+
+#[must_use]
+pub fn is_continue48_import_expression_type(t: &str) -> bool {
+    t == "ImportExpression"
+}
+
+#[must_use]
+pub fn is_continue48_await_type(t: &str) -> bool {
+    t == "AwaitExpression"
+}
+
+#[must_use]
+pub fn is_continue48_yield_type(t: &str) -> bool {
+    t == "YieldExpression"
+}
+
+#[must_use]
+pub fn is_continue48_private_type(t: &str) -> bool {
+    t == "PrivateIdentifier" || t == "PrivateName"
+}
+
+/// Dual-oracle residual: optional member skeleton `obj?.prop`.
+#[must_use]
+pub fn continue48_optional_member_skeleton(obj: &str, prop: &str) -> String {
+    format!("{obj}?.{prop}")
+}
+
+/// Dual-oracle residual: optional call skeleton `callee?.(args)`.
+#[must_use]
+pub fn continue48_optional_call_skeleton(callee: &str, args: &str) -> String {
+    format!("{callee}?.({args})")
+}
+
+/// Dual-oracle residual: dynamic import skeleton.
+#[must_use]
+pub fn continue48_import_expression_skeleton(source: &str) -> String {
+    format!("import(\"{source}\")")
+}
+
+/// Dual-oracle residual: await skeleton.
+#[must_use]
+pub fn continue48_await_skeleton(expr: &str) -> String {
+    format!("await {expr}")
+}
+
+/// Dual-oracle residual: yield skeleton.
+#[must_use]
+pub fn continue48_yield_skeleton(expr: Option<&str>) -> String {
+    match expr {
+        Some(e) => format!("yield {e}"),
+        None => "yield".to_string(),
+    }
+}
+
+/// Dual-oracle residual: private identifier skeleton.
+#[must_use]
+pub fn continue48_private_id_skeleton(name: &str) -> String {
+    format!("#{name}")
+}
+
+#[cfg(test)]
+mod continue48_tests {
+    use super::*;
+
+    #[test]
+    fn continue48_optional_import_await_yield_private_emit() {
+        assert_eq!(CONTINUE48_RELATED_TYPES.len(), 8);
+        assert!(is_continue48_related_type("OptionalMemberExpression"));
+        assert!(is_continue48_related_type("OptionalCallExpression"));
+        assert!(is_continue48_related_type("ChainExpression"));
+        assert!(is_continue48_related_type("ImportExpression"));
+        assert!(is_continue48_related_type("AwaitExpression"));
+        assert!(is_continue48_related_type("YieldExpression"));
+        assert!(is_continue48_private_type("PrivateIdentifier"));
+        assert!(is_continue48_private_type("PrivateName"));
+        assert!(!is_continue48_related_type("ClassDeclaration"));
+        assert!(!is_continue47_related_type("OptionalMemberExpression"));
+        assert_eq!(
+            continue48_optional_member_skeleton("obj", "x"),
+            "obj?.x"
+        );
+        assert_eq!(
+            continue48_optional_call_skeleton("fn", "1"),
+            "fn?.(1)"
+        );
+        assert_eq!(
+            continue48_import_expression_skeleton("./m.js"),
+            "import(\"./m.js\")"
+        );
+        assert_eq!(continue48_await_skeleton("p"), "await p");
+        assert_eq!(continue48_yield_skeleton(Some("1")), "yield 1");
+        assert_eq!(continue48_yield_skeleton(None), "yield");
+        assert_eq!(continue48_private_id_skeleton("x"), "#x");
+        assert!(is_continue48_optional_member_type("OptionalMemberExpression"));
+        assert!(is_continue48_optional_call_type("OptionalCallExpression"));
+        assert!(is_continue48_chain_type("ChainExpression"));
+        assert!(is_continue48_import_expression_type("ImportExpression"));
+        assert!(is_continue48_await_type("AwaitExpression"));
+        assert!(is_continue48_yield_type("YieldExpression"));
+    }
+}
