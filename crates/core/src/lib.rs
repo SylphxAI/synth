@@ -107,6 +107,7 @@ mod do_while_switch_break_continue_try_emit;
 mod for_throw_label_empty_emit;
 mod class_import_export_new_this_super_meta_emit;
 mod optional_import_await_yield_private_emit;
+mod class_property_static_decorator_method_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
