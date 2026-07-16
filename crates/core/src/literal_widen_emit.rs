@@ -4681,3 +4681,51 @@ mod continue60_tests {
         assert!(continue55_meta_import_meta_skeleton() == "import.meta");
     }
 }
+
+
+// ── continue61 pure residual dens: class/meta/new.target partition emit dual-oracle residual ──
+// Dual-oracle residual of continue55 class/meta pure halves (edge dens).
+// Intentional ts_only plugins retained; pure emit only. dens ≠ flip.
+
+/// Dual-oracle residual: continue61 class expression/declaration skeletons.
+#[must_use]
+pub fn continue61_class_shell() -> bool {
+    continue55_class_expression_skeleton("") == "class {}"
+        && continue55_class_expression_skeleton("Foo") == "class Foo {}"
+        && continue55_class_declaration_skeleton("Bar") == "class Bar {}"
+        && is_continue55_class_expression_type("ClassExpression")
+        && is_continue55_class_declaration_type("ClassDeclaration")
+}
+
+/// Dual-oracle residual: continue61 meta import.meta + new.target.
+#[must_use]
+pub fn continue61_meta_shell() -> bool {
+    continue55_meta_import_meta_skeleton() == "import.meta"
+        && continue55_meta_new_target_skeleton() == "new.target"
+        && is_continue55_meta_property_type("MetaProperty")
+        && !is_continue55_meta_property_type("NewExpression")
+}
+
+/// Dual-oracle residual: continue61 catalog related closed six + class in set.
+#[must_use]
+pub fn continue61_catalog_shell() -> bool {
+    CONTINUE55_RELATED_TYPES.len() == 6
+        && is_continue55_related_type("ClassExpression")
+        && is_continue55_related_type("MetaProperty")
+        && is_continue55_related_type("NewExpression")
+        && !is_continue55_related_type("BigIntLiteral")
+}
+
+#[cfg(test)]
+mod continue61_tests {
+    use super::*;
+
+    #[test]
+    fn continue61_class_meta_catalog_partition_emit() {
+        assert!(continue61_class_shell());
+        assert!(continue61_meta_shell());
+        assert!(continue61_catalog_shell());
+        assert!(continue55_this_skeleton() == "this");
+        assert!(continue55_super_call_skeleton("") == "super()");
+    }
+}
