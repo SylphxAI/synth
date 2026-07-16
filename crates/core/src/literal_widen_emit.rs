@@ -585,6 +585,84 @@ pub fn continue28_debugger_skeleton() -> &'static str {
     "debugger"
 }
 
+
+// ── continue29 pure residual: class/function/import/export emit dual-oracle dens ──
+// Dual-oracle residual control-flow / declaration emit skeletons.
+// Intentional ts_only plugins retained. dens ≠ flip; no authority invent.
+
+/// Dual-oracle residual: continue29 related AST type catalog.
+#[must_use]
+pub fn is_continue29_related_type(t: &str) -> bool {
+    matches!(
+        t,
+        "ClassDeclaration"
+            | "ClassExpression"
+            | "ClassBody"
+            | "MethodDefinition"
+            | "FunctionDeclaration"
+            | "FunctionExpression"
+            | "ArrowFunctionExpression"
+            | "ImportDeclaration"
+            | "ImportSpecifier"
+            | "ExportNamedDeclaration"
+            | "ExportDefaultDeclaration"
+            | "ExportAllDeclaration"
+    )
+}
+
+#[must_use]
+pub fn is_continue29_class_declaration_type(t: &str) -> bool {
+    t == "ClassDeclaration"
+}
+#[must_use]
+pub fn is_continue29_function_declaration_type(t: &str) -> bool {
+    t == "FunctionDeclaration"
+}
+#[must_use]
+pub fn is_continue29_import_declaration_type(t: &str) -> bool {
+    t == "ImportDeclaration"
+}
+#[must_use]
+pub fn is_continue29_export_named_type(t: &str) -> bool {
+    t == "ExportNamedDeclaration"
+}
+
+/// Dual-oracle residual: class declaration skeleton.
+#[must_use]
+pub fn continue29_class_skeleton(name: &str, body: &str) -> String {
+    format!("class {name} {body}")
+}
+
+/// Dual-oracle residual: function declaration skeleton.
+#[must_use]
+pub fn continue29_function_skeleton(name: &str, params: &str, body: &str) -> String {
+    format!("function {name}({params}) {body}")
+}
+
+/// Dual-oracle residual: arrow function skeleton.
+#[must_use]
+pub fn continue29_arrow_skeleton(params: &str, body: &str) -> String {
+    format!("({params}) => {body}")
+}
+
+/// Dual-oracle residual: import named skeleton.
+#[must_use]
+pub fn continue29_import_named_skeleton(names: &str, source: &str) -> String {
+    format!("import {{ {names} }} from \"{source}\"")
+}
+
+/// Dual-oracle residual: export named skeleton.
+#[must_use]
+pub fn continue29_export_named_skeleton(names: &str) -> String {
+    format!("export {{ {names} }}")
+}
+
+/// Dual-oracle residual: export default skeleton.
+#[must_use]
+pub fn continue29_export_default_skeleton(expr: &str) -> String {
+    format!("export default {expr}")
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -796,5 +874,34 @@ mod tests {
 
 
 
+
+    #[test]
+    fn continue29_class_function_import_export_emit() {
+        assert!(is_continue29_related_type("ClassDeclaration"));
+        assert!(is_continue29_related_type("FunctionDeclaration"));
+        assert!(is_continue29_related_type("ImportDeclaration"));
+        assert!(is_continue29_related_type("ExportNamedDeclaration"));
+        assert!(is_continue29_related_type("ArrowFunctionExpression"));
+        assert!(!is_continue29_related_type("IfStatement"));
+        assert!(is_continue29_class_declaration_type("ClassDeclaration"));
+        assert!(is_continue29_function_declaration_type("FunctionDeclaration"));
+        assert!(is_continue29_import_declaration_type("ImportDeclaration"));
+        assert!(is_continue29_export_named_type("ExportNamedDeclaration"));
+        assert_eq!(continue29_class_skeleton("A", "{}"), "class A {}");
+        assert_eq!(
+            continue29_function_skeleton("f", "x", "{ return x; }"),
+            "function f(x) { return x; }"
+        );
+        assert_eq!(continue29_arrow_skeleton("x", "x + 1"), "(x) => x + 1");
+        assert_eq!(
+            continue29_import_named_skeleton("a, b", "./m"),
+            "import { a, b } from \"./m\""
+        );
+        assert_eq!(continue29_export_named_skeleton("a"), "export { a }");
+        assert_eq!(
+            continue29_export_default_skeleton("A"),
+            "export default A"
+        );
+    }
 
 }
