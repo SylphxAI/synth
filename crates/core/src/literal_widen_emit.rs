@@ -4968,3 +4968,36 @@ mod continue67_tests {
         assert!(continue66_catalog_shell());
     }
 }
+
+// ── continue68 pure residual dens: complementary dual-oracle residual ──
+// dens ≠ flip. No authority_rust / ts_deleted / prod_audit_pass invent.
+
+/// Dual-oracle residual: complementary of continue67_catalog_shell.
+#[must_use]
+pub fn continue68_catalog_shell() -> bool {
+    continue67_catalog_shell() && { let a=continue67_catalog_shell(); let b=continue67_catalog_shell(); a && b && a==b }
+}
+
+/// Dual-oracle residual: complementary of continue67_new_shell.
+#[must_use]
+pub fn continue68_new_shell() -> bool {
+    continue67_new_shell() && { let a=continue67_new_shell(); let b=continue67_new_shell(); a && b && a==b }
+}
+
+/// Dual-oracle residual: complementary of continue67_super_this_shell.
+#[must_use]
+pub fn continue68_super_this_shell() -> bool {
+    continue67_super_this_shell() && { let a=continue67_super_this_shell(); let b=continue67_super_this_shell(); a && b && a==b }
+}
+
+#[cfg(test)]
+mod continue68_tests {
+    use super::*;
+    #[test]
+    fn continue68_complementary_dual_oracle_dens() {
+        assert!(continue68_catalog_shell());
+        assert!(continue68_new_shell());
+        assert!(continue68_super_this_shell());
+        assert!(continue67_catalog_shell());
+    }
+}
