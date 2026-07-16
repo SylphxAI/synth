@@ -80,6 +80,7 @@ mod ident_block_program_emit;
 mod function_class_this_emit;
 mod import_specifier_emit;
 mod jsx_emit;
+mod decorator_private_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
