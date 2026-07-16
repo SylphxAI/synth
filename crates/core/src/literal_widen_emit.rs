@@ -4081,3 +4081,133 @@ mod continue52_tests {
         assert!(continue52_not_private_plane_shell());
     }
 }
+
+
+// ── continue53 pure residual dens: sequence update yield await chain dual-oracle residual ──
+// Dual-oracle residual of AST type catalog + emit skeletons for control expressions.
+// Intentional ts_only plugins retained; pure emit only. dens ≠ flip.
+
+/// Dual-oracle residual: continue53 related type catalog.
+pub const CONTINUE53_RELATED_TYPES: &[&str] = &[
+    "SequenceExpression",
+    "UpdateExpression",
+    "YieldExpression",
+    "AwaitExpression",
+    "ChainExpression",
+    "ImportExpression",
+];
+
+#[must_use]
+pub fn is_continue53_related_type(t: &str) -> bool {
+    CONTINUE53_RELATED_TYPES.contains(&t)
+}
+
+#[must_use]
+pub fn is_continue53_sequence_type(t: &str) -> bool {
+    t == "SequenceExpression"
+}
+
+#[must_use]
+pub fn is_continue53_update_type(t: &str) -> bool {
+    t == "UpdateExpression"
+}
+
+#[must_use]
+pub fn is_continue53_yield_type(t: &str) -> bool {
+    t == "YieldExpression"
+}
+
+#[must_use]
+pub fn is_continue53_await_type(t: &str) -> bool {
+    t == "AwaitExpression"
+}
+
+#[must_use]
+pub fn is_continue53_chain_type(t: &str) -> bool {
+    t == "ChainExpression"
+}
+
+#[must_use]
+pub fn is_continue53_import_expr_type(t: &str) -> bool {
+    t == "ImportExpression"
+}
+
+#[must_use]
+pub fn continue53_sequence_skeleton(left: &str, right: &str) -> String {
+    format!("{left}, {right}")
+}
+
+#[must_use]
+pub fn continue53_update_prefix_skeleton(op: &str, arg: &str) -> String {
+    format!("{op}{arg}")
+}
+
+#[must_use]
+pub fn continue53_update_postfix_skeleton(arg: &str, op: &str) -> String {
+    format!("{arg}{op}")
+}
+
+#[must_use]
+pub fn continue53_yield_skeleton(arg: &str) -> String {
+    format!("yield {arg}")
+}
+
+#[must_use]
+pub fn continue53_yield_star_skeleton(arg: &str) -> String {
+    format!("yield* {arg}")
+}
+
+#[must_use]
+pub fn continue53_await_skeleton(arg: &str) -> String {
+    format!("await {arg}")
+}
+
+#[must_use]
+pub fn continue53_import_dynamic_skeleton(spec: &str) -> String {
+    format!("import({spec})")
+}
+
+#[must_use]
+pub fn continue53_optional_chain_skeleton(obj: &str, prop: &str) -> String {
+    format!("{obj}?.{prop}")
+}
+
+/// Dual-oracle residual: continue53 catalog length + partition vs continue51 Super plane.
+#[must_use]
+pub fn continue53_catalog_partition_shell() -> bool {
+    CONTINUE53_RELATED_TYPES.len() == 6
+        && is_continue53_related_type("SequenceExpression")
+        && is_continue53_related_type("ImportExpression")
+        && !is_continue53_related_type("Super")
+        && !is_continue51_related_type("SequenceExpression")
+}
+
+/// Dual-oracle residual: continue53 emit skeletons closed.
+#[must_use]
+pub fn continue53_emit_shell() -> bool {
+    continue53_sequence_skeleton("a", "b") == "a, b"
+        && continue53_update_prefix_skeleton("++", "i") == "++i"
+        && continue53_update_postfix_skeleton("i", "--") == "i--"
+        && continue53_yield_skeleton("x") == "yield x"
+        && continue53_yield_star_skeleton("xs") == "yield* xs"
+        && continue53_await_skeleton("p") == "await p"
+        && continue53_import_dynamic_skeleton("'./m'") == "import('./m')"
+        && continue53_optional_chain_skeleton("o", "x") == "o?.x"
+}
+
+#[cfg(test)]
+mod continue53_tests {
+    use super::*;
+
+    #[test]
+    fn continue53_sequence_update_yield_await_chain_emit() {
+        assert!(continue53_catalog_partition_shell());
+        assert!(continue53_emit_shell());
+        assert!(is_continue53_sequence_type("SequenceExpression"));
+        assert!(is_continue53_update_type("UpdateExpression"));
+        assert!(is_continue53_yield_type("YieldExpression"));
+        assert!(is_continue53_await_type("AwaitExpression"));
+        assert!(is_continue53_chain_type("ChainExpression"));
+        assert!(is_continue53_import_expr_type("ImportExpression"));
+    }
+}
