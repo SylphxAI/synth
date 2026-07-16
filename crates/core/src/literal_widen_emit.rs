@@ -1451,6 +1451,112 @@ pub fn continue37_switch_skeleton(disc: &str, body: &str) -> String {
 }
 
 
+// ── continue38 pure residual dens: switch-case/method/export-spec/import-spec/expr-stmt/class-body emit ──
+// Dual-oracle residual pure emit skeletons for remaining core AST shapes.
+// Intentional ts_only plugins retained. dens ≠ flip.
+
+/// Dual-oracle residual: continue38 related AST type names.
+pub const CONTINUE38_RELATED_TYPES: &[&str] = &[
+    "SwitchCase",
+    "MethodDefinition",
+    "ExportSpecifier",
+    "ImportSpecifier",
+    "ExpressionStatement",
+    "ClassBody",
+];
+
+/// Dual-oracle residual: type is continue38-related.
+#[must_use]
+pub fn is_continue38_related_type(t: &str) -> bool {
+    CONTINUE38_RELATED_TYPES.contains(&t)
+}
+
+/// Dual-oracle residual: SwitchCase type.
+#[must_use]
+pub fn is_continue38_switch_case_type(t: &str) -> bool {
+    t == "SwitchCase"
+}
+
+/// Dual-oracle residual: MethodDefinition type.
+#[must_use]
+pub fn is_continue38_method_definition_type(t: &str) -> bool {
+    t == "MethodDefinition"
+}
+
+/// Dual-oracle residual: ExportSpecifier type.
+#[must_use]
+pub fn is_continue38_export_specifier_type(t: &str) -> bool {
+    t == "ExportSpecifier"
+}
+
+/// Dual-oracle residual: ImportSpecifier type.
+#[must_use]
+pub fn is_continue38_import_specifier_type(t: &str) -> bool {
+    t == "ImportSpecifier"
+}
+
+/// Dual-oracle residual: ExpressionStatement type.
+#[must_use]
+pub fn is_continue38_expression_statement_type(t: &str) -> bool {
+    t == "ExpressionStatement"
+}
+
+/// Dual-oracle residual: ClassBody type.
+#[must_use]
+pub fn is_continue38_class_body_type(t: &str) -> bool {
+    t == "ClassBody"
+}
+
+/// Dual-oracle residual: switch case skeleton (`case test: body`).
+#[must_use]
+pub fn continue38_switch_case_skeleton(test: &str, body: &str) -> String {
+    format!("case {test}: {body}")
+}
+
+/// Dual-oracle residual: switch default skeleton.
+#[must_use]
+pub fn continue38_switch_default_skeleton(body: &str) -> String {
+    format!("default: {body}")
+}
+
+/// Dual-oracle residual: method definition skeleton (`name(params) { body }`).
+#[must_use]
+pub fn continue38_method_definition_skeleton(name: &str, params: &str, body: &str) -> String {
+    format!("{name}({params}) {{ {body} }}")
+}
+
+/// Dual-oracle residual: export specifier skeleton (`local as exported` or bare).
+#[must_use]
+pub fn continue38_export_specifier_skeleton(local: &str, exported: Option<&str>) -> String {
+    match exported {
+        Some(e) if !e.is_empty() && e != local => format!("{local} as {e}"),
+        _ => local.to_string(),
+    }
+}
+
+/// Dual-oracle residual: import specifier skeleton (`imported as local` or bare).
+#[must_use]
+pub fn continue38_import_specifier_skeleton(imported: &str, local: Option<&str>) -> String {
+    match local {
+        Some(l) if !l.is_empty() && l != imported => format!("{imported} as {l}"),
+        _ => imported.to_string(),
+    }
+}
+
+/// Dual-oracle residual: expression statement skeleton.
+#[must_use]
+pub fn continue38_expression_statement_skeleton(expr: &str) -> String {
+    format!("{expr};")
+}
+
+/// Dual-oracle residual: class body skeleton.
+#[must_use]
+pub fn continue38_class_body_skeleton(members: &str) -> String {
+    format!("{{ {members} }}")
+}
+
+
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1981,6 +2087,52 @@ mod tests {
         );
         assert_eq!(CONTINUE37_RELATED_TYPES.len(), 6);
     }
+
+    #[test]
+    fn continue38_switch_case_method_export_import_expr_class_body_emit() {
+        assert!(is_continue38_related_type("SwitchCase"));
+        assert!(is_continue38_related_type("MethodDefinition"));
+        assert!(is_continue38_related_type("ExportSpecifier"));
+        assert!(is_continue38_related_type("ImportSpecifier"));
+        assert!(is_continue38_related_type("ExpressionStatement"));
+        assert!(is_continue38_related_type("ClassBody"));
+        assert!(!is_continue38_related_type("TryStatement"));
+        assert!(is_continue38_switch_case_type("SwitchCase"));
+        assert!(is_continue38_method_definition_type("MethodDefinition"));
+        assert!(is_continue38_export_specifier_type("ExportSpecifier"));
+        assert!(is_continue38_import_specifier_type("ImportSpecifier"));
+        assert!(is_continue38_expression_statement_type("ExpressionStatement"));
+        assert!(is_continue38_class_body_type("ClassBody"));
+        assert_eq!(
+            continue38_switch_case_skeleton("1", "break;"),
+            "case 1: break;"
+        );
+        assert_eq!(
+            continue38_switch_default_skeleton("break;"),
+            "default: break;"
+        );
+        assert_eq!(
+            continue38_method_definition_skeleton("run", "x", "return x;"),
+            "run(x) { return x; }"
+        );
+        assert_eq!(
+            continue38_export_specifier_skeleton("foo", Some("bar")),
+            "foo as bar"
+        );
+        assert_eq!(continue38_export_specifier_skeleton("foo", None), "foo");
+        assert_eq!(
+            continue38_import_specifier_skeleton("a", Some("b")),
+            "a as b"
+        );
+        assert_eq!(continue38_import_specifier_skeleton("a", None), "a");
+        assert_eq!(
+            continue38_expression_statement_skeleton("foo()"),
+            "foo();"
+        );
+        assert_eq!(continue38_class_body_skeleton("x() {}"), "{ x() {} }");
+        assert_eq!(CONTINUE38_RELATED_TYPES.len(), 6);
+    }
+
 
 
 
