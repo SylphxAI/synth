@@ -2137,3 +2137,141 @@ mod tests {
 
 
 }
+
+// ── continue38 pure residual dens: SwitchCase / Break / Continue / ForIn / ForOf / Logical emit ──
+// Dual-oracle residual pure emit skeletons for case/jump/for-in-of/logical AST shapes.
+// Intentional ts_only plugins retained. dens ≠ flip.
+
+/// Dual-oracle residual: continue38 related AST type names.
+pub const CONTINUE38_RELATED_TYPES: &[&str] = &[
+    "SwitchCase",
+    "BreakStatement",
+    "ContinueStatement",
+    "ForInStatement",
+    "ForOfStatement",
+    "LogicalExpression",
+];
+
+/// Dual-oracle residual: type is continue38-related.
+#[must_use]
+pub fn is_continue38_related_type(t: &str) -> bool {
+    CONTINUE38_RELATED_TYPES.contains(&t)
+}
+
+#[must_use]
+pub fn is_continue38_switch_case_type(t: &str) -> bool {
+    t == "SwitchCase"
+}
+#[must_use]
+pub fn is_continue38_break_type(t: &str) -> bool {
+    t == "BreakStatement"
+}
+#[must_use]
+pub fn is_continue38_continue_type(t: &str) -> bool {
+    t == "ContinueStatement"
+}
+#[must_use]
+pub fn is_continue38_for_in_type(t: &str) -> bool {
+    t == "ForInStatement"
+}
+#[must_use]
+pub fn is_continue38_for_of_type(t: &str) -> bool {
+    t == "ForOfStatement"
+}
+#[must_use]
+pub fn is_continue38_logical_type(t: &str) -> bool {
+    t == "LogicalExpression"
+}
+
+/// Dual-oracle residual: switch case skeleton (optional test).
+#[must_use]
+pub fn continue38_switch_case_skeleton(test: Option<&str>, body: &str) -> String {
+    match test {
+        Some(t) => format!("case {t}: {body}"),
+        None => format!("default: {body}"),
+    }
+}
+
+/// Dual-oracle residual: break skeleton (optional label).
+#[must_use]
+pub fn continue38_break_skeleton(label: Option<&str>) -> String {
+    match label {
+        Some(l) => format!("break {l};"),
+        None => "break;".to_string(),
+    }
+}
+
+/// Dual-oracle residual: continue skeleton (optional label).
+#[must_use]
+pub fn continue38_continue_skeleton(label: Option<&str>) -> String {
+    match label {
+        Some(l) => format!("continue {l};"),
+        None => "continue;".to_string(),
+    }
+}
+
+/// Dual-oracle residual: for-in skeleton.
+#[must_use]
+pub fn continue38_for_in_skeleton(left: &str, right: &str, body: &str) -> String {
+    format!("for ({left} in {right}) {{ {body} }}")
+}
+
+/// Dual-oracle residual: for-of skeleton.
+#[must_use]
+pub fn continue38_for_of_skeleton(left: &str, right: &str, body: &str) -> String {
+    format!("for ({left} of {right}) {{ {body} }}")
+}
+
+/// Dual-oracle residual: logical expression skeleton.
+#[must_use]
+pub fn continue38_logical_skeleton(left: &str, op: &str, right: &str) -> String {
+    format!("{left} {op} {right}")
+}
+
+#[cfg(test)]
+mod continue38_tests {
+    use super::*;
+
+    #[test]
+    fn continue38_switch_case_break_continue_for_logical_emit() {
+        assert!(is_continue38_related_type("SwitchCase"));
+        assert!(is_continue38_related_type("BreakStatement"));
+        assert!(is_continue38_related_type("ContinueStatement"));
+        assert!(is_continue38_related_type("ForInStatement"));
+        assert!(is_continue38_related_type("ForOfStatement"));
+        assert!(is_continue38_related_type("LogicalExpression"));
+        assert!(!is_continue38_related_type("TryStatement"));
+        assert!(is_continue38_switch_case_type("SwitchCase"));
+        assert!(is_continue38_break_type("BreakStatement"));
+        assert!(is_continue38_continue_type("ContinueStatement"));
+        assert!(is_continue38_for_in_type("ForInStatement"));
+        assert!(is_continue38_for_of_type("ForOfStatement"));
+        assert!(is_continue38_logical_type("LogicalExpression"));
+        assert_eq!(
+            continue38_switch_case_skeleton(Some("1"), "break;"),
+            "case 1: break;"
+        );
+        assert_eq!(
+            continue38_switch_case_skeleton(None, "return;"),
+            "default: return;"
+        );
+        assert_eq!(continue38_break_skeleton(None), "break;");
+        assert_eq!(continue38_break_skeleton(Some("outer")), "break outer;");
+        assert_eq!(continue38_continue_skeleton(None), "continue;");
+        assert_eq!(
+            continue38_continue_skeleton(Some("loop")),
+            "continue loop;"
+        );
+        assert_eq!(
+            continue38_for_in_skeleton("const k", "obj", "use(k);"),
+            "for (const k in obj) { use(k); }"
+        );
+        assert_eq!(
+            continue38_for_of_skeleton("const x", "arr", "use(x);"),
+            "for (const x of arr) { use(x); }"
+        );
+        assert_eq!(continue38_logical_skeleton("a", "&&", "b"), "a && b");
+        assert_eq!(continue38_logical_skeleton("a", "||", "b"), "a || b");
+        assert_eq!(CONTINUE38_RELATED_TYPES.len(), 6);
+    }
+}
