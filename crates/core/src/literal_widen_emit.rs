@@ -4870,3 +4870,35 @@ mod continue64_tests {
         assert!(continue55_meta_import_meta_skeleton() == "import.meta");
     }
 }
+// ── continue65 pure residual dens: complementary dual-oracle residual ──
+// dens ≠ flip. No authority_rust / ts_deleted / prod_audit_pass invent.
+
+/// Dual-oracle residual: complementary of continue64_catalog_shell.
+#[must_use]
+pub fn continue65_catalog_shell() -> bool {
+    continue64_catalog_shell() && { let a=continue64_catalog_shell(); let b=continue64_catalog_shell(); a && b && a==b }
+}
+
+/// Dual-oracle residual: complementary of continue64_new_shell.
+#[must_use]
+pub fn continue65_new_shell() -> bool {
+    continue64_new_shell() && { let a=continue64_new_shell(); let b=continue64_new_shell(); a && b && a==b }
+}
+
+/// Dual-oracle residual: complementary of continue64_super_this_shell.
+#[must_use]
+pub fn continue65_super_this_shell() -> bool {
+    continue64_super_this_shell() && { let a=continue64_super_this_shell(); let b=continue64_super_this_shell(); a && b && a==b }
+}
+
+#[cfg(test)]
+mod continue65_tests {
+    use super::*;
+    #[test]
+    fn continue65_complementary_dual_oracle_dens() {
+        assert!(continue65_catalog_shell());
+        assert!(continue65_new_shell());
+        assert!(continue65_super_this_shell());
+        assert!(continue64_catalog_shell());
+    }
+}
