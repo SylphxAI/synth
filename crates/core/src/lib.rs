@@ -73,6 +73,7 @@ mod assign_sequence_object_emit;
 mod var_return_if_emit;
 mod loop_switch_stmt_emit;
 mod try_throw_import_stmt_emit;
+mod property_static_stmt_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
