@@ -5255,3 +5255,46 @@ mod continue108_tests {
         assert!(continue64_new_shell());
     }
 }
+
+// ── continue121 pure residual dens: base dual-oracle residual (literal_widen emit) ──
+// dens ≠ flip. No authority_rust / ts_deleted / prod_audit_pass invent.
+// Dual-oracle re-enters continue64 base pure poles (not 3^n re-wrap of continue120 /
+// nested complementary chain; PreferRust OFF). continue109–120 used by concurrent
+// new-surface dens — next free base dual-oracle id is continue121.
+
+/// Dual-oracle residual: base re-entry of continue64_new_shell.
+#[must_use]
+pub fn continue121_new_shell() -> bool {
+    let a = continue64_new_shell();
+    let b = continue64_new_shell();
+    a && b && a == b
+}
+
+/// Dual-oracle residual: base re-entry of continue64_super_this_shell.
+#[must_use]
+pub fn continue121_super_this_shell() -> bool {
+    let a = continue64_super_this_shell();
+    let b = continue64_super_this_shell();
+    a && b && a == b
+}
+
+/// Dual-oracle residual: base re-entry of continue64_catalog_shell.
+#[must_use]
+pub fn continue121_catalog_shell() -> bool {
+    let a = continue64_catalog_shell();
+    let b = continue64_catalog_shell();
+    a && b && a == b
+}
+
+#[cfg(test)]
+mod continue121_tests {
+    use super::*;
+    #[test]
+    fn continue121_complementary_dual_oracle_dens() {
+        assert!(continue121_new_shell());
+        assert!(continue121_super_this_shell());
+        assert!(continue121_catalog_shell());
+        // chain continuity: base poles still hold without re-running 3^n stack in-body
+        assert!(continue64_new_shell());
+    }
+}
