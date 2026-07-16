@@ -117,6 +117,55 @@ pub fn continue22_string_literal_skeleton(value: &str, double_quote: bool) -> St
     }
 }
 
+
+// ── continue23 pure residual: TemplateLiteral / TaggedTemplateExpression emit ──
+
+/// Type guards for continue23 template-related AST node types.
+#[must_use]
+pub fn is_continue23_template_related_type(t: &str) -> bool {
+    matches!(t, "TemplateLiteral" | "TaggedTemplateExpression" | "TemplateElement")
+}
+
+#[must_use]
+pub fn is_continue23_template_literal_type(t: &str) -> bool {
+    t == "TemplateLiteral"
+}
+
+#[must_use]
+pub fn is_continue23_tagged_template_type(t: &str) -> bool {
+    t == "TaggedTemplateExpression"
+}
+
+#[must_use]
+pub fn is_continue23_template_element_type(t: &str) -> bool {
+    t == "TemplateElement"
+}
+
+/// Dual-oracle residual: empty template literal skeleton.
+#[must_use]
+pub fn continue23_empty_template_literal_skeleton() -> &'static str {
+    "``"
+}
+
+/// Dual-oracle residual: cooked template element fragment emit (no expressions).
+#[must_use]
+pub fn continue23_template_element_cooked(cooked: &str) -> String {
+    cooked.to_string()
+}
+
+/// Dual-oracle residual: template literal with single cooked quasi and no expressions.
+#[must_use]
+pub fn continue23_template_literal_no_expr_skeleton(cooked: &str) -> String {
+    format!("`{cooked}`")
+}
+
+/// Dual-oracle residual: tagged template skeleton tag + empty template.
+#[must_use]
+pub fn continue23_tagged_template_skeleton(tag: &str) -> String {
+    format!("{tag}``")
+}
+
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -156,6 +205,21 @@ mod tests {
         assert_eq!(continue22_numeric_literal_skeleton(" 3.14 "), "3.14");
         assert_eq!(continue22_string_literal_skeleton("hi", true), "\"hi\"");
         assert_eq!(continue22_string_literal_skeleton("hi", false), "'hi'");
+    }
+
+    #[test]
+    fn continue23_template_literal_emit() {
+        assert!(is_continue23_template_related_type("TemplateLiteral"));
+        assert!(is_continue23_template_related_type("TaggedTemplateExpression"));
+        assert!(is_continue23_template_related_type("TemplateElement"));
+        assert!(!is_continue23_template_related_type("StringLiteral"));
+        assert!(is_continue23_template_literal_type("TemplateLiteral"));
+        assert!(is_continue23_tagged_template_type("TaggedTemplateExpression"));
+        assert!(is_continue23_template_element_type("TemplateElement"));
+        assert_eq!(continue23_empty_template_literal_skeleton(), "``");
+        assert_eq!(continue23_template_element_cooked("hi"), "hi");
+        assert_eq!(continue23_template_literal_no_expr_skeleton("hello"), "`hello`");
+        assert_eq!(continue23_tagged_template_skeleton("String.raw"), "String.raw``");
     }
 
 }
