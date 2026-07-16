@@ -70,6 +70,7 @@ mod template_import_options_emit;
 mod binary_unary_logical_emit;
 mod call_member_new_emit;
 mod assign_sequence_object_emit;
+mod var_return_if_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
@@ -442,6 +443,21 @@ pub use assign_sequence_object_emit::{
     object_expression_minify, object_expression_pretty, object_expression_pretty_trailing,
     parenthesized_expression, sequence_expression_minify, sequence_expression_pretty,
     CONTINUE78_RELATED_TYPES,
+};
+
+// Pure residual continue79 — Variable / Expression / Return / If dual-oracle dens.
+// New surface (not continue64–78 re-wrap). dens ≠ flip; PreferRust OFF.
+pub use var_return_if_emit::{
+    continue79_expression_statement_skeleton, continue79_if_return,
+    continue79_if_statement_skeleton, continue79_return_statement_skeleton,
+    continue79_variable_declaration_skeleton, continue79_variable_declarator_skeleton,
+    expression_statement_minify, expression_statement_pretty, if_else_statement_minify,
+    if_else_statement_pretty, if_statement_minify, if_statement_pretty,
+    is_continue79_expression_statement_type, is_continue79_if_type, is_continue79_return_type,
+    is_continue79_variable_declaration_type, is_continue79_variable_declarator_type,
+    is_var_return_if_related_type, return_statement_minify, return_statement_pretty,
+    variable_declaration_minify, variable_declaration_pretty, variable_declarator_minify,
+    variable_declarator_pretty, CONTINUE79_RELATED_TYPES,
 };
 
 // Product tooling engines (printer / compressor / linter)
