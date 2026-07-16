@@ -2772,3 +2772,139 @@ mod continue43_tests {
     }
 }
 
+// ── continue44 pure residual dens: JSX element/fragment/attribute/text/expr emit ──
+// Dual-oracle residual pure emit skeletons for JSX AST shapes.
+// Intentional ts_only plugins retained. dens ≠ flip. PreferRust OFF.
+
+/// Dual-oracle residual: continue44 related JSX AST type names.
+pub const CONTINUE44_RELATED_TYPES: &[&str] = &[
+    "JSXElement",
+    "JSXFragment",
+    "JSXAttribute",
+    "JSXIdentifier",
+    "JSXText",
+    "JSXExpressionContainer",
+];
+
+/// Dual-oracle residual: type is continue44-related.
+#[must_use]
+pub fn is_continue44_related_type(t: &str) -> bool {
+    CONTINUE44_RELATED_TYPES.contains(&t)
+}
+
+#[must_use]
+pub fn is_continue44_jsx_element_type(t: &str) -> bool {
+    t == "JSXElement"
+}
+
+#[must_use]
+pub fn is_continue44_jsx_fragment_type(t: &str) -> bool {
+    t == "JSXFragment"
+}
+
+#[must_use]
+pub fn is_continue44_jsx_attribute_type(t: &str) -> bool {
+    t == "JSXAttribute"
+}
+
+#[must_use]
+pub fn is_continue44_jsx_identifier_type(t: &str) -> bool {
+    t == "JSXIdentifier"
+}
+
+#[must_use]
+pub fn is_continue44_jsx_text_type(t: &str) -> bool {
+    t == "JSXText"
+}
+
+#[must_use]
+pub fn is_continue44_jsx_expression_container_type(t: &str) -> bool {
+    t == "JSXExpressionContainer"
+}
+
+/// Dual-oracle residual: self-closing JSX element skeleton.
+#[must_use]
+pub fn continue44_jsx_element_self_closing_skeleton(name: &str) -> String {
+    format!("<{name} />")
+}
+
+/// Dual-oracle residual: JSX element with children skeleton.
+#[must_use]
+pub fn continue44_jsx_element_skeleton(name: &str, children: &str) -> String {
+    format!("<{name}>{children}</{name}>")
+}
+
+/// Dual-oracle residual: JSX fragment skeleton.
+#[must_use]
+pub fn continue44_jsx_fragment_skeleton(children: &str) -> String {
+    format!("<>{children}</>")
+}
+
+/// Dual-oracle residual: JSX attribute skeleton (`name="value"`).
+#[must_use]
+pub fn continue44_jsx_attribute_skeleton(name: &str, value: &str) -> String {
+    format!("{name}=\"{value}\"")
+}
+
+/// Dual-oracle residual: JSX identifier token.
+#[must_use]
+pub fn continue44_jsx_identifier_skeleton(name: &str) -> String {
+    name.to_string()
+}
+
+/// Dual-oracle residual: JSX text node skeleton.
+#[must_use]
+pub fn continue44_jsx_text_skeleton(text: &str) -> String {
+    text.to_string()
+}
+
+/// Dual-oracle residual: JSX expression container skeleton.
+#[must_use]
+pub fn continue44_jsx_expression_container_skeleton(expr: &str) -> String {
+    format!("{{{expr}}}")
+}
+
+#[cfg(test)]
+mod continue44_tests {
+    use super::*;
+
+    #[test]
+    fn continue44_jsx_element_fragment_attribute_text_expr_emit() {
+        assert!(is_continue44_related_type("JSXElement"));
+        assert!(is_continue44_related_type("JSXFragment"));
+        assert!(is_continue44_related_type("JSXAttribute"));
+        assert!(is_continue44_related_type("JSXIdentifier"));
+        assert!(is_continue44_related_type("JSXText"));
+        assert!(is_continue44_related_type("JSXExpressionContainer"));
+        assert!(!is_continue44_related_type("WithStatement"));
+        assert!(is_continue44_jsx_element_type("JSXElement"));
+        assert!(is_continue44_jsx_fragment_type("JSXFragment"));
+        assert!(is_continue44_jsx_attribute_type("JSXAttribute"));
+        assert!(is_continue44_jsx_identifier_type("JSXIdentifier"));
+        assert!(is_continue44_jsx_text_type("JSXText"));
+        assert!(is_continue44_jsx_expression_container_type(
+            "JSXExpressionContainer"
+        ));
+        assert_eq!(
+            continue44_jsx_element_self_closing_skeleton("img"),
+            "<img />"
+        );
+        assert_eq!(
+            continue44_jsx_element_skeleton("div", "hi"),
+            "<div>hi</div>"
+        );
+        assert_eq!(continue44_jsx_fragment_skeleton("x"), "<>x</>");
+        assert_eq!(
+            continue44_jsx_attribute_skeleton("className", "btn"),
+            "className=\"btn\""
+        );
+        assert_eq!(continue44_jsx_identifier_skeleton("Button"), "Button");
+        assert_eq!(continue44_jsx_text_skeleton("hello"), "hello");
+        assert_eq!(
+            continue44_jsx_expression_container_skeleton("count"),
+            "{count}"
+        );
+        assert_eq!(CONTINUE44_RELATED_TYPES.len(), 6);
+    }
+}
+
