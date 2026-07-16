@@ -61,6 +61,7 @@ mod loop_switch_full_emit;
 mod pattern_sequence_emit;
 mod yield_meta_emit;
 mod property_static_emit;
+mod literal_widen_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
@@ -307,6 +308,15 @@ pub use property_static_emit::{
     is_property_definition_type, is_property_static_related_type, is_static_block_type,
     property_definition_skeleton, property_key_token, static_block_skeleton, static_prefix,
 };
+
+// Pure residual continue21 — BigIntLiteral/RegExpLiteral/DirectiveLiteral.
+pub use literal_widen_emit::{
+    continue21_bigint_literal_skeleton, continue21_directive_literal_skeleton,
+    continue21_regexp_literal_skeleton, is_continue21_bigint_literal_type,
+    is_continue21_directive_literal_type, is_continue21_regexp_literal_type,
+    is_literal_widen_related_type,
+};
+
 // catch_open / try_token already re-exported from conditional_spread_emit dual-oracle.
 
 // Product tooling engines (printer / compressor / linter)
