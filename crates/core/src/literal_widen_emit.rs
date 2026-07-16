@@ -4536,3 +4536,52 @@ mod continue57_tests {
         assert!(is_continue55_super_type("Super"));
     }
 }
+
+
+// ── continue58 pure residual dens: super new class partition emit dual-oracle residual ──
+// Dual-oracle residual of continue55 class/meta/new/this/super pure halves (edge dens).
+// Intentional ts_only plugins retained; pure emit only. dens ≠ flip.
+
+/// Dual-oracle residual: continue58 super multi-arg + bare super call.
+#[must_use]
+pub fn continue58_super_edge_shell() -> bool {
+    continue55_super_call_skeleton("a, b") == "super(a, b)"
+        && continue55_super_call_skeleton("") == "super()"
+        && is_continue55_super_type("Super")
+        && !is_continue55_super_type("ThisExpression")
+}
+
+/// Dual-oracle residual: continue58 new multi-arg + empty class edges.
+#[must_use]
+pub fn continue58_new_class_edge_shell() -> bool {
+    continue55_new_expression_skeleton("Promise", "fn") == "new Promise(fn)"
+        && continue55_new_expression_skeleton("Error", "") == "new Error()"
+        && continue55_class_expression_skeleton("") == "class {}"
+        && continue55_class_declaration_skeleton("X") == "class X {}"
+}
+
+/// Dual-oracle residual: continue58 meta + partition class vs sequence planes.
+#[must_use]
+pub fn continue58_meta_partition_shell() -> bool {
+    continue55_meta_import_meta_skeleton() == "import.meta"
+        && continue55_meta_new_target_skeleton() == "new.target"
+        && continue55_this_skeleton() == "this"
+        && is_continue55_related_type("NewExpression")
+        && !is_continue55_related_type("SequenceExpression")
+        && is_continue53_related_type("SequenceExpression")
+        && CONTINUE55_RELATED_TYPES.len() == 6
+}
+
+#[cfg(test)]
+mod continue58_tests {
+    use super::*;
+
+    #[test]
+    fn continue58_super_new_class_partition_emit_edges() {
+        assert!(continue58_super_edge_shell());
+        assert!(continue58_new_class_edge_shell());
+        assert!(continue58_meta_partition_shell());
+        assert!(is_continue55_class_expression_type("ClassExpression"));
+        assert!(is_continue55_new_expression_type("NewExpression"));
+    }
+}
