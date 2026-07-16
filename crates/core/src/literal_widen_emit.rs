@@ -4776,3 +4776,50 @@ mod continue62_tests {
         assert!(continue55_meta_import_meta_skeleton() == "import.meta");
     }
 }
+
+
+// ── continue63 pure residual dens: class/meta partition emit dual-oracle residual ──
+// Dual-oracle residual of continue55 class/meta pure halves (edge dens after continue62).
+// Intentional ts_only plugins retained; pure emit only. dens ≠ flip.
+
+/// Dual-oracle residual: continue63 class expression empty/named + declaration.
+#[must_use]
+pub fn continue63_class_shell() -> bool {
+    continue55_class_expression_skeleton("") == "class {}"
+        && continue55_class_expression_skeleton("Foo") == "class Foo {}"
+        && continue55_class_declaration_skeleton("Bar") == "class Bar {}"
+        && is_continue55_class_expression_type("ClassExpression")
+        && is_continue55_class_declaration_type("ClassDeclaration")
+}
+
+/// Dual-oracle residual: continue63 meta import.meta / new.target.
+#[must_use]
+pub fn continue63_meta_shell() -> bool {
+    continue55_meta_import_meta_skeleton() == "import.meta"
+        && continue55_meta_new_target_skeleton() == "new.target"
+        && is_continue55_meta_property_type("MetaProperty")
+        && !is_continue55_meta_property_type("MemberExpression")
+}
+
+/// Dual-oracle residual: continue63 catalog closed six + class types in set.
+#[must_use]
+pub fn continue63_catalog_shell() -> bool {
+    CONTINUE55_RELATED_TYPES.len() == 6
+        && is_continue55_related_type("ClassExpression")
+        && is_continue55_related_type("ClassDeclaration")
+        && is_continue55_related_type("MetaProperty")
+        && !is_continue55_related_type("ArrowFunctionExpression")
+}
+
+#[cfg(test)]
+mod continue63_tests {
+    use super::*;
+
+    #[test]
+    fn continue63_class_meta_catalog_partition_emit() {
+        assert!(continue63_class_shell());
+        assert!(continue63_meta_shell());
+        assert!(continue63_catalog_shell());
+        assert!(continue55_this_skeleton() == "this");
+    }
+}
