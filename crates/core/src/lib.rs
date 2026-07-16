@@ -86,6 +86,7 @@ mod primitive_literal_emit;
 mod template_array_object_emit;
 mod sequence_update_yield_emit;
 mod this_conditional_logical_emit;
+mod if_while_return_throw_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
