@@ -62,6 +62,7 @@ mod pattern_sequence_emit;
 mod yield_meta_emit;
 mod property_static_emit;
 mod literal_widen_emit;
+mod class_export_from_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
@@ -324,6 +325,20 @@ pub use literal_widen_emit::{
 };
 
 // catch_open / try_token already re-exported from conditional_spread_emit dual-oracle.
+
+// Pure residual continue71 — Class-extends heritage + Export-from dual-oracle dens.
+// New surface (not continue64–70 shell re-wrap). dens ≠ flip; PreferRust OFF.
+pub use class_export_from_emit::{
+    class_extends_fragment, class_extends_skeleton, class_extends_token,
+    export_all_from_skeleton, export_from_source_token, export_named_from_skeleton,
+    export_namespace_from_skeleton, is_class_export_from_related_type,
+    is_continue71_class_declaration_type, is_continue71_class_expression_type,
+    is_continue71_export_all_type, is_continue71_export_named_type,
+    is_continue71_export_namespace_specifier_type, is_continue71_export_specifier_type,
+    is_continue71_super_type, super_call_skeleton, super_computed_member_skeleton,
+    super_member_skeleton, super_static_member_skeleton, wants_class_extends,
+    CONTINUE71_RELATED_TYPES,
+};
 
 // Product tooling engines (printer / compressor / linter)
 pub use printer_engine::{
