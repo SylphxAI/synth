@@ -67,6 +67,7 @@ mod arrow_method_default_emit;
 mod optional_chain_emit;
 mod object_method_conditional_emit;
 mod template_import_options_emit;
+mod binary_unary_logical_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
@@ -398,6 +399,19 @@ pub use template_import_options_emit::{
     is_template_import_options_related_type, tagged_template_cooked, tagged_template_single,
     template_element_cooked, template_interpolation, template_literal_cooked,
     template_literal_empty, template_literal_single, CONTINUE75_RELATED_TYPES,
+};
+
+// Pure residual continue76 — Binary / Unary / Logical / Update dual-oracle dens.
+// New surface (not continue64–75 re-wrap). dens ≠ flip; PreferRust OFF.
+pub use binary_unary_logical_emit::{
+    binary_expression_minify, binary_expression_pretty, binary_is_word_operator,
+    continue76_binary_expression_skeleton, continue76_binary_operator_token,
+    continue76_logical_expression_skeleton, continue76_unary_expression_skeleton,
+    continue76_update_expression_skeleton, is_binary_unary_logical_related_type,
+    is_continue76_binary_type, is_continue76_logical_type, is_continue76_unary_type,
+    is_continue76_update_type, logical_expression_minify, logical_expression_pretty,
+    unary_expression_minify, unary_expression_pretty, update_postfix_dec, update_postfix_inc,
+    update_prefix_dec, update_prefix_inc, CONTINUE76_RELATED_TYPES,
 };
 
 // Product tooling engines (printer / compressor / linter)
