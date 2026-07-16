@@ -72,6 +72,7 @@ mod call_member_new_emit;
 mod assign_sequence_object_emit;
 mod var_return_if_emit;
 mod loop_switch_stmt_emit;
+mod try_throw_import_stmt_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
@@ -477,6 +478,25 @@ pub use loop_switch_stmt_emit::{
     switch_default_minify, switch_default_pretty, switch_statement_minify,
     switch_statement_pretty, while_statement_minify, while_statement_pretty,
     CONTINUE80_RELATED_TYPES,
+};
+
+// Pure residual continue81 — Try / Throw / Labeled / Break / Continue / With /
+// Import dual-oracle dens. New surface (not continue64–80 re-wrap).
+// dens ≠ flip; PreferRust OFF.
+pub use try_throw_import_stmt_emit::{
+    break_statement_semi, continue81_break_statement_skeleton,
+    continue81_continue_statement_skeleton, continue81_import_declaration_skeleton,
+    continue81_labeled_statement_skeleton, continue81_throw_statement_skeleton,
+    continue81_try_statement_skeleton, continue81_try_then_throw,
+    continue81_with_statement_skeleton, continue_statement_labeled_semi,
+    import_named_minify, import_named_pretty, import_side_effect_pretty,
+    is_continue81_break_type, is_continue81_catch_type, is_continue81_continue_type,
+    is_continue81_import_declaration_type, is_continue81_labeled_type,
+    is_continue81_throw_type, is_continue81_try_type, is_continue81_with_type,
+    is_try_throw_import_stmt_related_type, labeled_statement_minify,
+    labeled_statement_pretty, throw_statement_bare, throw_statement_semi,
+    try_catch_minify, try_catch_pretty, try_finally_minify, try_finally_pretty,
+    with_statement_minify, with_statement_pretty, CONTINUE81_RELATED_TYPES,
 };
 
 // Product tooling engines (printer / compressor / linter)
