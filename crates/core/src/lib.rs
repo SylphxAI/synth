@@ -103,6 +103,7 @@ mod unary_binary_await_arrow_spread_rest_emit;
 mod new_conditional_this_super_sequence_empty_emit;
 mod with_labeled_debugger_throw_expr_if_emit;
 mod jsx_element_fragment_attribute_emit;
+mod do_while_switch_break_continue_try_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
