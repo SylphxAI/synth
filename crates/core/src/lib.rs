@@ -94,6 +94,7 @@ mod switch_try_throw_debugger_emit;
 mod meta_import_chain_empty_rest_spread_class_emit;
 mod for_var_assignment_program_import_spec_emit;
 mod if_while_do_conditional_labeled_with_emit;
+mod class_return_this_super_meta_emit;
 mod printer_engine;
 mod compressor_engine;
 mod linter_engine;
