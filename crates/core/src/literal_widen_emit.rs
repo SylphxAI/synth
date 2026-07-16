@@ -1188,6 +1188,87 @@ pub fn continue34_import_default_namespace_skeleton(
     format!("import {default_local}, * as {ns_local} from {source};")
 }
 
+
+// ── continue35 pure residual: If / While / DoWhile / Conditional / Labeled / With emit ──
+// Dual-oracle pure emit skeletons for control-flow residual types after continue34.
+// Intentional ts_only plugins retained. dens ≠ flip. NO authority invent.
+
+/// Dual-oracle residual: continue35 related AST type catalog.
+pub const CONTINUE35_RELATED_TYPES: &[&str] = &[
+    "IfStatement",
+    "WhileStatement",
+    "DoWhileStatement",
+    "ConditionalExpression",
+    "LabeledStatement",
+    "WithStatement",
+];
+
+/// Dual-oracle residual: continue35 related type membership.
+#[must_use]
+pub fn is_continue35_related_type(ty: &str) -> bool {
+    CONTINUE35_RELATED_TYPES.contains(&ty)
+}
+
+/// Dual-oracle residual: if statement type.
+#[must_use]
+pub fn is_continue35_if_type(ty: &str) -> bool {
+    ty == "IfStatement"
+}
+
+/// Dual-oracle residual: while-family loop types.
+#[must_use]
+pub fn is_continue35_while_family_type(ty: &str) -> bool {
+    matches!(ty, "WhileStatement" | "DoWhileStatement")
+}
+
+/// Dual-oracle residual: conditional expression type.
+#[must_use]
+pub fn is_continue35_conditional_type(ty: &str) -> bool {
+    ty == "ConditionalExpression"
+}
+
+/// Dual-oracle residual: if skeleton.
+#[must_use]
+pub fn continue35_if_skeleton(test: &str, body: &str) -> String {
+    format!("if ({test}) {{ {body} }}")
+}
+
+/// Dual-oracle residual: if-else skeleton.
+#[must_use]
+pub fn continue35_if_else_skeleton(test: &str, then_body: &str, else_body: &str) -> String {
+    format!("if ({test}) {{ {then_body} }} else {{ {else_body} }}")
+}
+
+/// Dual-oracle residual: while skeleton.
+#[must_use]
+pub fn continue35_while_skeleton(test: &str, body: &str) -> String {
+    format!("while ({test}) {{ {body} }}")
+}
+
+/// Dual-oracle residual: do-while skeleton.
+#[must_use]
+pub fn continue35_do_while_skeleton(body: &str, test: &str) -> String {
+    format!("do {{ {body} }} while ({test});")
+}
+
+/// Dual-oracle residual: conditional expression skeleton.
+#[must_use]
+pub fn continue35_conditional_skeleton(test: &str, consequent: &str, alternate: &str) -> String {
+    format!("{test} ? {consequent} : {alternate}")
+}
+
+/// Dual-oracle residual: labeled statement skeleton.
+#[must_use]
+pub fn continue35_labeled_skeleton(label: &str, body: &str) -> String {
+    format!("{label}: {body}")
+}
+
+/// Dual-oracle residual: with statement skeleton (legacy).
+#[must_use]
+pub fn continue35_with_skeleton(object: &str, body: &str) -> String {
+    format!("with ({object}) {{ {body} }}")
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1622,4 +1703,27 @@ mod tests {
             "import Def, * as NS from \"./m.js\";"
         );
     }
+
+    #[test]
+    fn continue35_if_while_conditional_labeled_with_emit() {
+        assert!(is_continue35_related_type("IfStatement"));
+        assert!(is_continue35_related_type("WhileStatement"));
+        assert!(is_continue35_related_type("DoWhileStatement"));
+        assert!(is_continue35_related_type("ConditionalExpression"));
+        assert!(is_continue35_related_type("LabeledStatement"));
+        assert!(is_continue35_related_type("WithStatement"));
+        assert!(!is_continue35_related_type("ClassDeclaration"));
+        assert!(is_continue35_if_type("IfStatement"));
+        assert!(is_continue35_while_family_type("DoWhileStatement"));
+        assert!(is_continue35_conditional_type("ConditionalExpression"));
+        assert_eq!(continue35_if_skeleton("x", "return 1;"), "if (x) { return 1; }");
+        assert_eq!(continue35_if_else_skeleton("x", "a();", "b();"), "if (x) { a(); } else { b(); }");
+        assert_eq!(continue35_while_skeleton("i < 3", "i++;"), "while (i < 3) { i++; }");
+        assert_eq!(continue35_do_while_skeleton("i++;", "i < 3"), "do { i++; } while (i < 3);");
+        assert_eq!(continue35_conditional_skeleton("a", "b", "c"), "a ? b : c");
+        assert_eq!(continue35_labeled_skeleton("outer", "break;"), "outer: break;");
+        assert_eq!(continue35_with_skeleton("obj", "f();"), "with (obj) { f(); }");
+        assert_eq!(CONTINUE35_RELATED_TYPES.len(), 6);
+    }
+
 }
