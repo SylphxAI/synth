@@ -1,9 +1,8 @@
 # Synth
 
 <p align="center">
-  <img src="docs/banner.png" alt="synth banner" width="100%" />
+  <img src="https://mark.sylphx.com/api/v1/banner?type=constellation&theme=tokyonight&text=synth&desc=%F0%9F%8E%B9+Synth+-+synthesis+and+generation+tools&height=200&animation=rise&credit=0" alt="synth — Sylphx Mark banner" width="100%" />
 </p>
-
 
 > **The World's Fastest AST Processor** - 50-3000x faster than unified
 
