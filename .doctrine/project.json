@@ -182,10 +182,10 @@
     }
   },
   "delivery": {
-    "ciModel": "adr29-admission-with-groundatlas",
+    "ciModel": "adr29-admission",
     "requiredContexts": ["risk-classification/pass", "trunk-admission/pass", "ci"],
-    "deployPath": "Pull requests and merge groups run .github/workflows/ci.yml with ADR-29 admission contexts, isolated Rust setup, bun run validate, project-control boundary tests, and GroundAtlas package dogfood; main pushes run .github/workflows/release.yml to create or publish release changes through the shared Changesets release workflow.",
-    "productionProof": "ADR-29 admission pass, isolated Rust/Bun validation, bun run validate, project-control boundary tests, GroundAtlas package dogfood, Release workflow completion for package changes, GitHub Release evidence, and npm registry readback for changed packages.",
+    "deployPath": "Pull requests and merge groups run .github/workflows/ci.yml with ADR-29 admission contexts, isolated Rust setup, bun run validate, project-control boundary tests; main pushes run .github/workflows/release.yml to create or publish release changes through the shared Changesets release workflow.",
+    "productionProof": "ADR-29 admission pass, isolated Rust/Bun validation, bun run validate, project-control boundary tests, Release workflow completion for package changes, GitHub Release evidence, and npm registry readback for changed packages.",
     "recoveryClass": "forward-fix-only",
     "packageRelease": {
       "publishesPackages": true,

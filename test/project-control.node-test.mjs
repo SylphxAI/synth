@@ -5,7 +5,7 @@ import test from 'node:test'
 const readJson = (path) => JSON.parse(readFileSync(path, 'utf8'))
 const readText = (path) => readFileSync(path, 'utf8')
 
-test('project manifest is the vendor-neutral GroundAtlas control file', () => {
+test('project manifest remains valid project metadata without GroundAtlas product dogfood', () => {
 	const manifest = readJson('project.manifest.json')
 
 	assert.equal(manifest.schemaVersion, 1)
@@ -20,8 +20,14 @@ test('project manifest is the vendor-neutral GroundAtlas control file', () => {
 		manifest.surfaces.some(
 			(surface) =>
 				surface.path === '.doctrine/project.json' &&
-				surface.description.includes('not the vendor-neutral GroundAtlas default')
-		)
+				surface.description.includes('not the vendor-neutral GroundAtlas default'),
+		),
+	)
+	const commandNames = (manifest.commands || []).map((c) => c.name)
+	assert.ok(!commandNames.includes('groundatlas:fleet'))
+	assert.ok(
+		String(manifest.adoption?.notes || '').includes('ADR-0014') ||
+			String(manifest.adoption?.notes || '').toLowerCase().includes('retired'),
 	)
 })
 
@@ -32,29 +38,26 @@ test('Doctrine adapter remains Sylphx-specific and package proof stays package-o
 	assert.equal(doctrine.adoption.status, 'adopted')
 	assert.ok(
 		doctrine.boundaries.publicSurfaces.some(
-			(surface) => surface.type === 'manifest' && surface.location === 'project.manifest.json'
-		)
+			(surface) => surface.type === 'manifest' && surface.location === 'project.manifest.json',
+		),
 	)
-	assert.ok(doctrine.delivery.productionProof.includes('GroundAtlas package dogfood'))
+	assert.ok(!String(doctrine.delivery?.productionProof || '').toLowerCase().includes('groundatlas'))
+	assert.ok(!String(doctrine.delivery?.ciModel || '').toLowerCase().includes('groundatlas'))
 	assert.ok(doctrine.delivery.productionProof.includes('bun run validate'))
 	assert.ok(doctrine.delivery.packageRelease.publishProof.includes('npm registry readback'))
 })
 
-test('CI runs package validation and dogfoods the released GroundAtlas package/action', () => {
+test('CI runs package validation and does not pin GroundAtlas package/action', () => {
 	const workflow = readText('.github/workflows/ci.yml')
 
 	assert.ok(workflow.includes('bun install --frozen-lockfile'))
 	assert.ok(workflow.includes('bun run validate'))
 	assert.ok(workflow.includes('check-no-ts-parser.sh'))
 	assert.ok(workflow.includes('check-no-ts-js-parser.sh'))
-	assert.ok(workflow.includes('uses: SylphxAI/groundatlas@v0.1.3'))
-	assert.ok(workflow.includes('package-spec: groundatlas@0.1.3'))
-	assert.ok(workflow.includes('require-atlas: "true"'))
-	assert.ok(workflow.includes('strict: "true"'))
-	assert.ok(workflow.includes('fleet-markdown-report-path'))
-	assert.ok(workflow.includes('Summary: 1 adopted, 0 warning, 0 blocked, 1 total.'))
-	assert.ok(workflow.includes('project.manifest.json'))
-	assert.ok(workflow.includes('.doctrine/project.json'))
+	assert.ok(!workflow.includes('uses: SylphxAI/groundatlas@'))
+	assert.ok(!workflow.includes('package-spec: groundatlas@'))
+	assert.ok(workflow.includes('project.manifest.json') || workflow.includes('project-control'))
+	assert.ok(workflow.includes('.doctrine/project.json') || workflow.includes('project-control'))
 	assert.ok(workflow.includes('wasm32-unknown-unknown'))
 })
 
@@ -63,7 +66,7 @@ test('root validation follows the current CI baseline', () => {
 
 	assert.equal(
 		manifest.scripts.validate,
-		'bun run lint && bunx turbo build --concurrency=1 && bun run typecheck && bun run check:no-ts-parser && bun run check:no-ts-js-parser && bun test'
+		'bun run lint && bunx turbo build --concurrency=1 && bun run typecheck && bun run check:no-ts-parser && bun run check:no-ts-js-parser && bun test',
 	)
 	assert.equal(manifest.scripts['check:no-ts-parser'], 'bash scripts/check-no-ts-parser.sh')
 	assert.equal(manifest.scripts['check:no-ts-js-parser'], 'bash scripts/check-no-ts-js-parser.sh')

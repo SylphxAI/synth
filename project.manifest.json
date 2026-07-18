@@ -22,8 +22,15 @@
   "truth": {
     "humanProjectFile": "PROJECT.md",
     "agentAdapter": "AGENTS.md",
-    "specs": ["README.md", "docs/guide/", "docs/api/", "docs/specs/"],
-    "adrs": ["docs/adr/ADR-30-groundatlas-project-control-gate.md"],
+    "specs": [
+      "README.md",
+      "docs/guide/",
+      "docs/api/",
+      "docs/specs/"
+    ],
+    "adrs": [
+      "docs/adr/ADR-30-groundatlas-project-control-gate.md"
+    ],
     "source": [
       "packages/",
       "crates/",
@@ -45,7 +52,12 @@
       "test/project-control.node-test.mjs",
       ".github/workflows/ci.yml"
     ],
-    "runbooks": ["README.md", "PROJECT.md", "AGENTS.md", "SECURITY.md"]
+    "runbooks": [
+      "README.md",
+      "PROJECT.md",
+      "AGENTS.md",
+      "SECURITY.md"
+    ]
   },
   "surfaces": [
     {
@@ -82,7 +94,7 @@
       "type": "workflow",
       "name": "CI/admission",
       "path": ".github/workflows/ci.yml",
-      "description": "ADR-29 admission, Rust/Bun validation, project-control tests, and GroundAtlas package dogfood."
+      "description": "ADR-29 admission, Rust/Bun validation, project-control tests,."
     },
     {
       "type": "workflow",
@@ -117,16 +129,11 @@
     {
       "name": "test:project-control",
       "command": "node --test test/project-control.node-test.mjs",
-      "purpose": "Verify neutral manifest, Doctrine adapter, released GroundAtlas workflow, and release caller boundary."
-    },
-    {
-      "name": "groundatlas:fleet",
-      "command": "npm exec --yes --package groundatlas@0.1.3 -- ga fleet . --out .groundatlas-pilot --require-atlas --strict --json",
-      "purpose": "Prove the vendor-neutral manifest is selected and generated GroundAtlas JSON/Markdown reports are evidence-only."
+      "purpose": "Verify neutral manifest, Doctrine adapter, CI gate, and release caller boundary."
     }
   ],
   "adoption": {
     "status": "adopted",
-    "notes": "Vendor-neutral GroundAtlas manifest for package/action dogfooding. .doctrine/project.json remains the Sylphx Doctrine adapter and local governance catalog. Generated .groundatlas* files plus GroundAtlas JSON/Markdown reports are evidence/navigation only, not source of truth. The Synth release build bootstraps Rust when needed, installs the Rust WASM target and wasm-pack, and then builds WASM-backed packages."
+    "notes": "Vendor-neutral project.manifest retained as optional metadata. GroundAtlas package dogfood retired (Control Plane ADR-0014). .doctrine/project.json remains the Sylphx Doctrine adapter and local governance catalog."
   }
 }
