@@ -62,3 +62,8 @@ behavior to private parser modules.
 
 Pull requests target `main` and pass ADR-29 admission contexts before merge.
 Pull requests and merge groups run `.github/workflows/ci.yml`, including ADR-29 classification/fan-in contexts, isolated Rust setup, `bun run validate`, project-control boundary tests, and GroundAtlas package dogfooding. Main pushes run postsubmit proof and recovery-decision wiring plus `.github/workflows/release.yml` for Changesets release PRs or package publication; the release build bootstraps Rust when needed, installs the Rust WASM target and `wasm-pack`, and then builds Synth WASM packages. Published package changes require Release workflow evidence and npm registry readback. Generated `.groundatlas*` files plus GroundAtlas JSON/Markdown reports are evidence/navigation only, not source of truth.
+
+
+## GroundAtlas
+
+GroundAtlas package dogfood is **retired** (Control Plane ADR-0014). Do not re-add required groundatlas CI jobs.
