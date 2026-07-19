@@ -30,7 +30,6 @@ jobs:
     name: Lint Build Test
     runs-on: [self-hosted, sylphx, linux, standard]
     env:
-      SYNTH_RUST_HOME: /tmp/synth-rust-${{ github.run_id }}-${{ github.run_attempt }}
       CARGO_HOME: /tmp/synth-rust-${{ github.run_id }}-${{ github.run_attempt }}/.cargo
       RUSTUP_HOME: /tmp/synth-rust-${{ github.run_id }}-${{ github.run_attempt }}/.rustup
     steps:
@@ -46,8 +45,8 @@ jobs:
 
       - name: Prepare isolated Rust home
         run: |
-          mkdir -p "$SYNTH_RUST_HOME" "$CARGO_HOME" "$RUSTUP_HOME"
-          echo "HOME=$SYNTH_RUST_HOME" >> "$GITHUB_ENV"
+          # Isolate cargo/rustup caches without rewriting HOME (rustup rejects HOME≠euid home).
+          mkdir -p "$CARGO_HOME" "$RUSTUP_HOME"
           echo "$CARGO_HOME/bin" >> "$GITHUB_PATH"
 
       - name: Setup Rust
