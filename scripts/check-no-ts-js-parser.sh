@@ -2,6 +2,8 @@
 # ADR-168 S4 gate: @sylphx/synth-js default parse()/parseAsync() must route to Rust WASM.
 # Allowed: TS JSParser for explicit opt-in (plugins, useTsParser, SYNTH_JS_AUTHORITY=ts).
 # Forbidden: unconditional TS fallback on baseline default options.
+# Temporary: delete after JS parsing is ts_deleted, exact-candidate WASM parity
+# and package install smoke are green, and registry readback binds the artifact.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
