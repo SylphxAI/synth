@@ -126,8 +126,6 @@ bun run docs:dev
 
 ## Project Control and Release Proof
 
-This repository dogfoods [GroundAtlas](https://github.com/SylphxAI/groundatlas) through CI. Vendor-neutral project facts live in `project.manifest.json`; Sylphx-specific governance facts stay in `.doctrine/project.json`; generated `.groundatlas*` files plus GroundAtlas JSON/Markdown reports are evidence/navigation only, not source of truth.
-
 Package releases run through the shared Sylphx release workflow and are complete only after ADR-29 admission, CI, the Release workflow, and npm registry readback for changed Synth packages. Parser, AST, WASM, and tooling behavior changes additionally require package tests and consumer contract evidence.
 
 ## License
@@ -139,8 +137,3 @@ MIT
 <div align="center">
   <sub>Powered by Sylphx · Built with <a href="https://www.npmjs.com/package/@sylphx/biome-config">biome-config</a> · <a href="https://www.npmjs.com/package/@sylphx/tsconfig">tsconfig</a> · <a href="https://www.npmjs.com/package/Changesets">bump</a></sub>
 </div>
-
-
-## GroundAtlas
-
-GroundAtlas package dogfood is **retired** (Control Plane ADR-0014). Do not re-add required groundatlas CI jobs.

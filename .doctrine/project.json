@@ -135,19 +135,9 @@
         "direction": "external"
       },
       {
-        "repo": "SylphxAI/groundatlas",
-        "surface": "GroundAtlas GitHub Action, npm package, schemas, and generated evidence reports.",
-        "direction": "peer-public"
-      },
-      {
         "repo": "SylphxAI/ast",
         "surface": "Public @sylphlab/ast-* ANTLR parser-contract packages, grammar fixtures, and typed source-span contracts.",
         "direction": "peer-public"
-      },
-      {
-        "repo": "actions/setup-node",
-        "surface": "GitHub Action for Node.js setup used by GroundAtlas package execution.",
-        "direction": "external"
       }
     ],
     "forbiddenCouplings": [
@@ -194,7 +184,7 @@
       "versionPr": "Changesets creates or updates release PRs on normal main commits and the shared release workflow publishes after version PR merge.",
       "publisher": ".github/workflows/release.yml using the shared SylphxAI/.github Changesets release workflow with GitHub token permissions and npm trusted publishing or NPM_TOKEN fallback.",
       "requiredContexts": ["risk-classification/pass", "ci", "trunk-admission/pass"],
-      "publishProof": "npm registry readback for each changed @sylphx/synth package plus CI/admission, GroundAtlas dogfood, and Release workflow evidence."
+      "publishProof": "npm registry readback for each changed @sylphx/synth package plus CI/admission and Release workflow evidence."
     }
   },
   "adoption": {
@@ -217,12 +207,6 @@
         "description": "Define generated AST contract fixtures and Rust/WASM consumption criteria before downstream Rust-native MCP products rely on Synth as their structural source.",
         "owner": "SylphxAI/synth",
         "target": "MCP family AST foundation implementation slice."
-      },
-      {
-        "id": "groundatlas-fleet-rollout",
-        "description": "Fleet-wide mandatory GroundAtlas ruleset and organization scorecard enforcement remain outside this repository and must be enabled from the owning control-plane repository, not by Synth.",
-        "owner": "SylphxAI/groundatlas",
-        "target": "fleet control-plane rollout"
       }
     ]
   }

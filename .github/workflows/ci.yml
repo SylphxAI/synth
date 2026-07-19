@@ -79,8 +79,8 @@ jobs:
       - name: Validate package workspace
         run: bun run validate
 
-      - name: Test project-control boundary
-        run: node --test test/project-control.node-test.mjs test/javascript-parity-golden.node-test.mjs
+      - name: Test JavaScript parity
+        run: node --test test/javascript-parity-golden.node-test.mjs
 
         with:
           require-atlas: "true"

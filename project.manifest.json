@@ -1,5 +1,4 @@
 {
-  "$schema": "https://raw.githubusercontent.com/SylphxAI/groundatlas/main/schemas/project.manifest.schema.json",
   "schemaVersion": 1,
   "project": {
     "id": "synth",
@@ -29,7 +28,7 @@
       "docs/specs/"
     ],
     "adrs": [
-      "docs/adr/ADR-30-groundatlas-project-control-gate.md"
+      "docs/adr/"
     ],
     "source": [
       "packages/",
@@ -49,7 +48,6 @@
     "tests": [
       "packages/",
       "crates/",
-      "test/project-control.node-test.mjs",
       ".github/workflows/ci.yml"
     ],
     "runbooks": [
@@ -112,7 +110,7 @@
       "type": "docs",
       "name": "Doctrine adapter manifest",
       "path": ".doctrine/project.json",
-      "description": "Sylphx Doctrine adapter and org-local governance catalog; not the vendor-neutral GroundAtlas default."
+      "description": "Repository governance metadata."
     }
   ],
   "commands": [
@@ -125,15 +123,10 @@
       "name": "validate",
       "command": "bun run validate",
       "purpose": "Run the current CI validation baseline: lint, single-concurrency build, typecheck, and Bun tests."
-    },
-    {
-      "name": "test:project-control",
-      "command": "node --test test/project-control.node-test.mjs",
-      "purpose": "Verify neutral manifest, Doctrine adapter, CI gate, and release caller boundary."
     }
   ],
   "adoption": {
     "status": "adopted",
-    "notes": "Vendor-neutral project.manifest retained as optional metadata. GroundAtlas package dogfood retired (Control Plane ADR-0014). .doctrine/project.json remains the Sylphx Doctrine adapter and local governance catalog."
+    "notes": "Optional repository metadata; product contracts remain in source, tests, and accepted ADRs."
   }
 }
