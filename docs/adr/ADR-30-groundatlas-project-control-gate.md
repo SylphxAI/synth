@@ -5,6 +5,8 @@ slug: groundatlas-project-control-gate
 
 # ADR-30: GroundAtlas Project Control Gate
 
+> **Status: Retired (2026-07-19).** GroundAtlas is archived and is no longer an active CI gate or instruction authority for Synth. Product CI validates lint/build/typecheck/tests only. This ADR is retained as historical decision record.
+
 ## Context
 
 Synth already owns public AST, parser, tooling, WASM, documentation, and release
