@@ -27,6 +27,7 @@ jobs:
           policy-mode: observe
 
   ci:
+    name: Lint Build Test
     runs-on: [self-hosted, sylphx, linux, standard]
     env:
       SYNTH_RUST_HOME: /tmp/synth-rust-${{ github.run_id }}-${{ github.run_attempt }}
@@ -39,7 +40,7 @@ jobs:
         with:
           bun-version: 1.3.3
 
-        uses: actions/setup-node@v5
+      - uses: actions/setup-node@v5
         with:
           node-version: "22.14.0"
 
@@ -81,33 +82,6 @@ jobs:
 
       - name: Test JavaScript parity
         run: node --test test/javascript-parity-golden.node-test.mjs
-
-        with:
-          require-atlas: "true"
-          strict: "true"
-
-        run: |
-          const [manifestPath, fleetPath, fleetMarkdownPath] = process.argv.slice(2);
-          const { readFileSync } = require("node:fs");
-          const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
-          const fleet = JSON.parse(readFileSync(fleetPath, "utf8"));
-          const fleetMarkdown = readFileSync(fleetMarkdownPath, "utf8");
-          const project = fleet.projects?.[0];
-
-          function assert(condition, message) {
-            if (!condition) throw new Error(message);
-          }
-
-          assert(project?.status === "adopted", "Fleet report must mark Synth adopted.");
-          assert(project?.manifest?.path === "project.manifest.json", "Fleet report must use project.manifest.json as the manifest.");
-          assert(project?.manifestAdapters?.some((adapter) => adapter.path === ".doctrine/project.json" && adapter.adapter === true), "Fleet report must keep .doctrine/project.json as an adapter.");
-          assert(fleetMarkdown.includes("Summary: 1 adopted, 0 warning, 0 blocked, 1 total."), "Markdown fleet scorecard must include the adopted summary.");
-          NODE
-
-        if: always()
-        uses: actions/upload-artifact@v7
-        with:
-          path: |
 
   trunk-admission:
     name: trunk-admission/pass

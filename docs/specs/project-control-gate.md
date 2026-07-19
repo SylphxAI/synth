@@ -1,3 +1,5 @@
+> **Retired (2026-07-19).** GroundAtlas project-control dogfooding is no longer required. See historical ADR-30.
+
 # Project Control Gate Spec
 
 ## Purpose
