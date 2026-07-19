@@ -2,6 +2,8 @@
 # ADR-168 S3 gate: @sylphx/synth-md default parse()/parseAsync() must route to Rust WASM.
 # Allowed: TS Parser class for explicit opt-in (plugins, batch tokenizer, useTsParser, SYNTH_MD_AUTHORITY=ts).
 # Forbidden: unconditional TS fallback on baseline default options.
+# Temporary: delete after Markdown parsing is ts_deleted, exact-candidate WASM
+# parity and package install smoke are green, and registry readback binds it.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
