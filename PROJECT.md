@@ -47,6 +47,11 @@ package family, and benchmark/tooling surfaces directly tied to
 and documentation; they do not reach into workspace internals or couple product
 behavior to private parser modules.
 
+Rust/WASM and TypeScript parser packages are explicit public product variants,
+not source and target generations. Compatibility is protected by shared golden
+behavior contracts; completed migration ledgers, source-shape fences, and
+candidate-rebinding workflows are not part of the product architecture.
+
 ## Public Surfaces
 
 - npm packages under `@sylphx/synth*`, declared in `packages/*/package.json`.

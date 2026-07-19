@@ -52,8 +52,6 @@ test('CI runs package validation and does not pin GroundAtlas package/action', (
 
 	assert.ok(workflow.includes('bun install --frozen-lockfile'))
 	assert.ok(workflow.includes('bun run validate'))
-	assert.ok(workflow.includes('check-no-ts-parser.sh'))
-	assert.ok(workflow.includes('check-no-ts-js-parser.sh'))
 	assert.ok(!workflow.includes('uses: SylphxAI/groundatlas@'))
 	assert.ok(!workflow.includes('package-spec: groundatlas@'))
 	assert.ok(workflow.includes('project.manifest.json') || workflow.includes('project-control'))
@@ -66,10 +64,8 @@ test('root validation follows the current CI baseline', () => {
 
 	assert.equal(
 		manifest.scripts.validate,
-		'bun run lint && bunx turbo build --concurrency=1 && bun run typecheck && bun run check:no-ts-parser && bun run check:no-ts-js-parser && bun test',
+		'bun run lint && bunx turbo build --concurrency=1 && bun run typecheck && bun test',
 	)
-	assert.equal(manifest.scripts['check:no-ts-parser'], 'bash scripts/check-no-ts-parser.sh')
-	assert.equal(manifest.scripts['check:no-ts-js-parser'], 'bash scripts/check-no-ts-js-parser.sh')
 	assert.equal(manifest.scripts.build, 'turbo build')
 	assert.equal(manifest.scripts.typecheck, 'turbo typecheck')
 })

@@ -79,14 +79,8 @@ jobs:
       - name: Validate package workspace
         run: bun run validate
 
-      - name: Assert no default TS markdown parser authority
-        run: bash scripts/check-no-ts-parser.sh
-
-      - name: Assert no default TS javascript parser authority
-        run: bash scripts/check-no-ts-js-parser.sh
-
       - name: Test project-control boundary
-        run: node --test test/project-control.node-test.mjs test/check-no-ts-parser.node-test.mjs test/check-no-ts-js-parser.node-test.mjs test/javascript-parity-golden.node-test.mjs
+        run: node --test test/project-control.node-test.mjs test/javascript-parity-golden.node-test.mjs
 
         with:
           require-atlas: "true"

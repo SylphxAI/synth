@@ -31,9 +31,7 @@
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
     "typecheck": "turbo typecheck",
-    "check:no-ts-parser": "bash scripts/check-no-ts-parser.sh",
-    "check:no-ts-js-parser": "bash scripts/check-no-ts-js-parser.sh",
-    "validate": "bun run lint && bunx turbo build --concurrency=1 && bun run typecheck && bun run check:no-ts-parser && bun run check:no-ts-js-parser && bun test"
+    "validate": "bun run lint && bunx turbo build --concurrency=1 && bun run typecheck && bun test"
   },
   "keywords": [
     "ast",
@@ -50,6 +48,7 @@
   "devDependencies": {
     "@biomejs/biome": "^2.3.8",
     "@sylphx/biome-config": "^0.4.0",
+    "@sylphx/synth-md": "workspace:*",
     "@sylphx/tsconfig": "^0.3.0",
     "@types/node": "^22.19.1",
     "bunup": "^0.16.10",
