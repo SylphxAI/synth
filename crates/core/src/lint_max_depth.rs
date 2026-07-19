@@ -1,7 +1,7 @@
 //! Pure max-depth lint rule helpers — mirrors
 //! `packages/synth-lint/src/rules/max-depth.ts`.
 //! Depth is computed from parent-chain length; no AST visitor engine.
-//! FLEET-BULK pure residual. NO authority_rust / ts_deleted.
+//! Pure maximum-depth lint policy.
 
 pub const DEFAULT_MAX_DEPTH: u32 = 4;
 

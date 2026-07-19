@@ -49,8 +49,7 @@ behavior to private parser modules.
 
 Rust/WASM and TypeScript parser packages are explicit public product variants,
 not source and target generations. Compatibility is protected by shared golden
-behavior contracts; completed migration ledgers, source-shape fences, and
-candidate-rebinding workflows are not part of the product architecture.
+behavior contracts.
 
 ## Public Surfaces
 
