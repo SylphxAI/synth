@@ -58,7 +58,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn fleet_web_media_wave4_position_new_and_eq() {
+    fn portfolio_web_media_wave4_position_new_and_eq() {
         let p = Position::new(1, 0, 0);
         assert_eq!(p.line, 1);
         assert_eq!(p.column, 0);
@@ -68,7 +68,7 @@ mod tests {
     }
 
     #[test]
-    fn fleet_web_media_wave4_span_from_coords() {
+    fn portfolio_web_media_wave4_span_from_coords() {
         let s = Span::from_coords(1, 0, 0, 2, 5, 20);
         assert_eq!(s.start.line, 1);
         assert_eq!(s.end.line, 2);
@@ -80,7 +80,7 @@ mod tests {
     }
 
     #[test]
-    fn fleet_web_media_wave4_span_serde_roundtrip() {
+    fn portfolio_web_media_wave4_span_serde_roundtrip() {
         let s = Span::from_coords(3, 1, 10, 3, 8, 17);
         let json = serde_json::to_string(&s).expect("ser");
         let back: Span = serde_json::from_str(&json).expect("de");

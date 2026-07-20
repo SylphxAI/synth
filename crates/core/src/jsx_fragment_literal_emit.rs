@@ -2,7 +2,7 @@
 //! + RegExpLiteral + Directive + PrivateName + ParenthesizedExpression dual-oracle
 //! emission — residual pure **continue90** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–89:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–89:
 //! - JSXOpeningFragment dual-oracle residual shell (`<>`)
 //! - JSXClosingFragment dual-oracle residual shell (`</>`)
 //! - JSXSpreadChild dual-oracle residual shell (`{...expr}`)
@@ -16,10 +16,10 @@
 //!
 //! Intentionally does **not** re-wrap continue88 JSXElement/JSXFragment full
 //! shells (those stay separate). Opening/ClosingFragment were catalogued in
-//! continue46 but never densed as emit skeletons; continue88 explicitly
+//! continue46 but never migrated as emit skeletons; continue88 explicitly
 //! excludes them. Composes real shipped pure helpers from continue21/25 bases.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::literal_widen_emit::{
     continue21_bigint_literal_skeleton, continue21_directive_literal_skeleton,
@@ -39,7 +39,7 @@ pub const CONTINUE90_RELATED_TYPES: &[&str] = &[
     "ParenthesizedExpression",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_jsx_fragment_literal_related_type(t: &str) -> bool {
     CONTINUE90_RELATED_TYPES.contains(&t)
@@ -129,7 +129,7 @@ pub fn jsx_closing_fragment_minify() -> &'static str {
 
 /// Dual-oracle JSXSpreadChild residual shell (`{...expr}` as child node).
 ///
-/// Distinct from JSXSpreadAttribute (attribute position) densed in continue88.
+/// Distinct from JSXSpreadAttribute (attribute position) migrated in continue88.
 #[must_use]
 pub fn continue90_jsx_spread_child_skeleton(expr: &str) -> String {
     format!("{{...{expr}}}")

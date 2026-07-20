@@ -2,7 +2,7 @@
 //! ForOfStatement + LogicalExpression dual-oracle emission — residual pure
 //! **continue106** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–105:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–105:
 //! - SwitchCase dual-oracle composing real `continue39_switch_case_skeleton`
 //!   (optional test → case/default)
 //! - BreakStatement dual-oracle composing real `continue39_break_skeleton`
@@ -18,8 +18,8 @@
 //! continue99 switch/try poles, continue102 if/while/do/conditional/labeled/
 //! with poles, continue105 switch-case via continue38 (required test), or
 //! continue32–38 bases. Composes real shipped pure helpers from continue39
-//! bases. Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! bases. Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::literal_widen_emit::{
     continue39_break_skeleton, continue39_continue_skeleton, continue39_for_in_skeleton,
@@ -36,7 +36,7 @@ pub const CONTINUE106_RELATED_TYPES: &[&str] = &[
     "LogicalExpression",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_switch_case_break_continue_for_logical_related_type(t: &str) -> bool {
     CONTINUE106_RELATED_TYPES.contains(&t)

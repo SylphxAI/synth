@@ -2,7 +2,7 @@
 //! ClassProperty dual-oracle emission — residual pure **continue91** for
 //! tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–90:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–90:
 //! - NullLiteral dual-oracle composing real `continue22_null_literal_skeleton`
 //! - BooleanLiteral dual-oracle composing real
 //!   `continue22_boolean_literal_skeleton`
@@ -18,8 +18,8 @@
 //! PrivateName/Parenthesized (those stay separate) or continue85 generic
 //! Literal/string_literal_token poles. Composes real shipped pure helpers
 //! from continue22/33 bases.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::literal_widen_emit::{
     continue22_boolean_literal_skeleton, continue22_null_literal_skeleton,
@@ -36,7 +36,7 @@ pub const CONTINUE91_RELATED_TYPES: &[&str] = &[
     "ClassProperty",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_primitive_literal_related_type(t: &str) -> bool {
     CONTINUE91_RELATED_TYPES.contains(&t)

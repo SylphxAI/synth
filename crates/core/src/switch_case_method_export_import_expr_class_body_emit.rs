@@ -2,7 +2,7 @@
 //! ExpressionStatement + ClassBody dual-oracle emission — residual pure
 //! **continue105** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–104:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–104:
 //! - SwitchCase dual-oracle composing real `continue38_switch_case_skeleton`
 //! - Switch default dual-oracle composing real
 //!   `continue38_switch_default_skeleton`
@@ -21,8 +21,8 @@
 //! as the sole surface, continue99 switch/try poles, continue103 class/return
 //! poles, continue104 try/throw/debugger/empty/switch poles, or continue32–37
 //! bases. Composes real shipped pure helpers from continue38 bases.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::literal_widen_emit::{
     continue38_class_body_skeleton, continue38_export_specifier_skeleton,
@@ -41,7 +41,7 @@ pub const CONTINUE105_RELATED_TYPES: &[&str] = &[
     "ClassBody",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_switch_case_method_export_import_expr_class_body_related_type(t: &str) -> bool {
     CONTINUE105_RELATED_TYPES.contains(&t)

@@ -2,7 +2,7 @@
 //! ClassAccessorProperty + TSParameterProperty + ExportDefaultSpecifier dual-oracle
 //! emission — residual pure **continue89** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–88:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–88:
 //! - Decorator dual-oracle composing real `continue49_decorator_skeleton`
 //! - ClassPrivateProperty dual-oracle composing real
 //!   `continue50_private_property_skeleton`
@@ -21,8 +21,8 @@
 //! (PropertyDefinition/StaticBlock/PrivateIdentifier continue82 stays separate;
 //! MethodDefinition/ObjectMethod continue72/74 stay separate; JSX continue88
 //! stays separate). Composes real shipped pure helpers from continue49/50 bases.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::literal_widen_emit::{
     continue49_decorator_skeleton, continue49_export_default_specifier_skeleton,
@@ -42,7 +42,7 @@ pub const CONTINUE89_RELATED_TYPES: &[&str] = &[
     "ExportDefaultSpecifier",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_decorator_private_related_type(t: &str) -> bool {
     CONTINUE89_RELATED_TYPES.contains(&t)

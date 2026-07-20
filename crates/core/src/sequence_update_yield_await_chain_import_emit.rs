@@ -2,7 +2,7 @@
 //! AwaitExpression + ChainExpression + ImportExpression dual-oracle emission —
 //! residual pure **continue119** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–118:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–118:
 //! - SequenceExpression dual-oracle composing real
 //!   `continue53_sequence_skeleton`
 //! - UpdateExpression prefix dual-oracle composing real
@@ -23,7 +23,7 @@
 //! (continue50 bases), or continue93 sequence/update/yield/await poles
 //! (continue25/26 bases). Composes real shipped pure helpers from continue53
 //! sequence/update/yield/await/chain/import bases. Full engines remain product
-//! dens. NO authority_rust / ts_deleted. dens ≠ flip; PreferRust OFF.
+//! residual. NO authority_rust / ts_deleted. pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::literal_widen_emit::{
     continue53_await_skeleton, continue53_import_dynamic_skeleton,
@@ -42,7 +42,7 @@ pub const CONTINUE119_RELATED_TYPES: &[&str] = &[
     "ImportExpression",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_sequence_update_yield_await_chain_import_related_type(t: &str) -> bool {
     CONTINUE119_RELATED_TYPES.contains(&t)

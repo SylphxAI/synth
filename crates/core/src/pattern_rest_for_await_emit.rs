@@ -2,7 +2,7 @@
 //! AssignmentPattern + ForAwaitStatement dual-oracle emission — residual pure
 //! **continue84** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules:
+//! New AST emit skeletons **not** covered by prior residual modules:
 //! - ObjectPattern dual-oracle empty/properties pretty/minify composing real
 //!   `object_pattern_skeleton` (continue19 base)
 //! - RestElement / SpreadElement dual-oracle `...arg` tokens
@@ -17,8 +17,8 @@
 //! separate; object-expression continue78 / array-expression continue77 /
 //! tagged-template continue75 stay separate). Composes real shipped pure helpers
 //! from `pattern_sequence_emit` + assignment-pattern spacing.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::pattern_sequence_emit::{
     for_await_of_statement_skeleton, object_pattern_assign_property, object_pattern_shorthand,
@@ -35,7 +35,7 @@ pub const CONTINUE84_RELATED_TYPES: &[&str] = &[
     "ForAwaitStatement",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_pattern_rest_for_await_related_type(t: &str) -> bool {
     CONTINUE84_RELATED_TYPES.contains(&t)

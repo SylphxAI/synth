@@ -2,7 +2,7 @@
 //! RestElement + SpreadElement + ClassProperty dual-oracle emission — residual
 //! pure **continue100** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–99:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–99:
 //! - MetaProperty dual-oracle composing real `continue33_meta_property_skeleton`
 //! - ImportExpression dual-oracle composing real
 //!   `continue33_import_expression_skeleton`
@@ -22,8 +22,8 @@
 //! continue91 primitive/class-property poles, or continue99
 //! switch/try/throw/debugger poles. Composes real shipped pure helpers from
 //! continue33 bases.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::literal_widen_emit::{
     continue33_chain_expression_skeleton, continue33_class_property_skeleton,
@@ -43,7 +43,7 @@ pub const CONTINUE100_RELATED_TYPES: &[&str] = &[
     "ClassProperty",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_meta_import_chain_empty_rest_spread_class_related_type(t: &str) -> bool {
     CONTINUE100_RELATED_TYPES.contains(&t)

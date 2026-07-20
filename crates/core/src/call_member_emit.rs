@@ -2,10 +2,10 @@
 //! residual pure continue8 for tooling/format-minify-lint fragment.
 //! Mirrors printer/compressor branches in `packages/synth-js-format` /
 //! `synth-js-minify` not covered by stmt/loop/conditional/object block emits.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
 //!
 //! Dual-oracle surface keeps small pure kernels even when siblings exist in
-//! other emit modules — intentional residual dens (not dead product paths).
+//! other emit modules — intentional residual unit (not dead product paths).
 #![allow(dead_code)]
 
 /// Array expression open `[`.

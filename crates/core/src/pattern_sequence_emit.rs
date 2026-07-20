@@ -1,14 +1,14 @@
 //! Pure ObjectPattern / Rest / for-await / tagged-template emission —
 //! residual pure continue19 for tooling/format-minify-lint fragment.
 //! Complements continue18 loop/switch/template + pattern skeletons.
-//! SequenceExpression dens lives in assign_logical_update (continue15).
-//! Full engines remain product dens. intentional ts_only×3 retained.
+//! SequenceExpression residual lives in assign_logical_update (continue15).
+//! Full engines remain product residual. intentional ts_only×3 retained.
 //! NO authority_rust / ts_deleted.
 
 use crate::assign_logical_update_emit::sequence_expression_skeleton;
 use crate::loop_template_emit::{for_of_token, template_tick};
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_pattern_sequence_related_type(t: &str) -> bool {
     matches!(

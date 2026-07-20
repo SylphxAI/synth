@@ -2,7 +2,7 @@
 //! JSXText + JSXExpressionContainer dual-oracle emission
 //! — residual pure **continue111** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–110:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–110:
 //! - JSXElement dual-oracle composing real `continue44_jsx_element_skeleton` /
 //!   `continue44_jsx_element_self_closing_skeleton`
 //! - JSXFragment dual-oracle composing real `continue44_jsx_fragment_skeleton`
@@ -17,8 +17,8 @@
 //! expr/if poles (continue43 bases), continue109 new/conditional/this/super/
 //! sequence/empty poles (continue42 bases), or continue40–43 bases.
 //! Composes real shipped pure helpers from continue44 bases. Full engines
-//! remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::literal_widen_emit::{
     continue44_jsx_attribute_skeleton, continue44_jsx_element_self_closing_skeleton,
@@ -37,7 +37,7 @@ pub const CONTINUE111_RELATED_TYPES: &[&str] = &[
     "JSXExpressionContainer",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_jsx_element_fragment_attribute_related_type(t: &str) -> bool {
     CONTINUE111_RELATED_TYPES.contains(&t)

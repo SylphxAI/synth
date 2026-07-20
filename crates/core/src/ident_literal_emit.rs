@@ -3,7 +3,7 @@
 //! Mirrors `printIdentifier` / `compressIdentifier` and
 //! `printLiteral` / `compressLiteral` in
 //! `packages/synth-js-format` / `synth-js-minify`.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
 //!
 //! Pretty path: Identifier name as-is; string Literal honors singleQuote.
 //! Minify path: Identifier uses precomputed mangled name when mangle is on;
@@ -24,7 +24,7 @@ pub fn is_literal_node_type(t: &str) -> bool {
     t == "Literal"
 }
 
-/// Whether a node type is covered by this residual dens surface.
+/// Whether a node type is covered by this residual unit surface.
 #[must_use]
 pub fn is_ident_literal_related_type(t: &str) -> bool {
     matches!(t, "Identifier" | "Literal")

@@ -2,7 +2,7 @@
 //! TemplateLiteral + TemplateElement dual-oracle emission — residual pure
 //! **continue118** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–117:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–117:
 //! - Super call dual-oracle composing real `continue51_super_call_skeleton`
 //! - Super member dual-oracle composing real `continue51_super_member_skeleton`
 //! - ThisExpression member dual-oracle composing real
@@ -22,7 +22,7 @@
 //! static/decorator/method poles (continue49 bases), or continue115 optional/
 //! import/await/yield/private poles (continue48 bases). Composes real shipped
 //! pure helpers from continue51 super/this/meta/template bases. Full engines
-//! remain product dens. NO authority_rust / ts_deleted. dens ≠ flip;
+//! remain product residual. NO authority_rust / ts_deleted. pure residual ≠ authority flip;
 //! PreferRust OFF.
 
 use crate::literal_widen_emit::{
@@ -42,7 +42,7 @@ pub const CONTINUE118_RELATED_TYPES: &[&str] = &[
     "TemplateElement",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_super_this_meta_template_related_type(t: &str) -> bool {
     CONTINUE118_RELATED_TYPES.contains(&t)

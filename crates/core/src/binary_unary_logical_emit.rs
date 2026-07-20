@@ -1,7 +1,7 @@
 //! Pure BinaryExpression + UnaryExpression + LogicalExpression + UpdateExpression
 //! dual-oracle emission — residual pure **continue76** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules:
+//! New AST emit skeletons **not** covered by prior residual modules:
 //! - BinaryExpression full dual-oracle pretty/minify via shipped
 //!   `binary_operator_token`, **plus** compressor residual that always spaces
 //!   word ops `in` / `instanceof` even in minify (continue31/41 were pretty-only
@@ -13,8 +13,8 @@
 //!
 //! Intentionally does **not** re-wrap continue64–75 partition shells.
 //! Composes real shipped pure helpers from `unary_binary_emit`.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::unary_binary_emit::{
     binary_operator_token, is_logical_operator, unary_operator_token, update_prefix_token,
@@ -28,7 +28,7 @@ pub const CONTINUE76_RELATED_TYPES: &[&str] = &[
     "UpdateExpression",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_binary_unary_logical_related_type(t: &str) -> bool {
     CONTINUE76_RELATED_TYPES.contains(&t)

@@ -2,7 +2,7 @@
 //! ConditionalExpression + LabeledStatement + WithStatement dual-oracle
 //! emission — residual pure **continue102** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–101:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–101:
 //! - IfStatement dual-oracle composing real `continue35_if_skeleton`
 //! - IfStatement else dual-oracle composing real `continue35_if_else_skeleton`
 //! - WhileStatement dual-oracle composing real `continue35_while_skeleton`
@@ -17,8 +17,8 @@
 //! continue94 this/conditional/logical poles, continue80 while/do pretty-minify
 //! poles, or continue101 for/var/assignment poles. Composes real shipped pure
 //! helpers from continue35 bases.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::literal_widen_emit::{
     continue35_conditional_skeleton, continue35_do_while_skeleton, continue35_if_else_skeleton,
@@ -36,7 +36,7 @@ pub const CONTINUE102_RELATED_TYPES: &[&str] = &[
     "WithStatement",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_if_while_do_conditional_labeled_with_related_type(t: &str) -> bool {
     CONTINUE102_RELATED_TYPES.contains(&t)

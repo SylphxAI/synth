@@ -1,7 +1,7 @@
 //! Pure Class-extends heritage + Export-from dual-oracle emission —
 //! residual pure **continue71** for tooling/format-minify-lint fragment.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules:
+//! New AST emit skeletons **not** covered by prior residual modules:
 //! - ClassDeclaration/Expression with `extends Super` heritage
 //! - ExportNamedDeclaration re-export: `export { a, b as c } from "mod"`
 //! - ExportNamespaceSpecifier: `export * as ns from "mod"`
@@ -12,8 +12,8 @@
 //! Composes real shipped pure helpers (`named_specifier_braces`,
 //! `string_literal_token`, `class_keyword_space`, `class_body_skeleton`,
 //! `export_keyword`, `from_keyword`).
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::export_class_emit::{
     class_body_skeleton, class_id_fragment, class_keyword_space, export_keyword,
@@ -33,7 +33,7 @@ pub const CONTINUE71_RELATED_TYPES: &[&str] = &[
     "Super",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_class_export_from_related_type(t: &str) -> bool {
     CONTINUE71_RELATED_TYPES.contains(&t)
@@ -319,7 +319,7 @@ mod tests {
             class_extends_skeleton(Some("Foo"), Some("Bar"), &[], true),
             "class Foo extends Bar {}"
         );
-        // Minify: empty body (same for empty methods; separator dens shows with methods)
+        // Minify: empty body (same for empty methods; separator residual shows with methods)
         assert_eq!(
             class_extends_skeleton(Some("Foo"), Some("Bar"), &[], false),
             "class Foo extends Bar {}"

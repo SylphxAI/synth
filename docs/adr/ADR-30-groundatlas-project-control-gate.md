@@ -11,7 +11,7 @@ slug: groundatlas-project-control-gate
 
 Synth already owns public AST, parser, tooling, WASM, documentation, and release
 surfaces. The repository also carries a Sylphx-specific `.doctrine/project.json`
-adapter. Fleet dogfooding needs a vendor-neutral project manifest and CI proof
+adapter. Portfolio dogfooding needs a vendor-neutral project manifest and CI proof
 that the released GroundAtlas package/action can discover the repository without
 turning generated reports into source of truth.
 

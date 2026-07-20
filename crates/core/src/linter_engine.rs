@@ -1,4 +1,4 @@
-//! Product **linter engine** with built-in rules (tooling dens).
+//! Product **linter engine** with built-in rules (tooling residual).
 //!
 //! Ports `packages/synth-lint/src/linter.ts` + default rules
 //! (no-console, max-depth, no-empty-blocks) onto the Rust `Tree` model.

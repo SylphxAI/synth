@@ -3,7 +3,7 @@
 //! NewExpression + ThisExpression + Super + MetaProperty dual-oracle emission
 //! — residual pure **continue114** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–113:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–113:
 //! - ClassDeclaration dual-oracle composing real
 //!   `continue47_class_declaration_skeleton`
 //! - ClassExpression dual-oracle composing real
@@ -26,8 +26,8 @@
 //! (continue46 bases), continue112 do-while/switch/break/continue/try poles
 //! (continue45 bases), or continue111 jsx element/fragment/attr poles
 //! (continue44 bases). Composes real shipped pure helpers from continue47
-//! class/import/export bases. Full engines remain product dens. NO
-//! authority_rust / ts_deleted. dens ≠ flip; PreferRust OFF.
+//! class/import/export bases. Full engines remain product residual. NO
+//! authority_rust / ts_deleted. pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::literal_widen_emit::{
     continue47_class_declaration_skeleton, continue47_class_expression_skeleton,
@@ -51,7 +51,7 @@ pub const CONTINUE114_RELATED_TYPES: &[&str] = &[
     "MetaProperty",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_class_import_export_new_this_super_meta_related_type(t: &str) -> bool {
     CONTINUE114_RELATED_TYPES.contains(&t)

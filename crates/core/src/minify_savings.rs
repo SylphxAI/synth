@@ -51,7 +51,7 @@ mod tests {
     }
 
     #[test]
-    fn fleet_web_media_wave4_ratio_and_zero_original() {
+    fn portfolio_web_media_wave4_ratio_and_zero_original() {
         let s = savings("abcdefghij", "abcd");
         assert_eq!(s.original_size, 10);
         assert_eq!(s.minified_size, 4);

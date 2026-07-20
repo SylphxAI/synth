@@ -2,7 +2,7 @@
 //! ParenthesizedExpression dual-oracle emission — residual pure **continue78**
 //! for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules:
+//! New AST emit skeletons **not** covered by prior residual modules:
 //! - AssignmentExpression full dual-oracle pretty/minify op spacing
 //!   (continue15 `assignment_expression_skeleton` composed; continue76 explicitly
 //!   excluded AssignmentExpression from binary/unary/logical surface)
@@ -16,8 +16,8 @@
 //! (call/member/new/array continue77 stays separate; binary/unary continue76
 //! stays separate). Composes real shipped pure helpers from
 //! `assign_logical_update_emit` + `object_emit`.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::assign_logical_update_emit::{
     assignment_expression_skeleton, paren_group, sequence_expression_skeleton,
@@ -32,7 +32,7 @@ pub const CONTINUE78_RELATED_TYPES: &[&str] = &[
     "ParenthesizedExpression",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_assign_sequence_object_related_type(t: &str) -> bool {
     CONTINUE78_RELATED_TYPES.contains(&t)

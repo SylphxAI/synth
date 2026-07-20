@@ -4,10 +4,10 @@
 //! `printArrayExpression` / `compressArrayExpression`, and
 //! `printImportDeclaration` / `compressImportDeclaration` in
 //! `packages/synth-js-format` / `synth-js-minify`.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
 //!
 //! Dual-oracle surface keeps pure skeletons even when sibling token helpers
-//! exist in method_kind / call_member_emit — intentional residual dens.
+//! exist in method_kind / call_member_emit — intentional residual unit.
 #![allow(dead_code)]
 
 /// Method kind prefix: `get ` / `set ` / `constructor ` when kind is not
@@ -94,7 +94,7 @@ pub fn array_expression_skeleton(elements: &[&str], pretty: bool, trailing_comma
 }
 
 /// ImportDeclaration pretty skeleton: `import /* import */` + optional semi.
-/// Mirrors simplified TS printer (specifiers not yet densed).
+/// Mirrors simplified TS printer (specifiers not yet migrated).
 #[must_use]
 pub fn import_declaration_skeleton_pretty(semi: bool) -> String {
     let mut out = String::from("import /* import */");
@@ -147,7 +147,7 @@ pub fn program_statements_skeleton(stmts: &[&str], pretty: bool) -> String {
     out
 }
 
-/// Whether a node type is covered by this residual dens surface.
+/// Whether a node type is covered by this residual unit surface.
 #[must_use]
 pub fn is_method_array_import_related_type(t: &str) -> bool {
     matches!(

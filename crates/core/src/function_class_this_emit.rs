@@ -2,7 +2,7 @@
 //! ClassExpression + ThisExpression + Super dual-oracle emission — residual
 //! pure **continue86** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–85:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–85:
 //! - FunctionDeclaration dual-oracle pretty/minify composing real
 //!   `function_declaration_skeleton` (function_decl base)
 //! - FunctionExpression dual-oracle (same skeleton surface; expression form)
@@ -18,8 +18,8 @@
 //! stays separate; yield/meta continue83 stays separate; class-extends +
 //! export-from continue71 stays separate for heritage/`from` forms). Composes
 //! real shipped pure helpers from function/class/this/super bases.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::assign_logical_update_emit::{super_token, this_token};
 use crate::export_class_emit::class_declaration_skeleton;
@@ -35,7 +35,7 @@ pub const CONTINUE86_RELATED_TYPES: &[&str] = &[
     "Super",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_function_class_this_related_type(t: &str) -> bool {
     CONTINUE86_RELATED_TYPES.contains(&t)

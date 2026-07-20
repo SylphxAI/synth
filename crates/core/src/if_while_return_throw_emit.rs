@@ -3,7 +3,7 @@
 //! DebuggerStatement dual-oracle emission — residual pure **continue95** for
 //! tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–94:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–94:
 //! - IfStatement dual-oracle composing real `continue28_if_skeleton`
 //! - WhileStatement dual-oracle composing real `continue28_while_skeleton`
 //! - ReturnStatement dual-oracle composing real `continue28_return_skeleton`
@@ -20,8 +20,8 @@
 //! continue80 while/switch full dual-oracle, continue81 try/throw surfaces, or
 //! continue94 this/conditional/logical poles. Composes real shipped pure
 //! helpers from continue28 bases.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::literal_widen_emit::{
     continue28_debugger_skeleton, continue28_empty_skeleton, continue28_if_skeleton,
@@ -43,7 +43,7 @@ pub const CONTINUE95_RELATED_TYPES: &[&str] = &[
     "DebuggerStatement",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_if_while_return_throw_related_type(t: &str) -> bool {
     CONTINUE95_RELATED_TYPES.contains(&t)

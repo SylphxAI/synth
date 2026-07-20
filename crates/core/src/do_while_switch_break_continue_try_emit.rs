@@ -2,7 +2,7 @@
 //! ContinueStatement + TryStatement dual-oracle emission
 //! — residual pure **continue112** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–111:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–111:
 //! - DoWhileStatement dual-oracle composing real `continue45_do_while_skeleton`
 //! - WhileStatement dual-oracle composing real `continue45_while_skeleton`
 //! - SwitchStatement dual-oracle composing real `continue45_switch_skeleton`
@@ -17,8 +17,8 @@
 //! poles (continue44 bases), continue110 with/labeled/debugger/throw/expr/if
 //! poles (continue43 bases), or continue40–43 bases.
 //! Composes real shipped pure helpers from continue45 bases. Full engines
-//! remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::literal_widen_emit::{
     continue45_break_label_skeleton, continue45_break_skeleton, continue45_continue_skeleton,
@@ -36,7 +36,7 @@ pub const CONTINUE112_RELATED_TYPES: &[&str] = &[
     "TryStatement",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_do_while_switch_break_continue_try_related_type(t: &str) -> bool {
     CONTINUE112_RELATED_TYPES.contains(&t)

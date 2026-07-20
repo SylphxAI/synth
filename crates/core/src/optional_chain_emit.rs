@@ -2,7 +2,7 @@
 //! dual-oracle emission —
 //! residual pure **continue73** for tooling/format-minify-lint fragment.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules:
+//! New AST emit skeletons **not** covered by prior residual modules:
 //! - OptionalMemberExpression full dual-oracle (static `?.` vs computed `?.[`,
 //!   optional flag on/off) — widens fixed continue48 single non-computed form
 //! - OptionalCallExpression with real arg list + pretty/minify seps
@@ -13,8 +13,8 @@
 //! Composes real shipped pure helpers (`optional_chain_open`,
 //! `optional_chain_close`, `optional_chain`, `function_param_sep`,
 //! `call_args_open`/`close`).
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::call_member_emit::{call_args_close, call_args_open};
 use crate::function_decl_emit::function_param_sep;
@@ -29,7 +29,7 @@ pub const CONTINUE73_RELATED_TYPES: &[&str] = &[
     "CallExpression",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_optional_chain_related_type(t: &str) -> bool {
     CONTINUE73_RELATED_TYPES.contains(&t)

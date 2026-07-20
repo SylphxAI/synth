@@ -3,7 +3,7 @@
 //! PrivateName dual-oracle emission — residual pure **continue115** for
 //! tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–114:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–114:
 //! - OptionalMemberExpression dual-oracle composing real
 //!   `continue48_optional_member_skeleton`
 //! - OptionalCallExpression dual-oracle composing real
@@ -21,8 +21,8 @@
 //! super/meta poles (continue47 bases), continue113 for/throw/label/empty poles
 //! (continue46 bases), or continue112 do-while/switch/break/continue/try poles
 //! (continue45 bases). Composes real shipped pure helpers from continue48
-//! optional/await/yield/private bases. Full engines remain product dens. NO
-//! authority_rust / ts_deleted. dens ≠ flip; PreferRust OFF.
+//! optional/await/yield/private bases. Full engines remain product residual. NO
+//! authority_rust / ts_deleted. pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::literal_widen_emit::{
     continue48_await_skeleton, continue48_import_expression_skeleton,
@@ -42,7 +42,7 @@ pub const CONTINUE115_RELATED_TYPES: &[&str] = &[
     "PrivateName",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_optional_import_await_yield_private_related_type(t: &str) -> bool {
     CONTINUE115_RELATED_TYPES.contains(&t)

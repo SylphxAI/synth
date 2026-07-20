@@ -2,7 +2,7 @@
 //! ClassAccessorProperty + TSParameterProperty + ObjectMethod dual-oracle
 //! emission — residual pure **continue117** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–116:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–116:
 //! - ClassPrivateProperty dual-oracle composing real
 //!   `continue50_private_property_skeleton`
 //! - ClassPrivateMethod dual-oracle composing real
@@ -20,7 +20,7 @@
 //! await/yield/private poles (continue48 bases), or continue114 class/import/
 //! export/new/this/super/meta poles (continue47 bases). Composes real shipped
 //! pure helpers from continue50 class private/method/accessor bases. Full
-//! engines remain product dens. NO authority_rust / ts_deleted. dens ≠ flip;
+//! engines remain product residual. NO authority_rust / ts_deleted. pure residual ≠ authority flip;
 //! PreferRust OFF.
 
 use crate::literal_widen_emit::{
@@ -39,7 +39,7 @@ pub const CONTINUE117_RELATED_TYPES: &[&str] = &[
     "ObjectMethod",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_class_private_method_accessor_object_related_type(t: &str) -> bool {
     CONTINUE117_RELATED_TYPES.contains(&t)

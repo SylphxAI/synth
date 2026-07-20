@@ -2,7 +2,7 @@
 //! residual pure continue10 for tooling/format-minify-lint fragment.
 //! Mirrors `printFunctionDeclaration` / `compressFunctionDeclaration` in
 //! `packages/synth-js-format` / `synth-js-minify` (async / function / generator /
-//! name / params / body glue). Full engines remain product dens.
+//! name / params / body glue). Full engines remain product residual.
 //! NO authority_rust / ts_deleted.
 #![allow(dead_code)]
 

@@ -2,7 +2,7 @@
 //! ThrowStatement + ExpressionStatement + IfStatement dual-oracle emission
 //! — residual pure **continue110** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–109:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–109:
 //! - WithStatement dual-oracle composing real `continue43_with_skeleton`
 //! - LabeledStatement dual-oracle composing real `continue43_labeled_skeleton`
 //! - DebuggerStatement dual-oracle composing real
@@ -18,8 +18,8 @@
 //! sequence/empty poles (continue42 bases), continue108 unary/binary/await/
 //! arrow/spread/rest poles (continue41 bases), or continue40–41 bases.
 //! Composes real shipped pure helpers from continue43 bases. Full engines
-//! remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::literal_widen_emit::{
     continue43_debugger_skeleton, continue43_expression_stmt_skeleton,
@@ -37,7 +37,7 @@ pub const CONTINUE110_RELATED_TYPES: &[&str] = &[
     "IfStatement",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_with_labeled_debugger_throw_expr_if_related_type(t: &str) -> bool {
     CONTINUE110_RELATED_TYPES.contains(&t)

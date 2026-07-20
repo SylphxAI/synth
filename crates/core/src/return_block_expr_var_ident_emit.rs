@@ -2,7 +2,7 @@
 //! VariableDeclaration + VariableDeclarator + Identifier dual-oracle emission
 //! — residual pure **continue107** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–106:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–106:
 //! - ReturnStatement dual-oracle composing real `continue40_return_skeleton`
 //! - BlockStatement dual-oracle composing real `continue40_block_skeleton`
 //! - ExpressionStatement dual-oracle composing real
@@ -16,8 +16,8 @@
 //! poles (continue34 bases), continue103 return via continue36, continue106
 //! switch-case/break/continue/for-logical poles, or continue32–39 bases.
 //! Composes real shipped pure helpers from continue40 bases. Full engines
-//! remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::literal_widen_emit::{
     continue40_block_skeleton, continue40_expression_statement_skeleton,
@@ -35,7 +35,7 @@ pub const CONTINUE107_RELATED_TYPES: &[&str] = &[
     "Identifier",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_return_block_expr_var_ident_related_type(t: &str) -> bool {
     CONTINUE107_RELATED_TYPES.contains(&t)

@@ -2,7 +2,7 @@
 //! ArrayExpression + ObjectExpression + ArrayPattern + Property dual-oracle
 //! emission — residual pure **continue92** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–91:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–91:
 //! - TemplateLiteral dual-oracle composing real
 //!   `continue23_empty_template_literal_skeleton` /
 //!   `continue23_template_literal_no_expr_skeleton`
@@ -25,8 +25,8 @@
 //! interpolation / continue77–78 non-empty array-object pretty/minify poles
 //! (those stay separate) or continue91 primitive literals. Composes real
 //! shipped pure helpers from continue23/24 bases.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::literal_widen_emit::{
     continue23_empty_template_literal_skeleton, continue23_tagged_template_skeleton,
@@ -47,7 +47,7 @@ pub const CONTINUE92_RELATED_TYPES: &[&str] = &[
     "Property",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_template_array_object_related_type(t: &str) -> bool {
     CONTINUE92_RELATED_TYPES.contains(&t)

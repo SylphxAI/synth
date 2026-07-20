@@ -1,7 +1,7 @@
 //! Pure ObjectMethod + ConditionalExpression + ForOf(await) dual-oracle emission —
 //! residual pure **continue74** for tooling/format-minify-lint fragment.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules:
+//! New AST emit skeletons **not** covered by prior residual modules:
 //! - ObjectMethod full dual-oracle (kind get/set/method, async, generator,
 //!   computed key, real param list, pretty/minify seps) — widens fixed
 //!   continue50 pretty-only `get name() { body }` shells
@@ -15,8 +15,8 @@
 //! Composes real shipped pure helpers (`method_kind_prefix`, `async_prefix`,
 //! `generator_suffix`, `computed_property_key`, `function_param_sep`,
 //! `ternary_pair`, `for_open`/`for_close`/`for_of_token`).
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::arrow_method_default_emit::{method_key_fragment, method_params_fragment};
 use crate::conditional_spread_emit::ternary_pair;
@@ -33,7 +33,7 @@ pub const CONTINUE74_RELATED_TYPES: &[&str] = &[
     "ForInStatement",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_object_method_conditional_related_type(t: &str) -> bool {
     CONTINUE74_RELATED_TYPES.contains(&t)

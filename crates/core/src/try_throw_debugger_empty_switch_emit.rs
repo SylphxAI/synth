@@ -2,7 +2,7 @@
 //! EmptyStatement + SwitchStatement dual-oracle emission — residual pure
 //! **continue104** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–103:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–103:
 //! - TryStatement catch dual-oracle composing real
 //!   `continue37_try_catch_skeleton`
 //! - TryStatement finally dual-oracle composing real
@@ -18,8 +18,8 @@
 //! poles (continue32 bases), continue32/28/81 surfaces, continue100 empty via
 //! continue33, or continue103 class/return/this/super/meta poles. Composes real
 //! shipped pure helpers from continue37 bases.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::literal_widen_emit::{
     continue37_debugger_skeleton, continue37_empty_skeleton, continue37_switch_skeleton,
@@ -36,7 +36,7 @@ pub const CONTINUE104_RELATED_TYPES: &[&str] = &[
     "SwitchStatement",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_try_throw_debugger_empty_switch_related_type(t: &str) -> bool {
     CONTINUE104_RELATED_TYPES.contains(&t)

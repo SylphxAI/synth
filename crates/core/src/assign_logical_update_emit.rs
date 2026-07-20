@@ -2,7 +2,7 @@
 //! residual pure continue15 for tooling/format-minify-lint fragment.
 //! Mirrors printer/compressor spacing for expression forms not covered by
 //! dedicated skeleton modules (unary_binary/conditional_spread cover tokens
-//! only). Full engines remain product dens. NO authority_rust / ts_deleted.
+//! only). Full engines remain product residual. NO authority_rust / ts_deleted.
 
 use crate::unary_binary_emit::{
     binary_operator_token, is_assignment_operator, is_logical_operator, update_prefix_token,
@@ -56,7 +56,7 @@ pub fn is_super_type(t: &str) -> bool {
     t == "Super"
 }
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_assign_logical_update_related_type(t: &str) -> bool {
     matches!(

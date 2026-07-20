@@ -1,7 +1,7 @@
 //! Pure Try + Catch + Throw + Labeled + Break + Continue + With + Import
 //! dual-oracle emission — residual pure **continue81** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules:
+//! New AST emit skeletons **not** covered by prior residual modules:
 //! - TryStatement dual-oracle pretty/minify catch/finally spacing driving real
 //!   `try_statement_skeleton` (continue17)
 //! - CatchClause dual-oracle open/param-close spacing
@@ -15,8 +15,8 @@
 //! (for/while/switch continue80 stays separate; var/return/if continue79 stays
 //! separate; import-expression continue75 stays separate). Composes real shipped
 //! pure helpers from `try_import_emit`.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::try_import_emit::{
     break_continue_skeleton, import_declaration_full_skeleton, labeled_statement_skeleton,
@@ -35,7 +35,7 @@ pub const CONTINUE81_RELATED_TYPES: &[&str] = &[
     "ImportDeclaration",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_try_throw_import_stmt_related_type(t: &str) -> bool {
     CONTINUE81_RELATED_TYPES.contains(&t)

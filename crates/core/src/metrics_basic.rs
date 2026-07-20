@@ -76,7 +76,7 @@ mod tests {
     }
 
     #[test]
-    fn fleet_web_media_wave4_classify_line_kinds() {
+    fn portfolio_web_media_wave4_classify_line_kinds() {
         // classify_line expects already-trimmed input (see analyze_basic_loc).
         assert_eq!(classify_line(""), LineKind::Blank);
         assert_eq!(classify_line("// comment"), LineKind::Comment);
@@ -90,7 +90,7 @@ mod tests {
     }
 
     #[test]
-    fn fleet_web_media_wave4_analyze_mixed_source() {
+    fn portfolio_web_media_wave4_analyze_mixed_source() {
         let src = "\n// c\nfn main() {}\n\n";
         let m = analyze_basic_loc(src);
         assert!(m.loc >= 4);

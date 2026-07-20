@@ -2,7 +2,7 @@
 //! + ExportDefaultDeclaration dual-oracle emission —
 //! residual pure **continue72** for tooling/format-minify-lint fragment.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules:
+//! New AST emit skeletons **not** covered by prior residual modules:
 //! - ArrowFunctionExpression full dual-oracle (async, arrowParens, param sep,
 //!   pretty ` => ` vs minify `=>`) — widens fixed continue29/41 single forms
 //! - MethodDefinition with static / async / generator / computed key / real
@@ -14,8 +14,8 @@
 //! Composes real shipped pure helpers (`async_prefix`, `arrow_*`,
 //! `static_prefix`, `export_keyword`, `export_default_fragment`,
 //! `function_param_sep`, `computed_property_key`, `method_kind_prefix`).
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::arrow_emit::{arrow_after_params, arrow_params_need_parens, arrow_params_open};
 use crate::export_class_emit::{export_default_fragment, export_keyword};
@@ -34,7 +34,7 @@ pub const CONTINUE72_RELATED_TYPES: &[&str] = &[
     "ClassDeclaration",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_arrow_method_default_related_type(t: &str) -> bool {
     CONTINUE72_RELATED_TYPES.contains(&t)

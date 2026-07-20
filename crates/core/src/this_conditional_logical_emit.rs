@@ -2,7 +2,7 @@
 //! DoWhileStatement + ForIn/Of + Break/Continue/Labeled dual-oracle emission —
 //! residual pure **continue94** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–93:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–93:
 //! - ThisExpression dual-oracle composing real `continue27_this_skeleton`
 //! - Super dual-oracle composing real `continue27_super_skeleton`
 //! - ConditionalExpression dual-oracle composing real
@@ -21,8 +21,8 @@
 //! DoWhile full dual-oracle, continue74 Conditional/ForOf, or continue93
 //! sequence/update/yield surfaces. Composes real shipped pure helpers from
 //! continue27 bases.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::literal_widen_emit::{
     continue27_break_skeleton, continue27_conditional_skeleton, continue27_continue_skeleton,
@@ -45,7 +45,7 @@ pub const CONTINUE94_RELATED_TYPES: &[&str] = &[
     "LabeledStatement",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_this_conditional_logical_related_type(t: &str) -> bool {
     CONTINUE94_RELATED_TYPES.contains(&t)

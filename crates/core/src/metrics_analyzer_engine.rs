@@ -1,4 +1,4 @@
-//! Product **metrics analyzer engine** (tooling dens).
+//! Product **metrics analyzer engine** (tooling residual).
 //!
 //! Ports `packages/synth-metrics/src/analyzer.ts` MetricsAnalyzer onto the Rust
 //! `Tree` model: basic LOC/depth, cyclomatic/cognitive complexity, Halstead,

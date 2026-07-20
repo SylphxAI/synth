@@ -3,7 +3,7 @@
 //! ExpressionStatement dual-oracle emission — residual pure **continue98** for
 //! tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–97:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–97:
 //! - UnaryExpression dual-oracle composing real `continue31_unary_skeleton`
 //! - BinaryExpression dual-oracle composing real `continue31_binary_skeleton`
 //! - AwaitExpression dual-oracle composing real `continue31_await_skeleton`
@@ -22,8 +22,8 @@
 //! continue96 class/function/import/export, or continue97
 //! assignment/update/member/call poles. Composes real shipped pure helpers
 //! from continue31 bases.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::literal_widen_emit::{
     continue31_await_skeleton, continue31_binary_skeleton, continue31_block_skeleton,
@@ -44,7 +44,7 @@ pub const CONTINUE98_RELATED_TYPES: &[&str] = &[
     "ExpressionStatement",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_unary_binary_await_jump_related_type(t: &str) -> bool {
     CONTINUE98_RELATED_TYPES.contains(&t)

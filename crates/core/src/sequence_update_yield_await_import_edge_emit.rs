@@ -2,7 +2,7 @@
 //! AwaitExpression + ChainExpression + ImportExpression dual-oracle **edge**
 //! emission — residual pure **continue121** for tooling/format-minify-lint.
 //!
-//! New dual-oracle shells **not** covered by prior dens modules continue71–120:
+//! New dual-oracle shells **not** covered by prior residual modules continue71–120:
 //! - Sequence dual-oracle composing real `continue56_sequence_shell`
 //! - Update dual-oracle composing real `continue56_update_shell`
 //! - Yield/await dual-oracle composing real `continue56_yield_await_shell`
@@ -18,7 +18,7 @@
 //! super/this/meta/template poles (continue51 bases). Composes real shipped
 //! pure shells from continue56 (and continue54 edges) over the continue53
 //! sequence/update/yield/await/chain/import plane. Full engines remain product
-//! dens. NO authority_rust / ts_deleted. dens ≠ flip; PreferRust OFF.
+//! residual. NO authority_rust / ts_deleted. pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::literal_widen_emit::{
     continue54_import_chain_edge_shell, continue54_partition_shell,
@@ -44,7 +44,7 @@ pub const CONTINUE121_RELATED_TYPES: &[&str] = &[
     "ImportExpression",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_sequence_update_yield_await_import_edge_related_type(t: &str) -> bool {
     CONTINUE121_RELATED_TYPES.contains(&t)

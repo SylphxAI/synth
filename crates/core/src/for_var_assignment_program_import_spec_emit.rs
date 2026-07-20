@@ -3,7 +3,7 @@
 //! ImportNamespaceSpecifier dual-oracle emission — residual pure
 //! **continue101** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–100:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–100:
 //! - ForStatement dual-oracle composing real `continue34_for_skeleton`
 //! - VariableDeclaration dual-oracle composing real
 //!   `continue34_variable_declaration_skeleton`
@@ -22,8 +22,8 @@
 //! continue80 for/while/switch poles, continue85 program poles, continue87
 //! import-specifier poles, or continue100 meta/import/chain poles. Composes
 //! real shipped pure helpers from continue34 bases.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::literal_widen_emit::{
     continue34_assignment_pattern_skeleton, continue34_for_skeleton,
@@ -43,7 +43,7 @@ pub const CONTINUE101_RELATED_TYPES: &[&str] = &[
     "ImportNamespaceSpecifier",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_for_var_assignment_program_import_spec_related_type(t: &str) -> bool {
     CONTINUE101_RELATED_TYPES.contains(&t)
