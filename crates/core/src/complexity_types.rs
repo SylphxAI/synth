@@ -1,6 +1,6 @@
 //! Pure decision/nesting node type classification —
 //! mirrors `packages/synth-metrics/src/analyzer.ts` isDecisionNode/isNestingNode.
-//! FLEET-PRODUCTS-WAVE6 pure residual. NO authority_rust / ts_deleted.
+//! PORTFOLIO-PRODUCTS-WAVE6 pure residual. NO authority_rust / ts_deleted.
 //! AST traversal remains TS; this is the pure type-name kernel only.
 
 /// Decision-point type fragments (lowercase substring match).
