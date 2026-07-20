@@ -3,7 +3,7 @@
 //! NewExpression dual-oracle emission — residual pure **continue97** for
 //! tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–96:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–96:
 //! - AssignmentExpression dual-oracle composing real
 //!   `continue30_assignment_skeleton`
 //! - UpdateExpression dual-oracle composing real
@@ -20,8 +20,8 @@
 //! continue93 sequence/update/yield continue26 bases, or continue96
 //! class/function/import/export poles. Composes real shipped pure helpers
 //! from continue30 bases.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::literal_widen_emit::{
     continue30_assignment_skeleton, continue30_call_skeleton, continue30_member_skeleton,
@@ -41,7 +41,7 @@ pub const CONTINUE97_RELATED_TYPES: &[&str] = &[
     "SpreadElement",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_assignment_update_member_call_related_type(t: &str) -> bool {
     CONTINUE97_RELATED_TYPES.contains(&t)

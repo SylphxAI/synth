@@ -2,7 +2,7 @@
 //! ThrowStatement + DebuggerStatement dual-oracle emission — residual pure
 //! **continue99** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–98:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–98:
 //! - SwitchStatement dual-oracle composing real `continue32_switch_skeleton`
 //! - SwitchCase dual-oracle composing real `continue32_case_skeleton`
 //! - TryStatement catch dual-oracle composing real
@@ -18,8 +18,8 @@
 //! continue80 switch/loop pretty-minify poles, continue81 try/throw/with
 //! surfaces, or continue98 unary/binary/await/jump poles. Composes real shipped
 //! pure helpers from continue32 bases.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::literal_widen_emit::{
     continue32_case_skeleton, continue32_debugger_skeleton, continue32_switch_skeleton,
@@ -36,7 +36,7 @@ pub const CONTINUE99_RELATED_TYPES: &[&str] = &[
     "DebuggerStatement",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_switch_try_throw_debugger_related_type(t: &str) -> bool {
     CONTINUE99_RELATED_TYPES.contains(&t)

@@ -2,7 +2,7 @@
 //! ThisExpression + Super dual-oracle **edge** emission — residual pure
 //! **continue122** for tooling/format-minify-lint.
 //!
-//! New dual-oracle shells **not** covered by prior dens modules continue71–121:
+//! New dual-oracle shells **not** covered by prior residual modules continue71–121:
 //! - Class dual-oracle composing real `continue57_class_edge_shell`
 //! - New/this/super dual-oracle composing real `continue57_new_this_super_shell`
 //! - Meta/partition dual-oracle composing real `continue57_meta_partition_shell`
@@ -16,8 +16,8 @@
 //! poles (continue55 bases as primary surface), or continue119 sequence plane
 //! poles (continue53 bases). Composes real shipped pure shells from continue57
 //! and continue58 edges over the continue55 class/meta/new/this/super plane.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::literal_widen_emit::{
     continue55_class_declaration_skeleton, continue55_class_expression_skeleton,
@@ -40,7 +40,7 @@ pub const CONTINUE122_RELATED_TYPES: &[&str] = &[
     "Super",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_class_meta_new_this_super_edge_related_type(t: &str) -> bool {
     CONTINUE122_RELATED_TYPES.contains(&t)

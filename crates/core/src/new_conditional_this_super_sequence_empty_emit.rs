@@ -2,7 +2,7 @@
 //! SequenceExpression + EmptyStatement dual-oracle emission
 //! — residual pure **continue109** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–108:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–108:
 //! - NewExpression dual-oracle composing real `continue42_new_skeleton`
 //! - ConditionalExpression dual-oracle composing real
 //!   `continue42_conditional_skeleton`
@@ -17,8 +17,8 @@
 //! spread/rest poles (continue41 bases), continue100 meta/import/chain poles
 //! (continue33 bases), continue93 sequence/update/yield, or continue40–41
 //! bases. Composes real shipped pure helpers from continue42 bases. Full
-//! engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::literal_widen_emit::{
     continue42_conditional_skeleton, continue42_empty_skeleton, continue42_new_skeleton,
@@ -35,7 +35,7 @@ pub const CONTINUE109_RELATED_TYPES: &[&str] = &[
     "EmptyStatement",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_new_conditional_this_super_sequence_empty_related_type(t: &str) -> bool {
     CONTINUE109_RELATED_TYPES.contains(&t)

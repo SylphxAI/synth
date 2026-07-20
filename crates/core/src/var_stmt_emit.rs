@@ -5,10 +5,10 @@
 //! `printReturnStatement` / `compressReturnStatement`, and
 //! `printIfStatement` / `compressIfStatement` in
 //! `packages/synth-js-format` / `synth-js-minify`.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
 //!
 //! Dual-oracle surface keeps small pure skeletons even when sibling token helpers
-//! exist in stmt_emit / object_emit / assign_sep — intentional residual dens.
+//! exist in stmt_emit / object_emit / assign_sep — intentional residual unit.
 #![allow(dead_code)]
 
 /// Normalize variable kind token (`const` / `let` / `var`; default `const`).
@@ -196,7 +196,7 @@ pub fn is_if_statement_type(t: &str) -> bool {
     t == "IfStatement"
 }
 
-/// Whether a node type is covered by this var/stmt residual dens surface.
+/// Whether a node type is covered by this var/stmt residual unit surface.
 #[must_use]
 pub fn is_var_stmt_related_type(t: &str) -> bool {
     matches!(

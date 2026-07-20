@@ -1,4 +1,4 @@
-//! Product AST → formatted-code **printer engine** (tooling dens).
+//! Product AST → formatted-code **printer engine** (tooling residual).
 //!
 //! Ports `packages/synth-js-format/src/printer.ts` onto the Rust `Tree` model.
 //! TS package remains the dual-oracle substrate until cutover; this is the

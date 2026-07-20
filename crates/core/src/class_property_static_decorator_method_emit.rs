@@ -2,7 +2,7 @@
 //! MethodDefinition + ExportDefaultSpecifier dual-oracle emission — residual
 //! pure **continue116** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–115:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–115:
 //! - PropertyDefinition dual-oracle composing real
 //!   `continue49_property_definition_skeleton`
 //! - Static property dual-oracle composing real
@@ -21,8 +21,8 @@
 //! private poles (continue48 bases), continue114 class/import/export/new/this/
 //! super/meta poles (continue47 bases), or continue113 for/throw/label/empty
 //! poles (continue46 bases). Composes real shipped pure helpers from continue49
-//! class property/static/decorator/method bases. Full engines remain product dens.
-//! NO authority_rust / ts_deleted. dens ≠ flip; PreferRust OFF.
+//! class property/static/decorator/method bases. Full engines remain product residual.
+//! NO authority_rust / ts_deleted. pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::literal_widen_emit::{
     continue49_class_body_skeleton, continue49_decorator_skeleton,
@@ -41,7 +41,7 @@ pub const CONTINUE116_RELATED_TYPES: &[&str] = &[
     "ExportDefaultSpecifier",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_class_property_static_decorator_method_related_type(t: &str) -> bool {
     CONTINUE116_RELATED_TYPES.contains(&t)

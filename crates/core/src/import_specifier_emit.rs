@@ -2,7 +2,7 @@
 //! ExportSpecifier dual-oracle emission — residual pure **continue87** for
 //! tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–86:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–86:
 //! - ImportSpecifier dual-oracle composing real
 //!   `continue38_import_specifier_skeleton` + `specifier_alias_fragment`
 //! - ImportDefaultSpecifier dual-oracle composing real
@@ -21,8 +21,8 @@
 //! surface; export-from continue71 stays separate for `from` heritage forms;
 //! function/class/this continue86 stays separate). Composes real shipped pure
 //! helpers from import/export specifier bases.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::ident_literal_emit::{
     named_specifier_braces, specifier_alias_fragment, specifier_list_sep,
@@ -42,7 +42,7 @@ pub const CONTINUE87_RELATED_TYPES: &[&str] = &[
     "ExportSpecifier",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_import_specifier_related_type(t: &str) -> bool {
     CONTINUE87_RELATED_TYPES.contains(&t)

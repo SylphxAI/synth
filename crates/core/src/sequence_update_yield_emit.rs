@@ -2,7 +2,7 @@
 //! AwaitExpression dual-oracle emission — residual pure **continue93** for
 //! tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–92:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–92:
 //! - SequenceExpression dual-oracle composing real
 //!   `continue26_sequence_two_skeleton`
 //! - UpdateExpression dual-oracle composing real
@@ -20,8 +20,8 @@
 //! poles, continue78 SequenceExpression list sep, continue83 yield/meta/await
 //! full dual-oracle, or continue92 no-expr template/array/object surfaces.
 //! Composes real shipped pure helpers from continue25/26 bases.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::literal_widen_emit::{
     continue25_tagged_template_one_expr_skeleton, continue25_template_literal_one_expr_skeleton,
@@ -38,7 +38,7 @@ pub const CONTINUE93_RELATED_TYPES: &[&str] = &[
     "AwaitExpression",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_sequence_update_yield_related_type(t: &str) -> bool {
     CONTINUE93_RELATED_TYPES.contains(&t)

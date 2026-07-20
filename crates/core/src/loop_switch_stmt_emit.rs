@@ -1,7 +1,7 @@
 //! Pure ForStatement + ForIn/Of + While + DoWhile + Switch/Case dual-oracle
 //! emission — residual pure **continue80** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules:
+//! New AST emit skeletons **not** covered by prior residual modules:
 //! - ForStatement dual-oracle pretty/minify clause seps driving real
 //!   `for_statement_skeleton` (continue18)
 //! - ForInStatement / ForOfStatement dual-oracle (non-await; await-of stays
@@ -15,8 +15,8 @@
 //! (var/return/if continue79 stays separate; for-await continue74 stays
 //! separate; template continue75 stays separate). Composes real shipped pure
 //! helpers from `loop_switch_full_emit`.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::loop_switch_full_emit::{
     do_while_statement_skeleton, for_in_statement_skeleton, for_of_statement_skeleton,
@@ -35,7 +35,7 @@ pub const CONTINUE80_RELATED_TYPES: &[&str] = &[
     "SwitchCase",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_loop_switch_stmt_related_type(t: &str) -> bool {
     CONTINUE80_RELATED_TYPES.contains(&t)

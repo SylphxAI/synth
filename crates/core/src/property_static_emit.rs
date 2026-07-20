@@ -1,7 +1,7 @@
 //! Pure PropertyDefinition / StaticBlock / ClassExpression residual —
 //! residual pure continue20 for tooling/format-minify-lint fragment.
 //! Complements continue13 export/class + continue18 private identifier.
-//! Full engines remain product dens. intentional ts_only×3 retained.
+//! Full engines remain product residual. intentional ts_only×3 retained.
 //! NO authority_rust / ts_deleted.
 
 use crate::class_emit_kind::{class_body_close, class_body_open, class_keyword};
@@ -9,7 +9,7 @@ use crate::export_class_emit::{class_body_interior, class_id_fragment};
 use crate::format_emit::{async_prefix, generator_suffix, method_kind_prefix};
 use crate::loop_switch_full_emit::private_identifier_token;
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_property_static_related_type(t: &str) -> bool {
     matches!(
@@ -127,7 +127,7 @@ pub fn class_expression_skeleton(name: Option<&str>, methods: &[&str], pretty: b
 }
 
 /// Method-like PropertyDefinition with kind/async/generator prefixes.
-/// Complements MethodDefinition dens for field-initialized methods.
+/// Complements MethodDefinition residual for field-initialized methods.
 #[must_use]
 #[allow(clippy::too_many_arguments)]
 pub fn class_method_like_field_skeleton(

@@ -88,7 +88,7 @@ mod tests {
 
 
     #[test]
-    fn fleet_web_media_wave4_mangle_skips_reserved_and_increments() {
+    fn portfolio_web_media_wave4_mangle_skips_reserved_and_increments() {
         let mut m = NameMangler::new(["window".into()]);
         let a = m.mangle("foo", true);
         let b = m.mangle("bar", true);
@@ -101,7 +101,7 @@ mod tests {
     }
 
     #[test]
-    fn fleet_web_media_wave4_generate_mangled_name_base26ish() {
+    fn portfolio_web_media_wave4_generate_mangled_name_base26ish() {
         assert_eq!(generate_mangled_name(0), "a");
         assert_eq!(generate_mangled_name(1), "b");
         assert_eq!(generate_mangled_name(25), "z");

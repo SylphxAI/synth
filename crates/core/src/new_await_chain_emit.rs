@@ -1,7 +1,7 @@
 //! Pure New / Await / Chain / Yield / ImportExpression emission —
 //! residual pure continue16 for tooling/format-minify-lint fragment.
 //! Mirrors printer/compressor skeletons for expression forms not covered by
-//! prior continue modules. Full engines remain product dens.
+//! prior continue modules. Full engines remain product residual.
 //! NO authority_rust / ts_deleted. intentional ts_only×3 retained.
 
 /// Whether node type is NewExpression.
@@ -46,7 +46,7 @@ pub fn is_conditional_expression_type(t: &str) -> bool {
     t == "ConditionalExpression"
 }
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_new_await_chain_related_type(t: &str) -> bool {
     matches!(

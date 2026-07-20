@@ -2,7 +2,7 @@
 //! ArrowFunctionExpression + SpreadElement + RestElement dual-oracle emission
 //! — residual pure **continue108** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–107:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–107:
 //! - UnaryExpression dual-oracle composing real `continue41_unary_skeleton`
 //! - BinaryExpression dual-oracle composing real `continue41_binary_skeleton`
 //! - AwaitExpression dual-oracle composing real `continue41_await_skeleton`
@@ -15,9 +15,9 @@
 //! Intentionally does **not** re-wrap continue98 unary/binary/await/jump poles
 //! (continue31 bases), continue97 assignment/update/member/call, continue107
 //! return/block/expr/var/ident poles, or continue40 bases. Composes real
-//! shipped pure helpers from continue41 bases. Full engines remain product dens.
+//! shipped pure helpers from continue41 bases. Full engines remain product residual.
 //! NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::literal_widen_emit::{
     continue41_arrow_skeleton, continue41_await_skeleton, continue41_binary_skeleton,
@@ -34,7 +34,7 @@ pub const CONTINUE108_RELATED_TYPES: &[&str] = &[
     "RestElement",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_unary_binary_await_arrow_spread_rest_related_type(t: &str) -> bool {
     CONTINUE108_RELATED_TYPES.contains(&t)

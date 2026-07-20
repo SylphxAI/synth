@@ -4,7 +4,7 @@
 //! JSXEmptyExpression dual-oracle emission — residual pure **continue88** for
 //! tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–87:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–87:
 //! - JSXElement self-closing + children dual-oracle composing real
 //!   `continue44_jsx_element_self_closing_skeleton` /
 //!   `continue44_jsx_element_skeleton`
@@ -32,8 +32,8 @@
 //! (import/export specifier continue87 stays separate; function/class/this
 //! continue86 stays separate). Composes real shipped pure helpers from
 //! continue44/46 JSX bases in literal_widen.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::literal_widen_emit::{
     continue44_jsx_attribute_skeleton, continue44_jsx_element_self_closing_skeleton,
@@ -61,7 +61,7 @@ pub const CONTINUE88_RELATED_TYPES: &[&str] = &[
     "JSXEmptyExpression",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_jsx_related_type(t: &str) -> bool {
     CONTINUE88_RELATED_TYPES.contains(&t)

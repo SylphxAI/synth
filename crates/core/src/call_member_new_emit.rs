@@ -1,7 +1,7 @@
 //! Pure CallExpression + MemberExpression + NewExpression + ArrayExpression
 //! dual-oracle emission — residual pure **continue77** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules:
+//! New AST emit skeletons **not** covered by prior residual modules:
 //! - CallExpression full dual-oracle pretty/minify arg-list spacing
 //!   (continue8 `call_skeleton` always used `", "` — compressor residual uses bare `,`)
 //! - MemberExpression static/computed dual-oracle composing real `member_access_*`
@@ -13,8 +13,8 @@
 //! Intentionally does **not** re-wrap continue64–76 partition shells
 //! (optional-chain continue73 stays separate; binary/unary continue76 stays separate).
 //! Composes real shipped pure helpers from `call_member_emit` + `new_await_chain_emit`.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::call_member_emit::{
     call_args_close, call_args_open, member_access_close, member_access_open,
@@ -29,7 +29,7 @@ pub const CONTINUE77_RELATED_TYPES: &[&str] = &[
     "ArrayExpression",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_call_member_new_related_type(t: &str) -> bool {
     CONTINUE77_RELATED_TYPES.contains(&t)

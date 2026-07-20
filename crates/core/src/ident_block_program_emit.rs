@@ -2,7 +2,7 @@
 //! DebuggerStatement dual-oracle emission — residual pure **continue85** for
 //! tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–84:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–84:
 //! - Identifier dual-oracle pretty/minify-mangle composing real
 //!   `identifier_token` (ident_literal base)
 //! - Literal dual-oracle string/non-string pretty/minify composing real
@@ -21,8 +21,8 @@
 //! (pattern/rest/for-await continue84 stays separate; yield/meta continue83
 //! stays separate; try/throw/import continue81 stays separate). Composes real
 //! shipped pure helpers from ident/literal/block/program bases.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::block_emit::{block_close, block_item_sep, block_open};
 use crate::ident_literal_emit::{
@@ -43,7 +43,7 @@ pub const CONTINUE85_RELATED_TYPES: &[&str] = &[
     "DebuggerStatement",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_ident_block_program_related_type(t: &str) -> bool {
     CONTINUE85_RELATED_TYPES.contains(&t)

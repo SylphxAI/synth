@@ -2,7 +2,7 @@
 //! residual pure continue7 for tooling/format-minify-lint fragment.
 //! Mirrors common printer/compressor spacing branches for for/while/do/switch
 //! and template-literal delimiters not covered by stmt_emit / conditional_spread.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
 
 /// `for` open (pretty → `for (`; minify → `for(`).
 #[must_use]

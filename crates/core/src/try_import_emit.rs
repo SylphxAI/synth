@@ -1,7 +1,7 @@
 //! Pure Try / Catch / Throw / Labeled / Break / Continue / With + full Import
 //! residual pure continue17 for tooling/format-minify-lint fragment.
 //! Complements loop_template / method_array_import / ident_literal skeletons.
-//! Full engines remain product dens. Intentional ts_only plugins retained.
+//! Full engines remain product residual. Intentional ts_only plugins retained.
 //! NO authority_rust / ts_deleted.
 
 use crate::ident_literal_emit::{named_specifier_braces, string_literal_token};
@@ -48,7 +48,7 @@ pub fn is_with_statement_type(t: &str) -> bool {
     t == "WithStatement"
 }
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_try_import_related_type(t: &str) -> bool {
     matches!(
@@ -219,7 +219,7 @@ pub fn import_declaration_full_skeleton(
     }
     let quote_pretty = pretty;
     let src = string_literal_token(source, single_quote && pretty, quote_pretty);
-    // minify compressor always double-quotes modules in this residual dens
+    // minify compressor always double-quotes modules in this residual unit
     let src = if pretty {
         src
     } else {

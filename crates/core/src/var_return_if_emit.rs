@@ -2,7 +2,7 @@
 //! ReturnStatement + IfStatement dual-oracle emission — residual pure
 //! **continue79** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules:
+//! New AST emit skeletons **not** covered by prior residual modules:
 //! - VariableDeclaration dual-oracle pretty/minify declarator seps + semi policy
 //!   driving real `variable_declaration_skeleton` (continue11)
 //! - VariableDeclarator dual-oracle `id = init` / `id=init`
@@ -14,8 +14,8 @@
 //! Intentionally does **not** re-wrap continue64–78 partition shells
 //! (assignment/sequence continue78 stays separate; call/member continue77 stays
 //! separate). Composes real shipped pure helpers from `var_stmt_emit`.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::var_stmt_emit::{
     expression_statement_skeleton, if_statement_skeleton, return_statement_skeleton,
@@ -31,7 +31,7 @@ pub const CONTINUE79_RELATED_TYPES: &[&str] = &[
     "IfStatement",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_var_return_if_related_type(t: &str) -> bool {
     CONTINUE79_RELATED_TYPES.contains(&t)

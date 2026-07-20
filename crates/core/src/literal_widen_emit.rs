@@ -586,9 +586,9 @@ pub fn continue28_debugger_skeleton() -> &'static str {
 }
 
 
-// ── continue29 pure residual: class/function/import/export emit dual-oracle dens ──
+// ── continue29 pure residual: class/function/import/export emit dual-oracle residual unit ──
 // Dual-oracle residual control-flow / declaration emit skeletons.
-// Intentional ts_only plugins retained. dens ≠ flip; no authority invent.
+// Intentional ts_only plugins retained. pure residual ≠ authority flip; no authority invent.
 
 /// Dual-oracle residual: continue29 related AST type catalog.
 #[must_use]
@@ -666,7 +666,7 @@ pub fn continue29_export_default_skeleton(expr: &str) -> String {
 
 // ── continue30 pure residual: Assignment / Update / Member / Call emit ──
 // Dual-oracle residual of AST expression emit skeletons.
-// Intentional ts_only plugins retained. dens ≠ flip; no authority invent.
+// Intentional ts_only plugins retained. pure residual ≠ authority flip; no authority invent.
 
 /// Dual-oracle residual: continue30 related AST type catalog.
 #[must_use]
@@ -754,7 +754,7 @@ pub fn continue30_new_skeleton(callee: &str, args: &str) -> String {
 
 // ── continue31 pure residual: Unary / Binary / Await / Identifier / Block / Jump emit ──
 // Dual-oracle residual of AST expression/statement emit skeletons.
-// Intentional ts_only plugins retained. dens ≠ flip; no authority invent.
+// Intentional ts_only plugins retained. pure residual ≠ authority flip; no authority invent.
 
 /// Dual-oracle residual: continue31 related AST type catalog.
 #[must_use]
@@ -870,7 +870,7 @@ pub fn continue31_expression_stmt_skeleton(expr: &str) -> String {
 
 // ── continue32 pure residual: Switch / Try / Catch / Throw / Debugger emit ──
 // Dual-oracle pure emit skeletons for remaining statement forms.
-// Intentional ts_only plugins retained. dens ≠ flip.
+// Intentional ts_only plugins retained. pure residual ≠ authority flip.
 
 /// Dual-oracle residual: SwitchStatement type tag.
 pub const CONTINUE32_SWITCH_TYPE: &str = "SwitchStatement";
@@ -956,7 +956,7 @@ pub fn continue32_debugger_skeleton() -> &'static str {
 // ── continue33 pure residual: MetaProperty / ImportExpression / Chain /
 // Empty / Rest / Spread / ClassProperty emit ──
 // Dual-oracle pure emit skeletons for remaining expression/class forms.
-// Intentional ts_only plugins retained. dens ≠ flip.
+// Intentional ts_only plugins retained. pure residual ≠ authority flip.
 
 /// Dual-oracle residual: MetaProperty type tag (`import.meta` / `new.target`).
 pub const CONTINUE33_META_PROPERTY_TYPE: &str = "MetaProperty";
@@ -1064,9 +1064,9 @@ pub fn continue33_class_property_skeleton(name: &str, value: Option<&str>) -> St
 }
 
 // ── continue34: for / var / assignment-pattern / program / import-spec emit ──
-// Pure residual dual-oracle dens of remaining core AST tags not yet catalogued
+// Pure residual dual-oracle residual unit of remaining core AST tags not yet catalogued
 // in continue21–33. Full printer/compressor engines remain intentional residual.
-// NO authority_rust / ts_deleted invent. dens ≠ flip.
+// NO authority_rust / ts_deleted invent. pure residual ≠ authority flip.
 
 /// Dual-oracle residual: ForStatement type tag.
 pub const CONTINUE34_FOR_STATEMENT_TYPE: &str = "ForStatement";
@@ -1191,7 +1191,7 @@ pub fn continue34_import_default_namespace_skeleton(
 
 // ── continue35 pure residual: If / While / DoWhile / Conditional / Labeled / With emit ──
 // Dual-oracle pure emit skeletons for control-flow residual types after continue34.
-// Intentional ts_only plugins retained. dens ≠ flip. NO authority invent.
+// Intentional ts_only plugins retained. pure residual ≠ authority flip. NO authority invent.
 
 /// Dual-oracle residual: continue35 related AST type catalog.
 pub const CONTINUE35_RELATED_TYPES: &[&str] = &[
@@ -1273,7 +1273,7 @@ pub fn continue35_with_skeleton(object: &str, body: &str) -> String {
 // ── continue36 pure residual: Class / Return / This / Super / MetaProperty emit ──
 // Dual-oracle residual of ClassDeclaration/Expression, ReturnStatement,
 // ThisExpression, Super, MetaProperty emit skeletons.
-// Intentional ts_only plugins retained. dens ≠ flip.
+// Intentional ts_only plugins retained. pure residual ≠ authority flip.
 
 /// Dual-oracle residual: continue36 related AST type catalog.
 pub const CONTINUE36_RELATED_TYPES: &[&str] = &[
@@ -1358,9 +1358,9 @@ pub fn continue36_meta_property_skeleton(meta: &str, property: &str) -> String {
     format!("{meta}.{property}")
 }
 
-// ── continue37 pure residual dens: try/catch/throw/debugger/empty/switch emit ──
+// ── continue37 pure residual unit: try/catch/throw/debugger/empty/switch emit ──
 // Dual-oracle residual pure emit skeletons for control/exception AST shapes.
-// Intentional ts_only plugins retained. dens ≠ flip.
+// Intentional ts_only plugins retained. pure residual ≠ authority flip.
 
 /// Dual-oracle residual: continue37 related AST type names.
 pub const CONTINUE37_RELATED_TYPES: &[&str] = &[
@@ -1451,9 +1451,9 @@ pub fn continue37_switch_skeleton(disc: &str, body: &str) -> String {
 }
 
 
-// ── continue38 pure residual dens: switch-case/method/export-spec/import-spec/expr-stmt/class-body emit ──
+// ── continue38 pure residual unit: switch-case/method/export-spec/import-spec/expr-stmt/class-body emit ──
 // Dual-oracle residual pure emit skeletons for remaining core AST shapes.
-// Intentional ts_only plugins retained. dens ≠ flip.
+// Intentional ts_only plugins retained. pure residual ≠ authority flip.
 
 /// Dual-oracle residual: continue38 related AST type names.
 pub const CONTINUE38_RELATED_TYPES: &[&str] = &[
@@ -2138,9 +2138,9 @@ mod tests {
 
 }
 
-// ── continue39 pure residual dens: SwitchCase / Break / Continue / ForIn / ForOf / Logical emit ──
+// ── continue39 pure residual unit: SwitchCase / Break / Continue / ForIn / ForOf / Logical emit ──
 // Dual-oracle residual pure emit skeletons for case/jump/for-in-of/logical AST shapes.
-// Intentional ts_only plugins retained. dens ≠ flip.
+// Intentional ts_only plugins retained. pure residual ≠ authority flip.
 
 /// Dual-oracle residual: continue39 related AST type names.
 pub const CONTINUE39_RELATED_TYPES: &[&str] = &[
@@ -2277,9 +2277,9 @@ mod continue39_case_break_tests {
 }
 
 
-// ── continue40 pure residual dens: Return / Block / ExpressionStatement / Variable / Identifier emit ──
+// ── continue40 pure residual unit: Return / Block / ExpressionStatement / Variable / Identifier emit ──
 // Dual-oracle residual pure emit skeletons for common statement/identifier AST shapes.
-// Intentional ts_only plugins retained. dens ≠ flip.
+// Intentional ts_only plugins retained. pure residual ≠ authority flip.
 
 /// Dual-oracle residual: continue40 related AST type names.
 pub const CONTINUE40_RELATED_TYPES: &[&str] = &[
@@ -2399,9 +2399,9 @@ mod continue40_tests {
 }
 
 
-// ── continue41 pure residual dens: Unary / Binary / Await / Arrow / Spread / Rest emit ──
+// ── continue41 pure residual unit: Unary / Binary / Await / Arrow / Spread / Rest emit ──
 // Dual-oracle residual pure emit skeletons for expression/pattern residual shapes.
-// Intentional ts_only plugins retained. dens ≠ flip.
+// Intentional ts_only plugins retained. pure residual ≠ authority flip.
 
 /// Dual-oracle residual: continue41 related AST type names.
 pub const CONTINUE41_RELATED_TYPES: &[&str] = &[
@@ -2532,9 +2532,9 @@ mod continue41_tests {
 }
 
 
-// ── continue42 pure residual dens: new/conditional/this/super/sequence/empty emit ──
+// ── continue42 pure residual unit: new/conditional/this/super/sequence/empty emit ──
 // Dual-oracle residual pure emit skeletons for New/Conditional/This/Super/Sequence/Empty.
-// Intentional ts_only plugins retained. dens ≠ flip.
+// Intentional ts_only plugins retained. pure residual ≠ authority flip.
 
 /// Dual-oracle residual: continue42 related AST types.
 pub const CONTINUE42_RELATED_TYPES: &[&str] = &[
@@ -2649,10 +2649,10 @@ mod continue42_tests {
     }
 }
 
-// ── continue43 pure residual dens: with/label/debugger/throw/expr/if emit ──
+// ── continue43 pure residual unit: with/label/debugger/throw/expr/if emit ──
 // Dual-oracle residual of WithStatement / LabeledStatement / DebuggerStatement /
 // ThrowStatement / ExpressionStatement / IfStatement pure emit skeletons.
-// Intentional ts_only plugins retained. dens ≠ flip.
+// Intentional ts_only plugins retained. pure residual ≠ authority flip.
 
 /// Type guards for continue43 control/statement AST node types.
 #[must_use]
@@ -2772,9 +2772,9 @@ mod continue43_tests {
     }
 }
 
-// ── continue44 pure residual dens: JSX element/fragment/attribute/text/expr emit ──
+// ── continue44 pure residual unit: JSX element/fragment/attribute/text/expr emit ──
 // Dual-oracle residual pure emit skeletons for JSX AST shapes.
-// Intentional ts_only plugins retained. dens ≠ flip. PreferRust OFF.
+// Intentional ts_only plugins retained. pure residual ≠ authority flip. PreferRust OFF.
 
 /// Dual-oracle residual: continue44 related JSX AST type names.
 pub const CONTINUE44_RELATED_TYPES: &[&str] = &[
@@ -2910,10 +2910,10 @@ mod continue44_tests {
 
 
 
-// ── continue45 pure residual dens: do/while/switch/break/continue/try emit ──
+// ── continue45 pure residual unit: do/while/switch/break/continue/try emit ──
 // Dual-oracle residual of DoWhileStatement / WhileStatement / SwitchStatement /
 // BreakStatement / ContinueStatement / TryStatement pure emit skeletons.
-// Intentional ts_only plugins retained. dens ≠ flip.
+// Intentional ts_only plugins retained. pure residual ≠ authority flip.
 
 /// Type guards for continue45 loop/control AST node types.
 #[must_use]
@@ -3061,9 +3061,9 @@ mod continue45_tests {
 }
 
 
-// ── continue46 pure residual dens: JSX + for/throw/label emit dual-oracle residual ──
+// ── continue46 pure residual unit: JSX + for/throw/label emit dual-oracle residual ──
 // Dual-oracle residual pure emit skeletons for JSX AST fragments + for-family/throw/label.
-// Intentional ts_only plugins retained. dens ≠ flip. No ts_deleted invent.
+// Intentional ts_only plugins retained. pure residual ≠ authority flip. No ts_deleted invent.
 
 /// Dual-oracle residual: continue46 related type catalog (JSX + for/control union).
 pub const CONTINUE46_RELATED_TYPES: &[&str] = &[
@@ -3300,7 +3300,7 @@ mod continue46_tests {
 
 // ── continue47 pure residual: Class/Import/Export/New/This/Super/Meta emit ──
 // Dual-oracle residual of class/import/export/new/this/super/meta pure emit skeletons.
-// Intentional ts_only plugins retained. dens ≠ flip.
+// Intentional ts_only plugins retained. pure residual ≠ authority flip.
 
 /// Dual-oracle residual: continue47 related AST node types.
 pub const CONTINUE47_RELATED_TYPES: &[&str] = &[
@@ -3504,9 +3504,9 @@ mod continue47_tests {
     }
 }
 
-// ── continue48 pure residual: optional chain/import/await/yield/private dual-oracle dens ──
+// ── continue48 pure residual: optional chain/import/await/yield/private dual-oracle residual unit ──
 // Dual-oracle residual of optional chain / dynamic import / await / yield / private name pure emit.
-// Intentional ts_only plugins retained. dens ≠ flip.
+// Intentional ts_only plugins retained. pure residual ≠ authority flip.
 
 /// Dual-oracle residual: continue48 related AST node types.
 pub const CONTINUE48_RELATED_TYPES: &[&str] = &[
@@ -3643,11 +3643,11 @@ mod continue48_tests {
 }
 
 
-// ── continue49 pure residual dens: class property/static/decorator/method dual-oracle residual ──
+// ── continue49 pure residual unit: class property/static/decorator/method dual-oracle residual ──
 // Dual-oracle residual of PropertyDefinition / StaticBlock / Decorator / ClassBody /
 // MethodDefinition / ExportDefaultSpecifier pure halves.
-// Intentional ts_only plugins retained. dens ≠ flip.
-// product residual dens wave72
+// Intentional ts_only plugins retained. pure residual ≠ authority flip.
+// product residual unit wave72
 
 /// Dual-oracle residual: continue49 related type catalog.
 pub const CONTINUE49_RELATED_TYPES: &[&str] = &[
@@ -3775,9 +3775,9 @@ mod continue49_tests {
     }
 }
 
-// ── continue50 pure residual dens: class private method get/set emit dual-oracle residual ──
+// ── continue50 pure residual unit: class private method get/set emit dual-oracle residual ──
 // Dual-oracle residual of class private/getter/setter emit skeletons.
-// Intentional ts_only plugins retained. dens ≠ flip.
+// Intentional ts_only plugins retained. pure residual ≠ authority flip.
 
 /// Dual-oracle residual: continue50 related type catalog.
 pub const CONTINUE50_RELATED_TYPES: &[&str] = &[
@@ -3899,10 +3899,10 @@ mod continue50_tests {
     }
 }
 
-// ── continue51 pure residual dens: super/this/meta/template dual-oracle residual ──
+// ── continue51 pure residual unit: super/this/meta/template dual-oracle residual ──
 // Dual-oracle residual of Super / ThisExpression / MetaProperty /
 // TaggedTemplateExpression / TemplateLiteral / TemplateElement pure halves.
-// Intentional ts_only plugins retained. dens ≠ flip.
+// Intentional ts_only plugins retained. pure residual ≠ authority flip.
 
 /// Dual-oracle residual: continue51 related type catalog.
 pub const CONTINUE51_RELATED_TYPES: &[&str] = &[
@@ -4020,9 +4020,9 @@ mod continue51_tests {
 
 
 
-// ── continue52 pure residual dens: super this meta template edges dual-oracle residual ──
+// ── continue52 pure residual unit: super this meta template edges dual-oracle residual ──
 // Dual-oracle residual of super/this/meta/template emit pure halves.
-// Intentional ts_only parser residual retained. dens ≠ flip.
+// Intentional ts_only parser residual retained. pure residual ≠ authority flip.
 
 /// Dual-oracle residual: continue52 related type catalog length six.
 #[must_use]
@@ -4083,9 +4083,9 @@ mod continue52_tests {
 }
 
 
-// ── continue53 pure residual dens: sequence update yield await chain dual-oracle residual ──
+// ── continue53 pure residual unit: sequence update yield await chain dual-oracle residual ──
 // Dual-oracle residual of AST type catalog + emit skeletons for control expressions.
-// Intentional ts_only plugins retained; pure emit only. dens ≠ flip.
+// Intentional ts_only plugins retained; pure emit only. pure residual ≠ authority flip.
 
 /// Dual-oracle residual: continue53 related type catalog.
 pub const CONTINUE53_RELATED_TYPES: &[&str] = &[
@@ -4213,9 +4213,9 @@ mod continue53_tests {
 }
 
 
-// ── continue54 pure residual dens: sequence update yield await edges dual-oracle residual ──
+// ── continue54 pure residual unit: sequence update yield await edges dual-oracle residual ──
 // Dual-oracle residual of continue53 sequence/update/yield/await/import/chain pure halves.
-// Intentional ts_only parser residual retained. dens ≠ flip.
+// Intentional ts_only parser residual retained. pure residual ≠ authority flip.
 
 /// Dual-oracle residual: continue54 sequence empty-ish edges.
 #[must_use]
@@ -4278,9 +4278,9 @@ mod continue54_tests {
 }
 
 
-// ── continue55 pure residual dens: class/meta/new/this emit dual-oracle residual ──
+// ── continue55 pure residual unit: class/meta/new/this emit dual-oracle residual ──
 // Dual-oracle residual of AST type catalog + emit skeletons for class/meta plane.
-// Intentional ts_only plugins retained; pure emit only. dens ≠ flip.
+// Intentional ts_only plugins retained; pure emit only. pure residual ≠ authority flip.
 
 /// Dual-oracle residual: continue55 related type catalog.
 pub const CONTINUE55_RELATED_TYPES: &[&str] = &[
@@ -4417,10 +4417,10 @@ mod continue55_tests {
 }
 
 
-// ── continue56 pure residual dens: sequence update yield await import dual-oracle residual ──
-// residual6 rehome: concurrent continue55 class/meta kept; this dens advances continue56.
+// ── continue56 pure residual unit: sequence update yield await import dual-oracle residual ──
+// residual6 rehome: concurrent continue55 class/meta kept; this residual advances continue56.
 // Dual-oracle residual of continue53 sequence/update/yield/await/import/chain pure halves.
-// Intentional ts_only parser residual retained. dens ≠ flip.
+// Intentional ts_only parser residual retained. pure residual ≠ authority flip.
 
 /// Dual-oracle residual: continue56 sequence multi + membership.
 #[must_use]
@@ -4486,9 +4486,9 @@ mod continue56_tests {
 
 
 
-// ── continue57 pure residual dens: class new this super emit edges dual-oracle residual ──
-// Dual-oracle residual of continue55 class/meta/new/this pure halves (edge dens).
-// Intentional ts_only plugins retained; pure emit only. dens ≠ flip.
+// ── continue57 pure residual unit: class new this super emit edges dual-oracle residual ──
+// Dual-oracle residual of continue55 class/meta/new/this pure halves (edge residual).
+// Intentional ts_only plugins retained; pure emit only. pure residual ≠ authority flip.
 
 /// Dual-oracle residual: continue57 class expression empty vs named.
 #[must_use]
@@ -4538,9 +4538,9 @@ mod continue57_tests {
 }
 
 
-// ── continue58 pure residual dens: super new class partition emit dual-oracle residual ──
-// Dual-oracle residual of continue55 class/meta/new/this/super pure halves (edge dens).
-// Intentional ts_only plugins retained; pure emit only. dens ≠ flip.
+// ── continue58 pure residual unit: super new class partition emit dual-oracle residual ──
+// Dual-oracle residual of continue55 class/meta/new/this/super pure halves (edge residual).
+// Intentional ts_only plugins retained; pure emit only. pure residual ≠ authority flip.
 
 /// Dual-oracle residual: continue58 super multi-arg + bare super call.
 #[must_use]
@@ -4587,9 +4587,9 @@ mod continue58_tests {
 }
 
 
-// ── continue59 pure residual dens: this+class name partition emit dual-oracle residual ──
-// Dual-oracle residual of continue55 this/class/meta pure halves (edge dens).
-// Intentional ts_only plugins retained; pure emit only. dens ≠ flip.
+// ── continue59 pure residual unit: this+class name partition emit dual-oracle residual ──
+// Dual-oracle residual of continue55 this/class/meta pure halves (edge residual).
+// Intentional ts_only plugins retained; pure emit only. pure residual ≠ authority flip.
 
 /// Dual-oracle residual: continue59 this skeleton + type fence.
 #[must_use]
@@ -4635,9 +4635,9 @@ mod continue59_tests {
 }
 
 
-// ── continue60 pure residual dens: new/super call partition emit dual-oracle residual ──
-// Dual-oracle residual of continue55 new/super/this pure halves (edge dens).
-// Intentional ts_only plugins retained; pure emit only. dens ≠ flip.
+// ── continue60 pure residual unit: new/super call partition emit dual-oracle residual ──
+// Dual-oracle residual of continue55 new/super/this pure halves (edge residual).
+// Intentional ts_only plugins retained; pure emit only. pure residual ≠ authority flip.
 
 /// Dual-oracle residual: continue60 new expression skeleton + type fence.
 #[must_use]
@@ -4683,9 +4683,9 @@ mod continue60_tests {
 }
 
 
-// ── continue61 pure residual dens: class/meta/new.target partition emit dual-oracle residual ──
-// Dual-oracle residual of continue55 class/meta pure halves (edge dens).
-// Intentional ts_only plugins retained; pure emit only. dens ≠ flip.
+// ── continue61 pure residual unit: class/meta/new.target partition emit dual-oracle residual ──
+// Dual-oracle residual of continue55 class/meta pure halves (edge residual).
+// Intentional ts_only plugins retained; pure emit only. pure residual ≠ authority flip.
 
 /// Dual-oracle residual: continue61 class expression/declaration skeletons.
 #[must_use]
@@ -4731,9 +4731,9 @@ mod continue61_tests {
 }
 
 
-// ── continue62 pure residual dens: new/super/this partition emit dual-oracle residual ──
-// Dual-oracle residual of continue55 new/super/this pure halves (edge dens).
-// Intentional ts_only plugins retained; pure emit only. dens ≠ flip.
+// ── continue62 pure residual unit: new/super/this partition emit dual-oracle residual ──
+// Dual-oracle residual of continue55 new/super/this pure halves (edge residual).
+// Intentional ts_only plugins retained; pure emit only. pure residual ≠ authority flip.
 
 /// Dual-oracle residual: continue62 new expression empty/args + type fence.
 #[must_use]
@@ -4778,9 +4778,9 @@ mod continue62_tests {
 }
 
 
-// ── continue63 pure residual dens: class/meta partition emit dual-oracle residual ──
-// Dual-oracle residual of continue55 class/meta pure halves (edge dens after continue62).
-// Intentional ts_only plugins retained; pure emit only. dens ≠ flip.
+// ── continue63 pure residual unit: class/meta partition emit dual-oracle residual ──
+// Dual-oracle residual of continue55 class/meta pure halves (edge residual after continue62).
+// Intentional ts_only plugins retained; pure emit only. pure residual ≠ authority flip.
 
 /// Dual-oracle residual: continue63 class expression empty/named + declaration.
 #[must_use]
@@ -4825,9 +4825,9 @@ mod continue63_tests {
 }
 
 
-// ── continue64 pure residual dens: new/super/this partition emit dual-oracle residual ──
-// Dual-oracle residual of continue55 new/super/this pure halves (edge dens after continue63).
-// Intentional ts_only plugins retained; pure emit only. dens ≠ flip.
+// ── continue64 pure residual unit: new/super/this partition emit dual-oracle residual ──
+// Dual-oracle residual of continue55 new/super/this pure halves (edge residual after continue63).
+// Intentional ts_only plugins retained; pure emit only. pure residual ≠ authority flip.
 
 /// Dual-oracle residual: continue64 new expression empty/args.
 #[must_use]
@@ -4870,8 +4870,8 @@ mod continue64_tests {
         assert!(continue55_meta_import_meta_skeleton() == "import.meta");
     }
 }
-// ── continue65 pure residual dens: complementary dual-oracle residual ──
-// dens ≠ flip. No authority_rust / ts_deleted / prod_audit_pass invent.
+// ── continue65 pure residual unit: complementary dual-oracle residual ──
+// pure residual ≠ authority flip. No authority_rust / ts_deleted / prod_audit_pass invent.
 
 /// Dual-oracle residual: complementary of continue64_catalog_shell.
 #[must_use]
@@ -4895,7 +4895,7 @@ pub fn continue65_super_this_shell() -> bool {
 mod continue65_tests {
     use super::*;
     #[test]
-    fn continue65_complementary_dual_oracle_dens() {
+    fn continue65_complementary_dual_oracle_residual() {
         assert!(continue65_catalog_shell());
         assert!(continue65_new_shell());
         assert!(continue65_super_this_shell());
@@ -4903,8 +4903,8 @@ mod continue65_tests {
     }
 }
 
-// ── continue66 pure residual dens: complementary dual-oracle residual ──
-// dens ≠ flip. No authority_rust / ts_deleted / prod_audit_pass invent.
+// ── continue66 pure residual unit: complementary dual-oracle residual ──
+// pure residual ≠ authority flip. No authority_rust / ts_deleted / prod_audit_pass invent.
 
 /// Dual-oracle residual: complementary of continue65_catalog_shell.
 #[must_use]
@@ -4928,7 +4928,7 @@ pub fn continue66_super_this_shell() -> bool {
 mod continue66_tests {
     use super::*;
     #[test]
-    fn continue66_complementary_dual_oracle_dens() {
+    fn continue66_complementary_dual_oracle_residual() {
         assert!(continue66_catalog_shell());
         assert!(continue66_new_shell());
         assert!(continue66_super_this_shell());
@@ -4936,8 +4936,8 @@ mod continue66_tests {
     }
 }
 
-// ── continue67 pure residual dens: complementary dual-oracle residual ──
-// dens ≠ flip. No authority_rust / ts_deleted / prod_audit_pass invent.
+// ── continue67 pure residual unit: complementary dual-oracle residual ──
+// pure residual ≠ authority flip. No authority_rust / ts_deleted / prod_audit_pass invent.
 
 /// Dual-oracle residual: complementary of continue66_catalog_shell.
 #[must_use]
@@ -4961,7 +4961,7 @@ pub fn continue67_super_this_shell() -> bool {
 mod continue67_tests {
     use super::*;
     #[test]
-    fn continue67_complementary_dual_oracle_dens() {
+    fn continue67_complementary_dual_oracle_residual() {
         assert!(continue67_catalog_shell());
         assert!(continue67_new_shell());
         assert!(continue67_super_this_shell());
@@ -4969,8 +4969,8 @@ mod continue67_tests {
     }
 }
 
-// ── continue68 pure residual dens: complementary dual-oracle residual ──
-// dens ≠ flip. No authority_rust / ts_deleted / prod_audit_pass invent.
+// ── continue68 pure residual unit: complementary dual-oracle residual ──
+// pure residual ≠ authority flip. No authority_rust / ts_deleted / prod_audit_pass invent.
 
 /// Dual-oracle residual: complementary of continue67_catalog_shell.
 #[must_use]
@@ -4994,7 +4994,7 @@ pub fn continue68_super_this_shell() -> bool {
 mod continue68_tests {
     use super::*;
     #[test]
-    fn continue68_complementary_dual_oracle_dens() {
+    fn continue68_complementary_dual_oracle_residual() {
         assert!(continue68_catalog_shell());
         assert!(continue68_new_shell());
         assert!(continue68_super_this_shell());
@@ -5002,10 +5002,10 @@ mod continue68_tests {
     }
 }
 
-// ── continue69 pure residual dens: base dual-oracle residual (literal_widen emit) ──
-// dens ≠ flip. No authority_rust / ts_deleted / prod_audit_pass invent.
+// ── continue69 pure residual unit: base dual-oracle residual (literal_widen emit) ──
+// pure residual ≠ authority flip. No authority_rust / ts_deleted / prod_audit_pass invent.
 // Dual-oracle re-enters continue64 base pure poles (not 3^n re-wrap of continue68 —
-// nested complementary chain from continue65 is already densed; PreferRust OFF).
+// nested complementary chain from continue65 is already migrated; PreferRust OFF).
 
 /// Dual-oracle residual: base re-entry of continue64_new_shell.
 #[must_use]
@@ -5035,7 +5035,7 @@ pub fn continue69_catalog_shell() -> bool {
 mod continue69_tests {
     use super::*;
     #[test]
-    fn continue69_complementary_dual_oracle_dens() {
+    fn continue69_complementary_dual_oracle_residual() {
         assert!(continue69_new_shell());
         assert!(continue69_super_this_shell());
         assert!(continue69_catalog_shell());
@@ -5044,10 +5044,10 @@ mod continue69_tests {
     }
 }
 
-// ── continue70 pure residual dens: base dual-oracle residual (literal_widen emit) ──
-// dens ≠ flip. No authority_rust / ts_deleted / prod_audit_pass invent.
+// ── continue70 pure residual unit: base dual-oracle residual (literal_widen emit) ──
+// pure residual ≠ authority flip. No authority_rust / ts_deleted / prod_audit_pass invent.
 // Dual-oracle re-enters continue64 base pure poles (not 3^n re-wrap of continue69 —
-// nested complementary chain from continue65 is already densed; PreferRust OFF).
+// nested complementary chain from continue65 is already migrated; PreferRust OFF).
 
 /// Dual-oracle residual: base re-entry of continue64_new_shell.
 #[must_use]
@@ -5077,7 +5077,7 @@ pub fn continue70_catalog_shell() -> bool {
 mod continue70_tests {
     use super::*;
     #[test]
-    fn continue70_complementary_dual_oracle_dens() {
+    fn continue70_complementary_dual_oracle_residual() {
         assert!(continue70_new_shell());
         assert!(continue70_super_this_shell());
         assert!(continue70_catalog_shell());
@@ -5086,10 +5086,10 @@ mod continue70_tests {
     }
 }
 
-// ── continue74 pure residual dens: base dual-oracle residual (literal_widen emit) ──
-// dens ≠ flip. No authority_rust / ts_deleted / prod_audit_pass invent.
+// ── continue74 pure residual unit: base dual-oracle residual (literal_widen emit) ──
+// pure residual ≠ authority flip. No authority_rust / ts_deleted / prod_audit_pass invent.
 // Dual-oracle re-enters continue64 base pure poles (not 3^n re-wrap of continue73 —
-// nested complementary chain from continue65 and new-surface continue71–73 already densed;
+// nested complementary chain from continue65 and new-surface continue71–73 already migrated;
 // PreferRust OFF).
 
 /// Dual-oracle residual: base re-entry of continue64_new_shell.
@@ -5120,7 +5120,7 @@ pub fn continue74_catalog_shell() -> bool {
 mod continue74_tests {
     use super::*;
     #[test]
-    fn continue74_complementary_dual_oracle_dens() {
+    fn continue74_complementary_dual_oracle_residual() {
         assert!(continue74_new_shell());
         assert!(continue74_super_this_shell());
         assert!(continue74_catalog_shell());
@@ -5129,10 +5129,10 @@ mod continue74_tests {
     }
 }
 
-// ── continue84 pure residual dens: base dual-oracle residual (literal_widen emit) ──
-// dens ≠ flip. No authority_rust / ts_deleted / prod_audit_pass invent.
+// ── continue84 pure residual unit: base dual-oracle residual (literal_widen emit) ──
+// pure residual ≠ authority flip. No authority_rust / ts_deleted / prod_audit_pass invent.
 // Dual-oracle re-enters continue64 base pure poles (not 3^n re-wrap of continue83 —
-// nested complementary chain from continue65 and new-surface continue71–83 already densed;
+// nested complementary chain from continue65 and new-surface continue71–83 already migrated;
 // PreferRust OFF).
 
 /// Dual-oracle residual: base re-entry of continue64_new_shell.
@@ -5163,7 +5163,7 @@ pub fn continue84_catalog_shell() -> bool {
 mod continue84_tests {
     use super::*;
     #[test]
-    fn continue84_complementary_dual_oracle_dens() {
+    fn continue84_complementary_dual_oracle_residual() {
         assert!(continue84_new_shell());
         assert!(continue84_super_this_shell());
         assert!(continue84_catalog_shell());
@@ -5172,10 +5172,10 @@ mod continue84_tests {
     }
 }
 
-// ── continue97 pure residual dens: base dual-oracle residual (literal_widen emit) ──
-// dens ≠ flip. No authority_rust / ts_deleted / prod_audit_pass invent.
+// ── continue97 pure residual unit: base dual-oracle residual (literal_widen emit) ──
+// pure residual ≠ authority flip. No authority_rust / ts_deleted / prod_audit_pass invent.
 // Dual-oracle re-enters continue64 base pure poles (not 3^n re-wrap of continue96 —
-// new-surface continue85–96 and nested complementary chain already densed; PreferRust OFF).
+// new-surface continue85–96 and nested complementary chain already migrated; PreferRust OFF).
 
 /// Dual-oracle residual: base re-entry of continue64_new_shell.
 #[must_use]
@@ -5205,7 +5205,7 @@ pub fn continue97_catalog_shell() -> bool {
 mod continue97_tests {
     use super::*;
     #[test]
-    fn continue97_complementary_dual_oracle_dens() {
+    fn continue97_complementary_dual_oracle_residual() {
         assert!(continue97_new_shell());
         assert!(continue97_super_this_shell());
         assert!(continue97_catalog_shell());
@@ -5214,10 +5214,10 @@ mod continue97_tests {
     }
 }
 
-// ── continue108 pure residual dens: base dual-oracle residual (literal_widen emit) ──
-// dens ≠ flip. No authority_rust / ts_deleted / prod_audit_pass invent.
+// ── continue108 pure residual unit: base dual-oracle residual (literal_widen emit) ──
+// pure residual ≠ authority flip. No authority_rust / ts_deleted / prod_audit_pass invent.
 // Dual-oracle re-enters continue64 base pure poles (not 3^n re-wrap of continue107 —
-// nested complementary chain and new-surface continue98–107 already densed; PreferRust OFF).
+// nested complementary chain and new-surface continue98–107 already migrated; PreferRust OFF).
 
 /// Dual-oracle residual: base re-entry of continue64_new_shell.
 #[must_use]
@@ -5247,7 +5247,7 @@ pub fn continue108_catalog_shell() -> bool {
 mod continue108_tests {
     use super::*;
     #[test]
-    fn continue108_complementary_dual_oracle_dens() {
+    fn continue108_complementary_dual_oracle_residual() {
         assert!(continue108_new_shell());
         assert!(continue108_super_this_shell());
         assert!(continue108_catalog_shell());
@@ -5256,11 +5256,11 @@ mod continue108_tests {
     }
 }
 
-// ── continue121 pure residual dens: base dual-oracle residual (literal_widen emit) ──
-// dens ≠ flip. No authority_rust / ts_deleted / prod_audit_pass invent.
+// ── continue121 pure residual unit: base dual-oracle residual (literal_widen emit) ──
+// pure residual ≠ authority flip. No authority_rust / ts_deleted / prod_audit_pass invent.
 // Dual-oracle re-enters continue64 base pure poles (not 3^n re-wrap of continue120 /
 // nested complementary chain; PreferRust OFF). continue109–120 used by concurrent
-// new-surface dens — next free base dual-oracle id is continue121.
+// new-surface residual — next free base dual-oracle id is continue121.
 
 /// Dual-oracle residual: base re-entry of continue64_new_shell.
 #[must_use]
@@ -5290,7 +5290,7 @@ pub fn continue121_catalog_shell() -> bool {
 mod continue121_tests {
     use super::*;
     #[test]
-    fn continue121_complementary_dual_oracle_dens() {
+    fn continue121_complementary_dual_oracle_residual() {
         assert!(continue121_new_shell());
         assert!(continue121_super_this_shell());
         assert!(continue121_catalog_shell());

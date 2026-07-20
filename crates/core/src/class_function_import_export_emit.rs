@@ -3,7 +3,7 @@
 //! dual-oracle emission — residual pure **continue96** for
 //! tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–95:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–95:
 //! - ClassDeclaration dual-oracle composing real `continue29_class_skeleton`
 //! - FunctionDeclaration dual-oracle composing real
 //!   `continue29_function_skeleton`
@@ -22,8 +22,8 @@
 //! function/class/this dual-oracle, continue87 import/export specifier, or
 //! continue95 if/while/return/throw poles. Composes real shipped pure helpers
 //! from continue29 bases.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::literal_widen_emit::{
     continue29_arrow_skeleton, continue29_class_skeleton, continue29_export_default_skeleton,
@@ -47,7 +47,7 @@ pub const CONTINUE96_RELATED_TYPES: &[&str] = &[
     "ExportAllDeclaration",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_class_function_import_export_related_type(t: &str) -> bool {
     CONTINUE96_RELATED_TYPES.contains(&t)

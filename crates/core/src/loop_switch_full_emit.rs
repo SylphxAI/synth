@@ -2,7 +2,7 @@
 //! residual pure continue18 for tooling/format-minify-lint fragment.
 //! Assembles continue7 token fragments into full statement skeletons
 //! (for / for-in / for-of / while / do-while / switch / template).
-//! Full engines remain product dens. intentional ts_only×3 retained.
+//! Full engines remain product residual. intentional ts_only×3 retained.
 //! NO authority_rust / ts_deleted.
 
 use crate::loop_template_emit::{
@@ -12,7 +12,7 @@ use crate::loop_template_emit::{
     while_open,
 };
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_loop_switch_full_related_type(t: &str) -> bool {
     is_loop_statement_type(t)
@@ -85,7 +85,7 @@ pub fn for_in_statement_skeleton(left: &str, right: &str, body: &str, pretty: bo
     )
 }
 
-/// ForOfStatement skeleton: `for (left of right) body` (await-of not densed).
+/// ForOfStatement skeleton: `for (left of right) body` (await-of not migrated).
 #[must_use]
 pub fn for_of_statement_skeleton(left: &str, right: &str, body: &str, pretty: bool) -> String {
     format!(

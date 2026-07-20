@@ -2,7 +2,7 @@
 //! PrivateIdentifier + AccessorProperty dual-oracle emission — residual pure
 //! **continue82** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules:
+//! New AST emit skeletons **not** covered by prior residual modules:
 //! - PropertyDefinition dual-oracle pretty/minify static/private/semi composing
 //!   real `property_definition_skeleton` (continue20 base)
 //! - StaticBlock dual-oracle empty/non-empty pretty/minify
@@ -17,8 +17,8 @@
 //! (try/throw/import continue81 stays separate; for/while/switch continue80
 //! stays separate; class-extends continue71 / export-default continue72 stay
 //! separate). Composes real shipped pure helpers from `property_static_emit`.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::property_static_emit::{
     accessor_property_skeleton, class_expression_skeleton, class_method_like_field_skeleton,
@@ -36,7 +36,7 @@ pub const CONTINUE82_RELATED_TYPES: &[&str] = &[
     "AccessorProperty",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_property_static_stmt_related_type(t: &str) -> bool {
     CONTINUE82_RELATED_TYPES.contains(&t)

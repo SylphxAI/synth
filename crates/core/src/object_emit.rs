@@ -2,10 +2,10 @@
 //! residual pure continue9 for tooling/format-minify-lint fragment.
 //! Mirrors `printObjectExpression` / `compressObjectExpression` and
 //! statement separators in `packages/synth-js-format` / `synth-js-minify`.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
 //!
 //! Dual-oracle surface keeps small pure kernels even when siblings exist in
-//! other emit modules — intentional residual dens (not dead product paths).
+//! other emit modules — intentional residual unit (not dead product paths).
 #![allow(dead_code)]
 
 /// Pretty object open with optional `bracketSpacing` pad (`{ ` vs `{`).
@@ -133,7 +133,7 @@ pub fn object_property_skeleton(key: &str, value: &str, pretty: bool) -> String 
 }
 
 /// Shorthand property emission when key == value identifier (TS may still write
-/// `key: value` in the simplified printer; residual kernel for future dens).
+/// `key: value` in the simplified printer; residual kernel for future residual).
 #[must_use]
 pub fn shorthand_property(name: &str) -> String {
     name.to_string()

@@ -2,7 +2,7 @@
 //! LabeledStatement + EmptyStatement dual-oracle emission
 //! — residual pure **continue113** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules continue71–112:
+//! New AST emit skeletons **not** covered by prior residual modules continue71–112:
 //! - ForStatement dual-oracle composing real `continue46_for_skeleton`
 //! - ForInStatement dual-oracle composing real `continue46_for_in_skeleton`
 //! - ForOfStatement dual-oracle composing real `continue46_for_of_skeleton`
@@ -18,8 +18,8 @@
 //! attr poles (continue44 bases), or continue46 JSX member/namespace/spread/
 //! open/close/empty poles already dual-oracled under continue88.
 //! Composes real shipped pure helpers from continue46 control bases. Full
-//! engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::literal_widen_emit::{
     continue46_continue_label_skeleton, continue46_empty_skeleton, continue46_for_in_skeleton,
@@ -37,7 +37,7 @@ pub const CONTINUE113_RELATED_TYPES: &[&str] = &[
     "EmptyStatement",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_for_throw_label_empty_related_type(t: &str) -> bool {
     CONTINUE113_RELATED_TYPES.contains(&t)

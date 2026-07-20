@@ -377,8 +377,8 @@ pub use literal_widen_emit::{
 
 // catch_open / try_token already re-exported from conditional_spread_emit dual-oracle.
 
-// Pure residual continue71 — Class-extends heritage + Export-from dual-oracle dens.
-// New surface (not continue64–70 shell re-wrap). dens ≠ flip; PreferRust OFF.
+// Pure residual continue71 — Class-extends heritage + Export-from dual-oracle residual unit.
+// New surface (not continue64–70 shell re-wrap). pure residual ≠ authority flip; PreferRust OFF.
 pub use class_export_from_emit::{
     class_extends_fragment, class_extends_skeleton, class_extends_token,
     export_all_from_skeleton, export_from_source_token, export_named_from_skeleton,
@@ -392,8 +392,8 @@ pub use class_export_from_emit::{
 };
 
 // Pure residual continue72 — Arrow / Method(static·async·params·computed) /
-// ExportDefault dual-oracle dens. New surface (not continue64–71 re-wrap).
-// dens ≠ flip; PreferRust OFF.
+// ExportDefault dual-oracle residual unit. New surface (not continue64–71 re-wrap).
+// pure residual ≠ authority flip; PreferRust OFF.
 pub use arrow_method_default_emit::{
     arrow_dual_needs_parens, arrow_empty_skeleton, arrow_function_minify,
     arrow_function_pretty_always, arrow_function_skeleton, export_default_class_skeleton,
@@ -407,8 +407,8 @@ pub use arrow_method_default_emit::{
 };
 
 // Pure residual continue73 — OptionalMember / OptionalCall / ChainExpression
-// dual-oracle dens. New surface (not continue64–72 re-wrap).
-// dens ≠ flip; PreferRust OFF.
+// dual-oracle residual unit. New surface (not continue64–72 re-wrap).
+// pure residual ≠ authority flip; PreferRust OFF.
 pub use optional_chain_emit::{
     arg_list_interior, chain_optional_call, chain_optional_member,
     continue73_chain_expression_skeleton, is_continue73_call_type,
@@ -421,8 +421,8 @@ pub use optional_chain_emit::{
 };
 
 // Pure residual continue74 — ObjectMethod / ConditionalExpression / ForOf(await)
-// dual-oracle dens. New surface (not continue64–73 re-wrap).
-// dens ≠ flip; PreferRust OFF.
+// dual-oracle residual unit. New surface (not continue64–73 re-wrap).
+// pure residual ≠ authority flip; PreferRust OFF.
 pub use object_method_conditional_emit::{
     conditional_expression_minify, conditional_expression_pretty,
     continue74_conditional_expression_skeleton, for_await_of_minify, for_of_await_skeleton,
@@ -434,8 +434,8 @@ pub use object_method_conditional_emit::{
 };
 
 // Pure residual continue75 — TemplateLiteral / TaggedTemplate / ImportExpression(options)
-// dual-oracle dens. New surface (not continue64–74 re-wrap).
-// dens ≠ flip; PreferRust OFF.
+// dual-oracle residual unit. New surface (not continue64–74 re-wrap).
+// pure residual ≠ authority flip; PreferRust OFF.
 pub use template_import_options_emit::{
     continue75_import_expression_options_skeleton, continue75_tagged_template_skeleton,
     continue75_template_literal_skeleton, import_expression_bare,
@@ -447,8 +447,8 @@ pub use template_import_options_emit::{
     template_literal_empty, template_literal_single, CONTINUE75_RELATED_TYPES,
 };
 
-// Pure residual continue76 — Binary / Unary / Logical / Update dual-oracle dens.
-// New surface (not continue64–75 re-wrap). dens ≠ flip; PreferRust OFF.
+// Pure residual continue76 — Binary / Unary / Logical / Update dual-oracle residual unit.
+// New surface (not continue64–75 re-wrap). pure residual ≠ authority flip; PreferRust OFF.
 pub use binary_unary_logical_emit::{
     binary_expression_minify, binary_expression_pretty, binary_is_word_operator,
     continue76_binary_expression_skeleton, continue76_binary_operator_token,
@@ -460,8 +460,8 @@ pub use binary_unary_logical_emit::{
     update_prefix_dec, update_prefix_inc, CONTINUE76_RELATED_TYPES,
 };
 
-// Pure residual continue77 — Call / Member / New / Array dual-oracle dens.
-// New surface (not continue64–76 re-wrap). dens ≠ flip; PreferRust OFF.
+// Pure residual continue77 — Call / Member / New / Array dual-oracle residual unit.
+// New surface (not continue64–76 re-wrap). pure residual ≠ authority flip; PreferRust OFF.
 pub use call_member_new_emit::{
     array_expression_minify, array_expression_pretty, array_expression_pretty_trailing,
     call_expression_minify, call_expression_pretty, continue77_array_expression_skeleton,
@@ -474,8 +474,8 @@ pub use call_member_new_emit::{
 };
 
 // Pure residual continue78 — Assignment / Sequence / Object / Parenthesized
-// dual-oracle dens. New surface (not continue64–77 re-wrap).
-// dens ≠ flip; PreferRust OFF.
+// dual-oracle residual unit. New surface (not continue64–77 re-wrap).
+// pure residual ≠ authority flip; PreferRust OFF.
 pub use assign_sequence_object_emit::{
     assignment_expression_minify, assignment_expression_pretty,
     continue78_assignment_expression_skeleton, continue78_object_expression_skeleton,
@@ -488,8 +488,8 @@ pub use assign_sequence_object_emit::{
     CONTINUE78_RELATED_TYPES,
 };
 
-// Pure residual continue79 — Variable / Expression / Return / If dual-oracle dens.
-// New surface (not continue64–78 re-wrap). dens ≠ flip; PreferRust OFF.
+// Pure residual continue79 — Variable / Expression / Return / If dual-oracle residual unit.
+// New surface (not continue64–78 re-wrap). pure residual ≠ authority flip; PreferRust OFF.
 pub use var_return_if_emit::{
     continue79_expression_statement_skeleton, continue79_if_return,
     continue79_if_statement_skeleton, continue79_return_statement_skeleton,
@@ -503,8 +503,8 @@ pub use var_return_if_emit::{
     variable_declarator_pretty, CONTINUE79_RELATED_TYPES,
 };
 
-// Pure residual continue80 — For / While / DoWhile / Switch dual-oracle dens.
-// New surface (not continue64–79 re-wrap). dens ≠ flip; PreferRust OFF.
+// Pure residual continue80 — For / While / DoWhile / Switch dual-oracle residual unit.
+// New surface (not continue64–79 re-wrap). pure residual ≠ authority flip; PreferRust OFF.
 pub use loop_switch_stmt_emit::{
     continue80_do_while_statement_skeleton, continue80_for_in_statement_skeleton,
     continue80_for_of_statement_skeleton, continue80_for_statement_skeleton,
@@ -522,8 +522,8 @@ pub use loop_switch_stmt_emit::{
 };
 
 // Pure residual continue81 — Try / Throw / Labeled / Break / Continue / With /
-// Import dual-oracle dens. New surface (not continue64–80 re-wrap).
-// dens ≠ flip; PreferRust OFF.
+// Import dual-oracle residual unit. New surface (not continue64–80 re-wrap).
+// pure residual ≠ authority flip; PreferRust OFF.
 pub use try_throw_import_stmt_emit::{
     break_statement_semi, continue81_break_statement_skeleton,
     continue81_continue_statement_skeleton, continue81_import_declaration_skeleton,

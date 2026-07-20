@@ -29,8 +29,8 @@ The CI workflow must:
 - run `bun run validate` for the current lint, single-concurrency build, typecheck, and test baseline;
 - run `node --test test/project-control.node-test.mjs`;
 - run `SylphxAI/groundatlas@v0.1.3` with `package-spec: groundatlas@0.1.3`;
-- require generated atlas evidence and strict fleet status;
-- assert the Markdown fleet scorecard title and adopted summary;
+- require generated atlas evidence and strict portfolio status;
+- assert the Markdown portfolio scorecard title and adopted summary;
 - upload GroundAtlas JSON and Markdown reports as CI artifacts.
 
 The Release workflow must bootstrap Rust when `rustup` is absent, install the

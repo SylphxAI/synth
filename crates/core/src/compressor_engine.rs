@@ -1,4 +1,4 @@
-//! Product AST → minified-code **compressor engine** (tooling dens).
+//! Product AST → minified-code **compressor engine** (tooling residual).
 //!
 //! Ports `packages/synth-js-minify/src/compressor.ts` onto the Rust `Tree` model.
 //! Uses [`crate::mangle::NameMangler`] for identifier shortening. Full product path.

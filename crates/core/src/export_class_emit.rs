@@ -3,10 +3,10 @@
 //! Mirrors `printExportDeclaration` / `compressExportDeclaration` and
 //! `printClassDeclaration` / `compressClassDeclaration` in
 //! `packages/synth-js-format` / `synth-js-minify`.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
 //!
 //! Dual-oracle surface keeps pure skeletons even when sibling kind helpers
-//! exist in export_kind / class_emit_kind — intentional residual dens.
+//! exist in export_kind / class_emit_kind — intentional residual unit.
 #![allow(dead_code)]
 
 /// Shared `export ` prefix (pretty + minify).
@@ -38,7 +38,7 @@ pub fn is_export_named_declaration(t: &str) -> bool {
 }
 
 /// Build ExportDeclaration skeleton from already-rendered declaration fragment.
-/// TS pretty writes indent before `export `; that is printer state, not densed here.
+/// TS pretty writes indent before `export `; that is printer state, not migrated here.
 #[must_use]
 pub fn export_declaration_skeleton(is_default: bool, declaration: Option<&str>) -> String {
     let mut out = String::with_capacity(
@@ -139,7 +139,7 @@ pub fn class_declaration_skeleton(
     out
 }
 
-/// Whether a node type is covered by this residual dens surface.
+/// Whether a node type is covered by this residual unit surface.
 #[must_use]
 pub fn is_export_class_related_type(t: &str) -> bool {
     matches!(

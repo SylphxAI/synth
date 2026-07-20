@@ -2,7 +2,7 @@
 //! residual pure continue6 for tooling/format-minify-lint fragment.
 //! Mirrors common printer/compressor spacing branches for expressions
 //! not yet covered by unary_binary / stmt_emit (ternary, spread, sequence,
-//! throw). Full engines remain product dens. NO authority_rust / ts_deleted.
+//! throw). Full engines remain product residual. NO authority_rust / ts_deleted.
 
 /// Ternary `?` fragment (pretty → ` ? `; minify → `?`).
 #[must_use]

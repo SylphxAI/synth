@@ -1,7 +1,7 @@
 //! Pure TemplateLiteral + TaggedTemplateExpression + ImportExpression(options)
 //! dual-oracle emission — residual pure **continue75** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules:
+//! New AST emit skeletons **not** covered by prior residual modules:
 //! - TemplateLiteral full dual-oracle (quasis + `${expr}` via shipped
 //!   `template_tick` / `template_expr_open` / `template_expr_close`) —
 //!   widens continue7 tick-only + continue23/25 fixed shells
@@ -12,8 +12,8 @@
 //!
 //! Intentionally does **not** re-wrap continue64–74 partition shells.
 //! Composes real shipped pure helpers from `loop_template_emit`.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::loop_template_emit::{template_expr_close, template_expr_open, template_tick};
 
@@ -26,7 +26,7 @@ pub const CONTINUE75_RELATED_TYPES: &[&str] = &[
     "Import",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_template_import_options_related_type(t: &str) -> bool {
     CONTINUE75_RELATED_TYPES.contains(&t)
@@ -123,7 +123,7 @@ pub fn template_literal_single(pre: &str, expr: &str, post: &str) -> String {
 ///
 /// Pretty/minify: no space between tag and template (TS printer residual).
 /// Drives real [`template_literal_skeleton`] so tagged form cannot drift from
-/// bare TemplateLiteral dens.
+/// bare TemplateLiteral residual.
 #[must_use]
 pub fn continue75_tagged_template_skeleton(tag: &str, quasis: &[&str], expressions: &[&str]) -> String {
     format!(

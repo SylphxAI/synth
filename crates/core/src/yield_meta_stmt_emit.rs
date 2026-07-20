@@ -1,7 +1,7 @@
 //! Pure YieldExpression + MetaProperty + ImportExpression + AwaitExpression
 //! dual-oracle emission — residual pure **continue83** for tooling/format-minify-lint.
 //!
-//! New AST emit skeletons **not** covered by prior dens modules:
+//! New AST emit skeletons **not** covered by prior residual modules:
 //! - YieldExpression dual-oracle bare/arg/delegate pretty/minify composing real
 //!   `continue20_yield_expression_skeleton` (continue20 base)
 //! - MetaProperty dual-oracle `import.meta` / `new.target`
@@ -13,8 +13,8 @@
 //! (property/static continue82 stays separate; try/throw/import continue81 stays
 //! separate; template/import-options continue75 stays separate). Composes real
 //! shipped pure helpers from `yield_meta_emit`.
-//! Full engines remain product dens. NO authority_rust / ts_deleted.
-//! dens ≠ flip; PreferRust OFF.
+//! Full engines remain product residual. NO authority_rust / ts_deleted.
+//! pure residual ≠ authority flip; PreferRust OFF.
 
 use crate::yield_meta_emit::{
     continue20_await_expression_skeleton, continue20_import_expression_skeleton,
@@ -29,7 +29,7 @@ pub const CONTINUE83_RELATED_TYPES: &[&str] = &[
     "AwaitExpression",
 ];
 
-/// Whether a type is covered by this residual dens surface.
+/// Whether a type is covered by this residual unit surface.
 #[must_use]
 pub fn is_yield_meta_stmt_related_type(t: &str) -> bool {
     CONTINUE83_RELATED_TYPES.contains(&t)
