@@ -1,6 +1,6 @@
 //! Pure language detection from URI extension — mirrors
 //! `packages/synth/src/incremental-parser-manager.ts#detectLanguage`.
-//! FLEET-PRODUCTS-WAVE7 pure residual. NO authority_rust / ts_deleted.
+//! PORTFOLIO-PRODUCTS-WAVE7 pure residual. NO authority_rust / ts_deleted.
 
 /// Detect language id from a file URI / path extension.
 #[must_use]

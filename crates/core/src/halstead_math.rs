@@ -1,6 +1,6 @@
 //! Pure Halstead + maintainability arithmetic — mirrors
 //! `packages/synth-metrics/src/analyzer.ts` formulas (no AST traversal).
-//! FLEET-PRODUCTS-WAVE5 pure residual. NO authority_rust / ts_deleted.
+//! PORTFOLIO-PRODUCTS-WAVE5 pure residual. NO authority_rust / ts_deleted.
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct HalsteadMetrics {

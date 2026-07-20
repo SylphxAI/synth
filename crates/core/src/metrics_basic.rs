@@ -1,5 +1,5 @@
 //! Pure basic source metrics (LOC/blank/comment-ish) without full AST analysis.
-//! Residual pure deepen for tooling/metrics arithmetic fragment (FLEET-SITES-WAVE2).
+//! Residual pure deepen for tooling/metrics arithmetic fragment (PORTFOLIO-SITES-WAVE2).
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum LineKind {

@@ -1,6 +1,6 @@
 //! Pure token span helpers + token-stats formatting — mirrors
 //! `packages/synth/src/types/token.ts` and `incremental-tokenizer.ts#formatTokenStats`.
-//! FLEET-PRODUCTS-WAVE8 pure residual. NO authority_rust / ts_deleted.
+//! PORTFOLIO-PRODUCTS-WAVE8 pure residual. NO authority_rust / ts_deleted.
 
 /// Check if position (byte offset) is within inclusive token span [start, end].
 #[must_use]
