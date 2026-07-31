@@ -10,6 +10,11 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  # Fast Trunk: supersede obsolete runs for the same PR or branch tip.
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   risk-classification:
     name: risk-classification/pass
@@ -91,8 +96,8 @@ jobs:
       - name: Test JavaScript parity
         run: node --test test/javascript-parity-golden.node-test.mjs
 
-  trunk-admission:
-    name: trunk-admission/pass
+  source-ci:
+    name: source-ci/pass
     runs-on: [self-hosted, sylphx, linux, standard]
     needs:
       - risk-classification
@@ -112,7 +117,7 @@ jobs:
     needs:
       - risk-classification
       - ci
-      - trunk-admission
+      - source-ci
     if: ${{ always() && github.event_name == 'push' && github.ref == 'refs/heads/main' && !cancelled() }}
     steps:
       - name: ADR-29 postsubmit proof
@@ -128,7 +133,7 @@ jobs:
     needs:
       - risk-classification
       - ci
-      - trunk-admission
+      - source-ci
       - postsubmit-proof
     if: ${{ always() && github.event_name == 'push' && github.ref == 'refs/heads/main' && needs.postsubmit-proof.result != 'success' }}
     steps:
