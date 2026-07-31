@@ -1,12 +1,11 @@
 name: CI
 
 on:
+  # No merge_group — Merge Queue off by default (Fast Trunk).
   push:
     branches: [main]
   pull_request:
     branches: [main]
-  merge_group:
-    types: [checks_requested]
 
 permissions:
   contents: read
