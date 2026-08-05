@@ -18,7 +18,7 @@ concurrency:
 jobs:
   risk-classification:
     name: risk-classification/pass
-    runs-on: [self-hosted, sylphx, linux, standard]
+    runs-on: sylphx-linux-standard
     steps:
       - uses: actions/checkout@v7
         with:
@@ -32,7 +32,7 @@ jobs:
 
   ci:
     name: Lint Build Test
-    runs-on: [self-hosted, sylphx, linux, standard]
+    runs-on: sylphx-linux-standard
     env:
       CARGO_HOME: /tmp/synth-rust-${{ github.run_id }}-${{ github.run_attempt }}/.cargo
       RUSTUP_HOME: /tmp/synth-rust-${{ github.run_id }}-${{ github.run_attempt }}/.rustup
@@ -98,7 +98,7 @@ jobs:
 
   source-ci:
     name: source-ci/pass
-    runs-on: [self-hosted, sylphx, linux, standard]
+    runs-on: sylphx-linux-standard
     needs:
       - risk-classification
       - ci
@@ -113,7 +113,7 @@ jobs:
 
   postsubmit-proof:
     name: postsubmit-proof/pass
-    runs-on: [self-hosted, sylphx, linux, standard]
+    runs-on: sylphx-linux-standard
     needs:
       - risk-classification
       - ci
@@ -129,7 +129,7 @@ jobs:
 
   recovery-decision:
     name: recovery-decision/pass
-    runs-on: [self-hosted, sylphx, linux, standard]
+    runs-on: sylphx-linux-standard
     needs:
       - risk-classification
       - ci
