@@ -6,8 +6,8 @@ traversal and query primitives, WASM parser bridges, and tooling packages for
 formatting, minification, linting, metrics, and documentation generation.
 
 Project identity is split by boundary: vendor-neutral project facts live in
-[`project.manifest.json`](./project.manifest.json), while Sylphx-specific governance facts live in
-[`.doctrine/project.json`](./.doctrine/project.json).
+, while Sylphx-specific governance facts live in
+.
 
 ## Lifecycle And Layer
 
@@ -57,7 +57,7 @@ behavior contracts.
 - Documentation under `README.md` and `docs/`.
 - MCP family AST foundation roadmap:
   [`docs/roadmap/mcp-family-ast-foundation.md`](./docs/roadmap/mcp-family-ast-foundation.md)
-- Vendor-neutral project manifest at `project.manifest.json`.
+- Vendor-neutral project manifest at ``.
 - Required CI contexts: `risk-classification/pass`, `ci`, and `trunk-admission/pass`.
 - Release workflow in `.github/workflows/release.yml` publishing through
   the SylphxAI/.github reusable Changesets release workflow.
