@@ -32,7 +32,7 @@ jobs:
 
   ci:
     name: Lint Build Test
-    runs-on: [self-hosted, sylphx, linux, standard]
+    runs-on: ubuntu-latest
     env:
       CARGO_HOME: /tmp/synth-rust-${{ github.run_id }}-${{ github.run_attempt }}/.cargo
       RUSTUP_HOME: /tmp/synth-rust-${{ github.run_id }}-${{ github.run_attempt }}/.rustup
