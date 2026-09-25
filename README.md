@@ -1,5 +1,7 @@
 # Synth
 
+> **Archived — no longer maintained (2026-09-24).** This repository is read-only and has no replacement.
+
 <p align="center">
   <img src="https://mark.sylphx.com/api/v1/banner?type=constellation&theme=tokyonight&text=synth&desc=%F0%9F%8E%B9+Synth+-+synthesis+and+generation+tools&height=200&animation=rise&credit=0" alt="synth — Sylphx Mark banner" width="100%" />
 </p>
